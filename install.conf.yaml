@@ -16,7 +16,7 @@
 #    ~/.vimrc: vimrc
     ~/.zshrc: zsh/.zshrc
     ~/.zshrc.pre-oh-my-zsh: zsh/.zshrc.pre-oh-my-zsh
-    ~/.oh-my-zsh: .oh-my-zsh/
+    ~/.oh-my-zsh: oh-my-zsh/
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
