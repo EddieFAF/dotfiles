@@ -20,4 +20,4 @@
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - [git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh, Installing oh-my-zsh]
+  - [git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/ ,Installing oh-my-zsh]
