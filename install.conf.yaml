@@ -1,0 +1,22 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.dotfiles: ''
+    ~/.bash_aliases: bash/.bash_aliases
+    ~/.bashrc: bash/.bashrc
+    ~/.bashrc.local: bash/.bashrc.local
+    ~/nano/nanorc: .config/nano/nanorc
+    ~/.tmux.conf: tmux/.tmux.conf
+    ~/.tmux.conf.local: tmux/.tmux.conf.local
+#    ~/.vim: vim
+#    ~/.vimrc: vimrc
+    ~/.zshrc: zsh/.zshrc
+    ~/.zshrc.pre-oh-my-zsh: zsh/.zshrc.pre-oh-my-zsh
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+  - [git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh, Installing oh-my-zsh]
