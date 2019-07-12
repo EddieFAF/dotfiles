@@ -9,7 +9,7 @@
     ~/.bash_aliases: bash/.bash_aliases
     ~/.bashrc: bash/.bashrc
     ~/.bashrc.local: bash/.bashrc.local
-    ~/nano/nanorc: .config/nano/nanorc
+    ~/.config/nano/nanorc: nano/nanorc
     ~/.tmux.conf: tmux/.tmux.conf
     ~/.tmux.conf.local: tmux/.tmux.conf.local
 #    ~/.vim: vim
