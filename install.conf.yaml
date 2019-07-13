@@ -4,7 +4,11 @@
 
 - clean: ['~']
 
-- link:
+- shell:
+  - [mkdir ~/.config/nano]
+  - [mkdir ~/.nano-backups]
+
+  - link:
     ~/.dotfiles: ''
     ~/.bash_aliases: bash/.bash_aliases
     ~/.bashrc: bash/.bashrc
