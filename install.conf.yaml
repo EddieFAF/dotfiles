@@ -10,16 +10,16 @@
 
 - link:
     ~/.dotfiles: ''
-    ~/.bash_aliases: bash/.bash_aliases
-    ~/.bashrc: bash/.bashrc
-    ~/.bashrc.local: bash/.bashrc.local
+    ~/.bash_aliases: bash/bash_aliases
+    ~/.bashrc: bash/bashrc
+    ~/.bashrc.local: bash/bashrc.local
     ~/.config/nano/nanorc: nano/nanorc
-    ~/.tmux.conf: tmux/.tmux.conf
-    ~/.tmux.conf.local: tmux/.tmux.conf.local
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.tmux.conf.local: tmux/tmux.conf.local
 #    ~/.vim: vim
 #    ~/.vimrc: vimrc
-    ~/.zshrc: zsh/.zshrc
-    ~/.zshrc.pre-oh-my-zsh: zsh/.zshrc.pre-oh-my-zsh
+    ~/.zshrc: zsh/zshrc
+    ~/.zshrc.pre-oh-my-zsh: zsh/zshrc.pre-oh-my-zsh
     ~/.oh-my-zsh: oh-my-zsh/
 
 - shell:
