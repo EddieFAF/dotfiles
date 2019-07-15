@@ -20,7 +20,6 @@
 #    ~/.vimrc: vimrc
     ~/.zshrc: zsh/zshrc
     ~/.zshrc_local_after: zsh/zshrc_local_after
-    ~/.zshrc.pre-oh-my-zsh: zsh/zshrc.pre-oh-my-zsh
     ~/.oh-my-zsh: oh-my-zsh/
 
 - shell:
