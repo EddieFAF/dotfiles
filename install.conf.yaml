@@ -16,11 +16,10 @@
     ~/.config/nano/nanorc: nano/nanorc
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux.conf.local: tmux/tmux.conf.local
-#    ~/.vim: vim
-#    ~/.vimrc: vimrc
+    ~/.vim: vim/
+    ~/.vimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
-    ~/.zshrc_local_after: zsh/zshrc_local_after
-    ~/.oh-my-zsh: oh-my-zsh/
+#    ~/.zshrc_local_after: zsh/zshrc_local_after
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

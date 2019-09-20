@@ -1,0 +1,11 @@
+set number
+
+source ~/.vim/basic.vim
+#source ~/.vim/filetypes.vim
+#source ~/.vim/plugins_config.vim
+#source ~/.vim/extended.vim
+
+try
+source ~/.vim/my_configs.vim
+catch
+endtry
