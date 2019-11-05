@@ -4,9 +4,9 @@
 
 - clean: ['~']
 
-- shell:
-    - [mkdir -p ~/.config/nano]
-    - [mkdir -p ~/.nano-backups]
+- create:
+    - ~/.config/nano
+    - ~/.nano-backups
 
 - link:
     ~/.dotfiles: ''
@@ -19,9 +19,9 @@
     ~/.vim: vim/
     ~/.vimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
-#    ~/.zshrc_local_after: zsh/zshrc_local_after
+    ~/.zshrc_local_after: zsh/zshrc_local_after
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - [sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"]
+  - sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
 #  - [git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/ ,Installing oh-my-zsh]
