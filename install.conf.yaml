@@ -8,7 +8,7 @@
 - shell:
     - [mkdir -p ~/.config/nano]
     - [mkdir -p ~/.nano-backups]
-#    - [mkdir -p ~/.vim]
+    - [mkdir -p ~/.vim]
 
 - link:
 #    ~/.dotfiles: ""
@@ -19,7 +19,11 @@
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux.conf.local: tmux/tmux.conf.local
-    ~/.vim: vim/
+#    ~/.vim: vim/
+    ~/.vim/:
+      glob: true
+      path: vim/*
+      relink: true
     ~/.vimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
     ~/.zshrc_local_after: zsh/zshrc_local_after
@@ -29,5 +33,5 @@
   - sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
 #  - [git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/ ,Installing oh-my-zsh]
 #  - git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-   - vim +PlugInstall +PlugUpdate +qall
-#
+  - vim +PlugInstall +PlugUpdate +qall
+
