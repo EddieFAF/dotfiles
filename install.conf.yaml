@@ -16,6 +16,7 @@
     ~/.bashrc: bash/bashrc
     ~/.bashrc.local: bash/bashrc.local
     ~/.config/nano/nanorc: nano/nanorc
+    ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux.conf.local: tmux/tmux.conf.local
 #    ~/.vim: vim/

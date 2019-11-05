@@ -37,6 +37,7 @@ autoload -Uz _zplugin
 zplugin light zdharma/fast-syntax-highlighting
 zplugin snippet OMZ::plugins/git/git.plugin.zsh
 zplugin load agkozak/agkozak-zsh-prompt
+#zplugin ice depth=1; zplugin light romkatv/powerlevel10k
 zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 zplugin snippet OMZ::plugins/debian/debian.plugin.zsh
 zplugin snippet OMZ::plugins/tmux/tmux.plugin.zsh
@@ -58,3 +59,5 @@ alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + e
 alias lS='exa -1'                              # one column, just names
 alias lt='exa --tree --level=2' # tree
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
