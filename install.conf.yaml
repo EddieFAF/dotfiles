@@ -1,15 +1,16 @@
 - defaults:
     link:
+      create: true
       relink: true
 
-- clean: ['~']
+- clean: ["~", "~/.config"]
 
-- create:
-    - ~/.config/nano
-    - ~/.nano-backups
+- shell:
+    - [mkdir -p ~/.config/nano]
+    - [mkdir -p ~/.nano-backups]
 
 - link:
-    ~/.dotfiles: ''
+    ~/.dotfiles: ""
     ~/.bash_aliases: bash/bash_aliases
     ~/.bashrc: bash/bashrc
     ~/.bashrc.local: bash/bashrc.local
