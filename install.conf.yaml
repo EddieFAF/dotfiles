@@ -35,5 +35,4 @@
 #  - [git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/ ,Installing oh-my-zsh]
 #  - git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
   - command: vim +PlugInstall +PlugUpdate +qall
-  stdout: true
 
