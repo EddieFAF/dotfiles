@@ -19,7 +19,7 @@ call plug#begin('~/.vim/plugged')
 "Plug 'VundleVim/Vundle.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
-"Plug 'majutsushi/tagbar'
+Plug 'mhinz/vim-startify'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 
@@ -96,6 +96,8 @@ cnoremap w!! %!sudo tee > /dev/null %
 let g:ctrlp_match_window = 'order:ttb,max:20'
 let g:NERDSpaceDelims=1
 let g:gitgutter_enabled = 1
+
+let g:startify_custom_header=''
 
 " Fix Cursor in TMUX
 if exists('$TMUX')
