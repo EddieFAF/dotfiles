@@ -40,6 +40,7 @@ zplugin load agkozak/agkozak-zsh-prompt
 #zplugin ice depth=1; zplugin light romkatv/powerlevel10k
 zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 zplugin snippet OMZ::plugins/debian/debian.plugin.zsh
+zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zplugin snippet OMZ::plugins/tmux/tmux.plugin.zsh
 #zplugin light "chrissicool/zsh-256color"
 zplugin light "zsh-users/zsh-autosuggestions"
