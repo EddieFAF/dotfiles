@@ -22,7 +22,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/eddie/.zshrc'
+zstyle :compinstall filename '~/.zshrc'
 
 autoload -Uz compinit
 compinit
