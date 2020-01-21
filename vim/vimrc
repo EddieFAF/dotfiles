@@ -111,7 +111,7 @@ endif
 " Don't copy the contents of an overwritten selection.
 vnoremap p "_dP
 
-colorscheme molokai
+colorscheme dracula
 set bg=dark
 let g:gruvbox_bold = 0
 
