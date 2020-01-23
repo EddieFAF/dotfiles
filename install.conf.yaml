@@ -16,6 +16,23 @@
     ~/.bashrc: bash/bashrc
     ~/.bashrc.local: bash/bashrc.local
     ~/.config/nano/nanorc: nano/nanorc
+    ~/.config/doublecmd/:
+      glob: true
+      path: .config/doublecmd/*
+      relink: true
+    ~/.config/openbox/:
+      glob: true
+      path: .config/openbox/*
+      relink: true
+    ~/.config/rofi/:
+      glob: true
+      path: .config/rofi/*
+      relink: true
+    ~/.config/tint2/:
+      glob: true
+      path: .config/tint2/*
+      relink: true
+    ~/.config/compton.conf: .config/compton.conf
     ~/.gitconfig: git/gitconfig
     ~/.gitignore: git/gitignore
     ~/.tmux.conf: tmux/tmux.conf
