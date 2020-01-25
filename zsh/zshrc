@@ -29,24 +29,24 @@ compinit
 # End of lines added by compinstall
 
 ### Added by Zplugin's installer
-source '/home/eddie/.zplugin/bin/zplugin.zsh'
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
+source '/home/eddie/.zinit/bin/zinit.zsh'
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zplugin installer's chunk
 
-zplugin light zdharma/fast-syntax-highlighting
-zplugin snippet OMZ::plugins/git/git.plugin.zsh
-#zplugin load agkozak/agkozak-zsh-prompt
-zplugin ice depth=1; zplugin light romkatv/powerlevel10k
-zplugin snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
-zplugin snippet OMZ::plugins/debian/debian.plugin.zsh
-zplugin snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
-zplugin snippet OMZ::plugins/tmux/tmux.plugin.zsh
-zplugin load agkozak/zsh-z
-#zplugin light "chrissicool/zsh-256color"
-zplugin light "zsh-users/zsh-autosuggestions"
-zplugin ice atclone"dircolors -b LS_COLORS > c.zsh" atpull'%atclone' pick"c.zsh" nocompile'!'
-zplugin load trapd00r/LS_COLORS
+zinit light zdharma/fast-syntax-highlighting
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+zinit load agkozak/agkozak-zsh-prompt
+#zinit ice depth=1; zplugin light romkatv/powerlevel10k
+zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+zinit snippet OMZ::plugins/debian/debian.plugin.zsh
+zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
+zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
+zinit load agkozak/zsh-z
+#zinit light "chrissicool/zsh-256color"
+zinit light "zsh-users/zsh-autosuggestions"
+zinit ice atclone"dircolors -b LS_COLORS > c.zsh" atpull'%atclone' pick"c.zsh" nocompile'!'
+zinit load trapd00r/LS_COLORS
 
 # Aliases for EXA
 # general use
