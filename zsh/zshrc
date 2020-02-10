@@ -46,35 +46,6 @@ setopt share_history
 # Remove blank lines from history
 setopt hist_reduce_blanks
 
-##############
-# Completion #
-##############
-
-# Completion init
-zstyle :compinstall filename "$HOME/.zshrc"
-autoload -Uz compinit
-compinit
-
-# Include hidden files in completions
-_comp_options+=(globdots)
-
-# Gimme nice tab selection
-zstyle ':completion:*:*:*:*:*' menu select
-
-# Completion insensitive to case and hyphens/underscores
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
-
-# Complete . and .. special directories
-zstyle ':completion:*' special-dirs true
-# Colors for completions
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-# Use cache for fast completion
-zstyle ':completion::complete:*' use-cache 1
-
-# Cache path
-zstyle ':completion::complete:*' cache-path "$HOME/.cache/zsh"
-
 # cd without cd
 setopt auto_cd
 
@@ -176,6 +147,35 @@ zinit light zdharma/fast-syntax-highlighting
 zinit light le0me55i/zsh-extract
 zinit load zpm-zsh/ssh
 zinit load jreese/zsh-titles
+
+##############
+# Completion #
+##############
+
+# Completion init
+zstyle :compinstall filename "$HOME/.zshrc"
+autoload -Uz compinit
+compinit
+
+# Include hidden files in completions
+_comp_options+=(globdots)
+
+# Gimme nice tab selection
+zstyle ':completion:*:*:*:*:*' menu select
+
+# Completion insensitive to case and hyphens/underscores
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
+
+# Complete . and .. special directories
+zstyle ':completion:*' special-dirs true
+# Colors for completions
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Use cache for fast completion
+zstyle ':completion::complete:*' use-cache 1
+
+# Cache path
+zstyle ':completion::complete:*' cache-path "$HOME/.cache/zsh"
 
 ### set common functions
 #############
