@@ -44,7 +44,6 @@
       relink: true
     ~/.vimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
-    ~/.zshrc_local_after: zsh/zshrc_local_after
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
