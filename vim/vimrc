@@ -111,11 +111,9 @@ endif
 " Don't copy the contents of an overwritten selection.
 vnoremap p "_dP
 
-colorscheme dracula
+colorscheme gruvbox
 set bg=dark
 let g:gruvbox_bold = 0
-
-"colorscheme dracula
 
 "----- Plugin airline -----
 let g:airline#extensions#tabline#enabled = 1
