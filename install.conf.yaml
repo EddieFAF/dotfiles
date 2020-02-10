@@ -37,6 +37,8 @@
     ~/.gitignore: git/gitignore
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux.conf.local: tmux/tmux.conf.local
+    ~/.tmux.nopowerline.theme: tmux/tmux.nopowerline.theme
+    ~/.tmux.gpakosz.theme: tmux/tmux.gpakosz.theme
 #    ~/.vim: vim/
     ~/.vim/:
       glob: true
