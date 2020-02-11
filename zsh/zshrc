@@ -9,6 +9,7 @@ export TERM=xterm-256color
 export LANG=de_DE.UTF-8
 # Load colors
 autoload -U colors && colors
+
 ###########
 # History #
 ###########
@@ -122,10 +123,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# The following lines were added by compinstall
-zstyle :compinstall filename '$HOME/.zshrc'
-
-
 ### Added by Zplugin's installer
 source '/home/eddie/.zinit/bin/zinit.zsh'
 autoload -Uz _zinit
@@ -168,7 +165,7 @@ zinit light zsh-users/zsh-autosuggestions
 ##############
 
 # Completion init
-zstyle :compinstall filename "$HOME/.zshrc"
+zstyle :compinstall filename "~/.zshrc"
 autoload -Uz compinit
 compinit
 
@@ -190,7 +187,7 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion::complete:*' use-cache 1
 
 # Cache path
-zstyle ':completion::complete:*' cache-path "$HOME/.cache/zsh"
+zstyle ':completion::complete:*' cache-path "~/.cache/zsh"
 
 ### set common functions
 #############
