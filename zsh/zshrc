@@ -110,7 +110,6 @@ bindkey  '^[[F' end-of-line
 # [Ctrl-r] - Search backward incrementally for a specified string
 bindkey '^r' history-incremental-search-backward
 
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -160,34 +159,6 @@ zinit light zdharma/fast-syntax-highlighting
 zinit ice wait atload"_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
 
-##############
-# Completion #
-##############
-
-# Completion init
-zstyle :compinstall filename "~/.zshrc"
-autoload -Uz compinit
-compinit
-
-# Include hidden files in completions
-_comp_options+=(globdots)
-
-# Gimme nice tab selection
-zstyle ':completion:*:*:*:*:*' menu select
-
-# Completion insensitive to case and hyphens/underscores
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
-
-# Complete . and .. special directories
-zstyle ':completion:*' special-dirs true
-# Colors for completions
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-# Use cache for fast completion
-zstyle ':completion::complete:*' use-cache 1
-
-# Cache path
-zstyle ':completion::complete:*' cache-path "~/.cache/zsh"
 
 ### set common functions
 #############
