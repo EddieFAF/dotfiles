@@ -140,13 +140,27 @@ zinit snippet OMZ::plugins/debian/debian.plugin.zsh
 zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
 zinit load agkozak/zsh-z
-zinit light "zsh-users/zsh-autosuggestions"
-zinit ice wait'0c' lucid atclone"dircolors -b LS_COLORS > c.zsh" atpull'%atclone' pick"c.zsh" nocompile'!'
+
+zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
 zinit light trapd00r/LS_COLORS
-zinit light zdharma/fast-syntax-highlighting
+
 zinit light le0me55i/zsh-extract
 zinit load zpm-zsh/ssh
 zinit load jreese/zsh-titles
+
+# ogham/exa, replacement for ls
+zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
+zinit light ogham/exa
+
+# Autosuggestions & fast-syntax-highlighting
+zinit ice wait lucid atinit"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay"
+zinit light zdharma/fast-syntax-highlighting
+
+# zsh-autosuggestions
+zinit ice wait lucid atload"!_zsh_autosuggest_start"
+zinit load zsh-users/zsh-autosuggestions
 
 ##############
 # Completion #
