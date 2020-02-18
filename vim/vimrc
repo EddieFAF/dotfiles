@@ -8,6 +8,7 @@ syntax enable
 filetype on " without this vim emits a zero exit status, later, because of :ft off
 filetype off
 
+" Plugins {{{
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -37,6 +38,9 @@ call plug#end()
 " ensure ftdetect et al work by including this after the Vundle stuff
 filetype plugin indent on
 
+" }}}
+
+" Lots of Setting {{{
 set linespace=2
 set autoindent
 set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
@@ -72,6 +76,10 @@ if exists('$TMUX')  " Support resizing in tmux
   set ttymouse=xterm2
 endif
 
+" }}}
+
+" Keyboard Mappings {{{
+
 " keyboard shortcuts
 let mapleader = ','
 noremap <C-h> <C-w>h
@@ -91,6 +99,7 @@ noremap <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo '
 
 " in case you forgot to sudo
 cnoremap w!! %!sudo tee > /dev/null %
+" }}}
 
 " plugin settings
 let g:ctrlp_match_window = 'order:ttb,max:20'
@@ -122,3 +131,6 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_highlighting_cache = 1
 let g:airline_powerline_fonts = 1
+
+
+" vim:foldmethod=marker:foldlevel=0
