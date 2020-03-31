@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>Adwaita Revisited Dark</name>
+    <name>Adapta</name>
     <titleLayout>NLSIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -382,7 +382,7 @@
     </keybind>
     <keybind key="W-Return">
       <action name="Execute">
-        <command>termite</command>
+        <command>x-terminal-emulator</command>
       </action>
     </keybind>
     <keybind key="W-S-Return">

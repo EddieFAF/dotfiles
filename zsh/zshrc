@@ -150,8 +150,13 @@ zinit load jreese/zsh-titles
 zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
 zinit light ogham/exa
 
-zinit light zdharma/fast-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma/fast-syntax-highlighting \
+ blockf \
+    zsh-users/zsh-completions \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions
 
 
 ### set common functions
