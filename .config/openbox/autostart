@@ -1,0 +1,4 @@
+compton -b -c &
+tint2 -c /home/eddie/.config/tint2/eddie2.tint2rc &
+tint2 -c /home/eddie/.config/tint2/launcher.tint2rc &
+~/.fehbg &
