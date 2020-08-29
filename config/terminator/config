@@ -1,0 +1,63 @@
+[global_config]
+  title_transmit_fg_color = "#2E3440"
+  title_transmit_bg_color = "#88C0D0"
+  title_receive_fg_color = "#2E3440"
+  title_receive_bg_color = "#8FBCBB"
+  title_inactive_fg_color = "#D8DEE9"
+  title_inactive_bg_color = "#4C566A"
+[keybindings]
+[profiles]
+  [[default]]
+    urgent_bell = True
+    background_darkness = 0.9
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    font = Hack Nerd Font Mono 10
+    show_titlebar = False
+    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
+    use_system_font = False
+  [[Gruvbox Dark]]
+    urgent_bell = True
+    background_color = "#1e1e1e"
+    cursor_color = "#e6d4a3"
+    font = Hack Nerd Font Mono 10
+    foreground_color = "#e6d4a3"
+    show_titlebar = False
+    palette = "#1e1e1e:#be0f17:#868715:#cc881a:#377375:#a04b73:#578e57:#978771:#7f7061:#f73028:#aab01e:#f7b125:#719586:#c77089:#7db669:#e6d4a3"
+    use_system_font = False
+  [[Solarized]]
+    urgent_bell = True
+    cursor_color = "#aaaaaa"
+    font = Hack Nerd Font Mono 10
+    show_titlebar = False
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    use_system_font = False
+  [[nord]]
+    urgent_bell = True
+    background_color = "#2e3440"
+    cursor_color = "#D8DEE9"
+    font = Hack Nerd Font Mono 10
+    foreground_color = "#d8dee9"
+    show_titlebar = False
+    palette = "#3B4252:#BF616A:#A3BE8C:#EBCB8B:#81A1C1:#B48EAD:#88C0D0:#E5E9F0:#4C566A:#BF616A:#A3BE8C:#EBCB8B:#81A1C1:#B48EAD:#8F  BCBB:#ECEFF4"
+    use_system_font = False
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 233:117
+      maximised = False
+      fullscreen = False
+      size = 1073, 750
+      title = zsh:~
+      last_active_term = 2437baaa-8847-40ff-9abf-6718109c5731
+      last_active_window = True
+    [[[terminal1]]]
+      type = Terminal
+      parent = child0
+      order = 0
+      profile = nord
+      uuid = 2437baaa-8847-40ff-9abf-6718109c5731
+[plugins]

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<doublecmd DCVersion="0.9.1 beta" ConfigVersion="10">
+<doublecmd DCVersion="0.9.9 beta" ConfigVersion="10">
   <Toolbars>
     <MainToolbar>
       <Row>
@@ -106,9 +106,9 @@
     <Position Save="True">
       <Maximized>False</Maximized>
       <Splitter>50</Splitter>
-      <Left>290</Left>
-      <Top>135</Top>
-      <Width>1224</Width>
+      <Left>213</Left>
+      <Top>261</Top>
+      <Width>1221</Width>
       <Height>655</Height>
       <PixelsPerInch>96</PixelsPerInch>
     </Position>
@@ -185,7 +185,7 @@
     <UseFrameCursor>False</UseFrameCursor>
     <Foreground>-2147483640</Foreground>
     <Background>-2147483643</Background>
-    <Background2>15790320</Background2>
+    <Background2>-2147483643</Background2>
     <Cursor>0</Cursor>
     <CursorText>-2147483634</CursorText>
     <Mark>255</Mark>
@@ -212,6 +212,7 @@
   </Language>
   <Behaviours>
     <GoToRoot>False</GoToRoot>
+    <ActiveRight>False</ActiveRight>
     <RunInTerminalStayOpenCmd>x-terminal-emulator</RunInTerminalStayOpenCmd>
     <RunInTerminalStayOpenParams>-e sh -c '{command}; echo -n Press ENTER to exit... ; read a'</RunInTerminalStayOpenParams>
     <RunInTerminalCloseCmd>x-terminal-emulator</RunInTerminalCloseCmd>
@@ -406,6 +407,8 @@
       </Columns>
     </BriefView>
     <ExtraLineSpan>2</ExtraLineSpan>
+    <FolderPrefix>[</FolderPrefix>
+    <FolderPostfix>]</FolderPostfix>
   </FilesViews>
   <Keyboard>
     <Typing>
@@ -460,6 +463,9 @@
       <CopyPermissions>False</CopyPermissions>
       <ExcludeEmptyTemplateDirectories>True</ExcludeEmptyTemplateDirectories>
     </Options>
+    <Extract>
+      <Overwrite>False</Overwrite>
+    </Extract>
   </FileOperations>
   <Tabs>
     <Options>54033</Options>
@@ -481,56 +487,56 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Paffendorf/</Path>
-                  <Path Filename="Testament">/mnt/nasgard/Medien/Music/Alben/</Path>
-                  <Path Filename="Testament - (1987) The Legacy">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1987) The Legacy/</Path>
-                  <Path Filename="Testament - (1988) The New Order">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1988) The New Order/</Path>
-                  <Path Filename="Testament - (1989) Practice What You Preach">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1989) Practice What You Preach/</Path>
-                  <Path Filename="Testament - (1990) Souls of Black">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1990) Souls of Black/</Path>
-                  <Path Filename="Testament - (1992) The Ritual">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1992) The Ritual/</Path>
-                  <Path Filename="Testament - (1993) Return to the Apocalyptic City EP">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1993) Return to the Apocalyptic City EP/</Path>
-                  <Path Filename="Testament - (1994) Low">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1994) Low/</Path>
-                  <Path Filename="Testament - (1995) Live at The Fillmore">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1995) Live at The Fillmore/</Path>
-                  <Path Filename="Testament - (1997) Demonic">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1997) Demonic/</Path>
-                  <Path Filename="Testament - (1999) The Gathering">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/Testament - (1999) The Gathering/</Path>
-                  <Path Filename="..">/mnt/nasgard/Medien/Music/Alben/Testament/</Path>
-                  <Path Filename="Fatboy Slim">/mnt/nasgard/Medien/Music/Alben/</Path>
-                  <Path Filename="fanart.jpg">/mnt/nasgard/Medien/Music/Alben/Fatboy Slim/</Path>
-                  <Path Filename="Downloads">/home/eddie/</Path>
-                  <Path Filename="..">/home/eddie/Downloads/</Path>
-                  <Path Filename=".config">/home/eddie/</Path>
-                  <Path Filename="tint2">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/tint2/</Path>
-                  <Path Filename="..">/home/eddie/.config/</Path>
-                  <Path Filename="scripts">/home/eddie/</Path>
-                  <Path Filename="..">/home/eddie/scripts/</Path>
-                  <Path Filename="..">/home/eddie/</Path>
-                  <Path Filename="eddie">/home/</Path>
-                  <Path Filename=".config">/home/eddie/</Path>
-                  <Path Filename="doublecmd">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/doublecmd/</Path>
-                  <Path Filename="nano">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/nano/</Path>
-                  <Path Filename="openbox">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/openbox/</Path>
-                  <Path Filename="rofi">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/rofi/</Path>
-                  <Path Filename="tint2">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/tint2/</Path>
-                  <Path Filename="doublecmd">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/doublecmd/</Path>
-                  <Path Filename="..">/home/eddie/.config/</Path>
-                  <Path Filename=".tmux.conf.local">/home/eddie/</Path>
+                  <Path Filename="xyhand">/mnt/nasgard/download/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/xyhand/</Path>
+                  <Path Filename="xyhand">/mnt/nasgard/download/</Path>
+                  <Path Filename="xyhand.part1">/mnt/nasgard/download/xyhand/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/xyhand/xyhand.part1/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/xyhand/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/</Path>
+                  <Path Filename="#recycle">/mnt/nasgard/</Path>
+                  <Path Filename="backup">/mnt/nasgard/#recycle/</Path>
+                  <Path Filename="openhab">/mnt/nasgard/#recycle/backup/</Path>
+                  <Path Filename="openhab-dd-backup-20200714-115352">/mnt/nasgard/#recycle/backup/openhab/</Path>
+                  <Path Filename="..">/mnt/nasgard/#recycle/backup/openhab/openhab-dd-backup-20200714-115352/</Path>
+                  <Path Filename="..">/mnt/nasgard/#recycle/backup/openhab/</Path>
+                  <Path Filename="..">/mnt/nasgard/#recycle/backup/</Path>
+                  <Path Filename="..">/mnt/nasgard/#recycle/</Path>
+                  <Path Filename="incoming">/mnt/nasgard/</Path>
+                  <Path Filename="..">/mnt/nasgard/incoming/</Path>
+                  <Path Filename="download">/mnt/nasgard/</Path>
+                  <Path Filename="GMVMed1">/mnt/nasgard/download/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/GMVMed1/</Path>
+                  <Path Filename="pNeDfGhMkBg pP rR">/mnt/nasgard/download/</Path>
+                  <Path Filename="pNeDfGhMkBg__pP__rR_">/mnt/nasgard/download/pNeDfGhMkBg pP rR/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/pNeDfGhMkBg pP rR/pNeDfGhMkBg__pP__rR_/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/pNeDfGhMkBg pP rR/</Path>
+                  <Path Filename="switch">/mnt/nasgard/download/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/switch/</Path>
+                  <Path Filename="Pics">/mnt/nasgard/download/</Path>
+                  <Path Filename="B44.12.Anal.Nubiles">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/B44.12.Anal.Nubiles/</Path>
+                  <Path Filename="HmGbVdMj__pP__rR_">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/HmGbVdMj__pP__rR_/</Path>
+                  <Path Filename="HmGbVdMj__pP__rR_">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/HmGbVdMj__pP__rR_/</Path>
+                  <Path Filename="Maskitas2">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/Maskitas2/</Path>
+                  <Path Filename="Maskitas">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/Maskitas/</Path>
+                  <Path Filename="B20.07.Drive_Into_The_Night">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/B20.07.Drive_Into_The_Night/</Path>
+                  <Path Filename="C13.09.Geile Experimente">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/C13.09.Geile Experimente/</Path>
+                  <Path Filename="SchmutzigeFantasien">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/SchmutzigeFantasien/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="Backup-RPi4">/mnt/nasgard/download/</Path>
+                  <Path Filename="Downloads">/mnt/nasgard/download/Backup-RPi4/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Backup-RPi4/Downloads/</Path>
+                  <Path Filename="Downloads">/mnt/nasgard/download/Backup-RPi4/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Backup-RPi4/Downloads/</Path>
+                  <Path Filename=".Xresources">/mnt/nasgard/download/Backup-RPi4/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -554,56 +560,56 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="CBT Nuggets - Windows PowerShell v2-v3-v4 Ultimate Training">/mnt/nasgard/ebooks/</Path>
-                  <Path Filename="..">/mnt/nasgard/ebooks/CBT Nuggets - Windows PowerShell v2-v3-v4 Ultimate Training/</Path>
-                  <Path Filename="LinuxAcademy - Nginx And The LEMP Stack">/mnt/nasgard/ebooks/</Path>
-                  <Path Filename="..">/mnt/nasgard/ebooks/LinuxAcademy - Nginx And The LEMP Stack/</Path>
-                  <Path Filename="LinuxAcademy - Nginx And The LEMP Stack">/mnt/nasgard/ebooks/</Path>
-                  <Path Filename="..">/mnt/nasgard/ebooks/LinuxAcademy - Nginx And The LEMP Stack/</Path>
-                  <Path Filename="UDEMY_ULTIMATE_WI_FI_HACKING_AND_SECURITY_SERIES_TUTORIAL-kEISO">/mnt/nasgard/ebooks/</Path>
-                  <Path Filename="..">/mnt/nasgard/ebooks/UDEMY_ULTIMATE_WI_FI_HACKING_AND_SECURITY_SERIES_TUTORIAL-kEISO/</Path>
-                  <Path Filename="..">/mnt/nasgard/ebooks/</Path>
-                  <Path Filename="incoming">/mnt/nasgard/</Path>
-                  <Path Filename="..">/mnt/nasgard/incoming/</Path>
-                  <Path Filename="incoming">/mnt/nasgard/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/Spermageile Tittenluder/</Path>
+                  <Path Filename="TabGermanFamily3">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/TabGermanFamily3/</Path>
+                  <Path Filename="wde-ifhg1">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/wde-ifhg1/</Path>
+                  <Path Filename="wDmGhFrV__pP__rR_">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/wDmGhFrV__pP__rR_/</Path>
+                  <Path Filename="xyPutzfrauen.part1">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/xyPutzfrauen.part1/</Path>
+                  <Path Filename="..">/mnt/nasgard/download/Pics/</Path>
+                  <Path Filename="Pics">/mnt/nasgard/download/</Path>
+                  <Path Filename=".fonts">/home/eddie/</Path>
+                  <Path Filename="..">/home/eddie/.fonts/</Path>
+                  <Path Filename=".var">/home/eddie/</Path>
+                  <Path Filename="..">/home/eddie/.var/</Path>
+                  <Path Filename=".vim">/home/eddie/</Path>
+                  <Path Filename="autoload">/home/eddie/.vim/</Path>
+                  <Path Filename="..">/home/eddie/.vim/autoload/</Path>
+                  <Path Filename="plugged">/home/eddie/.vim/</Path>
+                  <Path Filename="..">/home/eddie/.vim/plugged/</Path>
+                  <Path Filename="syntax">/home/eddie/.vim/</Path>
+                  <Path Filename="..">/home/eddie/.vim/syntax/</Path>
+                  <Path Filename="..">/home/eddie/.vim/</Path>
                   <Path Filename=".config">/home/eddie/</Path>
-                  <Path Filename="openbox">/home/eddie/.config/</Path>
-                  <Path Filename="..">/home/eddie/.config/openbox/</Path>
-                  <Path Filename="obmenu-generator">/home/eddie/.config/</Path>
-                  <Path Filename="schema.pl">/home/eddie/.config/obmenu-generator/</Path>
-                  <Path Filename="..">/var/hdd.log/</Path>
-                  <Path Filename="download">/mnt/nasgard/</Path>
-                  <Path Filename="rHgmKg lL rR">/mnt/nasgard/download/</Path>
-                  <Path Filename="..">/mnt/nasgard/download/rHgmKg lL rR/</Path>
-                  <Path Filename="pRfgHm lL kK">/mnt/nasgard/download/</Path>
-                  <Path Filename="..">/mnt/nasgard/download/pRfgHm lL kK/</Path>
-                  <Path Filename="Cumshot on face ver 3 13461032 720p">/mnt/nasgard/download/</Path>
-                  <Path Filename="..">/mnt/nasgard/download/Cumshot on face ver 3 13461032 720p/</Path>
-                  <Path Filename="Cum in mouth  Compilation of ver 2 13460956 720p">/mnt/nasgard/download/</Path>
-                  <Path Filename="..">/mnt/nasgard/download/Cum in mouth  Compilation of ver 2 13460956 720p/</Path>
-                  <Path Filename="rHgmKg lL rR">/mnt/nasgard/download/</Path>
-                  <Path Filename="..">/mnt/nasgard/download/rHgmKg lL rR/</Path>
-                  <Path Filename="RHEINWERK.VERLAG.AUTHORIZATIONS.IN.SAP.100.THINGS.YOU.SHOULD.KNOW.ABOUT.2012.RETAIL.EPUB.EBOOK-kE">/mnt/nasgard/download/</Path>
-                  <Path Filename="repositories">/home/eddie/</Path>
-                  <Path Filename="dotfiles">/home/eddie/repositories/</Path>
-                  <Path Filename="zsh">/home/eddie/repositories/dotfiles/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/zsh/</Path>
-                  <Path Filename=".config">/home/eddie/repositories/dotfiles/</Path>
-                  <Path Filename="doublecmd">/home/eddie/repositories/dotfiles/.config/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/.config/doublecmd/</Path>
-                  <Path Filename="nano">/home/eddie/repositories/dotfiles/.config/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/.config/nano/</Path>
-                  <Path Filename="openbox">/home/eddie/repositories/dotfiles/.config/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/.config/openbox/</Path>
-                  <Path Filename="rofi">/home/eddie/repositories/dotfiles/.config/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/.config/rofi/</Path>
-                  <Path Filename="tint2">/home/eddie/repositories/dotfiles/.config/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/.config/tint2/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/.config/</Path>
-                  <Path Filename=".config">/home/eddie/repositories/dotfiles/</Path>
-                  <Path Filename="..">/home/eddie/repositories/dotfiles/.config/</Path>
-                  <Path Filename="tmux">/home/eddie/repositories/dotfiles/</Path>
-                  <Path Filename="tmux.conf.local">/home/eddie/repositories/dotfiles/tmux/</Path>
+                  <Path Filename="..">/home/eddie/.config/</Path>
+                  <Path Filename=".config">/home/eddie/</Path>
+                  <Path Filename="zsh">/home/eddie/.config/</Path>
+                  <Path Filename="..">/home/eddie/.config/zsh/</Path>
+                  <Path Filename="..">/home/eddie/.config/</Path>
+                  <Path Filename=".vim">/home/eddie/</Path>
+                  <Path Filename="files">/home/eddie/.vim/</Path>
+                  <Path Filename="backup">/home/eddie/.vim/files/</Path>
+                  <Path Filename="..">/home/eddie/.vim/files/backup/</Path>
+                  <Path Filename="..">/home/eddie/.vim/files/</Path>
+                  <Path Filename="autoload">/home/eddie/.vim/</Path>
+                  <Path Filename="..">/home/eddie/.vim/autoload/</Path>
+                  <Path Filename="..">/home/eddie/.vim/</Path>
+                  <Path Filename="..">/home/eddie/</Path>
+                  <Path Filename="eddie">/home/</Path>
+                  <Path Filename="Downloads">/home/eddie/</Path>
+                  <Path Filename="..">/home/eddie/Downloads/</Path>
+                  <Path Filename=".vim">/home/eddie/</Path>
+                  <Path Filename="..">/home/eddie/.vim/</Path>
+                  <Path Filename="EmulationStation">/home/eddie/</Path>
+                  <Path Filename="..">/home/eddie/EmulationStation/</Path>
+                  <Path Filename=".config">/home/eddie/</Path>
+                  <Path Filename="zsh">/home/eddie/.config/</Path>
+                  <Path Filename="..">/home/eddie/.config/zsh/</Path>
+                  <Path Filename="..">/home/eddie/.config/</Path>
+                  <Path Filename=".zshenv">/home/eddie/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -648,6 +654,7 @@
     <ShowPathInPopup>False</ShowPathInPopup>
     <ShowOnlyValidEnv>True</ShowOnlyValidEnv>
     <WhereToAddNewHotDir>2</WhereToAddNewHotDir>
+    <InplaceRenameButton>False</InplaceRenameButton>
   </Miscellaneous>
   <Thumbnails Save="True">
     <Width>128</Width>
@@ -685,6 +692,7 @@
   </IgnoreList>
   <DirectoryHotList>
     <HotDir Name="download" Path="/mnt/nasgard/download"/>
+    <HotDir Name="Downloads" Path="/home/eddie/Downloads"/>
   </DirectoryHotList>
   <Viewer>
     <PreviewVisible>False</PreviewVisible>
@@ -702,7 +710,7 @@
     <NumberOfColumns>1</NumberOfColumns>
     <TabSpaces>8</TabSpaces>
     <MaxTextWidth>1024</MaxTextWidth>
-    <ViewerMode>4</ViewerMode>
+    <ViewerMode>1</ViewerMode>
     <PaintColor>255</PaintColor>
     <BackgroundColor>0</BackgroundColor>
     <FontColor>16777215</FontColor>
@@ -716,7 +724,7 @@
   <SyncDirs>
     <Subdirs>False</Subdirs>
     <ByContent>False</ByContent>
-    <Asymmetric>False</Asymmetric>
+    <Asymmetric Save="False">False</Asymmetric>
     <IgnoreDate>False</IgnoreDate>
     <FilterCopyRight>True</FilterCopyRight>
     <FilterEqual>True</FilterEqual>
@@ -1082,4 +1090,11 @@
     <LastPreset/>
     <Presets/>
   </MultiRenamePresets>
+  <Differ>
+    <Colors>
+      <Added>11206570</Added>
+      <Deleted>11184895</Deleted>
+      <Modified>16755370</Modified>
+    </Colors>
+  </Differ>
 </doublecmd>
