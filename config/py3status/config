@@ -1,0 +1,62 @@
+general {
+  output_format = "i3bar"
+  colors = true
+  color_good = "#50FA7B"
+  color_degraded = "#F1FA8C"
+  color_bad = "#FF5555"
+}
+
+order += "cpu_usage"
+order += "disk /"
+#order += "sysdata"
+order += "apt_updates"
+order += "net_rate"
+order += "whatismyip"
+#order += "netdata"
+order += "volume master"
+order += "time"
+
+disk "/" {
+  prefix_type = decimal
+  format = "⛁ %percentage_used (U:%used, F:%free)"
+}
+cpu_usage {
+        format = "cpu  %usage"
+}
+sysdata {
+
+}
+apt_updates {
+  format = "UPD[\?not_zero : {apt}]"
+}
+
+networkmanager {
+  devices = ['e*']
+  format = "{format_device}"
+}
+
+whatismyip {
+    format = "🖧 {ip}"
+    icon_on = "🖧"
+    hide_when_offline = True
+    url_geo = "http://ip-api.com/json"
+}
+
+net_rate {
+    format_value = "[\?min_length=10 {value:.1f} {unit}]"
+    si_units = "True"
+    format = "{down}⇣ {up}⇡"
+        interfaces_blacklist = "lo"
+}
+
+netdata {
+  nic = "enp6s0"
+}
+
+online_status {
+
+}
+
+time {
+  format = "%d.%m.%Y %H:%M:%S"
+}

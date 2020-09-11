@@ -1,0 +1,106 @@
+# You can edit this file by hand, but it's recommended not to do that.
+
+# Marks:
+'H
+	/home/eddie/
+	..
+1599472561
+'b
+	/home/eddie/bin/
+	..
+1599472561
+'h
+	/home/eddie/
+	..
+1599472561
+
+# Bookmarks:
+
+# TUI:
+ar
+q1
+v2
+ov
+m-1
+l2
+r2
+
+# Left window history (oldest to newest):
+d/home/eddie/.config/i3
+	..
+0
+d/home/eddie/.config
+	..
+0
+d/home/eddie
+	Downloads
+4
+d/home/eddie/Downloads
+	..
+0
+d/home/eddie
+	Bilder
+1
+d/home/eddie/Bilder
+	..
+0
+d/home/eddie
+	Downloads
+4
+d/home/eddie/Downloads
+	..
+0
+d
+
+# Right window history (oldest to newest):
+D/home/eddie/.config/i3
+	..
+0
+D/home/eddie/.config
+	..
+0
+D/home/eddie
+	..
+0
+D/home
+	..
+0
+D/
+	mnt
+10
+D/mnt
+	nasgard
+3
+D/mnt/nasgard
+	download
+5
+D/mnt/nasgard/download
+	..
+0
+D
+
+# Command line history (oldest to newest):
+:q
+
+# Search history (oldest to newest):
+
+# Prompt history (oldest to newest):
+
+# Local filter history (oldest to newest):
+
+# Registers:
+
+# Directory stack (oldest to newest):
+
+# Trash content:
+
+# State:
+f
+i1
+[.1
+[F
+F
+I1
+].1
+]F
+s0
