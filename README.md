@@ -2,7 +2,7 @@ This is a collection of my personal dotfiles for Ubuntu Linux.
 You are free to fork this repository.
 
 # i3
-other tools getting used in the config:
+other tools being used in the config:
 - maim
 - i3exit (script)
 - xss-lock
@@ -26,7 +26,9 @@ other tools getting used in the config:
 # zsh
 - fzf
 - exa
-- rg (?)
+- ripgrep (rg)
+- fd
+
 # tmux
 
 # dunst
@@ -46,6 +48,10 @@ nord theme and dracula theme added
 # tint2
 
 # openbox
+depends on:
+- rofi
+- feh
+- compton (?)
 
 # mc
 
@@ -53,3 +59,5 @@ nord theme and dracula theme added
 
 # Xresources
 added settings for urxvt and set dracula colors
+
+# docker
