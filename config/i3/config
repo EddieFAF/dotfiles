@@ -11,6 +11,9 @@
 
 set $mod Mod4
 
+set $terminal /usr/local/bin/st
+set $filemanager /usr/bin/ranger
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:Hack Nerd Font 10
@@ -21,7 +24,7 @@ font pango:Hack Nerd Font 10
 
 # new window default border
 new_window pixel 2
-new_float pixel 2 
+new_float pixel 2
 
 # Autostart applications
 exec_always xrdb .Xresources
@@ -44,11 +47,15 @@ exec --no-startup-id nm-applet
 # Set Wallpaper
 exec --no-startup-id ~/.fehbg
 
-# start firefox and terminal on start
-exec --no-startup-id i3-msg 'workspace 1:; exec /usr/bin/urxvt'
-# exec --no-startup-id i3-msg 'workspace 4:; exec /usr/bin/google-chrome'
-# exec --no-startup-id i3-msg 'workspace 4:; exec /snap/bin/chromium'
-exec --no-startup-id i3-msg 'workspace 4:; exec /usr/bin/firefox'
+
+
+# starting dropdown terminal
+for_window [instance="dropdown"] floating enable
+for_window [instance="dropdown"] resize set 625 400
+for_window [instance="dropdown"] move scratchpad
+for_window [instance="dropdown"] border pixel 5
+exec --no-startup-id $terminal -n dropdown
+bindsym $mod+b  [instance="dropdown"] scratchpad show; [instance="dropdown"] move position center
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -63,9 +70,9 @@ floating_modifier $mod
 hide_edge_borders smart
 
 # start a terminal
-bindsym $mod+Return exec /usr/bin/urxvt
+bindsym $mod+Return exec $terminal
 # start ranger
-bindsym $mod+Shift+Ctrl+r exec  /usr/bin/urxvt -e ranger
+bindsym $mod+Shift+Ctrl+r exec  /usr/local/bin/st -e ranger
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -150,19 +157,16 @@ bindsym $mod+Shift+Tab workspace prev
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 # Workspace names
-set $ws1 1:
-set $ws2 2
-set $ws3 3
-# chrome version:
-# set $ws4 4:
-# firefox version:
-set $ws4 4:
-set $ws5 5
-set $ws6 6
-set $ws7 7:
-set $ws8 8:
-set $ws9 9:
-set $ws10 "10"
+set $ws1 "1  Terminal "
+set $ws2 "2  Code "
+set $ws3 "3  File "
+set $ws4 "4  Firefox "
+set $ws5 "5  Misc "
+set $ws6 "6  Media "
+set $ws7 "7  Games "
+set $ws8 "8  Download "
+set $ws9 "9   WS9 "
+set $ws10 "10  WS10 "
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -196,7 +200,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
+set $resize  : [h]  , [j]  , [k]  , [l] 
+mode "$resize" {
         # These bindings trigger as soon as you enter the resize mode
 
         # Pressing left will shrink the window’s width.
@@ -220,7 +225,13 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "$resize"
+
+# start firefox and terminal on start
+exec --no-startup-id i3-msg 'workspace $ws1; exec $terminal'
+# exec --no-startup-id i3-msg 'workspace 4:; exec /usr/bin/google-chrome'
+# exec --no-startup-id i3-msg 'workspace 4:; exec /snap/bin/chromium'
+exec --no-startup-id i3-msg 'workspace $ws4; exec /usr/bin/firefox'
 
 # For screenshots and recording
 bindsym Print 			exec --no-startup-id maim pic-full-"$(date '+%y%m%d-%H%M-%S').png"
@@ -246,6 +257,9 @@ mode "$mode_system" {
 }
 bindsym $mod+Shift+x mode "$mode_system"
 
+# All Windows float by default
+for_window [window_role="popup"] floating enable
+
 # Open applications on specific workspaces
 # find class with `xprop | awk '/WM_CLASS/ { print $4 }'`
 assign [class="Chromium"] $ws4
@@ -260,7 +274,7 @@ for_window [class="(?i)vlc"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="(?i)claws-mail"] floating enable border normal
 for_window [class="mplayer"] floating disable border none
-for_window [class="(?i)celluloid"] floating enable border normal
+for_window [class="(?i)celluloid"] floating enable border none
 for_window [class="(?i)doublecmd"] floating enable border normal
 
 # -----------------------------------------------------------------------------------
@@ -414,20 +428,23 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+    position top
     status_command py3status -c ~/.config/py3status/config
 #    colors = true
-   font pango:Hack Nerd Font 10
+    font pango:Hack Nerd Font 10
     tray_output DVI-1
-  colors {
-    background #282A36
-    statusline #F8F8F2
-    separator  #44475A
+    strip_workspace_numbers yes
+    colors {
+      background #282A36
+      statusline #BFBFBF
+#      separator  #44475A
+      separator  #BD93F9
 
-    focused_workspace  #44475A #44475A #F8F8F2
-    active_workspace   #282A36 #44475A #F8F8F2
-    inactive_workspace #282A36 #282A36 #BFBFBF
-    urgent_workspace   #FF5555 #FF5555 #F8F8F2
-    binding_mode       #FF5555 #FF5555 #F8F8F2
+      focused_workspace  #44475A #44475A #F8F8F2
+      active_workspace   #282A36 #44475A #F8F8F2
+      inactive_workspace #282A36 #282A36 #BFBFBF
+      urgent_workspace   #FF5555 #FF5555 #F8F8F2
+      binding_mode       #FF5555 #FF5555 #F8F8F2
   }
 
 ### NORD THEME ###
@@ -443,3 +460,5 @@ bar {
 #      binding_mode       #4C566A #BF616A #FFFFFF
 #      }
 }
+
+# vim: filetype=i3config

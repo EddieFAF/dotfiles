@@ -5,12 +5,14 @@
 - clean: ['~']
 
 - link:
-    ~/.config/tmux/.tmux.conf: tmux.conf
+    ~/.zshenv: zshenv
+    ~/.Xresources: Xresources
+    ~/.config/tmux/.tmux.conf: tmux/tmux.conf
     ~/.vim: vim
     ~/.vimrc: vimrc
 
 - create:
-    - ~/downloads
+    - ~/bin
     - ~/.vim/undo-history
 
 - shell:

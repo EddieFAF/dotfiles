@@ -5,6 +5,7 @@ You are free to fork this repository.
 other tools being used in the config:
 - maim
 - i3exit (script)
+- other scripts
 - xss-lock
 - feh
 - nm-applet
