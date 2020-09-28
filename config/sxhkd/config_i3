@@ -1,0 +1,71 @@
+# kill focused window
+super + shift + q
+  i3-msg kill
+alt + F4
+  i3-msg kill
+
+# CHANGING BORDER STYLE
+super + shift + t
+  i3-msg border normal
+
+super + shift + z
+  i3-msg border pixel 2
+
+super + shift + u
+  i3-msg border none
+
+# Change focus / move focused window
+super + {_,shift +}{Left,Down,Up,Right}
+  i3-msg {focus,move} {left,down,up,right}
+
+# child container layouts (creates a child container from current selected application)
+super + shift +d
+  i3-msg layout toggle
+
+# Split in horizontal/vertical orientation
+super + v
+  i3-msg split v; notify-send 'vertical'
+super + h
+  i3-msg split h; notify-send 'horizontal'
+
+# enter fullscreen mode for the focused container
+super + shift + f
+  i3-msg fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+super + shift + {s,w,e}
+  i3-msg layout {stacked, tabbed, toggle split}
+
+# toggle tiling / floating
+super + shift + space
+  i3-msg floating toggle
+
+# change focus between tiling / floating windows
+super + space
+  i3-msg focus mode_toggle
+
+super + {1-9,0}
+  i3-msg workspace {1-9,10}
+
+super + shift + {1-9,0}
+  i3-msg move container to workspace {1-9,10}
+
+# make mod+tab cycle through workspaces
+super + tab
+  i3-msg workspace next
+
+super + shift + tab
+  i3-msg workspace prev
+
+# Rofi; list windows
+alt + Tab
+  rofi -show window
+
+# reload the configuration file
+super + shift + c
+  i3-msg reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+super + shift + r
+  i3-msg restart
+
+

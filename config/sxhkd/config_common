@@ -1,0 +1,28 @@
+super + Esc
+   pkill -USR1 sxhkd
+
+
+################################
+# start a terminal
+super + Return
+    $TERMINAL
+
+super + t
+  $TERMINAL
+
+# start ranger
+super + f
+  $TERMINAL -e ranger
+
+# start dmenu (a program launcher)
+#super + d
+#  dmenu_run
+
+super + w
+  qutebrowser
+
+super + m
+  $TERMINAL -e ncmpcpp
+
+
+

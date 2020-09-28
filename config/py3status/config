@@ -6,23 +6,24 @@ general {
   color_bad = "#FF5555"
 }
 
-#order += "window"
+order += "window"
 #order += "weather_owm"
 order += "cpu_usage"
 order += "disk /"
 #order += "sysdata"
 order += "apt_updates"
-order += "net_rate"
+#order += "net_rate"
 order += "online_status"
 #order += "whatismyip"
 #order += "netdata"
-order += "volume master"
+order += "volume_status"
 order += "time"
-order += "i3block shutdown_menu"
+#order += "i3block shutdown_menu"
+order += "i3block keyindicator"
 
 disk "/" {
   prefix_type = decimal
-  format = "⛁ %used/%total"
+  format = "⛁ %free"
 }
 cpu_usage {
         format = " %usage"
@@ -38,7 +39,7 @@ sysdata {
     cache_timeout = 1
 }
 apt_updates {
-  format = "[\?not_zero {apt}]"
+  format = "[\?not_zero  {apt}]"
 }
 
 networkmanager {
@@ -68,7 +69,22 @@ net_rate {
 netdata {
   nic = "enp6s0"
 }
-
+volume_status {
+  command = "amixer"
+  device = "default"
+    thresholds = [
+            (0, "#FF0000"),
+            (10, "#E2571E"),
+            (20, "#FF7F00"),
+            (30, "#FFFF00"),
+            (40, "#00FF00"),
+            (50, "#96BF33"),
+            (60, "#0000FF"),
+            (70, "#4B0082"),
+            (80, "#8B00FF"),
+            (90, "#FFFFFF")
+       ]
+}
 online_status {
 
 }
@@ -99,12 +115,24 @@ i3block shutdown_menu {
     #HLFG_COLOR=#111111
     #HLBG_COLOR=#bbbbbb
     #BORDER_COLOR=#222222
-    #ROFI_TEXT=Menu:
-    #ROFI_OPTIONS=-width 11 -location 3 -hide-scrollbar -bw 2
+    ROFI_TEXT='Menu:'
+    ROFI_OPTIONS='-width 11 -location 3 -hide-scrollbar -bw 2'
     #ZENITY_TITLE=Menu
     #ZENITY_TEXT=Action:
     #ZENITY_OPTIONS=--column= --hide-header
     #ENABLE_CONFIRMATIONS=true (must be true or false)
-    #LAUNCHER=rofi (must be rofi or zenity)
+    LAUNCHER=rofi
     #LOCKSCRIPT=i3lock --color=${BG_COLOR#"#"}
+}
+
+i3block keyindicator {
+	command='~/bin/keyindicator'
+	key=NUM
+	markup=pango
+	interval=once
+	signal=11
+	#TEXT_ON=NumLockOn
+	#TEXT_OFF=NumLockOff
+	#COLOR_ON=#00FF00
+	HIDE_WHEN_OFF=0
 }

@@ -6,13 +6,18 @@ other tools being used in the config:
 - maim
 - i3exit (script)
 - other scripts
-- xss-lock
+- xautolock
+- i3lock
 - feh
 - nm-applet
 - ranger
 - dmenu
 - rofi
-- py3status
+- #py3status
+- polybar
+
+# polybar
+- waffle font
 
 # ranger
 - atool
