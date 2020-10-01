@@ -1,2 +1,10 @@
 *.pyc
 zsh/zshrc_local_after
+
+config/polybar/colors.ini
+config/polybar/fonts/waffle-10.bdf
+config/polybar/modules.ini
+config/polybar/top.ini
+config/polybar/user_modules.ini
+config/polybar/wallpapers/bg_1.jpg
+config/polybar/wallpapers/bg_2.jpg
