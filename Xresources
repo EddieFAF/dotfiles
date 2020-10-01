@@ -23,14 +23,13 @@ URxvt.url-select.launcher:	/usr/bin/firefox
 URxvt.url-select.underline:	true
 
 !! Copy Paste & Other Extensions
-URxvt.perl-ext-common: default,url-select,keyboard-select,resize-font,clipboard
+URxvt.perl-ext-common: default,matcher,resize-font
 !URxvt.copyCommand: xsel -ib
 !URxvt.pasteCommand: xsel -ob
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.keysym.M-s: perl:keyboard-select:search
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.resize-font.smaller: C-Down
-URxvt.resize-font.bigger: C-Up
+!URxvt.resize-font.smaller: M-C-m
+!URxvt.resize-font.bigger: M-C-p
+!URxvt.resize-font.reset: M-#
+URxvt.resize-font.step: 1
 
 ! Enables copy/paste with Ctrl-Shift-C/V
 URxvt.iso14755: false
@@ -58,26 +57,29 @@ URxvt.tabbed.tabbar-bg: 0
 URxvt.tabbed.tab-fg:    0
 URxvt.tabbed.tab-bg:    4
 
+*selbackground: #00FF00
+*selforeground: #FF00FF
+
 !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! Dracula Xresources palette
-*.foreground: #F8F8F2
-*.background: #282A36
-*.color0:     #000000
-*.color8:     #4D4D4D
-*.color1:     #FF5555
-*.color9:     #FF6E67
-*.color2:     #50FA7B
-*.color10:    #5AF78E
-*.color3:     #F1FA8C
-*.color11:    #F4F99D
-*.color4:     #BD93F9
-*.color12:    #CAA9FA
-*.color5:     #FF79C6
-*.color13:    #FF92D0
-*.color6:     #8BE9FD
-*.color14:    #9AEDFE
-*.color7:     #BFBFBF
-*.color15:    #E6E6E6
+*foreground: #F8F8F2
+*background: #282A36
+*color0:     #000000
+*color8:     #4D4D4D
+*color1:     #FF5555
+*color9:     #FF6E67
+*color2:     #50FA7B
+*color10:    #5AF78E
+*color3:     #F1FA8C
+*color11:    #F4F99D
+*color4:     #BD93F9
+*color12:    #CAA9FA
+*color5:     #FF79C6
+*color13:    #FF92D0
+*color6:     #8BE9FD
+*color14:    #9AEDFE
+*color7:     #BFBFBF
+*color15:    #E6E6E6
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ! Project:    Nord XResources

@@ -1,19 +1,36 @@
 - defaults:
     link:
       relink: true
+      create: true
 
 - clean: ['~']
+
+- create:
+    - ~/bin
 
 - link:
     ~/.zshenv: zshenv
     ~/.Xresources: Xresources
-    ~/.config/tmux/.tmux.conf: tmux/tmux.conf
-    ~/.vim: vim
-    ~/.vimrc: vimrc
-
-- create:
-    - ~/bin
-    - ~/.vim/undo-history
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.config/compton.conf: config/compton.conf
+    ~/.vim/vimrc: vim/vimrc
+    ~/bin:
+        glob: true
+        create: true
+        relink: true
+        path: bin/*
+    ~/.config/bspwm:
+        create: true
+        path: config/bspwm
+    ~/.config/sxhkd:
+        create: true
+        path: config/sxhkd
+    ~/.config/ncmpcpp:
+        create: true
+        path: config/ncmpcpp
+    ~/.config/dunst/dunstrc:
+        create: true
+        path: config/dunst/dunstrc
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

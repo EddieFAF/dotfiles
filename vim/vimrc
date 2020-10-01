@@ -81,6 +81,9 @@
 
     Plug 'mboughaba/i3config.vim'
 
+    " Colors from wal
+    Plug 'dylanaraps/wal.vim'
+
     " Snippets like textmate
     if has('python') || has('python3')
         Plug 'honza/vim-snippets'
