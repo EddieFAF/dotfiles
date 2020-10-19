@@ -8,3 +8,4 @@ config/polybar/top.ini
 config/polybar/user_modules.ini
 config/polybar/wallpapers/bg_1.jpg
 config/polybar/wallpapers/bg_2.jpg
+config/ncmpcpp/error.log

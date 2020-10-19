@@ -1,5 +1,5 @@
 # kill focused window
-super + shift + q
+super + q
   i3-msg kill
 alt + F4
   i3-msg kill
