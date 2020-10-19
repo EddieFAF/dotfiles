@@ -27,7 +27,7 @@ wal -i "/home/eddie/Bilder/wallpapers"
 source "/home/eddie/.cache/wal/colors.sh"
 compton -b -f --config ~/.config/compton.conf &
 ~/.config/polybar/launch.sh &
-sxhkd &
+~/.config/sxhkd/launch_bspwm.sh &
 
 /usr/bin/dunst \
     -lb "${color0:-#F0F0F0}" \
