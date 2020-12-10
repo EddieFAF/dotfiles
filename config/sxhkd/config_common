@@ -4,18 +4,18 @@
 
 # terminal emulator
 super + Return
-	/usr/local/bin/st
+	urxvt
 
 # terminal emulator
-super +  u
-    urxvt
+super + u
+    /usr/local/bin/st
 
 # program launcher
 super + d
-	dmenu_run -h 24 -fn 'monospace-10' -p 'dmenu%'
+	dmenu_run -h 24 -fn 'Hack Nerd Font-10' -p 'dmenu%'
 
 # Start ncmpcpp
-super + n
+super + m
     urxvt -e ncmpcpp
 
 # start ranger
@@ -27,9 +27,9 @@ super + {_,shift} + i
 	firefox {_,-private-window}
 
 # make sxhkd reload its configuration files:
-super + Escape
-    pkill -USR1 -x sxhkd ;\
-	notify-send "sxhkd: sxhkd has been restarted."
+#super + Escape
+#    pkill -USR1 -x sxhkd ;\
+#	notify-send "sxhkd: sxhkd has been restarted."
 
 # Reload sxhkd
 super + e ; s
@@ -52,11 +52,11 @@ alt + Tab
 	rofi -theme ~/.cache/wal/colors-rofi-dark.rasi -show window -modi drun,window,run
 
 # cheatsheet
-super + shift + @space
+super + ctrl + @space
     ~/bin/cheatsheet
 
 # Scratchpad
-super + u
+super + shift + u
     scratchpad.sh dropdown
 
 # Launch Web Browser
@@ -83,3 +83,9 @@ Print
 super + Print
     scrot -z '%Y-%m-%d_%H:%M:%S_$wx$h.png' -e 'mv $f ~/Schreibtisch' && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/ksnapshot.svg "Screen view screenshot" "Saved image to Desktop"
 
+# Toggle fastly terminal
+super + Escape
+  ~/.i3/bin/fn esc
+
+super + F12
+  ~/.i3/bin/fn 12

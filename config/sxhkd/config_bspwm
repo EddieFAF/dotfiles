@@ -1,81 +1,4 @@
 #
-# wm independent hotkeys
-#
-
-# terminal emulator
-super + Return
-	/usr/local/bin/st
-
-# terminal emulator
-super +  u
-    urxvt
-
-# program launcher
-super + d
-	dmenu_run -h 24 -fn 'monospace-10' -p 'dmenu%'
-
-# Start ncmpcpp
-super + n
-    urxvt -e ncmpcpp
-
-# start ranger
-super + v
-    urxvt -e ranger
-
-# launch browser
-super + {_,shift} + i
-	firefox {_,-private-window}
-
-# make sxhkd reload its configuration files:
-super + Escape
-    pkill -USR1 -x sxhkd ;\
-	notify-send "sxhkd: sxhkd has been restarted."
-
-# Reload sxhkd
-super + e ; s
-    pkill -USR1 -x sxhkd && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/administration.svg "sxhkd config" "Reloaded key bindings"
-
-# Reload polybar
-super + e ; p
-    ~/.config/polybar/launch.sh &
-
-# Rofi
-super + F2
-    rofi -show drun -show-icons -font "Hack Nerd Font 11" -theme ~/.cache/wal/colors-rofi-dark.rasi
-
-# Rofi SSH
-super + F3
-    rofi -show ssh -font "Hack Nerd Font 11" -theme ~/.cache/wal/colors-rofi-dark.rasi
-
-# Rofi Windows
-alt + Tab
-	rofi -theme ~/.cache/wal/colors-rofi-dark.rasi -show window -modi drun,window,run
-
-# cheatsheet
-super + shift + @space
-    ~/bin/cheatsheet
-
-# Scratchpad
-super + u
-    scratchpad.sh dropdown
-
-# Launch Web Browser
-super + alt + b
-    notify-send -i firefox "Run GUI program" "Launching Web Browser" && firefox
-
-# Launch File Manager
-super + alt + d
-    notify-send -i system-file-manager "Run GUI program" "Launching Double CMD" && doublecmd
-
-# Launch Calibre
-super + alt + c
-    calibre
-
-# Launh Thunderbird
-super + alt + t
-    notify-send -i thunderbird "Run GUI prgram" "Launching Thunderbird" && thunderbird
-
-#
 # bspwm hotkeys
 #
 
@@ -84,7 +7,7 @@ super + alt + r
 	bspc wm -r
 
 # Quit bspwm
-super + alt + q
+super + shift + x
     prompt "Are you sure you would like to end this Xsession" "bspc quit"
 
 # Exit Menu
@@ -239,12 +162,4 @@ super + ctrl + f
 super + ctrl + s
     bspc node -t floating; \
 	bspc node -g sticky
-
-# Screenshot All
-Print
-    scrot -u -z '%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'mv $f ~/Schreibtisch' && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/ksnapshot.svg "Window view screenshot" "Saved image to Desktop"
-
-# Screenshot View
-super + Print
-    scrot -z '%Y-%m-%d_%H:%M:%S_$wx$h.png' -e 'mv $f ~/Schreibtisch' && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/ksnapshot.svg "Screen view screenshot" "Saved image to Desktop"
 

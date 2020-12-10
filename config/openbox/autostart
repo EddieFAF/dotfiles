@@ -1,4 +1,32 @@
-compton -b -c &
-tint2 -c /home/eddie/.config/tint2/eddie2.tint2rc &
-tint2 -c /home/eddie/.config/tint2/launcher.tint2rc &
-~/.fehbg &
+xrdb .Xresources &
+
+#~/.fehbg &
+
+wal -i "/home/eddie/Bilder/wallpapers"
+source "/home/eddie/.cache/wal/colors.sh"
+
+compton -b -f --config ~/.config/compton.conf &
+
+~/.config/polybar/launch_ob.sh &
+
+/usr/bin/dunst \
+    -lb "${color0:-#F0F0F0}" \
+    -nb "${color0:-#F0F0F0}" \
+    -cb "${color0:-#F0F0F0}" \
+    -lf "${color7:=#000000}" \
+    -cf "${color7:=#000000}" \
+    -nf "${color7:=#000000}" \
+    -frame_color "${color1:=#F0F0F0}" \
+    -config ~/.config/dunst/dunstrc &
+
+dropbox start -i &
+
+~/Downloads/Nextcloud-3.0.2-x86_64.AppImage &
+
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+
+nm-applet &
+
+tint2 -c /home/eddie/.config/tint2/ob-tint2rc.tint2rc &
+
+mpd &

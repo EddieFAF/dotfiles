@@ -4,15 +4,15 @@
 
 # terminal emulator
 super + Return
-	/usr/local/bin/st
+	urxvt
 
-# terminal emulator
-super +  u
-    urxvt
+# Aria2 Dmenu
+super + u
+    dmenu_aria2
 
 # program launcher
 super + d
-	dmenu_run -h 24 -fn 'monospace-10' -p 'dmenu%'
+	dmenu_run -h 24 -fn 'Hack Nerd Font-10' -p 'dmenu%'
 
 # Start ncmpcpp
 super + n
@@ -21,6 +21,10 @@ super + n
 # start ranger
 super + v
     urxvt -e ranger
+
+# qutebrowser menu
+super + o
+	dmenu_qutebrowser
 
 # launch browser
 super + {_,shift} + i
@@ -39,25 +43,29 @@ super + e ; s
 super + e ; p
     ~/.config/polybar/launch.sh &
 
+# skhxd
+super + F1
+    dmenu_sxhkd
+
 # Rofi
 super + F2
-    rofi -show drun -show-icons -font "Hack Nerd Font 11" -theme ~/.cache/wal/colors-rofi-dark.rasi
+    rofi -show drun -show-icons -font "Hack Nerd Font 11" -theme ~/.config/rofi/themes/dracula.rasi
 
 # Rofi SSH
 super + F3
-    rofi -show ssh -font "Hack Nerd Font 11" -theme ~/.cache/wal/colors-rofi-dark.rasi
+    rofi -show ssh -font "Hack Nerd Font 11" -theme ~/.config/rofi/themes/dracula.rasi
 
 # Rofi Windows
 alt + Tab
-	rofi -theme ~/.cache/wal/colors-rofi-dark.rasi -show window -modi drun,window,run
+	rofi -theme ~/.config/rofi/themes/dracula.rasi -show window -modi drun,window,run
 
 # cheatsheet
-super + shift + @space
-    ~/bin/cheatsheet
+#super + shift + @space
+#    ~/bin/cheatsheet
 
 # Scratchpad
-super + u
-    scratchpad.sh dropdown
+#super + u
+#    scratchpad.sh dropdown
 
 # Launch Web Browser
 super + alt + b
@@ -71,9 +79,18 @@ super + alt + d
 super + alt + c
     calibre
 
-# Launh Thunderbird
+# Launch Thunderbird
 super + alt + t
     notify-send -i thunderbird "Run GUI prgram" "Launching Thunderbird" && thunderbird
+
+# Screenshot All
+Print
+    scrot -u -z '%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'mv $f ~/Schreibtisch' && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/ksnapshot.svg "Window view screenshot" "Saved image to Desktop"
+
+# Screenshot View
+super + Print
+    scrot -z '%Y-%m-%d_%H:%M:%S_$wx$h.png' -e 'mv $f ~/Schreibtisch' && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/ksnapshot.svg "Screen view screenshot" "Saved image to Desktop"
+
 
 #
 # bspwm hotkeys
@@ -84,7 +101,7 @@ super + alt + r
 	bspc wm -r
 
 # Quit bspwm
-super + alt + q
+super + shift + x
     prompt "Are you sure you would like to end this Xsession" "bspc quit"
 
 # Exit Menu
@@ -239,12 +256,4 @@ super + ctrl + f
 super + ctrl + s
     bspc node -t floating; \
 	bspc node -g sticky
-
-# Screenshot All
-Print
-    scrot -u -z '%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'mv $f ~/Schreibtisch' && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/ksnapshot.svg "Window view screenshot" "Saved image to Desktop"
-
-# Screenshot View
-super + Print
-    scrot -z '%Y-%m-%d_%H:%M:%S_$wx$h.png' -e 'mv $f ~/Schreibtisch' && notify-send -i /usr/share/icons/Papirus-Dark/16x16/apps/ksnapshot.svg "Screen view screenshot" "Saved image to Desktop"
 

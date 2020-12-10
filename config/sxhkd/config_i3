@@ -19,13 +19,13 @@ super + {_,shift +}{Left,Down,Up,Right}
   i3-msg {focus,move} {left,down,up,right}
 
 # child container layouts (creates a child container from current selected application)
-super + shift +d
+super + shift + d
   i3-msg layout toggle
 
 # Split in horizontal/vertical orientation
-super + v
+super + shift + v
   i3-msg split v; notify-send 'vertical'
-super + h
+super + shift + h
   i3-msg split h; notify-send 'horizontal'
 
 # enter fullscreen mode for the focused container
@@ -65,7 +65,7 @@ alt + Tab
 super + shift + c
   i3-msg reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-super + shift + r
+super + alt + r
   i3-msg restart
 
 

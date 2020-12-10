@@ -1,3 +1,7 @@
+from glob import glob
+for a in glob(f'{config.configdir}/config.d/*'):
+    config.source(a)
+
 import dracula.draw
 
 # Load existing settings made via :set
@@ -9,4 +13,3 @@ dracula.draw.blood(c, {
         'horizontal': 8
     }
 })
-

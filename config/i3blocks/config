@@ -34,8 +34,8 @@ markup=pango
 command=~/bin/i3/i3b-gate 12
 interval=2
 
-[weather]
-interval=once
+#[weather]
+#interval=once
 
 # Volume indicator
 #
@@ -60,11 +60,14 @@ interval=once
 # The directory defaults to $HOME if the instance is not specified.
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
-[disk]
-label=<span>SSD </span>
-color=#ffb86c
-DIR=/
-interval=30
+[disk2]
+interval=60
+
+#[disk]
+#label=<span>SSD </span>
+#color=#ffb86c
+#DIR=/
+#interval=30
 
 [dropbox]
 #label=<span> </span>
@@ -99,7 +102,7 @@ separator=false
 #OUTLABEL=<span> </span>
 
 [online]
-command=~/bin/i3/online -fe '{status}' '=' 'online' '<span color="#50fa7b">ON</span>' -fe '{status}' '!=' 'online' '<span color="#FF5555">OFF</span>'
+command=~/bin/i3/online -fe '{status}' '=' 'online' '<span color="#50fa7b"> </span>' -fe '{status}' '!=' 'online' '<span color="#FF5555"> </span>'
 interval=2
 
 # CPU usage
@@ -115,9 +118,20 @@ min_width=CPU 100.00%
 
 # Date Time
 #
-[time]
-command=date '+%a, %d.%b - %H:%M:%S'
-interval=5
+#[time]
+#command=date '+%a, %d.%b - %H:%M:%S'
+#interval=5
+
+#Language indicator
+[language]
+label=LNG
+command=setxkbmap -print | grep xkb_symbols | awk '{print $4}' | awk -F"+" '{print $2}'
+#command=language-printer
+interval=once
+signal=7
+
+[clock]
+interval=2
 
 # Generic media player support
 #

@@ -5,68 +5,113 @@ xterm*saveLines:            2000
 xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
 xterm*boldMode:             false
 
-Urxvt*termName:             xterm-256color
 
-URxvt*scrollBar:		    false
-URxvt*scrollBar_floating:   false
-URxvt*scrollWithBuffer:		true
-URxvt*secondaryScreen:		1
-URxvt*secondaryScroll:		0
 
-URxvt.letterSpace:		    -1
+!! ------------------------------------------------------------------------------
+!! URxvt configs
+!! ------------------------------------------------------------------------------
+!! fonts
+!URxvt*font                       : xft:Iosevka Nerd Font:pixelsize=14:antialiase=true
+URxvt*font                      : xft:Hack Nerd Font Mono:size=10
+!URxvt*boldFont                   : xft:Iosevka Nerd Font:bold:size=14:antialiase=true,
+!URxvt*italicFont                 : xft:Iosevka Nerd Font:italic:size=14:antialiase=true,
+URxvt.letterSpace                : -1
+URxvt.lineSpace                  : 0
+URxvt.allow_bold                 : true
+
+!! main
+URxvt.geometry                   : 133x45
+URxvt*depth                      : 32
+!URxvt*scrollTtyKeypress          : true
+!URxvt*scrollTtyOutput            : false
+URxvt*scrollWithBuffer           : true
+Urxvt*loginShell                 : true
+URxvt.borderless                 : false
+URxvt.externalBorder             : 0
+URxvt.iconFile                   : terminal
+URxvt.internalBorder             : 0
+URxvt.scrollBar                  : false
+URxvt.scrollBar_floating         : false
+URxvt.scrollBar_right            : false
+URxvt.scrollstyle                : rxvt
+URxvt.secondaryScreen            : false
+URxvt.secondaryScroll            : false
+URxvt.saveLines                  : 2000
+URxvt.fading                     : 30
+Urxvt.termName                   : xterm-256color
+!URxvt.termName                   : screen-256color
+!URxvt.title                      : System Command Promt
+URxvt.skipBuiltinGlyphs          : false
+URxvt.buffered                   : true
+URxvt.iso14755                   : false
+URxvt.iso14755_52                : false
+
+!! color
+!URxvt.foreground                 : #ebdbb2
+!URxvt.highlightColor             : #d79921
+!URxvt.highlightTextColor         : #3c3836
+URxvt.background                 : [90]#282828
+!URxvt.borderColor                : [80]#282828
+!urxvt*background: rgba:0000/0000/0200/c800
+
+URxvt.tabbed.tabbar-fg: 2
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg:    0
+URxvt.tabbed.tab-bg:    4
+
+!! cursor
+URxvt*cursorColor                : #ebdbb2
+URxvt.cursorBlink                : true
+URxvt.cursorUnderline            : false
+
+!! perl extensions
+URxvt.perl-lib                   : ~/.config/urxvt/ext/
+URxvt.perl-ext-common            : default,keyboard-select,matcher,font-size
+URxvt.resize-font.step: 1
+
+!! url
+URxvt.matcher.button             : 1
+URxvt.underlineURLs              : true
+URxvt.urlButton                  : 1
+URxvt.urlLauncher                : firefox
+
+!! keybinding
+!fix keyboard error in urxvt+zsh
+!URxvt.keysym.Home                : \033[1~
+!URxvt.keysym.End                 : \033[4~
+!URxvt.keysym.KP_Home             : \033[1~
+!URxvt.keysym.KP_End              : \033[4~
+!URxvt.keysym.Control-Up          : \033[1;5A
+!URxvt.keysym.Control-Down        : \033[1;5B
+!URxvt.keysym.Control-Left        : \033[1;5D
+!URxvt.keysym.Control-Right       : \033[1;5C
+URxvt.keysym.Shift-Control-C     : perl:clipboard:copy
+URxvt.keysym.Shift-Control-V     : perl:clipboard:paste
+URxvt.keysym.M-u                 : perl:matcher:select_next
+URxvt.keysym.M-Escape            : perl:keyboard-select:activate
+URxvt.keysym.M-s                 : perl:keyboard-select:search
+!URxvt.keysym.C-minus             : resize-font:smaller
+!URxvt.keysym.C-plus              : resize-font:bigger
+!URxvt.keysym.C-equal             : resize-font:reset
+!URxvt.keysym.C-question          : resize-font:show
+URxvt.keysym.C-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal:  font-size:reset
+URxvt.keysym.C-slash:  font-size:show
+
 !Xft.dpi:			        131
 Xft.lcdfilter:			    lcddefault
 Xft.hintstyle:			    hintslight
 Xft.hinting:			    1
 Xft.antialias:			    1
 Xft.rgba:			        rgb
-URxvt.depth: 32
-URxvt.geometry: 133x45
-URxvt.loginShell:		    true
 
-URxvt.url-select.autocopy:	true
-URxvt.url-select.button:	1
-URxvt.url-select.launcher:	/usr/bin/firefox
-URxvt.url-select.underline:	true
-
-!! Copy Paste & Other Extensions
-URxvt.perl-ext-common: default,matcher,resize-font
-!URxvt.copyCommand: xsel -ib
-!URxvt.pasteCommand: xsel -ob
-!URxvt.resize-font.smaller: M-C-m
-!URxvt.resize-font.bigger: M-C-p
-!URxvt.resize-font.reset: M-#
-URxvt.resize-font.step: 1
-
-! Enables copy/paste with Ctrl-Shift-C/V
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-!URxvt.perl-ext-common: default,clipboard
-URxvt.keysym.Shift-Control-C: perl:clipboard:copy
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
-
-URxvt.urlLauncher: firefox
-URxvt.underlineURLs: true
-URxvt.urlButton: 1
-
-URxvt.saveLines:		    2000
-URxvt.fading:			    30
-URxvt.internalBorder:		3
-URxvt.borderLess:           false
 Xcursor.size:			    8
-URxvt*font: xft:Hack Nerd Font Mono:size=10
-!urxvt*transparent: true
-!urxvt*shading: 30
 
-
-URxvt.tabbed.tabbar-fg: 2
-URxvt.tabbed.tabbar-bg: 0
-URxvt.tabbed.tab-fg:    0
-URxvt.tabbed.tab-bg:    4
-urxvt*background: rgba:0000/0000/0200/c800
-
-*selbackground: #00FF00
-*selforeground: #FF00FF
+*selbackground: #6272a4
+*selforeground: #FFFFFF
 
 !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! Dracula Xresources palette
