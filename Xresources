@@ -50,9 +50,13 @@ URxvt.iso14755_52                : false
 !URxvt.foreground                 : #ebdbb2
 !URxvt.highlightColor             : #d79921
 !URxvt.highlightTextColor         : #3c3836
-!URxvt.background                 : [95]#282828
+URxvt.background                 : #2E3440
 !URxvt.borderColor                : [80]#282828
 !urxvt*background: rgba:0000/0000/0200/c800
+URxvt*underlineColor:    #4682B4
+URxvt*highlightColor:    #4682B4
+URxvt*throughColor:      Blue
+URxvt*cursorColor:       #c5c8c6
 
 URxvt.tabbed.tabbar-fg: 2
 URxvt.tabbed.tabbar-bg: 0
@@ -66,7 +70,7 @@ URxvt.cursorUnderline            : false
 
 !! perl extensions
 URxvt.perl-lib                   : ~/.config/urxvt/ext/
-URxvt.perl-ext-common            : default,keyboard-select,matcher,font-size
+URxvt.perl-ext-common            : default,matcher,font-size
 URxvt.resize-font.step: 1
 
 !! url
@@ -110,8 +114,8 @@ Xft.rgba:			        rgb
 
 Xcursor.size:			    8
 
-!*selbackground: #6272a4
-!*selforeground: #FFFFFF
+*selbackground: #6272a4
+*selforeground: #FFFFFF
 
 !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! Dracula Xresources palette
@@ -144,7 +148,7 @@ Xcursor.size:			    8
 #define nord1 #3B4252
 #define nord2 #434C5E
 #define nord3 #4C566A
-#define nord4 #D8DEE9
+!#define nord4 #D8DEE9
 #define nord5 #E5E9F0
 #define nord6 #ECEFF4
 #define nord7 #8FBCBB
@@ -157,9 +161,11 @@ Xcursor.size:			    8
 #define nord14 #A3BE8C
 #define nord15 #B48EAD
 
-*foreground:   nord4
-*background:   nord0
-*cursorColor:  nord4
+*foreground:   #D8DEE9
+*background:   #2E3440
+*cursorColor:  #D8DEE9
+!*foreground:   nord4
+!*cursorColor:  nord4
 *fading: 0
 *fadeColor: nord3
 
@@ -179,3 +185,5 @@ Xcursor.size:			    8
 *color13: nord15
 *color14: nord7
 *color15: nord6
+*color16: #101010
+

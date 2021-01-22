@@ -56,13 +56,8 @@
     " Undo history visualizer
     Plug 'mbbill/undotree'
 
-    " Glorious colorscheme
-    " To avoid errors during automatic installation
-    " https://github.com/junegunn/vim-plug/issues/225
-    Plug 'nanotech/jellybeans.vim'
-
     " Universal commenting with toggle, motions, embedded syntax and more
-    Plug 'tomtom/tcomment_vim'
+""    Plug 'tomtom/tcomment_vim'
 
     " Autoclose (, " etc
 ""    Plug 'somini/vim-autoclose'
@@ -85,10 +80,10 @@
     Plug 'dylanaraps/wal.vim'
 
     " Snippets like textmate
-    if has('python') || has('python3')
-        Plug 'honza/vim-snippets'
-        Plug 'sirver/ultisnips'
-    endif
+""    if has('python') || has('python3')
+""        Plug 'honza/vim-snippets'
+""        Plug 'sirver/ultisnips'
+""    endif
 
     " A fancy start screen, shows MRU etc.
     Plug 'mhinz/vim-startify'
@@ -118,10 +113,11 @@
     Plug 'ap/vim-css-color'
     Plug 'vifm/vifm.vim'
     Plug 'MikeDacre/tmux-zsh-vim-titles'
+    Plug 'voldikss/vim-floaterm'
 
     " ----- Colorscheme -----
 	Plug 'dracula/vim', { 'as': 'dracula' }
-
+    Plug 'arcticicestudio/nord-vim'
     " Local plugins
     if filereadable($HOME.'/.vim/.vimrc.plugins')
         source $HOME/.vim/.vimrc.plugins
@@ -146,12 +142,6 @@
             syntax enable
         endif
 
-        let g:jellybeans_overrides = {
-        \    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
-        \    'SignColumn': { 'ctermbg': 'none', '256ctermbg': 'none', 'guibg': 'none' },
-        \    'CursorLine': { 'ctermbg': '235'},
-        \}
-        silent! colorscheme dracula
         """ Force behavior and filetypes, and by extension highlighting {{{
             augroup FileTypeRules
                 autocmd!
@@ -494,11 +484,11 @@
         let g:SuperTabLongestEnhanced = 1
         let g:SuperTabLongestHighlight = 1
     """ }}}
-    """ UltiSnips {{{
-        let g:UltiSnipsExpandTrigger='<Tab>'
-        let g:UltiSnipsJumpForwardTrigger='<Tab>'
-        let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
-    """ }}}
+""    """ UltiSnips {{{
+""        let g:UltiSnipsExpandTrigger='<Tab>'
+""        let g:UltiSnipsJumpForwardTrigger='<Tab>'
+""        let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
+""    """ }}}
     """ Automatically remove preview window after autocomplete {{{
     """ (mainly for clang_complete)
         augroup RemovePreview
@@ -507,9 +497,16 @@
             autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
         augroup END
     """ }}}
+    """ Floaterm {{{
+        nnoremap <leader>fn :FloatermNew<CR>
+        let g:floaterm_height = 0.4
+        let g:floaterm_width = 0.5
+        let g:floaterm_position = 'topright'
+        let g:floaterm_autoclose = 1
+    """ }}}
     """ Lightline {{{
         let g:lightline = {
-            \ 'colorscheme': 'dracula',
+            \ 'colorscheme': 'nord',
             \ 'active': {
             \     'left': [
             \         ['mode', 'paste'],
