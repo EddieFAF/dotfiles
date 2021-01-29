@@ -50,40 +50,17 @@
     Plug 'ctrlpvim/ctrlp.vim'
 
     " A pretty statusline, bufferline integration
-    Plug 'itchyny/lightline.vim'
-    Plug 'bling/vim-bufferline'
+    Plug 'vim-airline/vim-airline'
 
     " Undo history visualizer
     Plug 'mbbill/undotree'
 
-    " Universal commenting with toggle, motions, embedded syntax and more
-""    Plug 'tomtom/tcomment_vim'
-
-    " Autoclose (, " etc
-""    Plug 'somini/vim-autoclose'
-
-    " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
-    Plug 'tpope/vim-eunuch'
-
     " Git wrapper inside Vim
     Plug 'tpope/vim-fugitive'
 
-    " Handle surround chars like ''
-    Plug 'tpope/vim-surround'
-
-    " Align your = etc.
-    "Plug 'junegunn/vim-easy-align'
-
     Plug 'mboughaba/i3config.vim'
 
-    " Colors from wal
-    Plug 'dylanaraps/wal.vim'
-
-    " Snippets like textmate
-""    if has('python') || has('python3')
-""        Plug 'honza/vim-snippets'
-""        Plug 'sirver/ultisnips'
-""    endif
+"    Plug 'dylanaraps/wal.vim'
 
     " A fancy start screen, shows MRU etc.
     Plug 'mhinz/vim-startify'
@@ -109,14 +86,13 @@
 	endif
 
     Plug 'airblade/vim-gitgutter'
-    Plug 'christoomey/vim-tmux-navigator'
     Plug 'ap/vim-css-color'
     Plug 'vifm/vifm.vim'
     Plug 'MikeDacre/tmux-zsh-vim-titles'
     Plug 'voldikss/vim-floaterm'
 
     " ----- Colorscheme -----
-	Plug 'dracula/vim', { 'as': 'dracula' }
+"    Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'arcticicestudio/nord-vim'
     " Local plugins
     if filereadable($HOME.'/.vim/.vimrc.plugins')
@@ -424,9 +400,6 @@
         noremap <silent><Leader>lo :Errors<CR>
         noremap <silent><Leader>lc :lclose<CR>
 
-        " EasyAlign - interactive mode (e.g. vipga/gaip)
-        xmap ga <Plug>(EasyAlign)
-        nmap ga <Plug>(EasyAlign)
     """ }}}
 """ }}}
 """ Plugin settings {{{
@@ -484,11 +457,6 @@
         let g:SuperTabLongestEnhanced = 1
         let g:SuperTabLongestHighlight = 1
     """ }}}
-""    """ UltiSnips {{{
-""        let g:UltiSnipsExpandTrigger='<Tab>'
-""        let g:UltiSnipsJumpForwardTrigger='<Tab>'
-""        let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
-""    """ }}}
     """ Automatically remove preview window after autocomplete {{{
     """ (mainly for clang_complete)
         augroup RemovePreview
@@ -505,143 +473,11 @@
         let g:floaterm_autoclose = 1
     """ }}}
     """ Lightline {{{
-        let g:lightline = {
-            \ 'colorscheme': 'nord',
-            \ 'active': {
-            \     'left': [
-            \         ['mode', 'paste'],
-            \         ['readonly', 'fugitive'],
-            \         ['ctrlpmark', 'bufferline']
-            \     ],
-            \     'right': [
-            \         ['lineinfo'],
-            \         ['percent'],
-            \         ['fileformat', 'fileencoding', 'filetype', 'syntastic']
-            \     ]
-            \ },
-            \ 'component': {
-            \     'paste': '%{&paste?"!":""}'
-            \ },
-            \ 'component_function': {
-            \     'mode'         : 'LightlineMode',
-            \     'fugitive'     : 'LightlineFugitive',
-            \     'readonly'     : 'LightlineReadonly',
-            \     'ctrlpmark'    : 'LightlineCtrlPMark',
-            \     'bufferline'   : 'LightlineBufferline',
-            \     'fileformat'   : 'LightlineFileformat',
-            \     'fileencoding' : 'LightlineFileencoding',
-            \     'filetype'     : 'LightlineFiletype'
-            \ },
-            \ 'component_expand': {
-            \     'syntastic': 'SyntasticStatuslineFlag',
-            \ },
-            \ 'component_type': {
-            \     'syntastic': 'middle',
-            \ },
-            \ 'subseparator': {
-            \     'left': '|', 'right': '|'
-            \ }
-            \ }
-
-        " Ensure that each mode indicator is the same size and casing
-        let g:lightline.mode_map = {
-            \ 'n'      : ' N ',
-            \ 'i'      : ' I ',
-            \ 'R'      : ' R ',
-            \ 'v'      : ' V ',
-            \ 'V'      : 'V-L',
-            \ 'c'      : ' C ',
-            \ "\<C-v>" : 'V-B',
-            \ 's'      : ' S ',
-            \ 'S'      : 'S-L',
-            \ "\<C-s>" : 'S-B',
-            \ '?'      : '      ' }
-
-        function! LightlineMode()
-            let l:fname = expand('%:t')
-            return l:fname ==# '__Tagbar__' ? 'Tagbar' :
-                \ l:fname ==# 'ControlP' ? 'CtrlP' :
-                \ winwidth(0) > 60 ? lightline#mode() : ''
-        endfunction
-
-        function! LightlineFugitive()
-            try
-                if expand('%:t') !~? 'Tagbar' && exists('*fugitive#head')
-                    let l:branch = fugitive#head()
-                    return l:branch !=# '' ? '± '.l:branch : ''
-                endif
-            catch
-            endtry
-            return ''
-        endfunction
-
-        function! LightlineReadonly()
-            return &filetype !~? 'help' && &readonly ? '≠' : '' " or ⭤
-        endfunction
-
-        function! LightlineCtrlPMark()
-            if expand('%:t') =~# 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-                call lightline#link('iR'[g:lightline.ctrlp_regex])
-                return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-                    \ , g:lightline.ctrlp_next], 0)
-            else
-                return ''
-            endif
-        endfunction
-
-        " https://github.com/itchyny/lightline.vim/issues/36
-        function! LightlineBufferline()
-            call bufferline#refresh_status()
-            let b = g:bufferline_status_info.before
-            let c = g:bufferline_status_info.current
-            let a = g:bufferline_status_info.after
-            let alen = strlen(a)
-            let blen = strlen(b)
-            let clen = strlen(c)
-            let w = winwidth(0) * 4 / 11
-            if w < alen+blen+clen
-                let whalf = (w - strlen(c)) / 2
-                let aa = alen > whalf && blen > whalf ? a[:whalf] : alen + blen < w - clen || alen < whalf ? a : a[:(w - clen - blen)]
-                let bb = alen > whalf && blen > whalf ? b[-(whalf):] : alen + blen < w - clen || blen < whalf ? b : b[-(w - clen - alen):]
-                return (strlen(bb) < strlen(b) ? '...' : '') . bb . c . aa . (strlen(aa) < strlen(a) ? '...' : '')
-            else
-                return b . c . a
-            endif
-        endfunction
-
-        function! LightlineFileformat()
-            return winwidth(0) > 90 ? &fileformat : ''
-        endfunction
-
-        function! LightlineFileencoding()
-            return winwidth(0) > 80 ? (&fileencoding !=# '' ? &fileencoding : &encoding) : ''
-        endfunction
-
-        function! LightlineFiletype()
-            return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-        endfunction
 
         let g:ctrlp_status_func = {
             \ 'main': 'CtrlPStatusFunc_1',
             \ 'prog': 'CtrlPStatusFunc_2',
             \ }
-
-        function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-            let g:lightline.ctrlp_regex = a:regex
-            let g:lightline.ctrlp_prev = a:prev
-            let g:lightline.ctrlp_item = a:item
-            let g:lightline.ctrlp_next = a:next
-            return lightline#statusline(0)
-        endfunction
-
-        function! CtrlPStatusFunc_2(str)
-            return lightline#statusline(0)
-        endfunction
-
-        function! TagbarStatusFunc(current, sort, fname, ...) abort
-            let g:lightline.fname = a:fname
-            return lightline#statusline(0)
-        endfunction
 
         function! s:syntastic()
             SyntasticCheck
