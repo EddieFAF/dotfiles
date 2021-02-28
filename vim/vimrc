@@ -181,6 +181,7 @@
     """ Search and replace {{{
         set gdefault                                " default s//g (global)
         set incsearch                               " "live"-search
+        set hlsearch                                " highlight all search results
     """ }}}
     """ Matching {{{
         set matchtime=2                             " time to blink match {}
@@ -403,6 +404,9 @@
     """ }}}
 """ }}}
 """ Plugin settings {{{
+    """ Airline {{{
+        let g:airline_powerline_fonts = 1
+    """ }}}
     """ Startify {{{
         let g:startify_bookmarks = [
             \ $HOME . '/.vim/vimrc', $HOME . '/.vim/.vimrc.first',
@@ -471,25 +475,6 @@
         let g:floaterm_width = 0.5
         let g:floaterm_position = 'topright'
         let g:floaterm_autoclose = 1
-    """ }}}
-    """ Lightline {{{
-
-        let g:ctrlp_status_func = {
-            \ 'main': 'CtrlPStatusFunc_1',
-            \ 'prog': 'CtrlPStatusFunc_2',
-            \ }
-
-        function! s:syntastic()
-            SyntasticCheck
-            call lightline#update()
-        endfunction
-
-        augroup AutoSyntastic
-            autocmd!
-            execute 'autocmd FileType ' .
-                \join(g:syntastic_mode_map['active_filetypes'], ',') .
-                \' autocmd BufWritePost <buffer> :call s:syntastic()'
-        augroup END
     """ }}}
 """ }}}
 """ Local ending config, will overwrite anything above. Generally use this. {{{
