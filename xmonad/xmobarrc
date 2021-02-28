@@ -1,0 +1,28 @@
+
+-- http://projects.haskell.org/xmobar/
+-- install xmobar with these flags: --flags="with_alsa" --flags="with_mpd" --flags="with_xft"  OR --flags="all_extensions"
+-- you can find weather location codes here: http://weather.noaa.gov/index.html
+
+Config { font = "xft:Mononoki Nerd Font:pixelsize=13:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Hack Nerd Font:pixelsize=13" ]
+       , bgColor = "#282828"
+       , fgColor = "#ebdbb2"
+       , position = TopW L 90
+       , lowerOnStart = True
+       , hideOnStart = False
+       , allDesktops = True
+       , persistent = True
+       , iconRoot = "/home/eddie/.xmonad/xpm/"  -- default: "."
+       , commands = [ Run Date "%a %_d.%b %k:%M:%S" "datezone" 10
+                    , Run Com "/home/eddie/.xmonad/scripts/date" [] "Date2" 10
+                    , Run Network "enp6s0" ["-t", "<fc=#8ec07c><fn=1></fn></fc><rx> <fc=#d3869b><fn=1></fn></fc><tx>", "-H","200","-L","10","-h","#ebdbb2","-l","#ebdbb2","-n","#ebdbb2","-S", "True"] 10
+                    , Run Cpu ["-t", "<fc=#83a598><fn=1> </fn>cpu:<total>%</fc>","-H","80","-n","#83a598","-h","#fb4934"] 10
+                    , Run Memory ["-t", "<fc=#458588><fn=1> </fn>mem:<usedratio>%</fc>","-H","80","-n","#458588","-h","#fb4934"] 10
+                    , Run DiskU [("/", "<fc=#fabd2f><fn=1> </fn>hdd:<free>/<size></fc>")] [] 3600
+                    , Run Com "/home/eddie/.xmonad/scripts/apt-upgrades" [] "apt" 6000
+                    , Run UnsafeStdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " %UnsafeStdinReader% }{ %enp6s0% | %apt% | %cpu% | %memory% | %disku% | <fc=#fabd2f>%Date2%</fc> "
+       }
