@@ -1,4 +1,10 @@
-xterm*faceName:             Hack Nerd Font
+!! Transparency (0-1):
+*.alpha: 0.8
+
+!! Set a default font and font size as below:
+*.font: mono:pixelsize=14
+
+xterm*faceName:             xft:FiraCode Nerd Font Mono
 xterm*faceSize:             10
 xterm*loginShell:           true
 xterm*saveLines:            2000
@@ -11,10 +17,10 @@ xterm*boldMode:             false
 !! URxvt configs
 !! ------------------------------------------------------------------------------
 !! fonts
-!URxvt*font                       : xft:Iosevka Nerd Font:pixelsize=14:antialiase=true
-URxvt*font                      : xft:Hack Nerd Font Mono:size=10
-!URxvt*boldFont                   : xft:Iosevka Nerd Font:bold:size=14:antialiase=true,
-!URxvt*italicFont                 : xft:Iosevka Nerd Font:italic:size=14:antialiase=true,
+URxvt*font                       : xft:Hack Nerd Font Mono:size=10, \
+URxvt*boldFont                   : xft:Hack Nerd Font Mono:bold:size=14:antialias=true,
+URxvt*italicFont                 : xft:Hack Nerd Font Mono:italic:size=14:antialias=true,
+URxvt.intensityStyles            : false
 URxvt.letterSpace                : -1
 URxvt.lineSpace                  : 0
 URxvt.allow_bold                 : true
@@ -28,19 +34,20 @@ URxvt*scrollWithBuffer           : true
 Urxvt*loginShell                 : true
 URxvt.borderless                 : false
 URxvt.externalBorder             : 0
-URxvt.iconFile                   : terminal
-URxvt.internalBorder             : 5
+URxvt.iconFile                   : /home/eddie/.icons/nord-icons/128x128/apps/terminal.svg
+URxvt.internalBorder             : 0
 URxvt.scrollBar                  : false
 URxvt.scrollBar_floating         : false
 URxvt.scrollBar_right            : false
 URxvt.scrollstyle                : rxvt
+URxvt.urgentOnBell               : true
 URxvt.secondaryScreen            : false
 URxvt.secondaryScroll            : false
 URxvt.saveLines                  : 2000
 URxvt.fading                     : 30
 Urxvt.termName                   : xterm-256color
 !URxvt.termName                   : screen-256color
-!URxvt.title                      : System Command Promt
+!URxvt.title                      : System Command Prompt
 URxvt.skipBuiltinGlyphs          : false
 URxvt.buffered                   : true
 URxvt.iso14755                   : false
@@ -66,7 +73,7 @@ URxvt.tabbed.tab-bg:    4
 !! cursor
 !URxvt*cursorColor                : #ebdbb2
 URxvt.cursorBlink                : true
-URxvt.cursorUnderline            : false
+URxvt.cursorUnderline            : true
 
 !! perl extensions
 URxvt.perl-lib                   : ~/.config/urxvt/ext/
@@ -106,108 +113,66 @@ URxvt.keysym.C-equal:  font-size:reset
 URxvt.keysym.C-slash:  font-size:show
 
 !Xft.dpi:			        131
-Xft.lcdfilter:			    lcddefault
-Xft.hintstyle:			    hintslight
-Xft.hinting:			    1
-Xft.antialias:			    1
-Xft.rgba:			        rgb
+Xft.lcdfilter:          lcdfilter
+Xft.hintstyle:          hintfull
+Xft.hinting:            true
+Xft.antialias:          true
+Xft.rgba:               rgb
+Xft.autohint:           true
 
-Xcursor.size:			    8
+Xcursor.size:           8
 
 *selbackground: #6272a4
 *selforeground: #FFFFFF
 
-!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! Dracula Xresources palette
-!*foreground: #F8F8F2
-!*background: #282A36
-!*color0:     #000000
-!*color8:     #4D4D4D
-!*color1:     #FF5555
-!*color9:     #FF6E67
-!*color2:     #50FA7B
-!*color10:    #5AF78E
-!*color3:     #F1FA8C
-!*color11:    #F4F99D
-!*color4:     #BD93F9
-!*color12:    #CAA9FA
-!*color5:     #FF79C6
-!*color13:    #FF92D0
-!*color6:     #8BE9FD
-!*color14:    #9AEDFE
-!*color7:     #BFBFBF
-!*color15:    #E6E6E6
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ! Project:    Nord XResources
-! Version:    0.1.0
-! Repository: https://github.com/arcticicestudio/nord-xresources
-! License:    MIT
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!*.foreground:   #D8DEE9
+!*.background:   #2E3440
+!*.cursorColor:  #D8DEE9
+!*.fading: 0
+!*.fadeColor: #4C566A
+!
+!*.color0: #3B4252
+!*.color1: #BF616A
+!*.color2: #A3BE8C
+!*.color3: #EBCB8B
+!*.color4: #81A1C1
+!*.color5: #B48EAD
+!*.color6: #88C0D0
+!*.color7: #E5E9F0
+!*.color8: #4C566A
+!*.color9: #BF616A
+!*.color10: #A3BE8C
+!*.color11: #EBCB8B
+!*.color12: #81A1C1
+!*.color13: #B48EAD
+!*.color14: #8FBCBB
+!*.color15: #ECEFF4
+!*.color16: #101010
 
-#define nord0 #2E3440
-#define nord1 #3B4252
-#define nord2 #434C5E
-#define nord3 #4C566A
-#define nord4 #D8DEE9
-#define nord5 #E5E9F0
-#define nord6 #ECEFF4
-#define nord7 #8FBCBB
-#define nord8 #88C0D0
-#define nord9 #81A1C1
-#define nord10 #5E81AC
-#define nord11 #BF616A
-#define nord12 #D08770
-#define nord13 #EBCB8B
-#define nord14 #A3BE8C
-#define nord15 #B48EAD
+! Base16 OneDark
+! Scheme: Lalit Magant (http://github.com/tilal6991)
 
-!*foreground:   #D8DEE9
-!*background:   #2E3440
-!*cursorColor:  #D8DEE9
-!*foreground:   nord4
-!*cursorColor:  nord4
-!*fading: 0
-!*fadeColor: nord3
+#define base00 #1e222a
+#define base01 #353b45
+#define base02 #3e4451
+#define base03 #545862
+#define base04 #565c64
+#define base05 #abb2bf
+#define base06 #b6bdca
+#define base07 #c8ccd4
+#define base08 #e06c75
+#define base09 #d19a66
+#define base0A #e5c07b
+#define base0B #98c379
+#define base0C #56b6c2
+#define base0D #61afef
+#define base0E #c678dd
+#define base0F #be5046
 
-!*color0: nord1
-!*color1: nord11
-!*color2: nord14
-!*color3: nord13
-!*color4: nord9
-!*color5: nord15
-!*color6: nord8
-!*color7: nord5
-!*color8: nord3
-!*color9: nord11
-!*color10: nord14
-!*color11: nord13
-!*color12: nord9
-!*color13: nord15
-!*color14: nord7
-!*color15: nord6
-!*color16: #101010
-
-! Base16 Gruvbox dark, medium
-! Scheme: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
-
-#define base00 #282828
-#define base01 #3c3836
-#define base02 #504945
-#define base03 #665c54
-#define base04 #bdae93
-#define base05 #d5c4a1
-#define base06 #ebdbb2
-#define base07 #fbf1c7
-#define base08 #fb4934
-#define base09 #fe8019
-#define base0A #fabd2f
-#define base0B #b8bb26
-#define base0C #8ec07c
-#define base0D #83a598
-#define base0E #d3869b
-#define base0F #d65d0e
-
-*foreground:   base05
+*foreground:   base07
 #ifdef background_opacity
 *background:   [background_opacity]base00
 #else
@@ -241,3 +206,4 @@ Xcursor.size:			    8
 *color19:      base02
 *color20:      base04
 *color21:      base06
+

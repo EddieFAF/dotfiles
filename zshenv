@@ -13,4 +13,4 @@ export PAGER='less'
 export SHELL='/bin/zsh'
 export LANG='de_DE.UTF-8'
 export LC_ALL='de_DE.UTF-8'
-export BAT_THEME="ansi-dark"
+export BAT_THEME="ansi"
