@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# Copyright (C) 2015 James Murphy                                                  
-# Licensed under the terms of the GNU GPL v2 only.                                 
-#                                                                                  
-# i3blocks blocklet script to display pending system upgrades 
+# Copyright (C) 2015 James Murphy
+# Licensed under the terms of the GNU GPL v2 only.
+#
+# i3blocks blocklet script to display pending system upgrades
 
 # FontAwesome refresh symbol, change if you do not want to install FontAwesome
 PENDING_SYMBOL=${PENDING_SYMBOL:-"\uf021 "}
@@ -39,7 +39,7 @@ done
 
 read upgraded new removed held < <(
 aptitude full-upgrade --simulate --assume-yes |\
-    grep -m1 '^[0-9]\+ packages upgraded,' |\
+    grep -m1 '^[0-9]\+ Pakete aktualisiert,' |\
     tr -cd '0-9 ' |\
     tr ' ' '\n' |\
     grep '[0-9]\+' |\

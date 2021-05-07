@@ -5,8 +5,8 @@
 
 Config { font = "xft:FiraCode Nerd Font:bold:size=10:antialias=true:hinting=true"
        , additionalFonts = [ "xft:Hack Nerd Font:pixelsize=13" ]
-       , bgColor = "#2E3440"
-       , fgColor = "#e5e9f0"
+       , bgColor = "#282a36"
+       , fgColor = "#f8f8f2"
        , position = TopW L 95
        , lowerOnStart = True
        , hideOnStart = False
@@ -42,5 +42,5 @@ Config { font = "xft:FiraCode Nerd Font:bold:size=10:antialias=true:hinting=true
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% }{ %enp6s0% <fc=#666666>|</fc> %apt% <fc=#666666>|</fc> %ETHC% <fc=#666666>|</fc> %disku% <fc=#666666>|</fc> Vol: <fc=#b2b2ff>%volumelevel%</fc> <fc=#666666>|</fc> <fc=#5E81AC>%Date2%</fc> "
+       , template = " %UnsafeStdinReader% }{ %enp6s0% <fc=#666666>|</fc> %apt% <fc=#666666>|</fc> %ETHC% <fc=#666666>|</fc> %disku% <fc=#666666>|</fc> Vol: <fc=#bd93f9>%volumelevel%</fc> <fc=#666666>|</fc> <fc=#57c7ff>%Date2%</fc> "
        }

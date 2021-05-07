@@ -113,6 +113,17 @@ myFocusColor  = "#83a598"  -- Border color of focused windows
 
 windowCount     = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
+--colors
+black = "#282a36" -- black
+red = "#ff5555" -- red
+green = "#5af78e" -- green
+yellow = "#f1fa8c" -- yellow
+blue = "#57c7ff" -- blue
+magenta = "#ff6ac1" -- magenta
+cyan = "#8be9fd" -- cyan
+white = "#f1f1f0" -- white
+orange = "#ffb86c" -- orange
+purple = "#bd9cf9" -- purple
 
 ------------------------------------------------------------------------
 ---Startup
@@ -127,7 +138,7 @@ myStartupHook = do
           spawnOnce "picom -b --config /home/eddie/.config/picom.conf &"
           spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 --          spawnOnce "lxpolkit &"
-          spawnOnce "/home/eddie/Applications/Nextcloud-3.1.3-x86_64.AppImage &"
+          spawnOnce "/home/eddie/Applications/Nextcloud-3.2.1-x86_64.AppImage &"
           spawnOnce "urxvtd -q -o -f &"      -- urxvt daemon for better performance
 --          spawnOnce "xsetroot -cursor_name left_ptr &"
 --          spawnOnce "stalonetray &"
@@ -280,7 +291,7 @@ myKeys =
 --        , ("M-S-r", spawn "xmonad --restart")        -- Restarts xmonad
         , ("M-S-r", spawn "xmonad --recompile && xmonad --restart")
 --        , ("M-S-q", io exitSuccess)                  -- Quits xmonad
-        , ("M-S-q", spawn "rofi -show power-menu -modi power-menu:/home/eddie/.config/rofi/rofi-power-menu -lines 6 -width 20 -theme /home/eddie/.config/rofi/themes/nord.rasi") -- Shutdown Menu
+        , ("M-S-q", spawn "rofi -show power-menu -modi power-menu:/home/eddie/.config/rofi/rofi-power-menu -lines 6 -width 20 -theme /home/eddie/.config/rofi/themes/dracula.rasi") -- Shutdown Menu
 
     --- Windows
         , ("M-S-c", kill1)                           -- Kill the currently focused client
@@ -357,10 +368,10 @@ myKeys =
     --    , ("M-p r", spawn "~/dmscripts/dmred")    -- reddio (a reddit viewer)
         , ("M-p s", spawn "~/bin/dmsearch") -- search various search engines
 
-        , ("M-d", spawn "dmenu_run -fn 'Hack Nerd Font:size=10' -sf '#D8DEE9' -sb '#4C566A' -p 'dmenu:'")
+        , ("M-d", spawn "dmenu_run -fn 'FiraCode Nerd Font:size=11' -h 22 -sf '#D8DEE9' -sb '#4C566A' -p 'dmenu:'")
 --        , ("M-d", spawn "dmenu_run -fn 'Hack Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'")
-        , ("M-<F3>", spawn "rofi -show ssh -font 'Hack Nerd Font 11' -lines 5 -width 300 -theme /home/eddie/.config/rofi/themes/nord.rasi")
-        , ("M-<F2>", spawn "rofi -show drun -font 'Hack Nerd Font 11' -columns 2 -theme /home/eddie/.config/rofi/themes/nord.rasi")
+        , ("M-<F3>", spawn "rofi -show ssh -font 'Hack Nerd Font 11' -lines 5 -width 300 -theme /home/eddie/.config/rofi/themes/dracula.rasi")
+        , ("M-<F2>", spawn "rofi -show drun -font 'Hack Nerd Font 11' -columns 2 -theme /home/eddie/.config/rofi/themes/dracula.rasi")
 
     --- My Applications (Super+Alt+Key)
         , ("M-M1-a", spawn (myTerminal ++ " -e pulsemixer"))
@@ -410,6 +421,7 @@ myManageHook = composeAll
     , title =? "Double Commander" --> doCenterFloat
     , className =? "Brave-browser-beta"   --> doShift ( myWorkspaces !! 1 )
     , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
+    , className =? "Firefox-esr"     --> doShift ( myWorkspaces !! 1 )
     , isDialog --> doCenterFloat
     ] <+> namedScratchpadManageHook myScratchPads
 
@@ -568,11 +580,11 @@ main = do
         , focusedBorderColor = myFocusColor
         , logHook = dynamicLogWithPP $ namedScratchpadFilterOutWorkspacePP $ xmobarPP
                         { ppOutput = \x -> hPutStrLn xmproc x 
-                        , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]" -- Current workspace in xmobar
-                        , ppVisible = xmobarColor "#98be65" "" . clickable    -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#5E81AC" "" . wrap "*" "" . clickable   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor "#c792ea" "" . wrap " " "" . clickable       -- Hidden workspaces (no windows)
-                        , ppTitle = xmobarColor "#b3afc2" "" . shorten 40     -- Title of active window in xmobar
+                        , ppCurrent = xmobarColor green "" . wrap "[" "]" -- Current workspace in xmobar
+                        , ppVisible = xmobarColor purple "" . clickable    -- Visible but not current workspace
+                        , ppHidden = xmobarColor yellow "" . wrap "*" "" . clickable   -- Hidden workspaces in xmobar
+                        , ppHiddenNoWindows = xmobarColor purple "" . wrap " " "" . clickable       -- Hidden workspaces (no windows)
+                        , ppTitle = xmobarColor cyan "" . shorten 40     -- Title of active window in xmobar
                         , ppSep =  xmobarColor "#666666" "" " | "         -- Separators in xmobar
                         , ppUrgent = xmobarColor "#BF616A" "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]                           -- # of windows current workspace
