@@ -1,3 +1,11 @@
+-------------------------------------------------
+--   __   __                                _  --
+--   \ \ / /                               | | --
+--    \ V / _ __ ___   ___  _ __   __ _  __| | --
+--     > < | '_ ` _ \ / _ \| '_ \ / _` |/ _` | --
+--    / . \| | | | | | (_) | | | | (_| | (_| | --
+--   /_/ \_\_| |_| |_|\___/|_| |_|\__,_|\__,_| --
+-------------------------------------------------
 
 ------------------------------------------------------------------------
 ---IMPORTS
@@ -10,6 +18,10 @@ import Data.Maybe (isJust)
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
+import XMonad.Hooks.DynamicLog
 
     -- Data
 import Data.Char (isSpace, toUpper)
@@ -28,7 +40,7 @@ import XMonad.Util.Run (safeSpawn, unsafeSpawn, runInTerm, spawnPipe)
 import XMonad.Util.SpawnOnce
 
     -- Hooks
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
+--import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.ManageDocks (avoidStruts, docksStartupHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, isDialog,  doFullFloat, doCenterFloat) 
 import XMonad.Hooks.Place (placeHook, withGaps, smart)
@@ -109,21 +121,18 @@ myNormColor :: String
 myNormColor   = "#474646"  -- Border color of normal windows
 
 myFocusColor :: String
-myFocusColor  = "#83a598"  -- Border color of focused windows
+myFocusColor  = "#CAA9FA"  -- Border color of focused windows
 
 windowCount     = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
---colors
-black = "#282a36" -- black
-red = "#ff5555" -- red
-green = "#5af78e" -- green
-yellow = "#f1fa8c" -- yellow
-blue = "#57c7ff" -- blue
-magenta = "#ff6ac1" -- magenta
-cyan = "#8be9fd" -- cyan
-white = "#f1f1f0" -- white
-orange = "#ffb86c" -- orange
-purple = "#bd9cf9" -- purple
+
+-- Colours
+foreground = "#F8F8F2"
+fgalt = "#BFBFBF"
+background = "#282A36"
+secondary = "#BD93F9"
+primary = "#50FA7B"
+alert = "#FF5555"
 
 ------------------------------------------------------------------------
 ---Startup
@@ -133,6 +142,8 @@ myStartupHook = do
           spawnOnce "trayer --edge top --align right --width 5 --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint 0x2E3440 --heighttype pixel --height 22 &"
           spawnOnce "xrdb -merge /home/eddie/.Xresources"
           spawnOnce "nitrogen --restore &"
+          spawnOnce "nm-applet &"
+          spawnOnce "volumeicon &"
 --          spawnOnce "/home/eddie/.config/polybar/launch_xmonad.sh"
 --          spawnOnce "compton -b -f --config /home/eddie/.config/compton.conf &"
           spawnOnce "picom -b --config /home/eddie/.config/picom.conf &"
@@ -140,7 +151,7 @@ myStartupHook = do
 --          spawnOnce "lxpolkit &"
           spawnOnce "/home/eddie/Applications/Nextcloud-3.2.1-x86_64.AppImage &"
           spawnOnce "urxvtd -q -o -f &"      -- urxvt daemon for better performance
---          spawnOnce "xsetroot -cursor_name left_ptr &"
+          spawnOnce "xsetroot -cursor_name left_ptr &"
 --          spawnOnce "stalonetray &"
           spawnOnce "mpd &"
           setWMName "LG3D"
@@ -229,12 +240,12 @@ myXPKeymap = M.fromList $
 ------------------------------------------------------------------------
 -- setting colors for tabs layout and tabs sublayout.
 myTabTheme = def { fontName            = myFont
-                 , activeColor         = "#46d9ff"
-                 , inactiveColor       = "#313846"
-                 , activeBorderColor   = "#46d9ff"
-                 , inactiveBorderColor = "#282c34"
-                 , activeTextColor     = "#282c34"
-                 , inactiveTextColor   = "#d0d0d0"
+                 , activeColor         = myFocusColor
+                 , inactiveColor       = myNormColor
+                 , activeBorderColor   = myFocusColor
+                 , inactiveBorderColor = myNormColor
+                 , activeTextColor     = myFocusColor
+                 , inactiveTextColor   = myNormColor
                  }
 
 
@@ -336,17 +347,18 @@ myKeys =
 
     --- Layouts
         , ("M-<Space>", sendMessage NextLayout)                              -- Switch to next layout
-        , ("M-S-<Space>", sendMessage ToggleStruts)                          -- Toggles struts
+--        , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf)                -- Reset Layout
+        , ("M-b", sendMessage ToggleStruts)                                  -- Toggles struts
         , ("M-<KP_Multiply>", sendMessage (IncMasterN 1))   -- Increase number of clients in the master pane
         , ("M-<KP_Divide>", sendMessage (IncMasterN (-1)))  -- Decrease number of clients in the master pane
         , ("M-S-<KP_Multiply>", increaseLimit)              -- Increase number of windows that can be shown
         , ("M-S-<KP_Divide>", decreaseLimit)                -- Decrease number of windows that can be shown
 
     --  Window resizing
-        , ("M-h", sendMessage Shrink)
-        , ("M-l", sendMessage Expand)
-        , ("M-M1-j", sendMessage MirrorShrink)
-        , ("M-M1-k", sendMessage MirrorExpand)
+--        , ("M-h", sendMessage Shrink)
+--        , ("M-l", sendMessage Expand)
+--        , ("M-M1-j", sendMessage MirrorShrink)
+--        , ("M-M1-k", sendMessage MirrorExpand)
 
     --- Workspaces
         , ("M-<KP_Add>", moveTo Next nonNSP)                                -- Go to next workspace
@@ -368,7 +380,7 @@ myKeys =
     --    , ("M-p r", spawn "~/dmscripts/dmred")    -- reddio (a reddit viewer)
         , ("M-p s", spawn "~/bin/dmsearch") -- search various search engines
 
-        , ("M-d", spawn "dmenu_run -fn 'FiraCode Nerd Font:size=11' -h 22 -sf '#D8DEE9' -sb '#4C566A' -p 'dmenu:'")
+        , ("M-d", spawn "dmenu_run -fn 'FiraCode Nerd Font:size=11' -h 22 -sf '#F8F8F2' -sb '#BD93F9' -p 'dmenu:'")
 --        , ("M-d", spawn "dmenu_run -fn 'Hack Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'")
         , ("M-<F3>", spawn "rofi -show ssh -font 'Hack Nerd Font 11' -lines 5 -width 300 -theme /home/eddie/.config/rofi/themes/dracula.rasi")
         , ("M-<F2>", spawn "rofi -show drun -font 'Hack Nerd Font 11' -columns 2 -theme /home/eddie/.config/rofi/themes/dracula.rasi")
@@ -399,8 +411,11 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 
 myManageHook :: Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
-    [
-      className =? "XCalc"           --> doFloat
+    [ className =? "stalonetray"    --> doIgnore
+    , className =? "mpv"          --> doFullFloat
+    , manageDocks
+    , isFullscreen                --> (doF W.focusDown <+> doFullFloat)
+    , className =? "XCalc"           --> doFloat
     , className =? "confirm"         --> doFloat
     , className =? "file_progress"   --> doFloat
     , className =? "dialog"          --> doFloat
@@ -445,7 +460,7 @@ tall     = renamed [Replace "tall"]
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
-           $ mySpacing 8
+           $ mySpacing 4
            $ ResizableTall 1 (3/100) (1/2) []
 magnify  = renamed [Replace "magnify"]
            $ smartBorders
@@ -531,10 +546,10 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
     findTerm   = resource =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
                  where
-                 h = 0.9
-                 w = 0.9
-                 t = 0.95 -h
-                 l = 0.95 -w
+                 h = (1/2)
+                 w = (1/2)
+                 t = (1/4)
+                 l = (1/4)
     spawnNcmpcpp  = myTerminal ++  " -n ncmpcpp 'ncmpcpp'"
     findNcmpcpp   = resource =? "ncmpcpp"
     manageNcmpcpp = customFloating $ W.RationalRect l t w h
@@ -553,7 +568,7 @@ xmobarEscape = concatMap doubleLts
         doubleLts '<' = "<<"
         doubleLts x   = [x]
 
-myWorkspaces = ["dev", "www", "mail", "4", "5", "6", "7", "8", "9"]
+myWorkspaces = ["1:\xf269 ","2:\xf120 ","3:\xf0e0 ", "4:\xf07c ","5:\xf1b6 ","6:\xf281 ","7:\xf04b ","8:\xf167 ","9"]
                -- $ [" dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
@@ -580,15 +595,35 @@ main = do
         , focusedBorderColor = myFocusColor
         , logHook = dynamicLogWithPP $ namedScratchpadFilterOutWorkspacePP $ xmobarPP
                         { ppOutput = \x -> hPutStrLn xmproc x 
-                        , ppCurrent = xmobarColor green "" . wrap "[" "]" -- Current workspace in xmobar
-                        , ppVisible = xmobarColor purple "" . clickable    -- Visible but not current workspace
-                        , ppHidden = xmobarColor yellow "" . wrap "*" "" . clickable   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor purple "" . wrap " " "" . clickable       -- Hidden workspaces (no windows)
-                        , ppTitle = xmobarColor cyan "" . shorten 40     -- Title of active window in xmobar
+                        , ppCurrent = xmobarColor primary "" . wrap " " "" -- Current workspace in xmobar
+                        , ppVisible = xmobarColor foreground "" . clickable    -- Visible but not current workspace
+                        , ppHidden = xmobarColor secondary "" . wrap "*" "" . clickable   -- Hidden workspaces in xmobar
+                        , ppHiddenNoWindows = xmobarColor fgalt "" . wrap " " "" . clickable       -- Hidden workspaces (no windows)
+                        , ppTitle = xmobarColor foreground "" . shorten 40     -- Title of active window in xmobar
                         , ppSep =  xmobarColor "#666666" "" " | "         -- Separators in xmobar
-                        , ppUrgent = xmobarColor "#BF616A" "" . wrap "!" "!"  -- Urgent workspace
+                        , ppUrgent = xmobarColor alert "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]                           -- # of windows current workspace
                         , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
                         }
         } `additionalKeysP`         myKeys
 
+-----------------------------------------------------------------------------}}}
+-- CONFIG                                                                    {{{
+--------------------------------------------------------------------------------
+myConfig = def
+  { terminal            = myTerminal
+  , layoutHook          = myLayoutHook
+  , manageHook          = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageHook desktopConfig <+> manageDocks
+  , startupHook         = myStartupHook
+  , focusFollowsMouse   = False
+  , clickJustFocuses    = False
+  , borderWidth         = myBorderWidth
+  , normalBorderColor   = myNormColor
+  , focusedBorderColor  = myFocusColor
+  , workspaces          = myWorkspaces
+  , modMask             = myModMask
+   } `additionalKeysP`         myKeys
+
+------------------------------------------------------------------------
+---Main Part
+------------------------------------------------------------------------
