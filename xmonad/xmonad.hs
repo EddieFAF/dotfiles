@@ -79,6 +79,7 @@ import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
 import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 import XMonad.Layout.Reflect (reflectVert, reflectHoriz, REFLECTX(..), REFLECTY(..))
+import XMonad.Layout.WindowNavigation
 
     -- Layouts
 import XMonad.Layout.Accordion
@@ -139,11 +140,11 @@ alert = "#FF5555"
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-          spawnOnce "trayer --edge top --align right --width 5 --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint 0x2E3440 --heighttype pixel --height 22 &"
+--          spawnOnce "lxsession &"
           spawnOnce "xrdb -merge /home/eddie/.Xresources"
           spawnOnce "nitrogen --restore &"
           spawnOnce "nm-applet &"
-          spawnOnce "volumeicon &"
+          spawnOnce "trayer --edge top --align right --width 5 --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint 0x282a36 --heighttype pixel --height 22 &"
 --          spawnOnce "/home/eddie/.config/polybar/launch_xmonad.sh"
 --          spawnOnce "compton -b -f --config /home/eddie/.config/compton.conf &"
           spawnOnce "picom -b --config /home/eddie/.config/picom.conf &"
@@ -244,8 +245,8 @@ myTabTheme = def { fontName            = myFont
                  , inactiveColor       = myNormColor
                  , activeBorderColor   = myFocusColor
                  , inactiveBorderColor = myNormColor
-                 , activeTextColor     = myFocusColor
-                 , inactiveTextColor   = myNormColor
+                 , activeTextColor     = "#FFFFFF"
+                 , inactiveTextColor   = "#000000"
                  }
 
 
@@ -345,10 +346,21 @@ myKeys =
         , ("M-C-<Up>", increaseLimit)                   -- Increase # of windows
         , ("M-C-<Down>", decreaseLimit)                 -- Decrease # of windows
 
+    --- Window Navigation
+        , ("M-<Up>", sendMessage $ Go U)             -- Move Up
+        , ("M-<Down>", sendMessage $ Go D)           -- Move Down
+        , ("M-<Left>", sendMessage $ Go L)           -- Move Left
+        , ("M-<Right>", sendMessage $ Go R)          -- Move Right
+
+        , ("M-S-<Up>", sendMessage $ Swap U)         -- Move Up
+        , ("M-S-<Down>", sendMessage $ Swap D)       -- Move Down
+        , ("M-S-<Left>", sendMessage $ Swap L)       -- Move Left
+        , ("M-S-<Right>", sendMessage $ Swap R)      -- Move Right
+
     --- Layouts
-        , ("M-<Space>", sendMessage NextLayout)                              -- Switch to next layout
---        , ("M-S-<Space>", setLayout $ XMonad.layoutHook conf)                -- Reset Layout
-        , ("M-b", sendMessage ToggleStruts)                                  -- Toggles struts
+        , ("M-<Space>", sendMessage NextLayout)             -- Switch to next layout
+--        , ("M-S-<Space>", sendMessage $ JumpToLayout "tall") -- Reset Layout
+        , ("M-b", sendMessage ToggleStruts)                 -- Toggles struts
         , ("M-<KP_Multiply>", sendMessage (IncMasterN 1))   -- Increase number of clients in the master pane
         , ("M-<KP_Divide>", sendMessage (IncMasterN (-1)))  -- Decrease number of clients in the master pane
         , ("M-S-<KP_Multiply>", increaseLimit)              -- Increase number of windows that can be shown
@@ -434,9 +446,9 @@ myManageHook = composeAll
     , className  =? "VirtualBox Manager" --> doFloat
     , title =? "Celluloid" --> doCenterFloat
     , title =? "Double Commander" --> doCenterFloat
-    , className =? "Brave-browser-beta"   --> doShift ( myWorkspaces !! 1 )
-    , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
-    , className =? "Firefox-esr"     --> doShift ( myWorkspaces !! 1 )
+    , className =? "Brave-browser-beta"   --> doShift ( myWorkspaces !! 0 )
+    , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 0 )
+    , className =? "Firefox-esr"     --> doShift ( myWorkspaces !! 0 )
     , isDialog --> doCenterFloat
     ] <+> namedScratchpadManageHook myScratchPads
 
@@ -456,6 +468,7 @@ mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 -- limitWindows n sets maximum number of windows displayed for layout.
 -- mySpacing n sets the gap size around the windows.
 tall     = renamed [Replace "tall"]
+           $ windowNavigation
            $ smartBorders
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
@@ -463,6 +476,7 @@ tall     = renamed [Replace "tall"]
            $ mySpacing 4
            $ ResizableTall 1 (3/100) (1/2) []
 magnify  = renamed [Replace "magnify"]
+           $ windowNavigation
            $ smartBorders
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
@@ -479,6 +493,7 @@ floats   = renamed [Replace "floats"]
            $ smartBorders
            $ limitWindows 20 simplestFloat
 grid     = renamed [Replace "grid"]
+           $ windowNavigation
            $ smartBorders
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
