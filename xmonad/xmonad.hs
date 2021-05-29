@@ -622,23 +622,3 @@ main = do
                         }
         } `additionalKeysP`         myKeys
 
------------------------------------------------------------------------------}}}
--- CONFIG                                                                    {{{
---------------------------------------------------------------------------------
-myConfig = def
-  { terminal            = myTerminal
-  , layoutHook          = myLayoutHook
-  , manageHook          = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageHook desktopConfig <+> manageDocks
-  , startupHook         = myStartupHook
-  , focusFollowsMouse   = False
-  , clickJustFocuses    = False
-  , borderWidth         = myBorderWidth
-  , normalBorderColor   = myNormColor
-  , focusedBorderColor  = myFocusColor
-  , workspaces          = myWorkspaces
-  , modMask             = myModMask
-   } `additionalKeysP`         myKeys
-
-------------------------------------------------------------------------
----Main Part
-------------------------------------------------------------------------

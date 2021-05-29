@@ -16,6 +16,7 @@ Config { font = "xft:FiraCode Nerd Font:regular:size=10:antialias=true:hinting=t
        , commands = [ Run Date "%a %_d.%b %k:%M:%S" "datezone" 10
                     , Run Com "/home/eddie/.xmonad/scripts/date" [] "Date2" 10
                     , Run Com "getMasterVolume" [] "volumelevel" 10
+                    , Run Volume "default" "Master" [] 10
                     , Run Weather "LEBL" ["-t","<tempC>°C <skyCondition>","-L","64","-H","77","-n","#CEFFAC","-h","#FFB6B0","-l","#96CBFE"] 36000
                     , Run Network "enp6s0" ["-t", "<fc=#50FA7B><fn=1></fn><rx></fc> <fc=#FF5555><fn=1></fn><tx></fc>", "-n","#EBCB8B","-S", "True"] 10
                     , Run Cpu ["-t", "<fc=#88C0D0><fn=1> </fn><total>%</fc>","-H","80","-n","#88C0D0","-h","#fb4934"] 10
@@ -42,5 +43,5 @@ Config { font = "xft:FiraCode Nerd Font:regular:size=10:antialias=true:hinting=t
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% }{ %enp6s0% <fc=#666666>|</fc> %apt% <fc=#666666>|</fc> %ETHC% <fc=#666666>|</fc> %disku% <fc=#666666>|</fc> <fc=#BD93F9>Vol: %volumelevel%</fc> <fc=#666666>|</fc> <fc=#8BE9FD>%Date2%</fc> "
+       , template = " %UnsafeStdinReader% }{ %enp6s0% <fc=#666666>|</fc> %apt% <fc=#666666>|</fc> %ETHC% <fc=#666666>|</fc> %disku% <fc=#666666>|</fc> <fc=#BD93F9>%default:Master%</fc> <fc=#666666>|</fc> <fc=#8BE9FD>%Date2%</fc> "
        }
