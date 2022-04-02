@@ -1,0 +1,64 @@
+##			Builtin Variables
+
+set shell zsh
+set shellopts '-eu:--shwordsplit'	# https://github.com/gokcehan/lf/wiki/Tips#split-words-by-default-in-zsh
+set ifs "\n"
+set filesep "\n"  # default already
+set scrolloff 4
+set drawbox
+set hidden true
+set preview true
+set icons
+set period 1
+set findlen 2
+set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml:lost+found"
+set incsearch
+set promptfmt "\033[33;1m%u\033[0m\033[32;1m@\033[0m\033[34;1m%h\033[0m:\033[35;1m%d\033[0m\033[36;1m%f\033[0m"
+set mouse
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
+
+# adjust coloumn width to terminal
+%{{
+	w=$COLUMNS
+	if [ $w -le 80 ]; then
+		lf -remote "send $id set ratios 1:1"
+	elif [ $w -le 160 ]; then
+		lf -remote "send $id set ratios 1:2"
+	else
+		lf -remote "send $id set ratios 1:2:3"
+	fi
+}}
+
+# set terminal title to current working directory
+cmd on-cd &{{
+	printf "\033]0; $PWD\007" > /dev/tty
+}}
+
+cmd open ${{
+    case $(file --mime-type "$(readlink -f $f)" -b) in
+        text/*|application/json|application/octet-stream) $EDITOR $fx;;
+        *) for f in $fx; do open $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd fzf_jump ${{
+	res="$(find . -maxdepth 3 | fzf --header='Jump to:')"
+	if [ -f "$res" ]; then
+		cmd="select"
+	elif [ -d "$res" ]; then
+		cmd="cd"
+	fi
+lf -remote "send $id $cmd \"$res\""
+}}
+
+map ~ cd ~
+map <c-r> reload
+map . set hidden!
+map D delete
+map f :fzf_jump
+
+# give a name and then make a directory
+map <f-7> push :mkdir<space>

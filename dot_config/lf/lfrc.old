@@ -1,0 +1,125 @@
+# Basic Settings
+set previewer ~/.config/lf/previewer.sh
+set cleaner ~/.config/lf/clear_img.sh
+set preview true
+set hidden true
+set drawbox true
+set icons true
+set ignorecase true
+set promptfmt "\033[33;1m%u\033[0m\033[32;1m@\033[0m\033[34;1m%h\033[0m:\033[35;1m%d\033[0m\033[36;1m%f\033[0m"
+
+# set terminal title to current working directory
+cmd on-cd &{{
+	printf "\033]0; $PWD\007" > /dev/tty
+}}
+
+# Custom Functions
+
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+
+cmd mkfile ${{
+  printf "File Name: "
+  read ans
+  $EDITOR $ans
+}}
+
+cmd chmod ${{
+  printf "Mode Bits: "
+  read ans
+
+  for file in "$fx"
+  do
+    chmod $ans $file
+  done
+
+  lf -remote 'send reload'
+}}
+
+cmd sudomkfile ${{
+  printf "File Name: "
+  read ans
+  sudo $EDITOR $ans
+}}
+
+cmd fzf_jump ${{
+  res="$(find . -maxdepth 3 | fzf --header='Jump to:')"
+  if [ -f "$res" ]; then
+    cmd="select"
+  elif [ -d "$res" ]; then
+    cmd="cd"
+  fi
+  lf -remote "send $id $cmd \"$res\""
+}}
+
+# Archive bindings
+cmd unarchive ${{
+  case "$f" in
+      *.zip) unzip "$f" ;;
+      *.tar.gz) tar -xzvf "$f" ;;
+      *.tar.bz2) tar -xjvf "$f" ;;
+      *.tar) tar -xvf "$f" ;;
+      *) echo "Unsupported format" ;;
+  esac
+}}
+
+# Populate z's frecency list while moving around, just like in the shell
+cmd on-cd &z-external --add "$PWD"
+
+# Jump around with ctrl-Z
+cmd Z ${{
+    res=`z-history | fzf --tac --reverse --prompt "z> "`
+    if [ "$res" ]; then
+        lf -remote "send $id cd \"$res\""
+    fi
+}}
+map <c-z> Z
+
+cmd zip %zip -r "$f" "$f"
+cmd tar %tar cvf "$f.tar" "$f"
+cmd targz %tar cvzf "$f.tar.gz" "$f"
+cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
+
+# Bindings
+
+# File Openers
+map ee $$EDITOR "$f"
+map u $view "$f"
+
+# Archive Mappings
+map az zip
+map at tar
+map ag targz
+map ab targz
+map au unarchive
+
+# Broot Mapping
+map f fzf_jump
+
+map ~ cd ~
+map <c-r> reload
+
+# Basic Functions
+map . set hidden!
+map DD delete
+map p paste
+map d cut
+map y copy
+map <enter> open
+map mf mkfile
+map mr sudomkfile
+map md mkdir
+map ms $mkscript
+map ch chmod
+map br $vimv $fx
+map r rename
+map H top
+map L bottom
+map R reload
+map C clear
+map U unselect
+
+map \;j cd ~
