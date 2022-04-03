@@ -49,7 +49,7 @@ mpd_music_dir = /mnt/nasgard/Medien/Music/Musik
 ## }
 ##
 #
-visualizer_fifo_path = /tmp/mpd.fifo
+visualizer_data_source = /tmp/mpd.fifo
 #
 ##
 ## Note: Below parameter is needed for ncmpcpp to determine which output
@@ -109,7 +109,7 @@ visualizer_in_stereo = yes
 ## Time of inactivity (in seconds) after playlist highlighting will be disabled
 ## (0 = always on).
 ##
-#playlist_disable_highlight_delay = 5
+playlist_disable_highlight_delay = 3
 #
 ## Defines how long messages are supposed to be visible.
 ##
@@ -182,8 +182,10 @@ visualizer_in_stereo = yes
 ## Note: colors can be nested.
 ##
 #
-song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
+song_list_format = {$6%a$9 - }{$4%t$9}|{$5%f$9}$R{$7(%l)$9}
+#song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 #
+song_status_format = "{$6%a$9 $7•$9 $b$7%t$/b$9 $7•$9 $4%b$9 {$7•$9 $5(%y)$9}}|{$4%f$9}"
 #song_status_format = {{%a{ "%b"{ (%y)}} - }{%t}}|{%f}
 #
 #song_library_format = {%n - }{%t}|{%f}
@@ -192,7 +194,7 @@ song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 #
 #alternative_header_second_line_format = {{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}
 #
-#current_item_prefix = $(yellow)$r
+#current_item_prefix = $(blue)$r
 #
 #current_item_suffix = $/r$(end)
 #
@@ -200,22 +202,22 @@ song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 #
 #current_item_inactive_column_suffix = $/r$(end)
 #
-#now_playing_prefix = $b
+now_playing_prefix = "$8$b ➤ $9"
 #
-#now_playing_suffix = $/b
+now_playing_suffix = "$/b"
 #
 #browser_playlist_prefix = "$2playlist$9 "
 #
-#selected_item_prefix = $6
+selected_item_prefix = $2
 #
-#selected_item_suffix = $9
+selected_item_suffix = $9
 #
 #modified_item_prefix = $3> $9
 #
 ##
 ## Note: attributes are not supported for the following variables.
 ##
-#song_window_title_format = {%a - }{%t}|{%f}
+song_window_title_format = {%a - }{%t}|{%f}
 ##
 ## Note: Below variables are used for sorting songs in browser.  The sort mode
 ## determines how songs are sorted, and can be used in combination with a sort
@@ -263,6 +265,7 @@ song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 ##
 #
 #song_columns_list_format = (20)[]{a} (6f)[green]{NE} (50)[white]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{l}
+song_columns_list_format = "(3f)[239]{n} (37)[246]{t|f} (28)[blue]{a} (30)[green]{b} (5f)[240]{l}"
 #
 ##### various settings #####
 #
@@ -270,7 +273,7 @@ song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-#execute_on_song_change = ""
+execute_on_song_change = notify-send -i ~/.local/share/icons/devices/audio-speakers.png "Spiele jetzt" "$(mpc current)"
 #
 ##
 ## Note: Custom command that will be executed each time player state
@@ -286,12 +289,12 @@ song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 #
 #playlist_shorten_total_times = no
 #
-#playlist_separate_albums = no
+playlist_separate_albums = yes
 #
 ##
 ## Note: Possible display modes: classic, columns.
 ##
-#playlist_display_mode = columns
+playlist_display_mode = columns
 #
 #browser_display_mode = classic
 #
@@ -318,6 +321,7 @@ song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 ## part of progressbar.
 ##
 #progressbar_look = =>
+progressbar_look = "─╼·"
 #
 ## Available values: database, playlist.
 ##
@@ -325,7 +329,8 @@ song_list_format = {%a - }{%t}|{$8%f$9}$R{$3(%l)$9}
 #
 ## Available values: classic, alternative.
 ##
-user_interface = alternative
+user_interface = classic
+#alternative
 #
 #data_fetching_delay = yes
 #
@@ -442,7 +447,7 @@ ignore_leading_the = yes
 #
 #block_search_constraints_change_if_items_found = yes
 #
-#mouse_support = yes
+mouse_support = yes
 #
 #mouse_list_scroll_whole_page = yes
 #
@@ -454,7 +459,7 @@ ignore_leading_the = yes
 #
 #media_library_sort_by_mtime = no
 #
-#enable_window_title = yes
+enable_window_title = yes
 #
 ##
 ## Note: You can choose default search mode for search engine. Available modes
