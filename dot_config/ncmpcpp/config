@@ -264,8 +264,8 @@ song_window_title_format = {%a - }{%t}|{%f}
 ##   available.
 ##
 #
-#song_columns_list_format = (20)[]{a} (6f)[green]{NE} (50)[white]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{l}
-song_columns_list_format = "(3f)[239]{n} (37)[246]{t|f} (28)[blue]{a} (30)[green]{b} (5f)[240]{l}"
+song_columns_list_format = "(20)[magenta]{a} (3f)[green]{d}(3f)[green]{n:#} (50)[cyan]{t|f:Title} (20)[yellow]{b} (7f)[blue]{l}"
+#song_columns_list_format = "(3f)[green]{n} (37)[white]{t|f} (28)[white]{a} (30)[cyan]{b} (5f)[magenta]{l}"
 #
 ##### various settings #####
 #
@@ -296,7 +296,7 @@ playlist_separate_albums = yes
 ##
 playlist_display_mode = columns
 #
-#browser_display_mode = classic
+browser_display_mode = columns
 #
 #search_engine_display_mode = classic
 #
@@ -321,8 +321,9 @@ playlist_display_mode = columns
 ## part of progressbar.
 ##
 #progressbar_look = =>
-progressbar_look = "─╼·"
-#
+#progressbar_look = "─╼·"
+progressbar_look = "▃▃▃"
+
 ## Available values: database, playlist.
 ##
 #default_place_to_search_in = database
@@ -513,7 +514,7 @@ enable_window_title = yes
 ## are used there is a possibility that you'll be able to use only colors with
 ## transparent background.
 #
-#colors_enabled = yes
+colors_enabled = yes
 #
 #empty_tag_color = cyan
 #
@@ -531,9 +532,11 @@ enable_window_title = yes
 #
 #color2 = green
 #
-#progressbar_color = black:b
+progressbar_color = black:b
+#progressbar_color ="black"
 #
 #progressbar_elapsed_color = green:b
+progressbar_elapsed_color = 7
 #
 #statusbar_color = default
 #
