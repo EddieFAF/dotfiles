@@ -66,14 +66,14 @@
     "} Visual
 
 "## Themes: {
-"        Plugin 'morhetz/gruvbox' " The most amazing colorscheme.
+        Plugin 'morhetz/gruvbox' " The most amazing colorscheme.
         Plugin 'dracula/vim', { 'name': 'dracula' }
 "        Plugin 'joshdick/onedark.vim' " OneDark Theme
 "        Plugin 'chriskempson/base16-vim' " base16 Theme
 "        Bundle 'daviesjamie/vim-base16-lightline'
-        Plugin 'pacokwon/onedarkhc.vim'
-        Plugin 'romgrk/doom-one.vim'
-        Plugin 'ghifarit53/tokyonight-vim'
+"        Plugin 'pacokwon/onedarkhc.vim'
+"        Plugin 'romgrk/doom-one.vim'
+"        Plugin 'ghifarit53/tokyonight-vim'
     "} Themes
 
 "## Language: {
@@ -193,7 +193,7 @@
     let g:tokyonight_transparent_background = 1
     let g:tokyonight_enable_italics = 1
 
-    colorscheme tokyonight
+    colorscheme gruvbox
 
 
 "### LightLine Components: {
@@ -257,7 +257,7 @@
 
         " A LightLine Theme
         let g:lightline = {
-        \ 'colorscheme': 'tokyonight',
+        \ 'colorscheme': 'gruvbox',
         \ 'active': {
         \  'left': [[ 'mode' ], [ 'paste' ], [ 'fugitive' ], [ 'gitstatus' ], [ 'filename', 'modified', 'readonly' ]],
         \  'right': [[ 'linenums' ], [ 'fileencoding', 'fileformat' ], [ 'filetype']]

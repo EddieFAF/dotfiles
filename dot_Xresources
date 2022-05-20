@@ -1,62 +1,51 @@
 !! Transparency (0-1):
 *.alpha: 0.9
 
+#define base00 #282828
+#define base01 #CC241D
+#define base02 #98971A
+#define base03 #D79921
+#define base04 #458588
+#define base05 #B16286
+#define base06 #689D6a
+#define base07 #A89984
+
+#define base08 #928374
+#define base09 #FB4934
+#define base10 #B8BB26
+#define base11 #FABD2F
+#define base12 #83A598
+#define base13 #D3869B
+#define base14 #8EC07C
+#define base15 #EBDBB2
+
+#define base16 #FFFFFF
+#define base17 #FF00FF
+#define base18 #00FF00
+
 ! special
-URxvt.background: #1a1b26
-URxvt.foreground: #c0caf5
+URxvt.background: #1D2021
+URxvt.foreground: base15
 
-URxvt.color0: #15161E
-URxvt.color1: #f7768e
-URxvt.color2: #9ece6a
-URxvt.color3: #e0af68
-URxvt.color4: #7aa2f7
-URxvt.color5: #bb9af7
-URxvt.color6: #7dcfff
-URxvt.color7: #a9b1d6
+URxvt.color0: base00
+URxvt.color1: base01
+URxvt.color2: base02
+URxvt.color3: base03
+URxvt.color4: base04
+URxvt.color5: base05
+URxvt.color6: base06
+URxvt.color7: base07
 
-URxvt.color8: #414868
-URxvt.color9: #f7768e
-URxvt.color10: #9ece6a
-URxvt.color11: #e0af68
-URxvt.color12: #7aa2f7
-URxvt.color13: #bb9af7
-URxvt.color14: #7dcfff
-URxvt.color15: #c0caf5
-!URxvt.foreground: #DADAE8
-!URxvt.background: #1E1E29
+URxvt.color8: base08
+URxvt.color9: base09
+URxvt.color10: base10
+URxvt.color11: base11
+URxvt.color12: base12
+URxvt.color13: base13
+URxvt.color14: base14
+URxvt.color15: base15
 !URxvt.cursorColor: #B1E3AD
 
-! black
-!URxvt.color0: #6E6C7E
-!URxvt.color8: #6E6C7E
-
-! red
-!URxvt.color1: #E38C8F
-!URxvt.color9: #E38C8F
-
-! green
-!URxvt.color2: #B1E3AD
-!URxvt.color10: #B1E3AD
-
-! yellow
-!URxvt.color3: #EBDDAA
-!URxvt.color11: #EBDDAA
-
-! blue
-!URxvt.color4: #A4B9EF
-!URxvt.color12: #A4B9EF
-
-! magenta
-!URxvt.color5: #C6AAE8
-!URxvt.color13: #C6AAE8
-
-! cyan
-!URxvt.color6: #E5B4E2
-!URxvt.color14: #E5B4E2
-
-! white
-!URxvt.color7: #DADAE8
-!URxvt.color15: #DADAE8
 
 !! URxvt Appearance
 URxvt.font: xft:JetBrainsMono Nerd Font:weight=regular:size=11:antialias=true:hinting=true
@@ -64,8 +53,8 @@ URxvt.font.gtk: xft:JetBrainsMono Nerd Font:regular:size=11
 URxvt.font.big: xft:JetBrainsMono Nerd Font:regular:size=13
 URxvt.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
 URxvt.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
-!URxvt.letterSpace: 0
-!URxvt.lineSpace: 0
+URxvt.letterSpace: 1
+URxvt.lineSpace: 0
 URxvt.geometry: 133x45
 URxvt.internalBorder: 0
 URxvt.cursorBlink: true
@@ -119,10 +108,6 @@ URxvt.keysym.Control-Shift-V: perl:clipboard:paste
 
 
 
-!!! get your color schemes from here
-!!! https://terminal.sexy/
-!!! copy/paste colorcodes in
-!!! begin
 
 xmonad.font: xft:JetBrainsMono Nerd Font:weight=regular:pixelsize=13:antialias=true:hinting=true
 xmonad.font.gtk: xft:JetBrainsMono Nerd Font:regular:size=11
@@ -130,123 +115,126 @@ xmonad.font.big: xft:JetBrainsMono Nerd Font:regular:size=13
 xmonad.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
 xmonad.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
 
-! TokyoNight colors for Xresources
-
-dmenu.background: #1a1b26
-dmenu.foreground: #c0caf5
-dmenu.selbackground: #9ece6a
-dmenu.selforeground: #15161E
-
-*.background: #1a1b26
-*.foreground: #c0caf5
-
-*.color0: #15161E
-*.color1: #f7768e
-*.color2: #9ece6a
-*.color3: #e0af68
-*.color4: #7aa2f7
-*.color5: #bb9af7
-*.color6: #7dcfff
-*.color7: #a9b1d6
-
-*.color8: #414868
-*.color9: #f7768e
-*.color10: #9ece6a
-*.color11: #e0af68
-*.color12: #7aa2f7
-*.color13: #bb9af7
-*.color14: #7dcfff
-*.color15: #c0caf5
-
-!OneDark
-! special
-!*.foreground:   #ABB2BF
-!*.background:   #282C34
-!*.cursorColor:  #ABB2BF
-
-!*selbgcolor: #A9D48A
-!*selfgcolor: #282C34
-!*selbordercolor: #98C379
-!*normbgcolor: #282C34
-
-!*.tagsselbgcolor: #61AFEF
-!*.tagsselfgcolor: #282C34
-!*.titlenormbgcolor: #282C34
-!*.tagsnormbgcolor: #282C34
-!*.titleselfgcolor: #A9D48A
-!*.titleselbgcolor: #282C34
-
-! black
-!*.color0:       #282C34
-!*.color8:       #5C6370
-
-! red
-!*.color1:       #E06C75
-!*.color9:       #F17D86
-
-! green
-!*.color2:       #98C379
-!*.color10:      #A9D48A
-
-! yellow
-!*.color3:       #D19A66
-!*.color11:      #F6D18C
-
-! blue
-!*.color4:       #61AFEF
-!*.color12:      #72C0FF
-
-! magenta
-!*.color5:       #C678DD
-!*.color13:      #D789EE
-
-! cyan
-!*.color6:       #56B6C2
-!*.color14:      #67C7D3
-
-! white
-!*.color7:       #ABB2BF
-!*.color15:      #FFFFFF
+! GruvBox Hard for Xresources
 
 
-!!! end
-!!! get your color schemes from here
-!!! https://terminal.sexy/
-!!! copy/paste colorcodes in
+*.background: #1D2021
+*.foreground: #EBDBB2
+
+*.color0: base00
+*.color1: base01
+*.color2: base02
+*.color3: base03
+*.color4: base04
+*.color5: base05
+*.color6: base06
+*.color7: base07
+
+*.color8: base08
+*.color9: base09
+*.color10: base10
+*.color11: base11
+*.color12: base12
+*.color13: base13
+*.color14: base14
+*.color15: base15
+*.color16: base16
+*.color17: base17
+*.color18: base18
+
+dmenu.background: base00
+dmenu.foreground: base15
+dmenu.selbackground: base02
+dmenu.selforeground: base00
+
+dwm.selbgcolor: base02
+dwm.selfgcolor: base00
+dwm.selbordercolor: base02
+
+dwm.normfgcolor: base02
+dwm.normbgcolor: base00
+dwm.normbordercolor: base00
+
+dwm.tagsselfgcolor: base15
+dwm.tagsselbgcolor: base00
+
+dwm.tagsnormfgcolor: base02
+dwm.tagsnormbgcolor: base00
+
+dwm.titlenormfgcolor: base15
+dwm.titlenormbgcolor: base00
+
+dwm.titleselfgcolor: base02
+dwm.titleselbgcolor: base00
+
+
 
 
 ! ------------------------------------------------------------------------------
 ! xterm standard arcolinux theme
 ! ------------------------------------------------------------------------------
 
-xterm*faceName: Monospace
+xterm*faceName: xft:JetBrainsMono Nerd Font
 xterm*faceSize: 11
 xterm*loginShell: true
 xterm*vt100*geometry: 100x30
 xterm*saveLines: 50000
 xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-xterm*termName: xterm-color
+xterm*termName: xterm-256color
 xterm*eightBitInput: false
-xterm*foreground: rgb:f9/f9/f9
-xterm*background: rgb:22/22/22
-xterm*color0: rgb:3f/3f/3f
-xterm*color1: rgb:cc/00/00
-xterm*color2: rgb:4e/9a/06
-xterm*color3: rgb:c4/a0/00
-xterm*color4: rgb:34/65/a4
-xterm*color5: rgb:ad/6a/b8
-xterm*color6: rgb:06/98/9a
-xterm*color7: rgb:dc/dc/cc
-xterm*color8: rgb:54/54/54
-xterm*color9: rgb:fc/54/54
-xterm*color10: rgb:8a/e2/34
-xterm*color11: rgb:fc/e9/4f
-xterm*color12: rgb:94/bf/f3
-xterm*color13: rgb:dc/95/e8
-xterm*color14: rgb:93/e0/e3
-xterm*color15: rgb:ff/ff/ff
+xterm*foreground: base15
+xterm*background: #1D2021
+xterm*color0: base00
+xterm*color1: base01
+xterm*color2: base02
+xterm*color3: base03
+xterm*color4: base04
+xterm*color5: base05
+xterm*color6: base06
+xterm*color7: base07
+xterm*color8: base08
+xterm*color9: base09
+xterm*color10: base10
+xterm*color11: base11
+xterm*color12: base12
+xterm*color13: base13
+xterm*color14: base14
+xterm*color15: base15
+!xterm*color0: rgb:3f/3f/3f
+!xterm*color1: rgb:cc/00/00
+!xterm*color2: rgb:4e/9a/06
+!xterm*color3: rgb:c4/a0/00
+!xterm*color4: rgb:34/65/a4
+!xterm*color5: rgb:ad/6a/b8
+!xterm*color6: rgb:06/98/9a
+!xterm*color7: rgb:dc/dc/cc
+!xterm*color8: rgb:54/54/54
+!xterm*color9: rgb:fc/54/54
+!xterm*color10: rgb:8a/e2/34
+!xterm*color11: rgb:fc/e9/4f
+!xterm*color12: rgb:94/bf/f3
+!xterm*color13: rgb:dc/95/e8
+!xterm*color14: rgb:93/e0/e3
+!xterm*color15: rgb:ff/ff/ff
 xterm*boldMode: false
 xterm*colorBDMode: true
 xterm*colorBD: rgb:ff/ff/ff
+
+xft.dpi: 96
+xft.antialias: true
+xft.hinting: true
+xft.rgba: rgb
+xft.autohint: true
+xft.hintstyle: hintfull
+xft.lcdfilter: lcdfilter
+
+xTerm*renderFont: true
+xTerm*utf8: 2
+xTerm*locale: true
+
+XTerm.vt100.translations: #override \n\
+  Ctrl <Key> j: smaller-vt-font() \n\
+  Ctrl <Key> k: larger-vt-font()
+
 
 

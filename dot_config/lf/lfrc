@@ -58,6 +58,7 @@ map ~ cd ~
 map <c-r> reload
 map . set hidden!
 map D delete
+map <f-8> delete
 map f :fzf_jump
 
 # give a name and then make a directory
