@@ -1,30 +1,114 @@
+Xft.dpi: 96
+*.antialias: true
+*.hinting: true
+!st.font: xft:Hack Nerd Font Mono:size=11:regular
+
 !! Transparency (0-1):
-*.alpha: 0.9
+*.alpha: 1.0
 
-#define base00 #282828
-#define base01 #CC241D
-#define base02 #98971A
-#define base03 #D79921
-#define base04 #458588
-#define base05 #B16286
-#define base06 #689D6a
-#define base07 #A89984
 
-#define base08 #928374
-#define base09 #FB4934
-#define base10 #B8BB26
-#define base11 #FABD2F
-#define base12 #83A598
-#define base13 #D3869B
-#define base14 #8EC07C
-#define base15 #EBDBB2
+! Dracula Xresources palette
+*.foreground: #F8F8F2
+*.background: #282A36
+#define base00 #000000
+#define base01 #FF5555
+#define base02 #50FA7B
+#define base03 #F1FA8C
+#define base04 #BD93F9
+#define base05 #FF79C6
+#define base06 #8BE9FD
+#define base07 #BFBFBF
 
-#define base16 #FFFFFF
-#define base17 #FF00FF
-#define base18 #00FF00
+#define base08 #4D4D4D
+#define base09 #FF6E67
+#define base10 #5AF78E
+#define base11 #F4F99D
+#define base12 #CAA9FA
+#define base13 #FF92D0
+#define base14 #9AEDFE
+#define base15 #E6E6E6
+
+!Gruvbox
+!#define base00 #282828
+!#define base01 #CC241D
+!#define base02 #98971A
+!#define base03 #D79921
+!#define base04 #458588
+!#define base05 #B16286
+!#define base06 #689D6a
+!#define base07 #A89984
+
+!#define base08 #928374
+!#define base09 #FB4934
+!#define base10 #B8BB26
+!#define base11 #FABD2F
+!#define base12 #83A598
+!#define base13 #D3869B
+!#define base14 #8EC07C
+!#define base15 #EBDBB2
+
+!#define base16 #FFFFFF
+!#define base17 #FF00FF
+!#define base18 #00FF00
+
+!#define bg1 #3C3826
+!#define bg2 #504945
+!#define bg3 #665C54
+!#define bg4 #7C6F64
+
+!DoomOne:
+!*.background: #282c34
+!*.foreground: #bbc2cf
+!*.cursorColor: #528bff
+!*.highlightColor: #3e4451
+!#define base00 #1c1f24
+!#define base01 #ff6c6b
+!#define base02 #98be65
+!#define base03 #da8548
+!#define base04 #51afef
+!#define base05 #c678dd
+!#define base06 #5699af
+!#define base07 #abb2bf
+!#define base08 #5b6268
+!#define base09 #da8548
+!#define base10 #4db5bd
+!#define base11 #ecbe7b
+!#define base12 #3071db
+! This is 2257a0 in Doom Emacs but I lightened it.
+!#define base13 #a9a1e1
+!#define base14 #46d9ff
+!#define base15 #dfdfdf
+
+!OneDark
+!*.foreground:    #ABB2BF
+!*.background:    #1E2127
+!*.cursorColor:   #5C6370
+!*.highlightColor:#3A3F4B
+
+!#define base00 #1E2127
+!#define base01 #BE5046
+!#define base02 #98C379
+!#define base03 #D19A66
+!#define base04 #61AFEF
+!#define base05 #8A3FA0
+!#define base06 #2B6F77
+!#define base07 #ABB2BF
+!#define base08 #5C6370
+!#define base09 #E06C75
+!#define base10 #BAE59B
+!#define base11 #E5C07B
+!#define base12 #83CFFF
+!#define base13 #C678DD
+!#define base14 #56B6C2
+!#define base15 #FFFFFF
+
+#define bg1 #282C34
+#define bg2 #31353F
+#define bg3 #393F4A
+#define bg4 #3B3F4C
 
 ! special
-URxvt.background: #1D2021
+URxvt.background: #1E2127
 URxvt.foreground: base15
 
 URxvt.color0: base00
@@ -44,67 +128,95 @@ URxvt.color12: base12
 URxvt.color13: base13
 URxvt.color14: base14
 URxvt.color15: base15
-!URxvt.cursorColor: #B1E3AD
+!URxvt.cursorColor: #5C6370
+
+
+URxvt*imLocale: de_DE.UTF-8
+URxvt*buffered: false
+URxvt.intensityStyles: false
+URxvt.cursorColor: white
+
+!! Extensions
+URxvt.perl-ext-common: default,matcher,resize-font,url-select,keyboard-select,clipboard
+URxvt.colorUL: #4682B4
+!! url-select
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: urxvt -e lynx -cfg=~/.lynx.cfg -lss=~/.lynx.lss
+URxvt.url-select.underline: true
+!! keyboard-select:
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+!! resize-font
+!!URxvt.keysym.C-k:   resize-font:bigger
+!!URxvt.keysym.C-j:   resize-font:smaller
+URxvt.keysym.C-S-Prior: resize-font:bigger
+URxvt.keysym.C-S-Next:  resize-font:smaller
+URxvt.keysym.C-S-Home:  resize-font:reset
+
+!! Matcher
+URxvt.url-launcher:	urxvt -e lynx -cfg=~/.lynx.cfg -lss=~/.lynx.lss
+URxvt.matcher.button: 1
+!!clipboard
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
 
 
 !! URxvt Appearance
-URxvt.font: xft:JetBrainsMono Nerd Font:weight=regular:size=11:antialias=true:hinting=true
-URxvt.font.gtk: xft:JetBrainsMono Nerd Font:regular:size=11
-URxvt.font.big: xft:JetBrainsMono Nerd Font:regular:size=13
-URxvt.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
-URxvt.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
-URxvt.letterSpace: 1
+URxvt*font: xft:JetBrainsMono Nerd Font:pixelsize=14:minspace=False
+!URxvt.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
+!URxvt.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
+URxvt*letterSpace: 0
+URxvt.letterSpace: 0
 URxvt.lineSpace: 0
 URxvt.geometry: 133x45
-URxvt.internalBorder: 0
+URxvt.internalBorder: 10
 URxvt.cursorBlink: true
 URxvt.cursorUnderline: false
 URxvt.saveline: 2048
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.urgentOnBell: true
-URxvt.depth: 24
+URxvt.depth: 32
 URxvt.iso14755: false
 URxvt.iso14755_52: false
-URxvt.termName: xterm-256color
+!URxvt.termName: rxvt-unicode-256color
 
 ! perl extensions
 ! You can install extra perl extensions you should add them here
-URxvt.perl-ext-common:  default,clipboard,url-select,keyboard-select,fullscreen,resize-font
+!URxvt.perl-ext-common:  default,clipboard,url-select,keyboard-select,fullscreen,resize-font
 !URxvt.perl-ext-common:  default,clipboard,url-select,keyboard-select,tabbed
 
 ! macros for resize-font - sudo pacman -S urxvt-resize-font-git
-URxvt.resize-font.step:   1
-URxvt.keysym.C-S-l:       resize-font:smaller
-URxvt.keysym.C-S-k:       resize-font:bigger
-URxvt.keysym.C-S-Home:    resize-font:reset
-URxvt.keysym.C-question:  resize-font:show
-URxvt.keysym.C-Down:      resize-font:smaller
-URxvt.keysym.C-Up:        resize-font:bigger
+!URxvt.resize-font.step:   1
+!URxvt.keysym.C-S-l:       resize-font:smaller
+!URxvt.keysym.C-S-k:       resize-font:bigger
+!URxvt.keysym.C-S-Home:    resize-font:reset
+!URxvt.keysym.C-question:  resize-font:show
+!URxvt.keysym.C-Down:      resize-font:smaller
+!URxvt.keysym.C-Up:        resize-font:bigger
 
 ! macros for clipboard and selection
-URxvt.copyCommand:      xclip -i -selection clipboard
-URxvt.pasteCommand:     xclip -o -selection clipboard
-URxvt.keysym.Shift-Control-C:       perl:clipboard:copy
-URxvt.keysym.Shift-Control-V:       perl:clipboard:paste
-URxvt.keysym.M-C-v:     perl:clipboard:paste_escaped
-URxvt.keysym.M-Escape:  perl:keyboard-select:activate
-URxvt.keysym.M-s:       perl:keyboard-select:search
-URxvt.keysym.M-u:       perl:url-select:select_next
+!URxvt.copyCommand:      xclip -i -selection clipboard
+!URxvt.pasteCommand:     xclip -o -selection clipboard
+!URxvt.keysym.Shift-Control-C:       perl:clipboard:copy
+!URxvt.keysym.Shift-Control-V:       perl:clipboard:paste
+!URxvt.keysym.M-C-v:     perl:clipboard:paste_escaped
+!URxvt.keysym.M-Escape:  perl:keyboard-select:activate
+!URxvt.keysym.M-s:       perl:keyboard-select:search
+!URxvt.keysym.M-u:       perl:url-select:select_next
 
 ! fullscreen - sudo pacman -S urxvt-fullscreen
-urxvt.keysym.F11:       perl:fullscreen:switch
+!urxvt.keysym.F11:       perl:fullscreen:switch
 
 ! tabbed
-URxvt.tabbed.tabbar-fg: 4
-URxvt.tabbed.tabbar-bg: 16
-URxvt.tabbed.tab-fg:    15
-URxvt.tabbed.tab-bg:    4
-URxvt.buffered:         false
+!URxvt.tabbed.tabbar-fg: 4
+!URxvt.tabbed.tabbar-bg: 16
+!URxvt.tabbed.tab-fg:    15
+!URxvt.tabbed.tab-bg:    4
+!URxvt.buffered:         false
 
 ! clipboard
-URxvt.keysym.Control-Shift-C: perl:clipboard:copy
-URxvt.keysym.Control-Shift-V: perl:clipboard:paste
+!URxvt.keysym.Control-Shift-C: perl:clipboard:copy
+!URxvt.keysym.Control-Shift-V: perl:clipboard:paste
 
 
 
@@ -115,11 +227,9 @@ xmonad.font.big: xft:JetBrainsMono Nerd Font:regular:size=13
 xmonad.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
 xmonad.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
 
-! GruvBox Hard for Xresources
 
-
-*.background: #1D2021
-*.foreground: #EBDBB2
+!*.background: #1E2127
+!*.foreground: #ABB2BF
 
 *.color0: base00
 *.color1: base01
@@ -142,31 +252,34 @@ xmonad.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
 *.color17: base17
 *.color18: base18
 
-dmenu.background: base00
-dmenu.foreground: base15
-dmenu.selbackground: base02
-dmenu.selforeground: base00
+!dmenu.background: base00
+!dmenu.foreground: base15
+!dmenu.selbackground: base04
+!dmenu.selforeground: base00
+dmenu.selhlforeground: base00
+dmenu.selhlbackground: base12
 
-dwm.selbgcolor: base02
+dwm.selbgcolor: base04
 dwm.selfgcolor: base00
 dwm.selbordercolor: base02
 
-dwm.normfgcolor: base02
+dwm.normfgcolor: base15
 dwm.normbgcolor: base00
 dwm.normbordercolor: base00
 
-dwm.tagsselfgcolor: base15
-dwm.tagsselbgcolor: base00
+dwm.tagsselfgcolor: base00
+dwm.tagsselbgcolor: base04
 
-dwm.tagsnormfgcolor: base02
+dwm.tagsnormfgcolor: base15
 dwm.tagsnormbgcolor: base00
 
 dwm.titlenormfgcolor: base15
 dwm.titlenormbgcolor: base00
 
 dwm.titleselfgcolor: base02
-dwm.titleselbgcolor: base00
+dwm.titleselbgcolor: bg2
 
+dwm.font: xft:JetBrainsMono Nerd Font:weight=regular:pixelsize=13:antialias=true:hinting=true
 
 
 
