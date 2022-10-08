@@ -17,10 +17,12 @@ run pamac-tray
 run xfce4-power-manager
 run blueberry-tray
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+run dunst &
 run numlockx on
 run volumeicon
+run picom --config ~/.config/arco-dwm/picom.conf
 #run nitrogen --restore
-run conky -c $HOME/.config/awesome/system-overview
+#run conky -c $HOME/.config/awesome/system-overview
 #you can set wallpapers in themes as well
 #feh --bg-fill /usr/share/backgrounds/arcolinux/arco-wallpaper.jpg &
 #run applications from startup
@@ -28,6 +30,8 @@ run conky -c $HOME/.config/awesome/system-overview
 #run atom
 run dropbox
 run mpd
+#run wallpaper
+run nextcloud
 #run insync start
 #run spotify
 #run ckb-next -b

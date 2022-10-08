@@ -170,6 +170,19 @@ zstyle ':completion:*:history-words'   menu yes
 zstyle ':completion:*:history-words'   remove-all-dups yes
 zstyle ':completion:*:history-words'   stop yes
 
+### Taskwarrior
+#zstyle ':completion:*:*:task:*' verbose yes
+#zstyle ':completion:*:*:task:*:descriptions' format '%U%B%d%b%u'
+
+#zstyle ':completion:*:*:task:*' group-name ''
+
+# Make zsh know about hosts already accessed by SSH
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+
+#alias tw=task
+#alias tt=taskwarrior-tui
+#compdef _task tw=task
+
 # Load menu-style completion.
 zmodload -i zsh/complist
 bindkey -M menuselect '^M' accept
@@ -181,8 +194,8 @@ bindkey -M menuselect '^M' accept
 zinit light bobsoppe/zsh-ssh-agent
 
 # FZF
-zinit ice lucid wait'0b' from"gh-r" as"program"
-zinit light junegunn/fzf-bin
+#zinit ice lucid wait'0b' from"gh-r" as"program"
+#zinit light junegunn/fzf-bin
 
 # FZF BINARY AND TMUX HELPER SCRIPT
 zinit ice lucid wait'0c' as"command" pick"bin/fzf-tmux"
@@ -201,13 +214,13 @@ zinit ice lucid wait'0'
 zinit light joshskidmore/zsh-fzf-history-search
 
 # EXA
-zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
-zinit light ogham/exa
-zinit ice wait blockf atpull'zinit creinstall -q .'
+#zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
+#zinit light ogham/exa
+#zinit ice wait blockf atpull'zinit creinstall -q .'
 
 # BAT
-zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
-zinit light sharkdp/bat
+#zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
+#zinit light sharkdp/bat
 
 # FORGIT
 zinit ice wait lucid
@@ -218,15 +231,15 @@ zinit ice lucid wait"0" as"program" from"gh-r" mv"lazygit* -> lazygit" atload"al
 zinit light 'jesseduffield/lazygit'
 
 # LAZYDOCKER
-zinit ice lucid wait"0" as"program" from"gh-r" mv"lazydocker* -> lazydocker" atload"alias ld='lazydocker'"
-zinit light 'jesseduffield/lazydocker'
+#zinit ice lucid wait"0" as"program" from"gh-r" mv"lazydocker* -> lazydocker" atload"alias ld='lazydocker'"
+#zinit light 'jesseduffield/lazydocker'
 
 # dotbare
 #zinit light kazhala/dotbare
 
 # RANGER
-zinit ice depth'1' as"program" pick"ranger.py"
-zinit light ranger/ranger
+#zinit ice depth'1' as"program" pick"ranger.py"
+#zinit light ranger/ranger
 
 # FD
 zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
@@ -234,7 +247,7 @@ zinit light sharkdp/fd
 
 zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
 zinit snippet OMZ::plugins/archlinux/archlinux.plugin.zsh
-zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
+#zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
 zinit ice wait'!'
 zinit snippet OMZP::colored-man-pages
@@ -255,6 +268,7 @@ zinit load "andrewferrier/fzf-z"
 zinit light "b4b4r07/enhancd"
 zinit load "chrissicool/zsh-256color"
 zinit load "unixorn/fzf-zsh-plugin"
+#zinit light "spaceship-prompt/spaceship-prompt"
 
 #####################
 # EnhanCD           #
@@ -355,11 +369,11 @@ if [ -e "$HOME/.ssh/config" -a ! -e "$HOME/.ssh/skip-host-aliases" ]; then
 fi
 
 # fzf via local installation
-if [ -e ~/.fzf ]; then
-  _append_to_path ~/.fzf/bin
-  source ~/.fzf/shell/key-bindings.zsh
-  source ~/.fzf/shell/completion.zsh
-fi
+#if [ -e ~/.fzf ]; then
+#  _append_to_path ~/.fzf/bin
+#  source ~/.fzf/shell/key-bindings.zsh
+#  source ~/.fzf/shell/completion.zsh
+#fi
 
 alias r="vicd ./"
 vicd()
@@ -391,6 +405,8 @@ function fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 #####################
 # FZF SETTINGS      #
 #####################
@@ -409,16 +425,24 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --info=inline
 --bind "?:toggle-preview"
 --color=dark
---color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
---color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7
+--color=fg:-1,bg:-1,hl:#5AF78E,fg+:-1,bg+:#4D4D4D,hl+:#f1FA8C
+--color=info:#BD93F9,prompt:#5AF78E,pointer:#ff79C6,marker:#ff79C6,spinner:#ff79C6
 '
 #--color=fg:#e5e9f0,bg:#2e3440,hl:#81a1c1
 #--color=fg+:#e5e9f0,bg+:#2e3440,hl+:#81a1c1
 #--color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
 #--color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+function ranger-cd() {
+    tempfile=$(mktemp /tmp/${tempfoo}.XXXXXX)
+    ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+    test -f "$tempfile" &&
+    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+        cd -- "$(cat "$tempfile")"
+    fi
+    rm -f -- "$tempfile" > /dev/null 2>&1
+}
 
 # Allow local customizations in the ~/.zshrc_local_after file
 if [ -f ~/.zshrc_local_after ]; then
@@ -427,6 +451,7 @@ fi
 
 source ~/.cache/zsh-shortcuts
 
+export EDITOR='nvim'
 
 #Starship prompt
 eval "$(starship init zsh)"

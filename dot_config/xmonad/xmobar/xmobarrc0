@@ -23,7 +23,7 @@ Config {
    , sepChar          = "%"
    , alignSep         = "}{"
    , iconRoot         = ".config/xmonad/xmobar/icons/"
-   , template         = "%_XMONAD_LOG_0%}{<fc=#72C0FF>%music%</fc> • <fc=#56B6C2><fn=1> </fn> <action=`alacritty -e sudo pacman -Syu`>%update%</action></fc>•<fc=#A9D48A> %EDDV% </fc>•<fc=#F6D18C> %multicpu% </fc>•<fc=#F17D86> %memory% </fc>• <action=`pavucontrol` button=3><action=`XMMute` button=1><action=button=4><action=button=5><fc=#D789EE>%XVol%</fc></action></action></action></action>• <action=`gsimplecal` button=1><fc=#72C0FF>%date2%</fc></action>"
+   , template         = "%_XMONAD_LOG_0%}{<fc=#72C0FF>%music%</fc> • <fc=#56B6C2><fn=1> </fn> <action=`alacritty -e sudo pacman -Syu`>%update%</action></fc>•<fc=#A9D48A> %EDDV% </fc>•<fc=#F6D18C> %multicpu% </fc>•<fc=#F17D86> %memory% </fc>• <action=`pavucontrol` button=3><action=`XMMute` button=1><action=button=4><action=button=5><fc=#D789EE>%XVol%</fc></action></action></action></action> • <action=`gsimplecal` button=1><fc=#72C0FF>%date2%</fc></action>"
    , commands         =
       [ Run MultiCpu                            [ "--template" , "<fn=2>\xf108</fn> cpu:(<total>%)"
                                                 , "--Low"      , "20"        -- units: %
@@ -55,7 +55,8 @@ Config {
 --      , Run Wireless           "wlp0s20u2u3"        ["-t", "<fc=green>Wifi:</fc> <quality>"
 --                                                ] 10
 
-      , Run Com "/bin/bash" ["-c", "XMgetvolume"]  "XVol" 10
+--      , Run Com "/bin/bash" ["-c", "XMgetvolume"]  "XVol" 10
+      , Run Com "faf-volume" []  "XVol" 10
 
 
       , Run UnsafeXMonadLog

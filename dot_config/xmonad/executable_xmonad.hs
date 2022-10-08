@@ -25,6 +25,7 @@ import XMonad.Actions.UpdatePointer
 import XMonad.Actions.Warp
 import XMonad.Actions.WindowMenu
 import XMonad.Actions.WithAll (sinkAll)
+import XMonad.Actions.WindowGo (runOrRaise)
 
 --- Hooks
 import XMonad.Hooks.DynamicLog
@@ -94,13 +95,14 @@ myFontBig = "xft:JetBrainsMono Nerd Font:weight=regular:pixelsize=32:antialias=t
 myModMask :: KeyMask
 myModMask = mod4Mask
 
-myBrowser = "qutebrowser "
+--myBrowser = "qutebrowser "
+myBrowser = "brave "
 
 altMask :: KeyMask
 altMask = mod1Mask
 
 myTerminal = "alacritty"
-myFilemanager = "spacefm"
+myFilemanager = "pcmanfm"
 
 myNormColor = colorBack --"#bd93f9"
 
@@ -268,8 +270,8 @@ myPromptConfig =
 ------------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "$HOME/.xmonad/scripts/autostart.sh"
-  spawn ("sleep 2 && trayer --edge top --align right --width 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 0 --tint 0x15161E --height 24")
+  spawn "$HOME/.config/xmonad/scripts/autostart.sh"
+  spawn "sleep 2 && trayer --edge top --align right --width 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 0 --tint 0x15161E --height 24"
   setWMName "LG3D"
   modify $ \xstate -> xstate {windowset = onlyOnScreen 1 "1_1" (windowset xstate)}
 
@@ -281,9 +283,9 @@ myKeys =
     ("M-S-r", spawn "xmonad --restart"),
     ("M-C-r", spawn "xmonad --recompile"),
     ("M-q", kill),
-    ("M-x", spawn "arcolinux-logout"),
-    ("M-j", windows W.focusDown),
-    ("M-k", windows W.focusUp),
+    ("M-x", spawn "archlinux-logout"),
+    ("M-M1-j", windows W.focusDown),
+    ("M-M1-k", windows W.focusUp),
     ("C-M1-f", spawn "firefox"),
     ("M-d", spawn ("dmenu_run -p 'Run: ' -h 22 -sb '" ++ color02 ++ "' -sf '" ++ colorBack ++ "'")),
     --    , ("M-e", spawn myDmenu)
@@ -292,19 +294,19 @@ myKeys =
     --    , ("M-c", spawn "colorscheme")
     ("C-M1-r", spawn "rofi-theme-selector"),
     --    , ("M-p s", sshPrompt myPromptConfig)
-    ("M-p s", spawn ("sshmenu")),
+    ("M-p s", spawn "sshmenu"),
     ("M-b", sendMessage ToggleStruts),
     ("M-g g", spawnSelected' myAppGrid),
     ("M-g t", goToSelected $ myGridConfig myColorizer),
     ("M-g b", bringSelected $ myGridConfig myColorizer),
     -- Layouts
-    ("M1-<Tab>", sendMessage NextLayout),
-    ("M1-S-<Tab>", sendMessage FirstLayout),
+    ("M-M1-<Up>", sendMessage NextLayout),
+    ("M-M1-<Down>", sendMessage FirstLayout),
     ("M-<Space>", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts),
     -- Floating Windows
     ("M-t", withFocused $ windows . W.sink), -- Push floating window back to tile
     ("M-S-t", sinkAll), -- Push ALL floating windows back to tile
-    ("M-C-t", withFocused toggleFloat),
+    ("M-C-<Space>", withFocused toggleFloat),
     -- Window Movement
     ("M-<Right>", sendMessage $ Go LWN.R),
     ("M-<Left>", sendMessage $ Go LWN.L),
@@ -318,6 +320,8 @@ myKeys =
     -- Workspace Movement
     ("M-<Tab>", nextWS),
     ("M-S-<Tab>", prevWS),
+    ("M-C-Right", nextWS),
+    ("M-C-Left", prevWS),
     ("M-n", switchScreen 1),
     -- Gaps
     ("M-M1-S-i", decWindowSpacing 4), -- Decrease window spacing
@@ -331,8 +335,8 @@ myKeys =
     ("M-C-s", sendMessage ShrinkSlave),
     ("M-C-d", sendMessage Expand),
     ("M-o", windowMenu),
-    ("M-S-i", sendMessage (IncMasterN 1)), -- Increase Clients in Master
-    ("M-S-d", sendMessage (IncMasterN (-1))), -- Decrease Clients in Master
+    ("M-S-h", sendMessage (IncMasterN 1)), -- Increase Clients in Master
+    ("M-S-l", sendMessage (IncMasterN (-1))), -- Decrease Clients in Master
 
     -- KB_GROUP Sublayouts
     -- This is used to push windows to tabbed sublayouts, or pull them out of it.
@@ -367,10 +371,18 @@ myKeys =
     ("M-e",    spawn myFilemanager),
     ("M-w",    spawn myBrowser),
     -- volume controls
-    ("M-<Print>", spawn "amixer set Master toggle"),
-    ("M-<Scroll_lock>", spawn "amixer set Master 5%-"),
-    ("M-<Pause>", spawn "amixer set Master 5%+")
-  ]
+--    ("M-<Print>", spawn "amixer set Master toggle"),
+--    ("M-<Scroll_lock>", spawn "amixer set Master 5%-"),
+--    ("M-<Pause>", spawn "amixer set Master 5%+"),
+    ("<XF86AudioMute>", spawn "amixer set Master toggle"),
+    ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute"),
+    ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute"),
+    ("<XF86HomePage>", spawn (myBrowser ++ " https://www.youtube.com/c/DistroTube")),
+    ("<XF86Search>", spawn "dm-websearch"),
+    ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird")),
+    ("<XF86Calculator>", runOrRaise "qalculate-gtk" (resource =? "qalculate-gtk"))
+ ]
+
     ++ [] -- (++) is needed here because the following list comprehension
     -- is a list, not a single key binding. Simply adding it to the
     -- list of key bindings would result in something like [ b1, b2,
@@ -447,7 +459,8 @@ myManageHook =
     myCFloats =
       [ "Arandr",
         "Arcolinux-calamares-tool.py",
-        "Arcolinux-tweak-tool.py",
+        "archlinux-tweak-tool.py",
+        "Archlinux-logout.py",
         "feh",
         "mpv",
         "vlc",
@@ -456,6 +469,8 @@ myManageHook =
         "xfce4-terminal",
         "confirm",
         "file_progress",
+        "Pcmanfm",
+        "Spacefm",
         "Gimp"
       ]
     myTFloats = ["Downloads", "Save As...", "Oracle VM VirtualBox Manager"]

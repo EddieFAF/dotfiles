@@ -54,7 +54,7 @@ Config { font            = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=12
                         -- Battery
                     , Run BatteryP ["BAT0"] ["-t", "<acstatus><watts> (<left>%)"] 360
                         -- Time and date
-                    , Run Com "date" ["+%A, %d.%m.%Y - (%H:%M)"] "date2" 50
+                    , Run Com "date" ["+%A, %d.%m.%Y %H:%M"] "date2" 50
                         -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
                     , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
                         -- Prints out the left side items such as workspaces, layout, etc.
@@ -63,7 +63,7 @@ Config { font            = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=12
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " <icon=haskell_20.xpm/> <fc=#666666>|</fc>%_XMONAD_LOG_1% }{<fc=#D19A66><action=`alacritty -e htop`>%cpu%</action></fc>  <fc=#F17D86><action=`alacritty -e htop`>%memory%</action></fc>  <fc=#D789EE>%disku%</fc>  <fc=#61AFEF><fn=2>\xf242</fn>%date2%</fc> "
+       , template = " <icon=haskell_20.xpm/> <fc=#666666>|</fc>%_XMONAD_LOG_1% }{<fc=#D19A66><action=`alacritty -e htop`>%cpu%</action></fc>  <fc=#F17D86><action=`alacritty -e htop`>%memory%</action></fc>  <fc=#D789EE>%disku%</fc>  <fc=#61AFEF>%date2%</fc> "
 --       , template = " <icon=haskell_20.xpm/> <fc=#666666>|</fc>%_XMONAD_LOG_1% }{<box type=Bottom width=2 mb=2 color=#67C7D3><fc=#67C7D3>%penguin% %kernel%</fc></box>  <box type=Bottom width=2 mb=2 color=#98C379><fc=#98C379><action=`alacritty -e htop`>%cpu%</action></fc></box>  <box type=Bottom width=2 mb=2 color=#D19A66><fc=#D19A66><action=`alacritty -e htop`>%memory%</action></fc></box>  <box type=Bottom width=2 mb=2 color=#F17D86><fc=#F17D86>%disku%</fc></box>  <box type=Bottom width=2 mb=2 color=#D789EE><fc=#D789EE>%uparrow% %uptime%</fc></box>  <box type=Bottom width=2 mb=2 color=#61AFEF><fc=#61AFEF><fn=2>\xf017</fn>%date%</fc></box> "
        }
 

@@ -26,14 +26,17 @@ done
 alias vfm=vifmrun
 alias em="emacsclient -c -a 'emacs'"
 alias lf=lf-uberzug
+alias ra='ranger'
+alias racd=ranger-cd
+
 
 ### Set alias
 #############
 alias cls="clear"
 alias ..="cd .."
 alias cd..="cd .."
-alias ...='../..'
-alias ....='../../..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 #alias ll="ls -lisa --color=auto"
 alias home="cd ~"
 #alias df="df -ahiT --total"
@@ -68,7 +71,9 @@ for index ({1..9}) alias "$index"="cd +${index}"; unset index
 alias duck='du -cksh *(D) | sort -hr | head -n 15'
 
 alias v='nvim'
-alias ra='ranger'
+
+alias t='todo.sh'
+alias tg='todotxt-machine'
 
 alias display='xrandr --output DisplayPort-0 --mode 1920x1200 --output DVI-1 --mode 1680x1050 --primary --right-of DisplayPort-0'
 

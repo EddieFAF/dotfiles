@@ -1,0 +1,1104 @@
+: 1656051698:0;man diff
+: 1656051716:0;git diff
+: 1656051766:0;diff config.h config.def.h
+: 1656052269:0;vim patches.def.h
+: 1656052731:0;rm patches.h
+: 1656052892:0;git stash clean
+: 1656052896:0;git stash clear
+: 1656055553:0;task list
+: 1656234540:0;nextcloud &
+: 1656304965:0;geany config.def.h backup/config.def.h
+: 1656306345:0;task sync init
+: 1656329700:0;picom --experimental-backends --config ~/.config/arcolinux-dwm/picom.conf
+: 1656347843:0;vim .Xresources repositories/dwm-flexipatch/config.def.h
+: 1656348008:0;v .Xresources repositories/dwm-flexipatch/config.def.h
+: 1656394373:0;vim .vimrc .config/nvim/lua/user/keymaps.lua
+: 1656395469:0;v .vimrc
+: 1656396108:0;nvim .vimrc
+: 1656407496:0;git clone https://github.com/wolandark/wim
+: 1656407929:0;curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+: 1656413504:0;bat .vimrc.old
+: 1656414671:0;t sync
+: 1656414743:0;lvim .
+: 1656414918:0;rm .vimrc
+: 1656414929:0;cp .vimrc.old .vimrc
+: 1656419934:0;git clone https://github.com/bakkeby/dwm-flexipatch
+: 1656422079:0;vim Makefile
+: 1656524158:0;vim --version
+: 1656524585:0;odyssee
+: 1656565547:0;lvim .vimrc .vimrc.old
+: 1656565915:0;nvim .vimrc .vimrc.old
+: 1656607955:0;cd repositories/wim
+: 1656661303:0;lvim .vimrc.old
+: 1656662229:0;cd .local/share/dwm/
+: 1656662233:0;vim sxhkdrc
+: 1656678831:0;chezmoi add .vimrc
+: 1656689683:0;vim .config/awesome/autostart.sh
+: 1656844212:0;rm evim
+: 1656844240:0;git clone https://github.com/glepnir/cosynvim evim
+: 1656844268:0;vim evim
+: 1656844451:0;evim
+: 1656844533:0;m
+: 1656862237:0;git clone https://github.com/SpaceVim/SpaceVim.git ~/.SpaceVim
+: 1656862266:0;vim -u ~/.SpaceVim/vimrc
+: 1656862667:0;nvim -u ~/.SpaceVim/init.vim
+: 1656869012:0;svim
+: 1656869122:0;vim .config/zsh/aliases
+: 1656869151:0;lvim
+: 1656870693:0;cd .local/share/chezmoi
+: 1656870777:0;mv private_qutebrowser qutebrower
+: 1656870786:0;mv private_vifm vifm
+: 1656870790:0;cd vifm
+: 1656870802:0;mv private_colors colors
+: 1656870806:0;mv private_scripts scripts
+: 1656870818:0;cd qutebrower
+: 1656870907:0;cd dot_config
+: 1656870910:0;cd lf
+: 1656870918:0;rm lfrc.old
+: 1656871028:0;cd ~/.config
+: 1656871058:0;chezmoi add nvim
+: 1656871097:0;em
+: 1656871316:0;git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/doom
+: 1656871331:0;pkill emacs
+: 1656871357:0;cd doom/bin
+: 1656871366:0;./doom install
+: 1656874755:0;less config.el
+: 1656912709:0;git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
+: 1656912726:0;~/.emacs.d/bin/doom install
+: 1656914707:0;emacs config.el .doom.d/config.el
+: 1656923721:0;emacs rc.lua
+: 1656923767:0;vim ~/.doom.d/packages.el
+: 1656923790:0;vim ~/.doom.d/init.el
+: 1656924435:0;~/.emacs.d/bin/doom sync
+: 1656926084:0;git clone https://github.com/salman-abedin/devour.git
+: 1656926613:0;yay -S devour
+: 1656926926:0;devour emacs
+: 1656927921:0;vim onedark.rasi
+: 1656998281:0;geany id_ed25519
+: 1656999232:0;rm blackhole*
+: 1656999236:0;ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/blackhole_key -C "eddie@blackhole"
+: 1656999345:0;geany ssh_host_ed25519_key
+: 1656999838:0;geany blackhole_key.pub
+: 1657000445:0;cat blackhole_key.pub >>authorized_keys
+: 1657000467:0;geany blackhole_key
+: 1657001913:0;geany
+: 1657002579:0;dc /etc/ssh
+: 1657003532:0;sudo systemctl stop sshd
+: 1657003690:0;sudo systemctl start sshd
+: 1657003968:0;cd ~/.ssh
+: 1657003972:0;bat authorized_keys
+: 1657004174:0;cd /etc/ssh
+: 1657004898:0;journalctl -u sshd | tail -n 100
+: 1657005405:0;sudo systemctl status sshd
+: 1657006192:0;sudo vim sshd_config
+: 1657006253:0;sudo systemctl restart sshd
+: 1657006296:0;journalctl -u sshd
+: 1657008388:0;cd /usr/share/ppd
+: 1657008413:0;paru -Ss epson-inkjet-printer-escpr
+: 1657008431:0;paru -S epson-inkjet-printer-escpr2
+: 1657008445:0;cd epson-inkjet-printer-escpr2
+: 1657008464:0;cd epson-inkjet-printer-escpr
+: 1657008468:0;paru -S epson-inkjet-printer-escpr
+: 1657020272:0;nvim patches.h
+: 1657020951:0;nvim config.def.h patches.h
+: 1657024118:0;lvim patches.h
+: 1657024867:0;em config.def.h
+: 1657025194:0;nvim config.def.h
+: 1657025461:0;man st
+: 1657025631:0;st -c spterm -g 120x34
+: 1657025662:0;man alacritty
+: 1657026780:0;vim dunstrc
+: 1657028417:0;qtconfigqt4
+: 1657028419:0;qtconfig-qt4
+: 1657028694:0;qt5ct
+: 1657127680:0;vim picom.conf
+: 1657127804:0;picom -enable-experimental-backends --config ~/.config/arco-dwm/picom.conf
+: 1657127813:0;picom -experimental-backends --config ~/.config/arco-dwm/picom.conf
+: 1657127823:0;pkill
+: 1657128247:0;yay -S picom-animation-git
+: 1657128267:0;yay -S picom-animations-git
+: 1657129394:0;vim .config/arco-dwm/picom.conf
+: 1657129712:0;yay -S picom-jonasburg-git
+: 1657129718:0;yay -S picom-jonaburg-git
+: 1657129762:0;picom --experimental-backends --config ~/.config/arco-dwm/picom.conf
+: 1657129848:0;vim .config/arco-dwm/picom.conf ~/.config/awesome/autostart.sh
+: 1657375830:0;cd Videos
+: 1657375837:0;mpv Dwm\ Is\ a\ GREAT\ Window\ Manager\ \(After\ It\'s\ Patched\!\).mp4
+: 1657515796:0;cd dmenu-flexipatch
+: 1657515834:0;vim patches.h
+: 1657529102:0;pamac
+: 1657566271:0;cd download
+: 1657566275:0;cd Various\ Files
+: 1657802560:0;cd repositories/dmenu-flexipatch
+: 1657802644:0;lvim config.def.h
+: 1657809503:0;paru -S hunspell-de_DE
+: 1657809539:0;paru -Ss hunspell
+: 1657809569:0;paru -S hunspell-de_base
+: 1657809581:0;paru -S hunspell-de-base
+: 1657813744:0;paru -Ss vscodium
+: 1657813782:0;paru -S vscodium
+: 1657866241:0;cd org
+: 1657866250:0;chmod a-x FM_PKS.org
+: 1657866963:0;emacs FM_PKS.org
+: 1657867391:0;rm FM_PKS.org
+: 1657867426:0;cp /mnt/nasgard/Projekte/Dropbox/Private/FM_PKS_Modellierung.md ~/org/FM_PKS.org
+: 1657867432:0;vim FM_PKS.org
+: 1657867476:0;em FM_PKS.org
+: 1657877520:0;paru -S remarkable
+: 1657878742:0;cd /mnt/nasgard/Projekte/Dropbox/Private
+: 1657878745:0;vim FM_PKS_Modellierung.md
+: 1657887732:0;cd /mnt/nasgard/Import
+: 1657887735:0;cd paperless
+: 1657959186:0;urxvt -h
+: 1657959766:0;cd .fonts
+: 1657964042:0;sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+: 1658048646:0;xterm
+: 1658048694:0;which lfbundle
+: 1658048731:0;which lfbundle_cleanup
+: 1658048750:0;cd .cofi
+: 1658048759:0;vim aliases
+: 1658050052:0;vim .config/alacritty/alacritty.yml
+: 1658050352:0;wezterm ssh odyssee
+: 1658050764:0;vim .Xresources .config/alacritty/alacritty.yml
+: 1658052865:0;cd .config/arco-slstatus
+: 1658054409:0;wezterm
+: 1658054417:0;vim .config/wezterm/wezterm.lua
+: 1658080736:0;fc-list
+: 1658080782:0;fc-list G Source
+: 1658080969:0;xrdb -load
+: 1658081141:0;fc-list G Nerd Mono
+: 1658081756:0;vim repositories/st-flexipatch/config.def.h
+: 1658082095:0;vim ~/.Xresources
+: 1658082124:0;xrdb -load ~/.Xresources
+: 1658217951:0;lvim xmonad.hs
+: 1658218818:0;pacman -Qqo '/usr/lib/perl5/5.34'
+: 1658232793:0;git clone https://github.com/bakkeby/flexipatch-finalizer
+: 1658232803:0;cd flexipatch-finalizer
+: 1658232864:0;./flexipatch-finalizer.sh -d ../dwm-flexipatch -o ../dwm
+: 1658232871:0;./flexipatch-finalizer.sh -r -d ../dwm-flexipatch -o ../dwm
+: 1658308928:0;cd .config/awesome/themes
+: 1658666523:0;paru -S topgrade
+: 1658667692:0;topgrade
+: 1658668394:0;vim .config/awesome/themes/onedark/theme.lua
+: 1658743985:0;chezmoi add onedark
+: 1658744370:0;chezmoi add rc.lua
+: 1658746443:0;echo $TERM
+: 1658747064:0;vim rc.lua themes/onedark/theme.lua
+: 1658769535:0;pacman -Syu
+: 1658769592:0;man pacman
+: 1658769651:0;sudo pacman -Sd
+: 1658769654:0;sudo pacman -Sc
+: 1658770154:0;sudo lf
+: 1658770384:0;sudo pacman
+: 1658770389:0;sudo pacman -Syyu
+: 1658952163:0;cd .config/awesome/
+: 1659009792:0;topgrade -help
+: 1659009893:0;topgrade -n
+: 1659009938:0;chezmoi
+: 1659009977:0;chezmoi add scratch.lua
+: 1659009980:0;chezmoi status
+: 1659016179:0;chezmoi state
+: 1659016203:0;cd share/chezmoi
+: 1659044022:0;v .config/nvim/init.lua
+: 1659109431:0;paru -Ss urxvtcontrol
+: 1659110932:0;v keymaps.lua
+: 1659111197:0;fc-list G Hack
+: 1659111411:0;xrdb .Xresources
+: 1659111425:0;fc-list G monospace
+: 1659111429:0;fc-list G mono
+: 1659111432:0;fc-list G Mono
+: 1659111488:0;fc-list G Ner
+: 1659111536:0;fc-list G Nerd
+: 1659113381:0;urxvt
+: 1659113718:0;paru -Ss rxvt-*
+: 1659113721:0;paru -Ss "rxvt-*"
+: 1659117931:0;man dd
+: 1659118055:0;dd if=/dev/sde1 of=sync.img progress=true
+: 1659118104:0;dd if=/dev/sde1 of=sync.img status=progress
+: 1659118174:0;sudo dd if=/dev/sde of=sync.img status=progress
+: 1659119182:0;sudo dd if=sync.img of=/dev/sde status=progress
+: 1659194469:0;task
+: 1659194512:0;vim .taskrc
+: 1659194650:0;task -help
+: 1659194654:0;man task
+: 1659194700:0;task ready
+: 1659194755:0;task burndown.daily
+: 1659195175:0;task history
+: 1659255542:0;vim .config/zsh/.zshrc
+: 1659263563:0;vim wezterm.lua
+: 1659274806:0;cd lua
+: 1659274808:0;cd user
+: 1659274809:0;la
+: 1659274817:0;vim autocommands.lua
+: 1659282772:0;cd .vim
+: 1659282935:0;vim skeleton.sh
+: 1659350203:0;lvim .Xresources
+: 1659350649:0;which lvim
+: 1659350659:0;em .Xresources
+: 1659350676:0;emacs .Xresources
+: 1659350831:0;nvim ~/.Xresources
+: 1659355624:0;cd lua/user
+: 1659355626:0;ks
+: 1659355632:0;v options.lua
+: 1659355716:0;v project.lua
+: 1659370474:0;cp starship.toml starship.toml.old
+: 1659370479:0;vim starship.toml
+: 1659376906:0;man yad
+: 1659376922:0;bat topgrade.toml
+: 1659376938:0;rm kwalletrc
+: 1659376951:0;rm kateschemarc
+: 1659506172:0;mv starship.toml starship.toml.bunt
+: 1659506185:0;cp starship.toml.old starship.toml
+: 1659508858:0;cd ../Bilder/wallpapers
+: 1659521001:0;v theme.lua ~/.config/awesome/themes/onedark/theme.lua
+: 1659523975:0;git clone https://github.com/mut-ex/awesome-wm-nice.git nice
+: 1659526315:0;v themes/onedark/theme.lua ~/.Xresources
+: 1659530673:0;rofi -show ssh
+: 1659530902:0;locale -a
+: 1659530946:0;locale
+: 1659531037:0;sudo vim locale.gen
+: 1659531072:0;sudo locale-gen
+: 1659610800:0;cd ~/.config/xmonad
+: 1659616592:0;paru -Ss wxgtk2
+: 1659616624:0;paru -Ss wxgtk2-3.1.5
+: 1659616637:0;paru -S wxgtk2-3.1.5
+: 1659616674:0;paru -Ss 0ad
+: 1659618284:0;pru -Ss wxgtk
+: 1659618287:0;paru -Ss wxgtk
+: 1659618316:0;paru -S wxgtk3-3.1.5
+: 1659618384:0;export WX_CONFIG=wx-config-gtk3
+: 1659618572:0;paru -d wxwidgets-gtk3
+: 1659618598:0;paru -R wxwidgets-gtk3
+: 1659618613:0;paru -S wxgtk2
+: 1659618626:0;paru -S 0ad-git
+: 1659623236:0;paru -c
+: 1659645736:0;archlinux-logout
+: 1659645752:0;paru -Ss archlinux-logout
+: 1659645761:0;paru -S archlinux-logout
+: 1659645855:0;cd archlinux-logout
+: 1659645860:0;bat archlinux-logout.conf
+: 1659645885:0;which archlinux-logout
+: 1659645982:0;paru -S archlinux-logout-git
+: 1659939411:0;vim .vimrc
+: 1659946195:0;vim rc.lua
+: 1659972699:0;fc-list G Iosevka
+: 1659974537:0;fc-list G awesome
+: 1659974595:0;fc-list G Ubuntu
+: 1660145452:0;vim themes/onedark/theme.lua
+: 1660145535:0;Ilikec0derz!
+: 1660145578:0;vim themes/onedark/theme.lua\
+
+: 1660145619:0;vim rc.lua\
+
+: 1660155878:0;vim .config/awesome/themes/onedark
+: 1660235149:0;pip install fortnite-python
+: 1660235170:0;python3
+: 1660317177:0;tt
+: 1660317193:0;tw sync
+: 1660410828:0;vim .config/awesome/rc.lua
+: 1660541849:0;java -jar KickAss.jar
+: 1660542207:0;vim test.asm
+: 1660542292:0;java -jar KickAss.jar test.asm
+: 1660542518:0;paru -Ss vice
+: 1660543084:0;paru -S vice
+: 1660544909:0;paru -S c64-debugger
+: 1660544979:0;c64debugger test.prg
+: 1660546059:0;which java
+: 1660546284:0;which x64
+: 1660546317:0;which c64debugger
+: 1660579507:0;vim xmobarrc0
+: 1660579576:0;mpd &
+: 1660579654:0;cd ~/.xmonad/scripts
+: 1660579793:0;xmonad --restart
+: 1660579836:0;vim .config/xmonad/xmonad.hs
+: 1660579856:0;vim ~/.config/xmonad/xmonad.hs
+: 1660579927:0;bat .config/xmonad/xmonad.hs
+: 1660580716:0;xprop
+: 1660580851:0;xmonad --recompile --restart
+: 1660580867:0;xmonad --recompile & xmonad --restart
+: 1660580876:0;xmonad --recompile && xmonad --restart
+: 1660581660:0;v .config/arco-dwm/autostart.sh
+: 1660648375:0;cd .local/dwm
+: 1660648384:0;cd .local
+: 1660648390:0;cd share/dwm
+: 1660648393:0;vim autostart.sh
+: 1660654801:0;cd coding/c64/exomizer
+: 1660654863:0;./exomizer
+: 1660654908:0;cd ~/coding/c64
+: 1660733896:0;vim hive.asm
+: 1660733908:0;v hive.asm
+: 1660813664:0;x multipaint.zip
+: 1660827600:0;cd coding/c64/acme
+: 1660827619:0;./acme
+: 1660829391:0;cd kickass
+: 1660830402:0;cd ..
+: 1660830414:0;chmod a+x fademaid
+: 1660900016:0;v picom.conf
+: 1660900057:0;v picom.conf ~/.config/arco-dwm/picom.conf
+: 1660901735:0;:q
+: 1661071839:0;./sb-pacpackages
+: 1661071863:0;rm xmonad
+: 1661071891:0;./dt-pacupdate
+: 1661081116:0;cd themes/onedark
+: 1661082834:0;dt-pacupdate
+: 1661082875:0;bash -c "sensors | grep temp1"
+: 1661083952:0;/home/eddie/.local/bin/dt-pacupdate
+: 1661102703:0;\
+
+: 1661102792:0;lf\
+
+: 1661103159:0;localectl status
+: 1661103199:0;localectl list-keymaps | grep us
+: 1661103208:0;localectl list-keymaps | grep eu
+: 1661103223:0;loadkeys euro
+: 1661103248:0;loadkeys us
+: 1661103302:0;fixkeyz
+: 1661103368:0;setxkbmap -print -verbose 10
+: 1661103661:0;localectl list-x11-keymap-models
+: 1661105027:0;cd .config/awesome/themes/onedark
+: 1661164280:0;v .local/bin/sshmenu
+: 1661164755:0;cd ~/Videos
+: 1661164768:0;vlc Smart\ irrigation\ for\ smart\ home.mp4
+: 1661165169:0;rm Smart\ irrigation\ for\ smart\ home.mp4
+: 1661165178:0;mpc
+: 1661165182:0;man mpc
+: 1661165194:0;man mpv
+: 1661165209:0;mpv Developing\ for\ the\ c64\ in\ 2021.mp4
+: 1661166540:0;mkdir out
+: 1661169640:0;c64debugger -version
+: 1661188836:0;which exomizer
+: 1661188850:0;exomizer sfx loader.prg
+: 1661188863:0;exomizer sfx loader.prg 2000
+: 1661189681:0;c1541 -copy hollywood.d64 a.out loader
+: 1661189692:0;man c1541
+: 1661189721:0;c1541 -help write
+: 1661189822:0;c1541
+: 1661190005:0;c1541 write a.out hollywood.d64
+: 1661190017:0;c1541 -hrlp
+: 1661190020:0;c1541 -help
+: 1661190034:0;c1541 x
+: 1661190039:0;c1541 -x
+: 1661190045:0;c1541 -write
+: 1661190051:0;c1541 -write a.out
+: 1661190056:0;c1541 -write a.out hollywood.d64
+: 1661190081:0;c1541 hollywood.d64 -write a.out hollywood
+: 1661190119:0;c1541 hollywood.d64 -write a.out "hollywood poker"
+: 1661190134:0;c1541 hollywood.d64 -write a.out "hollywood loader"
+: 1661193697:0;rm Xresources1
+: 1661194319:0;x64
+: 1661238966:0;task sync
+: 1661245132:0;exomizer sfx basic ./loader.prg
+: 1661246643:0;cd tools/droid64-0.5b
+: 1661273799:0;cd /mnt/t1/C64/c64collections_unknown
+: 1661273806:0;cd Andreas_Maurer
+: 1661273831:0;cd Brainskull
+: 1661273844:0;sudo chmod a+w -R *
+: 1661273866:0;cd 1000-Disketten-Sammlung
+: 1661273868:0;cd A
+: 1661273882:0;c1541 A-003-A.D64 -list
+: 1661274016:0;chmod a+x liste.sh
+: 1661274201:0;v liste.sh
+: 1661274440:0;vim liste.sh
+: 1661275183:0;./liste.sh
+: 1661275289:0;sh ./liste.sh
+: 1661350726:0;cd .config/rofi/themes
+: 1661350732:0;ös
+: 1661350738:0;nvim ssh.rasi
+: 1661350787:0;v onedark.rasi
+: 1661357317:0;git clone https://github.com/leslie255/nvim-config.git ~/.config/nvim
+: 1661358497:0;cd Downloads/backup
+: 1661358648:0;v lua/core/theme.lua
+: 1661358685:0;v lua/core/plugins.lua
+: 1661359136:0;v whichkey.lua
+: 1661362952:0;v bufferline.lua
+: 1661403048:0;rm sync.img
+: 1661403105:0;diff .zshrc .zshrc.bak
+: 1661403240:0;bat rc.lua
+: 1661403292:0;rm rc.lua
+: 1661403381:0;./.emacs.d.doom/bin/doom sync
+: 1661404290:0;emacs -nw
+: 1661420167:0;v test.asm
+: 1661510054:0;paru -help
+: 1661510080:0;paru -R catppucin-gtk-theme
+: 1661510092:0;paru -R catppuccin-gtk-theme
+: 1661510113:0;paru -R hunspell-de-base
+: 1661511053:0;cd ~/.config/awesome
+: 1661519714:0;cd ~/coding/c64/tools/droid64-0.5b
+: 1661525016:0;cd kickass/res
+: 1661525054:0;exomizer mem -l none -o 2001.prg koala2000_01.prg
+: 1661525083:0;exomizer mem -l none -o 2002.prg koala2000_02.prg
+: 1661525095:0;exomizer mem -l none -o 6001.prg koala6000_01.prg
+: 1661525101:0;exomizer mem -l none -o 6002.prg koala6000_02.prg
+: 1661526052:0;exomizer mem -l $2000 -o 6002.prg,$6000 6001.exo
+: 1661526078:0;exomizer mem -l 0x2000 -o 6002.prg,$6000 6001.exo
+: 1661526091:0;exomizer mem -l 0x2000 -o 6002.prg,0x6000 6001.exo
+: 1661535583:0;cd coding/c64/tools/cbmtools-0.8
+: 1661535607:0;./csiz
+: 1661535631:0;./csiz ~/coding/c64/out/exo_test2.prg
+: 1661676997:0;st
+: 1661678845:0;paru -Ss cc65
+: 1661678857:0;paru -S cc65
+: 1661679060:0;cd coding/c64/tools/krills\ loader
+: 1661679140:0;cd krillsloader/loader/src
+: 1661679289:0;perl make-loadersymbolsinc.pl
+: 1661679302:0;perl make-loadersymbolsinc.pl loader
+: 1661679329:0;perl make-loadersymbolsinc.pl loader ../build/intermediate/loader-c64.map
+: 1661679346:0;bat make-loadersymbolsinc.pl
+: 1661684273:0;cd /mnt/t3/3DS\ CIA/3ds2cia
+: 1661684283:0;python3 ./3DS-to-CIA.py
+: 1661686341:0;./3DS-to-CIA.py
+: 1661686359:0;v 3DS-to-CIA.py
+: 1661686401:0;python3 -m pip install --upgrade pip
+: 1661686421:0;pip install tkinter
+: 1661686431:0;python3 -m pip install tkinter
+: 1661686629:0;cd coding/c64/tools/krillsloader/loader
+: 1661686633:0;bat README
+: 1661686677:0;make prg ZP=e8 INSTALL=1000 RESIDENT=ce00
+: 1661686714:0;make prg ZP=e8 INSTALL=1000 RESIDENT=ca00
+: 1661686796:0;cd droid64-0.5b
+: 1661687442:0;cd ~/coding/c64/tools/krillsloader/loader
+: 1661687473:0;make prg PROJECT=aaa
+: 1661687491:0;make prg PROJECT=aaa VERSION=1 ZP=e8
+: 1661687535:0;make prg PROJECT=aaa VERSION=1 ZP=e8 RESIDENT=ca00 INSTALL=1000
+: 1661687838:0;cd ../..
+: 1661687845:0;cd tools/krillsloader
+: 1661687854:0;v README
+: 1661854713:0;cd coding/c64/discs
+: 1661856259:0;cd coding/c64/tools/krillsloader
+: 1661856329:0;make prg INSTALL=1000 RESIDENT=200 ZP=e8 VERSION=1 PROJECT=aaa
+: 1661856616:0;make prg INSTALL=1000 RESIDENT=ca00 ZP=e8 VERSION=1 PROJECT=aaa
+: 1661865792:0;cd kickass/lib
+: 1661865802:0;mcd c64lib
+: 1661865812:0;git clone https://github.com/c64lib/common.git
+: 1661865818:0;git clone https://github.com/c64lib/chipset.git
+: 1661865824:0;git clone https://github.com/c64lib/text.git
+: 1661865829:0;git clone https://github.com/c64lib/copper64.git
+: 1661865978:0;java -jar KickAss.jar -libdir kickass/lib/c64lib e01-color.raster-bars.asm
+: 1661866011:0;java -jar KickAss.jar -libdir kickass/lib/c64lib kickass/lib/c64lib/copper64/examples/e01-color-raster-bars.asm
+: 1661874512:0;rm .source.txt
+: 1661874526:0;nvim test.asm
+: 1661874616:0;lss
+: 1661874623:0;v KickAss.cfg
+: 1661874699:0;cd kickass/loader
+: 1661874704:0;java -jar ~/coding/c64/KickAss.jar -libdir ../lib test.asm
+: 1661874711:0;java -jar ~/coding/c64/KickAss.jar test.asm
+: 1661874749:0;java -jar ~/coding/c64/KickAss.jar -libdir ../lib/c64lib test.asm
+: 1661884301:0;cd coding/c64/out
+: 1661884315:0;c64debugger hive.prg
+: 1661925141:0;man c64debugger
+: 1661925150:0;c64debugger --help
+: 1661927401:0;c64debugger -wait 2500 -symbols hive.sym -prg hive.prg
+: 1661927444:0;c64debugger -wait 2500 -symbols hive.sym -prg hive.prg -autojmp
+: 1661927562:0;c64debugger -wait 2500 -symbols hive.sym -prg hive.prg -autojmp -clearsettings
+: 1661927618:0;c64debugger -symbols hive.sym -prg hive.prg -autojmp
+: 1661927651:0;c64debugger -symbols hive.sym -prg hive.prg -jmp 080e
+: 1662102941:0;lxappearance-gtk3
+: 1662102957:0;paru -S lxappearance-gtk3
+: 1662111002:0;sudo lxappearance
+: 1662115641:0;./fademaid
+: 1662129898:0;pru
+: 1662130242:0;cd coding/c64/kickass
+: 1662130295:0;java -jar ~/coding/c64/KickAss.jar screen_fade_test.asm
+: 1662132309:0;vim wallpaper
+: 1662132388:0;nitrogen
+: 1662132417:0;cd Bilder
+: 1662132421:0;cd wallpapers
+: 1662132428:0;cd gallery-dl
+: 1662132430:0;cd wallhaven
+: 1662132433:0;cd archlinux
+: 1662132445:0;nitrogen .
+: 1662132487:0;cd .config/nitrogen
+: 1662354886:0;stack
+: 1662355378:0;paru -S xmonad-git
+: 1662356944:0;cd xmonad
+: 1662357204:0;cd .xmonad
+: 1662384498:0;cd .config/xmonad/
+: 1662387123:0;emacs
+: 1662393582:0;git clone https://github.com/MagerValp/CGTerm
+: 1662393587:0;cd CGTerm
+: 1662393607:0;./cgterm
+: 1662393624:0;make install
+: 1662393631:0;sudo make install
+: 1662393642:0;CGTerm
+: 1662395415:0;cd coding/c64/tools/CGTerm
+: 1662395440:0;v ~/.cgtermrc
+: 1662395450:0;cgterm
+: 1662395500:0;cgedit
+: 1662444806:0;v .config/xmonad/xmonad.hs
+: 1662447055:0;v xmobarrc1
+: 1662447171:0;bash -c XMgetvolume
+: 1662447194:0;which XMgetvolume
+: 1662447216:0;./sb-volume
+: 1662447234:0;./dt-volume
+: 1662447240:0;./dwm-volume
+: 1662447248:0;./dwm_volume
+: 1662447331:0;cd .config/xmonad/xmobar
+: 1662447335:0;v xmobarrc0
+: 1662447775:0;cp sb-volume faf-volume
+: 1662453269:0;faf-volume
+: 1662453294:0;v ~/.config/xmonad/xmobar/xmobarrc0
+: 1662453418:0;v faf-volume
+: 1662453758:0;bat tqdm
+: 1662453852:0;pkill picom
+: 1662453876:0;cd scripts
+: 1662453992:0;bat autostart.sh
+: 1662454024:0;picom --config ~/.config/arco-dwm/picom.conf
+: 1662454066:0;cd .config/xmonad/scripts
+: 1662454250:0;v .config/xmonad/xmobar/xmobarrc0
+: 1662454344:0;vim xmonad.hs
+: 1662551227:0;pkill calibre
+: 1662619155:0;xrandr
+: 1662630148:0;v autostart.sh ~/.local/share/dwm/autostart.sh
+: 1662630753:0;sxhkd -c ./sxhkdrc
+: 1662630867:0;v autostart.sh ~/.config/awesome/autostart.sh
+: 1662631025:0;cd jgmenu
+: 1662640915:0;cd .config/bspwm/sxhkd
+: 1662644094:0;cd .config/zsh
+: 1662656945:0;cd awesome
+: 1662657236:0;touch spaceship.zsh
+: 1662657328:0;spaceship edit
+: 1662657532:0;false
+: 1662657536:0;true
+: 1662657547:0;cd ../../repositories
+: 1662657557:0;cd wim
+: 1662657577:0;git stash .vimrc
+: 1662657593:0;git stash list
+: 1662657671:0;cd raven2cz
+: 1662657716:0;cd AtifChy
+: 1662657731:0;cd vifmimg
+: 1662657733:0;git pl
+: 1662657757:0;cd st-flexipatch
+: 1662658127:0;git stash pop
+: 1662658219:0;diff patches.def.h patches.h
+: 1662658231:0;v patches.def.h
+: 1662658602:0;diff config.def.h config.h
+: 1662669693:0;cd .config/bspwm
+: 1662669695:0;v bspwmrc
+: 1662670612:0;bspc query -N
+: 1662670615:0;bspc query -N -n
+: 1662670631:0;bspc query -N -n --names
+: 1662670646:0;bspc query -D --names
+: 1662670652:0;bspc query -D -n --names
+: 1662712212:0;cd Bilder/wallpapers
+: 1662712225:0;git clone https://github.com/UnnatShaneshwar/OneDarkWallpapers
+: 1662712314:0;cd Bilder/OneDarkWallpapers
+: 1662712441:0;v .local/bin/wallpaper
+: 1662712459:0;cd ~/.config/nitrogen
+: 1662712505:0;wallpaper
+: 1662804902:0;v .config/awesome/themes/onedark/theme.lua
+: 1662805052:0;v .config/awesome/rc.lua
+: 1662815065:0;cd .config/vifm
+: 1662815070:0;v vifmrc
+: 1662823065:0;v .config/vifm/vifmrc
+: 1662823164:0;x Edge\ of\ Disgrace\ \(2008\)\(Booze\ Design\)\(Side\ A\)\[a\].zip
+: 1662823182:0;extract coma-light-13-by-oxyron.zip
+: 1662823187:0;extract comaland100percent.zip
+: 1662823203:0;extract Edge*.zip
+: 1662831095:0;cd coding/c64/
+: 1662963974:0;mv hive* coding/c64
+: 1662963982:0;mv eddie* coding/c64
+: 1662967079:0;cd tools
+: 1662967084:0;cd krillsloader
+: 1662967087:0;cd loader
+: 1662967221:0;cd src
+: 1662967381:0;make
+: 1662967384:0;make clean
+: 1662967450:0;v Makefile
+: 1662967525:0;bat version.inc
+: 1662968211:0;v include/config.inc
+: 1662968233:0;make prg
+: 1662968568:0;./tscrunch.py -h
+: 1662968574:0;python3 ./tscrunch.py -h
+: 1662969290:0;paru -Ss python3-scipy
+: 1662969297:0;paru -Ss scipy
+: 1662969343:0;paru -S python-scipy
+: 1662969363:0;cd Downloads/tscrunch13/tscrunch
+: 1662969408:0;cd coding/c64/tools/tscrunch
+: 1662969513:0;cd bin
+: 1662969524:0;cd tools/tscrunch
+: 1662969565:0;python3 ./tscrunch.py -x $0820 ~/coding/c64/bin/wiese.prg wiese_ts.prg
+: 1662969607:0;python3 ./tscrunch.py -x $0820 /home/eddie/coding/c64/bin/wiese.prg wiese_ts.prg
+: 1662969643:0;python3 ./tscrunch.py
+: 1662969682:0;python3 ./tscrunch.py -p /home/eddie/coding/c64/bin/wiese.prg a.out
+: 1662969724:0;python3 ./tscrunch.py -x "$0820" /home/eddie/coding/c64/bin/wiese.prg a.out
+: 1662969735:0;python3 ./tscrunch.py -x '$0820' /home/eddie/coding/c64/bin/wiese.prg a.out
+: 1662969772:0;mv a.out /home/eddie/coding/c64/bin/wiese_ts.prg
+: 1662980982:0;vim .
+: 1662981016:0;v .tmux.conf.ag
+: 1662983812:0;v .
+: 1662984264:0;git clone https://github.com/leslie255/nvim-config ~/.config/nvim
+: 1662984363:0;nvim .
+: 1662984625:0;....
+: 1662984631:0;git clone https://github.com/joelazar/nvim-config ~/.config/nvim
+: 1663079707:0;cd /mnt/t1/C64
+: 1663080019:0;cd ~/coding/c64/kickass
+: 1663080023:0;v 2x2.scroll
+: 1663080154:0;v 2X2.SRC
+: 1663082102:0;[H
+: 1663082228:0;cd /mnt/t1/C64/Games
+: 1663082244:0;cp fast_tracks.ZIP ~/coding/c64/discs
+: 1663082252:0;cd ~/coding/c64/discs
+: 1663082257:0;x fast_tracks.ZIP
+: 1663082851:0;c64debugger
+: 1663086742:0;cd /mnt/t1/C64/Spooks\ C64\ Tribute\ CD
+: 1663086783:0;unrar x C64_Tribute_CD.part1.rar
+: 1663090636:0;unrar
+: 1663090657:0;unrar e C64_Tribute_CD.part1.rar
+: 1663090801:0;cd ~/Downloads
+: 1663090809:0;x C64_Tribute_CD.part1.rar
+: 1663132438:0;
+: 1663132457:0;a\
+
+: 1663133353:0;cd .local/bin
+: 1663133358:0;v sshmenu
+: 1663133391:0;sshmenu
+: 1663134189:0;cd ../xmonad
+: 1663134704:0;vdirsyncer
+: 1663134708:0;vdirsyncer discover
+: 1663134747:0;vdirsyncer sync
+: 1663148030:0;cd .config/xmonad
+: 1663148033:0;v xmonad.hs
+: 1663168367:0;cd coding/c64/tools/droid64-0.5b
+: 1663168374:0;./droid64.sh
+: 1663248552:0;bashtop
+: 1663249232:0;v starship.toml
+: 1663249428:0;cd .config/dunst
+: 1663249430:0;v dunstrc
+: 1663249727:0;cd /usr/share
+: 1663249903:0;cd ../awesome
+: 1663250050:0;man notify-send
+: 1663250065:0;notify-send summary inhalt
+: 1663250186:0;v shortcutrc
+: 1663250269:0;./shortcutgen
+: 1663250282:0;cd Medien/Music/Musik
+: 1663254829:0;sudo vim fstab
+: 1663310689:0;bat config.py
+: 1663311059:0;git clone https://github.com/EddieFAF/c64coding
+: 1663311068:0;cd c64coding
+: 1663311078:0;rm doublecmd-1.0.0.r9560.x86_64-win64.7z
+: 1663311082:0;rm doublecmd.xml
+: 1663311086:0;rm highlighters.xml
+: 1663311111:0;cd misc
+: 1663311119:0;vim syntro.asm
+: 1663327041:0;paru -Ss jgamebase
+: 1663327055:0;yay jgamebase
+: 1663327205:0;cd jgamebase
+: 1663327221:0;tar xvf control.tar.xz
+: 1663327226:0;tar xvf data.tar.xz
+: 1663327263:0;sudo cp ./etc/* /etc/
+: 1663327271:0;sudo cp "./etc/*" /etc/
+: 1663327319:0;sudo cp "./usr/*" /usr/
+: 1663327425:0;jgamebase
+: 1663327431:0;cd /usr/games
+: 1663327438:0;./jgamebase
+: 1663328497:0;cd /mnt/t1/C64/Games/C64\ -\ Games\ -\ \[T64\]/A/unpacked
+: 1663328515:0;ls >> dirs.sh
+: 1663328584:0;man ls
+: 1663328592:0;ls!
+: 1663328606:0;:ls
+: 1663328622:0;bash
+: 1663328690:0;geany dirs.sh
+: 1663328767:0;v dirs.sh
+: 1663328901:0;./dirs.sh
+: 1663348658:0;cd .config/neofetch
+: 1663348668:0;bat config.conf
+: 1663349257:0;neofetch
+: 1663400059:0;x64sc
+: 1663406970:0;lxappearance
+: 1663407424:0;which bat
+: 1663407444:0;zi update
+: 1663411208:0;todo.sh list
+: 1663411211:0;todo.sh
+: 1663411216:0;todo.sh due
+: 1663411225:0;todo.sh listall
+: 1663411449:0;paru -S bat
+: 1663411459:0;bat
+: 1663411470:0;bat todo.cfg
+: 1663412835:0;tw-gui
+: 1663412841:0;taskwarrior-tui
+: 1663413064:0;paru -S todotxt-machine
+: 1663413248:0;todotxt-machine ./Nextcloud/ToDo/todo.txt
+: 1663413287:0;v .todotxt-machinerc
+: 1663423765:0;v .config/zsh/aliases
+: 1663423935:0;t ls
+: 1663424101:0;tg -show-default-bindings
+: 1663424106:0;tg --show-default-bindings
+: 1663570579:0;./tinyMediaManagerCMD.sh
+: 1663577531:0;git clone https://github.com/nanzee73/hive_asm_files
+: 1663579999:0;mcd c64
+: 1663580008:0;git clone https://gitlab.com/pseregiet/desire-fastline-c64-intro
+: 1663580016:0;git clone https://gitlab.com/pseregiet/desire-4k-for-moonshine
+: 1663580024:0;git clone https://gitlab.com/pseregiet/samar-ghost-in-the-sydney-c64
+: 1663580031:0;git clone https://gitlab.com/pseregiet/samar-watcher-of-time-and-space-c64
+: 1663580075:0;git clone https://github.com/nanzee73/hive_gimp
+: 1663583434:0;cd repositories/c64
+: 1663583496:0;v ~/.config/lf/lfrc
+: 1663584263:0;r
+: 1663584291:0;source .zshenv
+: 1663596244:0;cd coding/c64/tools
+: 1663596248:0;cd c64tools-linux
+: 1663596256:0;cs
+: 1663596259:0;./cs
+: 1663596269:0;./aomedit2
+: 1663596315:0;htop
+: 1663596340:0;./cpack
+: 1663596358:0;./bgedit3
+: 1663596379:0;./c64pack
+: 1663597444:0;vim .config/nvim/lua/user/plugins.lua
+: 1663679490:0;nano init.lua
+: 1663687049:0;git clone https://github.com/artart222/CodeArt ~/.config/nvim
+: 1663687672:0;git clone https://github.com/LunarVim/Neovim-from-scratch.git ~/.config/nvim
+: 1663688195:0;git clone https://github.com/brainfucksec/neovim-lua.git
+: 1663688438:0;cd nvim
+: 1663688448:0;cd lua/core
+: 1663688453:0;vim keymaps.lua
+: 1663737442:0;cd .config/nvim
+: 1663738813:0;cd plugins
+: 1663738822:0;nano telescope.lua
+: 1663739211:0;cd ~/repositories
+: 1663751657:0;cd ~/.config/awesome/themes
+: 1663751660:0;cd onedark
+: 1663751664:0;vim theme.lua
+: 1663761153:0;cd ~/.config/nvim
+: 1663761498:0;cd ~/repositories/dwm-flexipatch
+: 1663826848:0;tm
+: 1663826874:0;todotxt-machine
+: 1663827061:0;t
+: 1663827064:0;tw
+: 1663827086:0;cd .config/awesome
+: 1663828518:0;cd c64
+: 1663828973:0;z c64
+: 1663850005:0;z nvim
+: 1663854188:0;vim
+: 1663910135:0;paru -S cozette-otb
+: 1663914026:0;v
+: 1663934307:0;lg
+: 1664103345:0;vim ~/.config/nvim/lua/plugins/telescope.lua
+: 1664103586:0;v ~/.local/share/dwm/autostart.sh
+: 1664107507:0;cd .config/arco-dwm
+: 1664107511:0;cd sxhkd
+: 1664107584:0;bat sxhkdrc
+: 1664175748:0;v ~/.local/share/dwm/sxhkdrc
+: 1664178192:0;fc-list G Awesome
+: 1664178245:0;fc-list G Material
+: 1664178832:0;paru -Ss mononoki
+: 1664178878:0;paru -S nerd-fonts-mononoki
+: 1664178903:0;fc-cache G mononoki
+: 1664185485:0;v config.def.h
+: 1664185508:0;v patches.h
+: 1664186520:0;cd hive_asm_files
+: 1664187752:0;bat config.h
+: 1664189444:0;cd coding
+: 1664189448:0;mcd web
+: 1664189493:0;paru -S vscode-html-language-server
+: 1664189497:0;v index.html
+: 1664191752:0;vim .Xresources
+: 1664201802:0;paru -D python2
+: 1664201812:0;paru -R python2
+: 1664204640:0;host
+: 1664204675:0;echo $hostname
+: 1664204678:0;echo $host
+: 1664204682:0;cd /etc
+: 1664204692:0;echo ./hostname
+: 1664204698:0;cat ./hostname
+: 1664282809:0;z dwm-f
+: 1664282814:0;vim config.def.h
+: 1664282877:0;bat .Xresources
+: 1664283588:0;v .config/nvim/lua/core/colors.lua
+: 1664283674:0;v .config/nvim/lua/core/options.lua
+: 1664283812:0;v ~/.config/zsh/.zshrc
+: 1664283885:0;v ~/.config/zsh/aliases
+: 1664283934:0;vim ~/.config/zsh/aliases
+: 1664284009:0;v ranger/rc.conf
+: 1664284305:0;cd zsh
+: 1664284314:0;v .zshrc
+: 1664284827:0;cd..
+: 1664284830:0;cd eddie
+: 1664285746:0;sb-music
+: 1664285752:0;sb-nettraf
+: 1664286380:0;bat vifmrc
+: 1664287025:0;v nvim/lua/packer_init.lua
+: 1664287910:0;cd ranger/
+: 1664287917:0;mcd colorschemes
+: 1664288362:0;cd colorschemes
+: 1664288365:0;v onedark.py
+: 1664300011:0;set
+: 1664300034:0;...
+: 1664300041:0;v .zshenv
+: 1664300064:0;man grep
+: 1664300080:0;ranger
+: 1664343819:0;rm starship.toml
+: 1664343837:0;cp starship.toml.bak starship.toml
+: 1664345045:0;cd dwm-flexipatch
+: 1664345063:0;git stash
+: 1664345071:0;git pull
+: 1664345549:0;cp patches.def.h patches.h
+: 1664345558:0;v patches.def.h patches.h
+: 1664345648:0;v patches.h ~/Downloads/backup/dwm-flexipatch/patches.h
+: 1664346256:0;rm config.h
+: 1664346287:0;v config.mk ~/Downloads/backup/dwm-flexipatch/config.mk
+: 1664346357:0;v Makefile ~/Downloads/backup/dwm-flexipatch/Makefile
+: 1664348046:0;sudo make clean
+: 1664348122:0;cd repositories/dwm-flexipatch
+: 1664348128:0;v config.def.h ~/Downloads/backup/dwm-flexipatch/config.def.h
+: 1664348573:0;sudo make clean install
+: 1664352707:0;z ranger
+: 1664352713:0;v rc.conf
+: 1664353101:0;dpkg
+: 1664360629:0;ranger --copy-config=all
+: 1664360641:0;v scope.sh
+: 1664362711:0;cd repositories/st-flexipatch
+: 1664362719:0;bat config.def.h
+: 1664374563:0;cd .config/alacritty
+: 1664374566:0;v alacritty.yml
+: 1664375332:0;xrdb -load .Xresources
+: 1664375383:0;v .config/ranger/rc.conf
+: 1664375531:0;v .config/nvim/lua/packer_init.lua
+: 1664376177:0;v .config/zsh/.zshrc
+: 1664376371:0;z
+: 1664430095:0;clear
+: 1664430106:0;paru -Rcns python2
+: 1664433329:0;cd libreoffice-master
+: 1664433336:0;./install.sh
+: 1664433342:0;./add-dracula-application-colors.sh
+: 1664434111:0;cd .config/wezterm
+: 1664434245:0;v wezterm.lua
+: 1664453629:0;cd coding/c64/tools/multipaint
+: 1664453634:0;./multipaint
+: 1664453771:0;racd
+: 1664514412:0;cd dwmblocks-async
+: 1664514414:0;v config.h
+: 1664514514:0;ra
+: 1664515608:0;cd themes
+: 1664515735:0;git clone https://github.com/dracula/qutebrowser
+: 1664516603:0;cd .config/qutebrowser
+: 1664516605:0;v config.py
+: 1664542064:0;setxkbmap eu
+: 1664542241:0;paru -Qs eurkey
+: 1664542244:0;man paru
+: 1664616493:0;echo $EDITOR
+: 1664616499:0;nvim dunstrc
+: 1664703543:0;v sxhkdrc
+: 1664703662:0;xev
+: 1664810483:0;cd tmm_3.1.7_linux
+: 1664810488:0;./tinyMediaManager.sh
+: 1664889418:0;echo $DISPLAY
+: 1664889447:0;xkbcomp :0 -kbd
+: 1664889457:0;xkbcomp :0 -xkb
+: 1664889466:0;v server-0.xkb
+: 1664890184:0;xev -event keypress
+: 1664890196:0;xev -event keyboard
+: 1664890611:0;setxkbmap -layout eurkey
+: 1664890624:0;paru -Ss eurkey
+: 1664890631:0;paru -Ss eukey
+: 1664912977:0;setxkbmap -layout us
+: 1664913020:0;cd /usr/share/X11
+: 1664913250:0;cd download/Various\ Files
+: 1664944736:0;setxkbmap -layout eu
+: 1664944756:0;cd .local/share/dwm
+: 1664944759:0;v autostart.sh
+: 1664959578:0;rsync -a --delete /home/eddie /mnt/nasgard/download/backup/blackhole/arch
+: 1664959795:0;cd /mnt/nasgard
+: 1664969806:0;cd Switch-Library-Manager
+: 1664969856:0;ls -la
+: 1664969860:0;./Switch-Library-Manager
+: 1664969975:0;cd /mnt/t4/Games/Nintendo\ Switch\ ROMs
+: 1664969994:0;helix
+: 1664970258:0;paru -R iproute2
+: 1664970269:0;paru -S iproute2
+: 1664970298:0;/usr/bin/bridge
+: 1664970430:0;sudo pacman -S linux
+: 1664975603:0;v .local/share/dwm/autostart.sh
+: 1664975643:0;setxkbmap de
+: 1664975737:0;nvim
+: 1664975844:0;paru -R spaceship
+: 1664976841:0;paru -Syu
+: 1664976959:0;bat repositories/dwm-flexipatch/config.def.h
+: 1664977713:0;paru -R xmonad-contrib-git
+: 1664977736:0;paru -S xmonad-contrib-git
+: 1664977752:0;pkgbuild
+: 1664977776:0;mc
+: 1664978220:0;paru -S xmonad-contrib
+: 1664987048:0;cd Downloads
+: 1664987075:0;rm Nobara-36-Official-2022-09-03.iso
+: 1664988631:0;sudo vfm
+: 1664988638:0;sudo vifm
+: 1664990094:0;paru -S micro
+: 1664990102:0;micro
+: 1664990416:0;paru -Ss haskel-x11-xft
+: 1664990424:0;paru -Ss haskell-x11-xft
+: 1664990434:0;paru -S haskell-x11-xft
+: 1664990522:0;paru -Ss haskell-x11-1.10.2
+: 1664990526:0;paru -Ss haskell-x11
+: 1664990542:0;paru -S haskell-x11
+: 1664990589:0;paru -R xmonad-git xmobar xmonad-contrib
+: 1664990602:0;paru -R xmonad-git xmonad-contrib
+: 1664990621:0;paru -R arcolinux-xmonad-xmobar-git
+: 1664990628:0;paru -R xmobar
+: 1664990639:0;paru -R haskell-x11-xft
+: 1664990643:0;paru -R haskell-x11
+: 1664990658:0;paru -S xmonad xmonad-contrib xmobar
+: 1664990669:0;xmonad --recompile
+: 1664991653:0;paru -S git
+: 1664991746:0;paru -S qemu
+: 1664991772:0;cd repositories
+: 1664991781:0;cd lifer0se
+: 1664991790:0;git status
+: 1664991815:0;paru -Ss qemu
+: 1664991917:0;paru -S qemu-base
+: 1664991932:0;paru -S libvirt
+: 1664992301:0;paru -S libguestfs
+: 1665038898:0;sudo chmod a+x backup.sh
+: 1665039249:0;gng
+: 1665039253:0;df
+: 1665078290:0;v backup.sh
+: 1665078312:0;./backup.sh
+: 1665120488:0;ssh odyssee
+: 1665126373:0;sudo mc
+: 1665127205:0;paru -S xplr-git
+: 1665127342:0;paru -R rust xplr-git
+: 1665127348:0;paru -R rust
+: 1665127357:0;paru -S xplr
+: 1665127399:0;paru --clean
+: 1665127473:0;cd .config
+: 1665127473:0;l
+: 1665127485:0;mkdir xplr
+: 1665127501:0;version="$(xplr | grep ^version: | cut -d' ' -f 2)"
+: 1665127523:0;echo version = '"'${version:?}'"' > ~/.config/xplr/init.lua
+: 1665127531:0;cd xplr
+: 1665127546:0;sudo chmod a+w init.lua
+: 1665127886:0;v init.lua
+: 1665127904:0;rm init.lua
+: 1665127906:0;xplr
+: 1665129351:0;sudo v /etc/pacman.conf
+: 1665129358:0;sudo vim /etc/pacman.conf
+: 1665129481:0;cd /etc/pacman.d
+: 1665129485:0;cd hooks
+: 1665129498:0;sudo vim paccache.hook
+: 1665130358:0;cd ~
+: 1665130359:0;xkbcomp $DISPLAY output.xkb
+: 1665130365:0;rm server-0.xkb
+: 1665130369:0;v output.xkb
+: 1665130473:0;v .XCompose
+: 1665131047:0;sudo pacman -Syu
+: 1665134785:0;cd coding/c64
+: 1665134786:0;lf
+: 1665140596:0;cd coding/c64/hollywood
+: 1665140602:0;exomizer
+: 1665140618:0;exomizer sfx loader.prg a.out
+: 1665140639:0;exomizer sfx basic loader.prg a.out
+: 1665140664:0;exomizer sfx basic loader.prg
+: 1665140673:0;ls
+: 1665146598:0;cd .config/awesome/themes/
+: 1665146600:0;vfm
+: 1665146624:0;cd dracula
+: 1665146867:0;..
+: 1665146874:0;v rc.lua
+: 1665146935:0;cd themes/dracula
+: 1665147073:0;v .Xresources
+: 1665147693:0;v theme.lua
+: 1665147710:0;paru
+: 1665149176:0;todo.sh ls
+: 1665149185:0;alias
+: 1665149192:0;tg
+: 1665153470:0;exit
+: 1665153479:0;cd .config/awesome
+: 1665153484:0;cd themes/dracula
+: 1665153486:0;v theme.lua
+: 1665153955:0;xplr
+: 1665154034:0;ra
+: 1665154616:0;echo ${execpi 10 todo.sh -d ls}
+: 1665154635:0;todo.sh -d ls
+: 1665154670:0;todo.sh ls
+: 1665154769:0;lf
+: 1665154809:0;todo.sh ls
+: 1665154826:0;v todo.cfg
+: 1665171207:0;cd .config/micro
+: 1665171208:0;ls
+: 1665171213:0;vim settings.json
+: 1665171461:0;ls
+: 1665171465:0;micro settings.json
+: 1665172037:0;paru
+: 1665172081:0;sudo mc
+: 1665172140:0;paru
+: 1665213542:0;sudo mc
+: 1665213783:0;paru
+: 1665215133:0;cd repositories/dwm-flexipatch
+: 1665215137:0;v config.def.h
+: 1665215169:0;sudo make clean install
+: 1665215179:0;lf
+: 1665215279:0;fzf
+: 1665215300:0;fzf .*
+: 1665215605:0;cd
+: 1665216029:0;fzf
+: 1665216334:0;vim
+: 1665216400:0;cd .vim/plugged/fzf
+: 1665216402:0;ls
+: 1665216404:0;mc
+: 1665216505:0;vim
+: 1665216513:0;..
+: 1665216516:0;vim
+: 1665216632:0;...
+: 1665216637:0;v .vimrc
+: 1665216675:0;vim
+: 1665216905:0;sudo mkdir /usr/share/vim/vimfiles/install
+: 1665216927:0;mc
+: 1665217180:0;cd .fzf
+: 1665217185:0;git pull
+: 1665217197:0;ls
+: 1665217201:0;./install
+: 1665217236:0;fzf -version
+: 1665217241:0;fzf --version
+: 1665217253:0;which fzf
+: 1665217268:0;zi update
+: 1665217334:0;which fzf
+: 1665217340:0;fzf --version
+: 1665217363:0;lf
+: 1665217408:0;fzf --version
+: 1665217411:0;which fzf
+: 1665217430:0;zi update
+: 1665217488:0;lf
+: 1665217636:0;mc
+: 1665217739:0;lf
+: 1665217892:0;fd
+: 1665217899:0;clear
+: 1665217918:0;builtin cd -- ./coding/c64/kickass/hive/
+: 1665217926:0;ls
+: 1665217933:0;fzf
+: 1665217942:0;vim
+: 1665218012:0;ls
+: 1665218015:0;bat .source.txt
+: 1665218019:0;ls
+: 1665218116:0;yay -Slq | fzf -q "$1" -m --preview 'yay -Si {1}'| xargs -ro yay -S
+: 1665218310:0;vim .zshrc
+: 1665218584:0;vim
+: 1665219206:0;fzf
+: 1665219379:0;v .zshrc
+: 1665219517:0;fzf
+: 1665220008:0;v .Xresources
+: 1665220117:0;fzf
+: 1665220160:0;v .zshrc
+: 1665220169:0;v .Xresources
+: 1665220222:0;fzf
+: 1665220473:0;nvim
+: 1665229794:0;cd repositories
+: 1665229809:0;cd dwm-flexipatch
+: 1665229812:0;ls
+: 1665229825:0;git status
+: 1665229841:0;vfm
+: 1665229931:0;..
+: 1665229934:0;cd .config
+: 1665229941:0;chezmoi add ranger
+: 1665229943:0;mc
+: 1665230022:0;ls
+: 1665230031:0;chezmoi alacritty
+: 1665230037:0;chezmoi add alacritty
+: 1665230047:0;chezmoi add zsh
+: 1665230066:0;chezmoi add nvim
+: 1665230073:0;chezmoi add vifm
+: 1665230077:0;chezmoi add awesome
+: 1665230106:0;..
+: 1665230112:0;cd .local/share/chezmoi
+: 1665230113:0;ls
+: 1665230118:0;chezmoi
+: 1665230130:0;chezmoi re-add
