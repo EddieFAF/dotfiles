@@ -1,14 +1,15 @@
 [hostname]
 ssh_only = true
 disabled = false
-style = "bold italic #87A752"
+style = "bold purple"
 format = "[@](white)[$ssh_symbol$hostname]($style) "
-trim_at = "-"
+ssh_symbol = ""
+trim_at = "."
 
 [username]
 show_always = false
-style_user = "bold dimmed blue"
-style_root = "bold red"
+style_user = "green bold"
+style_root = "red bold"
 format = "[$user]($style)"
 
 [character]
@@ -16,152 +17,198 @@ success_symbol = "[>](bold green)"
 error_symbol = "[x](bold red)"
 vimcmd_symbol = "[<](bold green)"
 
+[git_branch]
+#symbol = "git "
+symbol = " "
+format = "[$symbol$branch]($style) "
+style = "bright-black"
+
 [git_commit]
 tag_symbol = " tag "
 
 [git_status]
-ahead = ">"
-behind = "<"
-diverged = "<>"
-renamed = "r"
-deleted = "x"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+renamed = "»${count} "
+style =	"bold red"
+disabled = false
+format = '([\[$all_status$ahead_behind\]]($style) )'
+stashed = "[${count}*](green)" 
+modified = "[${count}+](yellow)" 
+deleted =  "[${count}-](red)" 
+conflicted =  "[${count}~](red)" 
+ahead = "⇡${count}"
+behind = "⇣${count}"
+untracked = "[${count}?](blue)" 
+staged = "[${count}+](green)" 
+
 
 [cmd_duration]
-min_time = 10_000
+min_time = 500
 format = "took [$duration]($style)"
+style = "bold italic red"
 
 [directory]
-#read_only = " ro"
-read_only = "  "
-truncation_length = 5
+read_only = " ro"
+#read_only = " "
+truncation_length = 10
 truncation_symbol = "…/"
-#style = "blue"
+truncate_to_repo = true
+style = "bold italic blue"
 fish_style_pwd_dir_length = 2
 #style = "bold cyan"
 format = "[$path]($style)[$read_only]($read_only_style) "
 
 [aws]
-symbol = "aws "
-
-[bun]
-symbol = "bun "
-
-[c]
-symbol = "C "
-
-[cobol]
-symbol = "cobol "
-
-[conda]
-symbol = "conda "
-
-[crystal]
-symbol = "cr "
+#symbol = "aws "
+symbol = "  "
 
 [cmake]
 symbol = "cmake "
+format = '(via [$symbol($version )]($style))'
 
-[daml]
-symbol = "daml "
+[cobol]
+symbol = "cobol "
+format = '(via [$symbol($version )]($style))'
+
+[conda]
+symbol = " "
+#symbol = "conda "
+
+[crystal]
+symbol = "cr "
+format = '(via [$symbol($version )]($style))'
 
 [dart]
-symbol = "dart "
+symbol = " "
+#symbol = "dart "
+format = '(via [$symbol($version )]($style))'
 
 [deno]
 symbol = "deno "
+format = '(via [$symbol($version )]($style))'
 
 [dotnet]
 symbol = ".NET "
+format = '(via [$symbol($version )(🎯 $tfm )]($style))'
 
 [docker_context]
-symbol = "docker "
+#symbol = "docker "
+symbol = " "
+format = "via [$symbol$context]($style) "
+style = "blue bold"
+only_with_files = true
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+detect_folders = []
+disabled = false
 
 [elixir]
-symbol = "exs "
+#symbol = "exs "
+symbol = " "
+format = '(via [$symbol($version \(OTP $otp_version\) )]($style))'
 
 [elm]
-symbol = "elm "
-
-[git_branch]
-#symbol = "git "
+#symbol = "elm "
+symbol = " "
+format = '(via [$symbol($version \(OTP $otp_version\) )]($style))'
 
 [golang]
-symbol = "go "
+symbol = " "
+#symbol = "go "
+format = '(via [$symbol($version )]($style))'
 
 [hg_branch]
-symbol = "hg "
+symbol = " "
+#symbol = "hg "
 
 [java]
-symbol = "java "
+#symbol = "java "
+symbol = " "
+format = '(via [$symbol($version )]($style))'
 
 [julia]
-symbol = "jl "
+symbol = " "
+#symbol = "jl "
+format = '(via [$symbol($version )]($style))'
 
 [kotlin]
 symbol = "kt "
+format = '(via [$symbol($version )]($style))'
 
 [lua]
-symbol = "lua "
-
-[nodejs]
-symbol = "nodejs "
+symbol = " "
+#symbol = "lua "
+format = '(via [$symbol($version )]($style))'
 
 [memory_usage]
-symbol = "memory "
-
-[meson]
-symbol = "meson "
+symbol = " "
+#symbol = "memory "
 
 [nim]
-symbol = "nim "
+symbol = " "
+#symbol = "nim "
+format = '(via [$symbol($version )]($style))'
 
 [nix_shell]
-symbol = "nix "
+symbol = " "
+#symbol = "nix "
+
+[nodejs]
+symbol = " "
+#symbol = "nodejs "
+format = '(via [$symbol($version )]($style))'
 
 [ocaml]
 symbol = "ml "
+format = '(via [$symbol($version )(\($switch_indicator$switch_name\) )]($style))'
 
 [package]
-symbol = "pkg "
+symbol = " "
+#symbol = "pkg "
+format = '(is [$symbol$version]($style) )'
 
 [perl]
 symbol = "pl "
+format = '(via [$symbol($version )]($style))'
 
 [php]
 symbol = "php "
-
-[pulumi]
-symbol = "pulumi "
+format = '(via [$symbol($version )]($style))'
 
 [purescript]
 symbol = "purs "
+format = '(via [$symbol($version )]($style))'
 
 [python]
-symbol = "py "
+#symbol = "py "
+symbol = " "
+format = '(via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style))'
 
-[raku]
-symbol = "raku "
+[rlang]
+symbol = "ﳒ "
+format = '(via [$symbol($version )]($style))'
 
 [ruby]
-symbol = "rb "
+symbol = " "
+#symbol = "rb "
+format = '(via [$symbol($version )]($style))'
 
 [rust]
-symbol = "rs "
+symbol = " "
+#symbol = "rs "
+format = '(via [$symbol($version )]($style))'
 
 [scala]
-symbol = "scala "
-
-[spack]
-symbol = "spack "
-
-[sudo]
-symbol = "sudo "
+#symbol = "scala "
+symbol = " "
+format = '(via [$symbol($version )]($style))'
 
 [swift]
 symbol = "swift "
+format = '(via [$symbol($version )]($style))'
 
 [terraform]
 symbol = "terraform "
 
 [zig]
 symbol = "zig "
+format = '(via [$symbol($version )]($style))'
