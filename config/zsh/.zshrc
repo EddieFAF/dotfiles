@@ -25,6 +25,7 @@ autoload -Uz _zinit
 
 fpath=($HOME/.config/zsh $fpath)
 
+export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
 
 # HISTORY SUBSTRING SEARCHING
 bindkey '^[[A' history-substring-search-up
