@@ -1,38 +1,11 @@
 
 
-# PATH MODIFICATIONS {{{1
-
-# Functions which modify the path given a directory, but only if the directory
-# exists and is not already in the path. (Super useful in ~/.zshlocal)
-
-_prepend_to_path() {
-  if [ -d $1 -a -z ${path[(r)$1]} ]; then
-    path=($1 $path);
-  fi
-}
-
-_append_to_path() {
-  if [ -d $1 -a -z ${path[(r)$1]} ]; then
-    path=($path $1);
-  fi
-}
-
-_force_prepend_to_path() {
-  path=($1 ${(@)path:#$1})
-}
-
-# Note that there is NO dot directory appended!
-_force_prepend_to_path /usr/local/sbin
-_force_prepend_to_path /usr/local/bin
-_force_prepend_to_path ~/bin
-_append_to_path /usr/sbin
-
 #####################
 # FIRST PROMPT LINE #
 #####################
 red='\e[1;34m'
 NC='\e[0m'
-echo -e "${red}ArcoLinux${NC}" `cat /version` "| ${red}ZSH${NC} ${ZSH_VERSION}"
+echo -e "${red}Debian${NC}" `cat /etc/debian_version` "| ${red}ZSH${NC} ${ZSH_VERSION}"
 
 #####################
 # ZINIT             #
@@ -61,13 +34,8 @@ bindkey '^[[4~' end-of-line
 bindkey '^[[3~' delete-char
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
-
-# FZF-TAB
-zinit ice wait"1" lucid
-zinit light Aloxaf/fzf-tab
-
 zinit wait lucid for \
- silent atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
+ silent atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions \
@@ -77,6 +45,9 @@ zinit wait lucid for \
     zsh-users/zsh-history-substring-search \
  pick"zsh-interactive-cd.plugin.zsh" \
     changyuheng/zsh-interactive-cd \
+ pick"z.sh" \
+    knu/z \
+ zdharma-continuum/history-search-multi-word \
 
 # TAB COMPLETIONS
 zstyle ':completion:*' rehash true
@@ -92,14 +63,19 @@ zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm,cmd -w -w"
 zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
 zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
-#zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|emacs|nano|vi|vim):*' fzf-preview 'exa -1 --color=always $realpath 2>/dev/null|| ls -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
+       fzf-preview 'echo ${(P)word}'
+
+# Autocomplete hidden files
+#zstyle ':completion:*' file-patterns '%p(D):globbed-files *(D-/):directories' '*(D):all-files'
 
 # case insensitive path-completion
-zstyle ':completion:*' matcher-list                       \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]}'             \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
+#zstyle ':completion:*' matcher-list                       \
+#'m:{[:lower:][:upper:]}={[:upper:][:lower:]}'             \
+#'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
+#'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
+#'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 # partial completion suggestions
 zstyle ':completion:*'                list-suffixes
@@ -130,6 +106,14 @@ zstyle ':completion:*:functions'      ignored-patterns '(_*|pre(cmd|exec))'
 # Array completion element sorting.
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 
+# Completion Style
+#zstyle ':completion:*:*:cd:*'          ignore-parents parent pwd
+#zstyle ':completion:*:*:cd:*'          tag-order local-directories directory-stack path-directories
+#zstyle ':completion:*:*:cd:*'          menu yes select
+
+# Avoid twice the same element on rm
+zstyle ':completion:*:rm:*'            ignore-line yes
+
 # Insert all expansions for expand completer
 zstyle ':completion:*:expand:*'        tag-order all-expansions
 
@@ -138,13 +122,6 @@ zstyle ':completion:*:history-words'   list false
 zstyle ':completion:*:history-words'   menu yes
 zstyle ':completion:*:history-words'   remove-all-dups yes
 zstyle ':completion:*:history-words'   stop yes
-
-# Make zsh know about hosts already accessed by SSH
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
-
-# Load menu-style completion.
-zmodload -i zsh/complist
-bindkey -M menuselect '^M' accept
 
 #####################
 # PLUGINS           #
@@ -160,44 +137,96 @@ zinit light junegunn/fzf
 zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
 zinit light junegunn/fzf
 
+# FZF-TAB
+zinit ice wait"1" lucid
+zinit light Aloxaf/fzf-tab
 
 # zsh-fzf-history-search
 zinit ice lucid wait'0'
 zinit light joshskidmore/zsh-fzf-history-search
 
+# EXA
+zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
+zinit light ogham/exa
+zinit ice wait blockf atpull'zinit creinstall -q .'
+
+# BAT
+zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat" atload"alias cat=bat"
+zinit light sharkdp/bat
+
+# FORGIT
+zinit ice wait lucid
+zinit load 'wfxr/forgit'
+
+# LAZYGIT
+zinit ice lucid wait"0" as"program" from"gh-r" mv"lazygit* -> lazygit" atload"alias lg='lazygit'"
+zinit light 'jesseduffield/lazygit'
+
+# LAZYDOCKER
+zinit ice lucid wait"0" as"program" from"gh-r" mv"lazydocker* -> lazydocker" atload"alias ld='lazydocker'"
+zinit light 'jesseduffield/lazydocker'
+
+# dotbare
+#zinit light kazhala/dotbare
+
+# RANGER
+#zinit ice depth'1' as"program" pick"ranger.py"
+#zinit light ranger/ranger
+
 # FD
 zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
 zinit light sharkdp/fd
 
-zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
-zinit snippet OMZ::plugins/archlinux/archlinux.plugin.zsh
+zinit for \
+    OMZP::common-aliases \
+    OMZL::correction.zsh \
+    OMZL::directories.zsh \
+    OMZL::key-bindings.zsh \
+    OMZL::theme-and-appearance.zsh
+
+zinit snippet OMZ::plugins/debian/debian.plugin.zsh
+zinit snippet OMZ::plugins/docker-compose/docker-compose.plugin.zsh
 zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
 zinit ice wait'!'
-zinit snippet OMZP::colored-man-pages
+zinit wait lucid for \
+    OMZP::colored-man-pages \
+    OMZP::cp \
+    OMZP::git \
+    OMZP::sudo
 
+# Diff so fancy
+zinit ice as"program" pick"bin/git-dsf"
+zinit light "zdharma-continuum/zsh-diff-so-fancy"
+
+zinit light "srijanshetty/docker-zsh"
 zinit light "supercrabtree/k"
 zinit light "le0me55i/zsh-extract"
+zinit load "trapd00r/LS_COLORS"
+#zinit load "zpm-zsh/ssh"
+zinit light "jreese/zsh-titles"
+zinit wait lucid light-mode depth"1" for \
+    zsh-users/zsh-history-substring-search \
+    agkozak/zsh-z
 
-#zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
-#    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
-#    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
-#zinit light trapd00r/LS_COLORS
-
-zinit load "agkozak/zsh-z"
 zinit light "MichaelAquilina/zsh-you-should-use"
 zinit load "andrewferrier/fzf-z"
+zinit light "b4b4r07/enhancd"
 zinit load "chrissicool/zsh-256color"
 zinit load "unixorn/fzf-zsh-plugin"
 
-#Powerlevel10k Theme
-#zinit light romkatv/powerlevel10k
+#####################
+# EnhanCD           #
+#####################
+export ENHANCD_FILTER="fzf --height 40% --reverse --ansi"
+export ENHANCD_DISABLE_DOT=1
+export ENHANCD_DISABLE_HOME=0
 
 #####################
 # HISTORY           #
 #####################
 [ -z "$HISTFILE" ] && HISTFILE="$ZDOTDIR/.zsh_history"
 export HIST_STAMPS="dd.mm.yyyy"
-export HISTSIZE=1000
+export HISTSIZE=100000000000
 export SAVEHIST=$HISTSIZE
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 export ZSH_PECO_HISTORY_OPTS="--layout=bottom-up --initial-filter=Fuzzy"
@@ -210,13 +239,44 @@ setopt hist_expire_dups_first # delete duplicates first when HISTFILE size excee
 setopt hist_ignore_all_dups   # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
-setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks before recording.
-setopt HIST_SAVE_NO_DUPS      # Don't write dupes in the history file.
 setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history          # share command history data
 setopt always_to_end          # cursor moved to the end in full completion
 setopt hash_list_all          # hash everything before completion
-setopt autocd extendedglob nomatch menucomplete
+setopt completealiases        # complete alisases
+setopt always_to_end          # when completing from the middle of a word, move the cursor to the end of the word
+setopt complete_in_word       # allow completion from within a word/phrase
+setopt correct                # spelling correction for commands
+#setopt nocorrect              # spelling correction for commands
+setopt list_ambiguous         # complete as much of a completion until it gets ambiguous.
+setopt nolisttypes
+setopt listpacked
+setopt automenu
+#setopt vi
+setopt AUTO_PUSHD           # Push the current directory visited on the stack.
+setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
+setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
+setopt appendhistory
+setopt AUTO_CD                # Navigate without typing cd
+setopt globdots
+setopt mark_dirs
+
+setopt BANG_HIST              # Treat '!' char specially during expansion.
+setopt CHASE_LINKS            # Resolve links to their location
+setopt EXTENDED_HISTORY       # Use history ":start:elapsed;command" format.
+setopt HASH_CMDS              # Dont search for commands
+setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks before recording.
+setopt HIST_SAVE_NO_DUPS      # Don't write dupes in the history file.
+setopt INTERACTIVE_COMMENTS   # Allow comments in readlin
+setopt LIST_ROWS_FIRST        # Rows are way better
+setopt LIST_TYPES             # Append type chars to files
+setopt MULTIOS                # Write to multiple descriptors
+setopt PROMPTSUBST            # Enable param and arithmetic substitution
+setopt RC_QUOTES              # Allow 'Henry''s Garage'
+setopt shwordsplit            # Word splits like Bash
+setopt SHORT_LOOPS            # Sooo lazy: for x in y do cmd
+unsetopt FLOW_CONTROL         # Disable /stop characters editor
+
 
 set termguicolors
 
@@ -252,7 +312,6 @@ vicd()
     fi
     cd "$dst"
 }
-source $HOME/.config/zsh/lf_icons
 
 #####################
 # FANCY-CTRL-Z      #
@@ -272,45 +331,37 @@ function fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 #####################
 # FZF SETTINGS      #
 #####################
 export FZF_BASE=$(which fzf)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
+export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -NC {} | less)) || echo {} 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS='--preview="ls {}" --preview-window=right:60%:wrap'
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --exit-0
 --cycle
+--pointer=">"
 --bind=ctrl-j:accept
---height=80%
+--height=40%
+--border
 --layout=reverse
 --preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -500"
 --info=inline
 --bind "?:toggle-preview"
---pointer=">"
 --color=dark
---color=fg:-1,bg:-1,hl:#5AF78E,fg+:-1,bg+:#4D4D4D,hl+:#f1FA8C
---color=info:#BD93F9,prompt:#5AF78E,pointer:#ff79C6,marker:#ff79C6,spinner:#ff79C6
+--color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
+--color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7
 '
 #--color=fg:#e5e9f0,bg:#2e3440,hl:#81a1c1
 #--color=fg+:#e5e9f0,bg+:#2e3440,hl+:#81a1c1
 #--color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
 #--color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b'
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-function ranger-cd() {
-    tempfile=$(mktemp /tmp/${tempfoo}.XXXXXX)
-    ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
-    test -f "$tempfile" &&
-    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
-        cd -- "$(cat "$tempfile")"
-    fi
-    rm -f -- "$tempfile" > /dev/null 2>&1
-}
 
 # Allow local customizations in the ~/.zshrc_local_after file
 if [ -f ~/.zshrc_local_after ]; then
@@ -319,10 +370,19 @@ fi
 
 source ~/.cache/zsh-shortcuts
 
-export EDITOR='nvim'
+function ranger-cd() {
+    tempfile=$(mktemp /tmp/${tempfoo}.XXXXXX)
+        ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+            test -f "$tempfile" &&
+                   if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+        cd -- "$(cat "$tempfile")"
+    fi
+    rm -f -- "$tempfile" > /dev/null 2>&1
+}
+
+
 
 #Starship prompt
 eval "$(starship init zsh)"
 
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
