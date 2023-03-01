@@ -1,33 +1,63 @@
 Xft.dpi: 96
 *.antialias: true
 *.hinting: true
-!st.font: xft:Hack Nerd Font Mono:size=11:regular
+!st.font: xft:Iosevka Nerd Font:size=11:regular
 
 !! Transparency (0-1):
 *.alpha: 0.9
 
 
 ! Dracula Xresources palette
-*.foreground: #F8F8F2
-*.background: #282A36
-#define bg     #282A36
-#define base00 #000000
-#define base01 #FF5555
-#define base02 #50FA7B
-#define base03 #F1FA8C
-#define base04 #BD93F9
-#define base05 #FF79C6
-#define base06 #8BE9FD
-#define base07 #BFBFBF
+!*.foreground: #F8F8F2
+!*.background: #282A36
+!#define bg     #282A36
+!#define base00 #000000
+!#define base01 #FF5555
+!#define base02 #50FA7B
+!#define base03 #F1FA8C
+!#define base04 #BD93F9
+!#define base05 #FF79C6
+!#define base06 #8BE9FD
+!#define base07 #BFBFBF
 
-#define base08 #4D4D4D
-#define base09 #FF6E67
-#define base10 #5AF78E
-#define base11 #F4F99D
-#define base12 #CAA9FA
-#define base13 #FF92D0
-#define base14 #9AEDFE
-#define base15 #E6E6E6
+!#define base08 #4D4D4D
+!#define base09 #FF6E67
+!#define base10 #5AF78E
+!#define base11 #F4F99D
+!#define base12 #CAA9FA
+!#define base13 #FF92D0
+!#define base14 #9AEDFE
+!#define base15 #E6E6E6
+
+!! Everforest
+!*.foreground: #D3C6AA
+!*.background: #2F383E
+!*.cursorColor: #FFFFFF
+!#define bg #2F383E
+! black
+!#define base00 #374247
+!#define base08 #859289
+! red
+!#define base01 #E67E80
+!#define base09 #E67E80
+! green
+!#define base02 #A7C080
+!#define base10 #A7C080
+! yellow
+!#define base03 #DBBC7F
+!#define base11 #DBBC7F
+! blue
+!#define base04 #7FBBB3
+!#define base12 #7FBBB3
+! magenta/purple
+!#define base05 #D699B6
+!#define base13 #D699B6
+! cyan
+!#define base06 #83C092
+!#define base14 #83C092
+! white
+!#define base07 #D3C6AA
+!#define base15 #D3C6AA
 
 !Gruvbox
 !#define base00 #282828
@@ -81,27 +111,27 @@ Xft.dpi: 96
 !#define base15 #dfdfdf
 
 !OneDark
-!*.foreground:    #ABB2BF
-!*.background:    #1E2127
-!*.cursorColor:   #5C6370
-!*.highlightColor:#3A3F4B
+*.foreground:    #ABB2BF
+*.background:    #1E2127
+*.cursorColor:   #5C6370
+*.highlightColor:#3A3F4B
 
-!#define base00 #1E2127
-!#define base01 #BE5046
-!#define base02 #98C379
-!#define base03 #D19A66
-!#define base04 #61AFEF
-!#define base05 #8A3FA0
-!#define base06 #2B6F77
-!#define base07 #ABB2BF
-!#define base08 #5C6370
-!#define base09 #E06C75
-!#define base10 #BAE59B
-!#define base11 #E5C07B
-!#define base12 #83CFFF
-!#define base13 #C678DD
-!#define base14 #56B6C2
-!#define base15 #FFFFFF
+#define base00 #1E2127
+#define base01 #BE5046
+#define base02 #98C379
+#define base03 #D19A66
+#define base04 #61AFEF
+#define base05 #8A3FA0
+#define base06 #2B6F77
+#define base07 #ABB2BF
+#define base08 #5C6370
+#define base09 #E06C75
+#define base10 #BAE59B
+#define base11 #E5C07B
+#define base12 #83CFFF
+#define base13 #C678DD
+#define base14 #56B6C2
+#define base15 #FFFFFF
 
 #define bg1 #282C34
 #define bg2 #31353F
@@ -109,8 +139,8 @@ Xft.dpi: 96
 #define bg4 #3B3F4C
 
 ! special
-URxvt.background: #1E2127
-URxvt.foreground: base15
+URxvt.background: [85]#1E2127
+!URxvt.foreground: base15
 
 URxvt.color0: base00
 URxvt.color1: base01
@@ -135,10 +165,10 @@ URxvt.color15: base15
 URxvt*imLocale: de_DE.UTF-8
 URxvt*buffered: false
 URxvt.intensityStyles: false
-URxvt.cursorColor: white
+!URxvt.cursorColor: white
 
 !! Extensions
-URxvt.perl-ext-common: default,matcher,resize-font,url-select,keyboard-select,clipboard
+URxvt.perl-ext-common: default,matcher,resize-font,url-select,keyboard-select,clipboard,tabbedex
 URxvt.colorUL: #4682B4
 !! url-select
 URxvt.keysym.M-u: perl:url-select:select_next
@@ -147,8 +177,7 @@ URxvt.url-select.underline: true
 !! keyboard-select:
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 !! resize-font
-!!URxvt.keysym.C-k:   resize-font:bigger
-!!URxvt.keysym.C-j:   resize-font:smaller
+URxvt.resize-font.step:   1
 URxvt.keysym.C-S-Prior: resize-font:bigger
 URxvt.keysym.C-S-Next:  resize-font:smaller
 URxvt.keysym.C-S-Home:  resize-font:reset
@@ -162,38 +191,26 @@ URxvt.keysym.M-v: perl:clipboard:paste
 
 
 !! URxvt Appearance
-URxvt*font: xft:JetBrainsMono Nerd Font:pixelsize=14:minspace=False
-!URxvt.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
-!URxvt.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
-URxvt*letterSpace: 0
-URxvt.letterSpace: 0
-URxvt.lineSpace: 0
+URxvt*font: xft:MesloLGS NF:style=Regular:size=11:antialias=true
+URxvt*boldFont: xft:MesloLGS NF:style=bold:size=11:antialias=true
+URxvt.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
+URxvt.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
+!URxvt*letterSpace: -1
+!URxvt.letterSpace: 0
+!URxvt.lineSpace: 0
 URxvt.geometry: 133x45
-URxvt.internalBorder: 10
+URxvt*internalBorder: 4
 URxvt.cursorBlink: true
 URxvt.cursorUnderline: false
 URxvt.saveline: 2048
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.urgentOnBell: true
-URxvt.depth: 32
+URxvt*depth: 32
 URxvt.iso14755: false
 URxvt.iso14755_52: false
 !URxvt.termName: rxvt-unicode-256color
-
-! perl extensions
-! You can install extra perl extensions you should add them here
-!URxvt.perl-ext-common:  default,clipboard,url-select,keyboard-select,fullscreen,resize-font
-!URxvt.perl-ext-common:  default,clipboard,url-select,keyboard-select,tabbed
-
-! macros for resize-font - sudo pacman -S urxvt-resize-font-git
-!URxvt.resize-font.step:   1
-!URxvt.keysym.C-S-l:       resize-font:smaller
-!URxvt.keysym.C-S-k:       resize-font:bigger
-!URxvt.keysym.C-S-Home:    resize-font:reset
-!URxvt.keysym.C-question:  resize-font:show
-!URxvt.keysym.C-Down:      resize-font:smaller
-!URxvt.keysym.C-Up:        resize-font:bigger
+URxvt.termName: rxvt-256color
 
 ! macros for clipboard and selection
 !URxvt.copyCommand:      xclip -i -selection clipboard
@@ -215,15 +232,41 @@ URxvt.iso14755_52: false
 !URxvt.tabbed.tab-bg:    4
 !URxvt.buffered:         false
 
-! clipboard
-!URxvt.keysym.Control-Shift-C: perl:clipboard:copy
-!URxvt.keysym.Control-Shift-V: perl:clipboard:paste
+! +------+
+! | Tabs |
+! +------+
+URxvt.keysym.Control-Shift-N: perl:tabbedex:new_tab
+URxvt.keysym.Control-Shift-K: perl:tabbedex:next_tab
+URxvt.keysym.Control-Shift-J: perl:tabbedex:prev_tab
+URxvt.keysym.Control-Shift-X: perl:tabbedex:kill_tab
 
+URxvt.keysym.Control-Shift-R: perl:tabbedex:rename_tab
+URxvt.keysym.Control-Shift-H: perl:tabbedex:move_tab_left
+URxvt.keysym.Control-Shift-L: perl:tabbedex:move_tab_right
 
+! Design for tabs
+! Tabbedex Ext
+URxvt.tabbedex.no-tabbedex-keys:  yes
+URxvt.tabbedex.new-button:        false
+URXvt.tabbedex.reopen-on-close:   yes
+URxvt.tabbedex.autohide:          yes
+URxvt.tabbedex.tabbar-fg:         5
+URxvt.tabbedex.tabbar-bg:         0
+URxvt.tabbedex.tab-fg:            10
+URxvt.tabbedex.tab-bg:            0
+URxvt.tabbedex.bell-fg:           0
+URxvt.tabbedex.bell-bg:           0
+URxvt.tabbedex.bell-tab-fg:       0
+URxvt.tabbedex.bell-tab-bg:       0
+URxvt.tabbedex.title-fg:          14
+URxvt.tabbedex.title-bg:          0
 
+URxvt*tabbedex.title: true
+URxvt*tabbedex.transparent:true
 
-xmonad.font: xft:JetBrainsMono Nerd Font:weight=regular:pixelsize=13:antialias=true:hinting=true
-xmonad.font.gtk: xft:JetBrainsMono Nerd Font:regular:size=11
+xmonad.background: #282A36
+xmonad.font: xft:Inconsolata Nerd Font Mono:weight=regular:pixelsize=13:antialias=true:hinting=true
+xmonad.font.gtk: xft:Inconsolata Nerd Font Mono:regular:size=11
 xmonad.font.big: xft:JetBrainsMono Nerd Font:regular:size=13
 xmonad.font.bold: xft:JetBrainsMono Nerd Font:bold:size=11
 xmonad.font.italic: xft:JetBrainsMono Nerd Font:italic:size=11
