@@ -42,7 +42,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 """""""""""
 "Snippets "
 """""""""""
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 """""""""""""""""""""""
@@ -102,7 +102,7 @@ Plug 'voldikss/vim-floaterm'
 """"""""""""
 "indentline"
 """"""""""""
-Plug 'https://github.com/Yggdroot/indentLine.git'
+Plug 'https://github.com/Yggdroot/indentLine.git' 
 
 call plug#end()
 
@@ -223,10 +223,8 @@ if &term =~ '256color'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     set termguicolors
   endif
-  colorscheme dracula
+  colorscheme onedark
 endif
-
-let g:doom_one_terminal_colors = v:true
 
 set background=dark
 "Indentline follow theme change to 1 if colors are fucked
@@ -279,9 +277,9 @@ let g:syntastic_auto_jump = 3
 "1 the cursor will always jump to the first issue detected,
 "regardless of type.
 "2 the cursor will jump to the first issue detected, but only if
-"this issue is an error.
+"this issue is an error. 
 "3 the cursor will jump to the first error detected, if any. If
-"all issues detected are warnings, the cursor won't jump.
+"all issues detected are warnings, the cursor won't jump. 
 
 """""""""""""""""""
 " Custom Mappings "
@@ -645,7 +643,7 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
-" Enable NERDCommenterToggle to check all selected lines is commented or not
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
 let g:NERDToggleCheckAllLines = 1
 
 """""""""""""""""""""""""""""""""
@@ -735,7 +733,7 @@ let g:floaterm_width  = 120
 "Snippets"
 """"""""""
 "Use END key to trigger the snippets, default was TAB but that conflicts with
-"the Completion trigger see :h keycodes to change this to sth else
+"the Completion trigger see :h keycodes to change this to sth else 
 "use Ctrl j and k to move visually within the snippet that was just triggered
 "Ctrl PGDN lists the available snippets
 let g:UltiSnipsExpandTrigger='<END>'
@@ -759,12 +757,6 @@ augroup END
 " reopening a file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-
-if has("autocmd")
-  augroup templates
-    autocmd BufNewFile *.sh 0r ~/.vim/templates/skeleton.sh
-  augroup END
 endif
 
 autocmd BufWritePost $MYVIMRC source $MYVIMRC
