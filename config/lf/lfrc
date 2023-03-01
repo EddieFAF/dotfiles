@@ -1,0 +1,226 @@
+##			Builtin Variables
+
+set shell zsh
+set shellopts '-eu:--shwordsplit'	# https://github.com/gokcehan/lf/wiki/Tips#split-words-by-default-in-zsh
+set ifs "\n"
+set filesep "\n"  # default already
+set scrolloff 3
+set drawbox
+set hidden true
+set preview false
+set icons false
+set period 1
+set findlen 2
+set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml:lost+found"
+set incsearch
+set promptfmt "\033[33;1m%u\033[0m\033[32;1m@\033[0m\033[34;1m%h\033[0m:\033[35;1m%d\033[0m\033[36;1m%f\033[0m"
+set mouse
+set dircounts
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
+set timefmt " 2006-01-02  15:04:05.000000000-0700"
+
+# adjust coloumn width to terminal
+cmd recol ${{
+	w=$COLUMNS
+	if [ $w -le 60 ]; then
+    ~/.config/lf/cleaner
+		lf -remote "send $id set nopreview; set ratios 1"
+	elif [ $w -le 80 ]; then
+		lf -remote "send $id set ratios 1:1; set preview"
+	else
+		lf -remote "send $id set ratios 1:2:3; set preview"
+	fi
+}}
+
+# set terminal title to current working directory
+cmd on-cd &{{
+	printf "\033]0; $PWD\007" > /dev/tty
+}}
+
+cmd open ${{
+    case $(file --mime-type "$(readlink -f $f)" -b) in
+        text/*|application/json|application/octet-stream) $EDITOR $fx;;
+        *) for f in $fx; do open $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd chmod ${{
+	chmod "$@" "${(s/\0/)fx}" &&
+		lf -remote "send $id :reload"
+}}
+
+cmd fzf_jump ${{
+	res="$(find . -maxdepth 3 | fzf --header='Jump to:')"
+	if [ -f "$res" ]; then
+		cmd="select"
+	elif [ -d "$res" ]; then
+		cmd="cd"
+	fi
+    lf -remote "send $id $cmd \"$res\""
+}}
+
+cmd delete ${{
+  set -f
+  printf "\n$fx\n"
+  printf "delete?[y/N]"
+  read ans
+  if [[ $ans == "y" ]]; then
+    rm -rf $fx
+  fi
+}}
+
+# reload config and refresh ui
+cmd refresh :{{
+  source "~/.config/lf/lfrc"
+  reload
+}}
+
+
+cmd extract &{{
+    # :extract [out_dir]
+    out_dir="$*"
+
+    if [ -n "$out_dir" ]; then
+        mkdir -p "$out_dir"
+        cd "$out_dir" || {
+	      lf -remote "send $id echoerr unable to create dir"
+          exit 1
+      	}
+    fi
+
+    [ -w . ] || {
+	  lf -remote "send $id echoerr unable to extract to \
+	      \'${out_dir:-.}\'. No write permissions"
+	  exit 1
+    }
+
+    lf -remote "send $id echomsg ${f##*/} extracting ..."
+
+    case "$f" in
+    *.tar)  tar -xf "$f"       ;;
+    *.tar.bz|*.tbz| \
+    *.tar.bz2|*.tbz2)
+            tar -xjf "$f"      ;;
+    *.tar.gz|*.tgz)
+            tar -xzf "$f"      ;;
+    *.tar.xz|*.txz)
+            tar -xJf "$f"      ;;
+    *.tar.[zZ]|*.t[zZ])
+            tar -xZf "$f"      ;;
+    *.tar.lz|*.tlz| \
+    *.tar.lzma|*.tlzma| \
+    *.tar.lzo|*.tzo| \
+    *.tar.zst|*.tzst)
+            tar -xaf "$f"      ;;
+    *.7z)   7za x -- "$f"      ;;
+    *.a|*.ar)
+            ar x -- "$f"       ;;
+    *.ace)  unace e -- "$f"    ;;
+    *.alz)  unalz -- "$f"      ;;
+    *.arc|*.ark|*.ARC|*.ARK)
+            nomarch -- "$f"    ;;
+    *.arj|*.ARJ)
+            arj e -r -- "$f"   ;;
+    *.bz|*.bz2)
+            bunzip2 -k -- "$f" ;;
+    *.cab|*.CAB|*.exe|*.EXE)
+            cabextract "$f"    ;;
+    *.cpio) cpio -id -F "$f"   ;;
+    *.deb)  dpkg -x -- "$f" .  ;;
+    *.gz)   gunzip -k "$f"     ;;
+    *.lha|*.lzh)
+            lha x "$f"lha       ;;
+    *.lrz|*.lrzip|*.rz)
+            lrunzip -- "$f"    ;;
+    *.lz)   lzip -d -k -- "$f" ;;
+    *.lz4)  unlz4 -- "$f"      ;;
+    *.lzma) xz -d -k "$f"      ;;
+    *.lzo)  lzop -x "$f"       ;;
+    *.rar)  unrar x -- "$f"    ;;
+    *.src.rpm|*.rpm|*.spm)
+            rpm2cpio "$f" | cpio -dium ;;
+    *.xz)   unxz -k -- "$f"    ;;
+    *.[zZ]) uncompress -- "$f" ;;
+    *.zip|*.osz)  unzip -- "$f"      ;;
+    *.zst)  unzstd -- "$f"     ;;
+    *.AppImage) ./"$f" --appimage-extract ;;
+    *)
+        lf -remote "send $id echoerr ${f##*/} unknown archive format"
+        exit 0
+    esac
+
+    if [ -n "$out_dir" ]; then
+	    lf -remote "send $id select '$out_dir'"
+    fi
+
+    lf -remote "send $id reload"
+    lf -remote "send $id echomsg ${f##*/} extracted."
+}}
+
+cmd extract_sub &{{
+    # :extract_sub
+    # -- Extract an archiven subdirectory
+    lf -remote "send $id extract '$(basename -- "${f%.*}" .tar)'"
+}}
+
+# compress current file or selected files with tar and gunzip
+cmd tar ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+# compress current file or selected files with zip
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+cmd touch %{{
+    if [ "$1" ]; then
+        touch -- "$@" && lf -remote "send $id select \"$1\""
+    fi
+}}
+# Copy the path of the selected files to the clipboard
+cmd YankClipboard &{{
+    echo -n "$fx" | xsel --clipboard
+    lf -remote "send $id echo Copied selected file(s) to clipboard."
+}}
+map ,y YankClipboard
+
+# Select the file path currentlyn the clipboard
+cmd GoClipboard &{{
+    file=`xsel --clipboard`
+    lf -remote "send $id select \"$file\""
+}}
+map gp GoClipboard
+
+map ~ cd ~
+map <c-r> reload
+map . set hidden!
+map D delete
+map <f-8> delete
+map f :fzf_jump
+map <esc> :quit
+map gr refresh
+# list the size of each item in the current directory
+map U !printf "\n";du -csh *
+map = recol
+map A rename # at the very end
+map I push A<c-a> # at the very beginning
+map R push A<c-u> # rename completely
+map E extract
+map <a-e> extract_sub
+
+# give a name and then make a directory
+map <f-7> push :mkdir<space>
+map T push :touch<space>
+
