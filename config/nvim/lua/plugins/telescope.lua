@@ -1,9 +1,14 @@
 return {
-
   {
     "nvim-telescope/telescope.nvim",
     opts = {
       defaults = {
+        layout_config = {
+          prompt_position = "top",
+        },
+        border = true,
+        winblend = 0,
+        prompt_prefix = "   ",
         path_display = { "smart" },
         mappings = {
           i = {
