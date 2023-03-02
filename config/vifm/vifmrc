@@ -163,6 +163,14 @@ command! diff : if expand('%%c') == expand('%%f')
             \ |   execute '!$EDITOR -d %%f'
             \ | endif
 
+command! cmpinternal compare-cmd %a %S
+command! cmp : if expand('%%c') == expand('%%f')
+           \ |     echo expand('Comparing %%"c and %%"C:t ...')
+           \ |     cmpinternal %c %C
+           \ | else
+           \ |     echo expand('Comparing files: %%"f ...')
+           \ |     cmpinternal %f
+           \ | endif'"')
 
 " ------------------------------------------------------------------------------
 
@@ -329,11 +337,17 @@ nnoremap ,v :write | edit $MYVIFMRC | restart<cr>
 
 set dotfiles
 
+highlight User1 ctermfg=green
 
 " Set custom status line look
 "set statusline="  Hint: %z%= %A %10u:%-7g %15E %20d  "
 "set statusline="  %t%= %A %10u:%-7g %15s %20d  "
-set statusline="%10A %10u:%g %8s[%8E] %18d   %{&sort} %= %a free"
+"original"set statusline="%10A %10u:%g %8s[%8E] %18d   %{&sort} %= %a free"
+"set statusline="%-t%=||%u:%-g %10E %d %{&sort} "
+"set statusline="  %t %T %A %E / %a %u:%g %D %z"
+"set statusline=" %t %= %21d %u:%g %A %10E "
+set statusline="%t %[%1*-> %T%]%0* %= %{&sort} %8s[%8E] %10A %10u:%g %18d | %a/%c"
+
 
 "set rulerformat="%=%2l/%S [%L] "
 "set rulerformat="%l/%S%[ +%x%]"
