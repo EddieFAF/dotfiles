@@ -13,7 +13,9 @@ local function lsp()
       for _, client in ipairs(clients) do
         local filetypes = client.config.filetypes
         if filetypes and vim.fn.index(filetypes, ft) ~= -1 then
-          table.insert(clients_output, client.name)
+          if client.name ~= "null-ls" then
+            table.insert(clients_output, client.name)
+          end
         end
       end
 
@@ -121,7 +123,7 @@ return {
           },
         },
         { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-        { "filename", path = 1, symbols = { modified = "  ", readonly = " �� ", unnamed = "" } },
+        { "filename", path = 1, symbols = { modified = "  ", readonly = "  ", unnamed = "" } },
       },
       lualine_x = {
         lsp(),
@@ -147,7 +149,7 @@ return {
         },
         {
           function()
-            return string.format("�� %d", vim.api.nvim_buf_line_count(0))
+            return string.format(" %d", vim.api.nvim_buf_line_count(0))
           end,
         },
       },
