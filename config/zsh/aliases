@@ -75,6 +75,8 @@ alias v='nvim'
 
 alias display='xrandr --output DisplayPort-0 --mode 1920x1200 --output DVI-1 --mode 1680x1050 --primary --right-of DisplayPort-0'
 
+alias batsign='curl https://batsign.me/at/eddie.faf@googlemail.com/cc06576fee'
+
 ### set common functions
 #############
 
