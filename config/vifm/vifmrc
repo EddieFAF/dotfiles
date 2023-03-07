@@ -176,8 +176,8 @@ command! cmp : if expand('%%c') == expand('%%f')
 
 " What should be saved automatically between vifm sessions.  Drop "savedirs"
 " value if you don't want vifm to remember last visited directories for you.
-set vifminfo=dhistory,chistory,state,tui,shistory,
-    \phistory,fhistory,dirstack,registers,bookmarks,bmarks
+set vifminfo=dhistory,chistory,state,tui,
+    \dirstack,registers,bookmarks,bmarks
 
 " ------------------------------------------------------------------------------
 
@@ -267,7 +267,7 @@ nnoremap <f2> :shell<cr>
 nnoremap D :delete!<cr>
 nnoremap dd :trash!<cr>
 nnoremap dt :trash!<cr>
-
+nnoremap r cw
 
 " Midnight commander alike mappings
 " Open current directory in the other pane

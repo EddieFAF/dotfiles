@@ -8,6 +8,15 @@ return {
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim", "root" },
+              },
+            },
+          },
+        },
       },
     },
   },
