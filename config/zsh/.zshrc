@@ -202,7 +202,7 @@ zinit light "zdharma-continuum/zsh-diff-so-fancy"
 zinit light "srijanshetty/docker-zsh"
 zinit light "supercrabtree/k"
 zinit light "le0me55i/zsh-extract"
-zinit load "trapd00r/LS_COLORS"
+#zinit load "trapd00r/LS_COLORS"
 #zinit load "zpm-zsh/ssh"
 zinit light "jreese/zsh-titles"
 zinit wait lucid light-mode depth"1" for \
