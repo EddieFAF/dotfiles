@@ -88,20 +88,20 @@ return {
       section_separators = "",
     },
     winbar = {
-      lualine_c = {
-        -- stylua: ignore
-        {
-          function() return require("nvim-navic").get_location() end,
-          cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
-        },
-      },
-      lualine_x = {
-        -- stylua: ignore
-        {
-          function() return os.date("%R")
-          end,
-        },
-      },
+      -- lualine_c = {
+      --   -- stylua: ignore
+      --   {
+      --     function() return require("nvim-navic").get_location() end,
+      --     cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
+      --   },
+      -- },
+      -- lualine_x = {
+      --   -- stylua: ignore
+      --   {
+      --     function() return os.date("%R")
+      --     end,
+      --   },
+      -- },
     },
     sections = {
       -- stylua: ignore
