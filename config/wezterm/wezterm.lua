@@ -55,7 +55,7 @@ wezterm.on("update-right-status", function(window, pane)
 	window:set_right_status(name or "")
 end)
 
-local font_name = "Hack Nerd Font"
+local font_name = "JetBrainsMono Nerd Font"
 
 local colors = {
 	-- special
@@ -128,14 +128,14 @@ return {
 
 	-- Cursor style
 	default_cursor_style = "BlinkingUnderline",
-	color_scheme = "DoomOne",
+	color_scheme = "OneDark (base16)",
 
 	-- X11
 	enable_wayland = false,
 
 	-- Keybinds
 	disable_default_key_bindings = false,
-	leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
+	--leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
 	key_tables = keybindings.key_tables,
 	keys = keybindings.keys,
 
