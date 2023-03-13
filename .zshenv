@@ -7,7 +7,7 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 #####################
 # ENV VARIABLE      #
 #####################
-export EDITOR='vim'
+export EDITOR='nvim'
 export VISUAL=$EDITOR
 export PAGER='less'
 export SHELL='/bin/zsh'
@@ -20,4 +20,3 @@ export LOCATION="Uetze"
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.config/zsh/.zinit/plugins/ogham---exa/bin:$HOME/.local/bin::$PATH
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
-echo $EDITOR
