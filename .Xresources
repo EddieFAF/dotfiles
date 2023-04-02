@@ -308,14 +308,14 @@ dwm.selfgcolor: base00
 dwm.selbordercolor: base02
 
 dwm.normfgcolor: base15
-dwm.normbgcolor: bg
+dwm.normbgcolor: bg1
 dwm.normbordercolor: base00
 
-dwm.tagsselfgcolor: bg
-dwm.tagsselbgcolor: base04
+dwm.tagsselfgcolor: base04
+dwm.tagsselbgcolor: bg1
 
 dwm.tagsnormfgcolor: base15
-dwm.tagsnormbgcolor: bg
+dwm.tagsnormbgcolor: bg1
 
 dwm.titlenormfgcolor: base15
 dwm.titlenormbgcolor: base00
@@ -323,7 +323,7 @@ dwm.titlenormbgcolor: base00
 dwm.titleselfgcolor: base02
 dwm.titleselbgcolor: bg2
 
-dwm.font: xft:JetBrainsMono Nerd Font:weight=regular:pixelsize=13:antialias=true:hinting=true
+dwm.font: xft:JetBrainsMono Nerd Font:weight=regular:pixelsize=12:antialias=true:hinting=true
 
 
 
