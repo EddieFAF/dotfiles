@@ -7,7 +7,7 @@
 # Change if issues
 #autorandr horizontal
 
-setxkbmap -layout eu,de -option 'grp:alt_shift_toggle'
+setxkbmap eu
 
 picom -b --config ~/.config/picom.conf &
 

@@ -255,7 +255,7 @@ vicd()
     fi
     cd "$dst"
 }
-source $HOME/.config/zsh/lf_icons
+#source $HOME/.config/zsh/lf_icons
 
 #####################
 # FANCY-CTRL-Z      #

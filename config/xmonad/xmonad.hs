@@ -306,7 +306,7 @@ myKeys =
     ("M-M1-j", windows W.focusDown),
     ("M-M1-k", windows W.focusUp),
     ("C-M1-f", spawn "firefox"),
-    ("M-d", spawn ("dmenu_run -p 'Run: ' -h 24 -nb '#282A36' -sb '" ++ color02 ++ "' -sf '" ++ colorBack ++ "'" ++ " -fn 'Hack Nerd Font:pixelsize=12'")),
+    ("M-d", spawn ("dmenu_run -p 'Run: ' -h 24 -nb '#282A36' -sb '" ++ color02 ++ "' -sf '" ++ colorBack ++ "'" ++ " -fn 'JetBrainsMono Nerd Font:pixelsize=12'")),
     --    , ("M-e", spawn myDmenu)
     ("M-l", spawn "xscreensaver-command -lock"),
     ("<Print>", spawn "flameshot gui"),

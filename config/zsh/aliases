@@ -25,7 +25,7 @@ done
 
 alias vfm=vifmrun
 alias em="emacsclient -c -a 'emacs'"
-alias lf=lf-uberzug
+#alias lf=lf-uberzug
 alias ra='ranger'
 alias racd=ranger-cd
 alias lg="lazygit"
