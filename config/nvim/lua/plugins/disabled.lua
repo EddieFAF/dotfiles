@@ -7,5 +7,5 @@ return {
     "L3MON4D3/LuaSnip",
     enabled = true,
   },
-  { "stevearc/dressing.nvim", enabled = false },
+  { "stevearc/dressing.nvim", enabled = true },
 }

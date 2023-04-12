@@ -35,7 +35,7 @@ return {
     end,
   },
 
-  -- add gruvbox
+  -- add onedark theme
   { "navarasu/onedark.nvim" },
 
   -- Jetzt Auswahl des Themes

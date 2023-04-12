@@ -340,21 +340,20 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -NC {} | less)) || echo {} 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS='--preview="ls {}" --preview-window=right:60%:wrap'
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
+#export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --exit-0
 --cycle
---pointer=">"
 --bind=ctrl-j:accept
---height=40%
---border
+--height=80%
 --layout=reverse
 --preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -500"
 --info=inline
 --bind "?:toggle-preview"
+--pointer=">"
 --color=dark
---color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
---color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7
+--color=fg:-1,bg:-1,hl:#C678DD,fg+:#FFFFFF,bg+:#4B5263,hl+:#D858FE
+--color=info:#98C379,prompt:#61AFEF,pointer:#BE5046,marker:#E5C07B,spinner:#61AFEF,header:#61AFEF
 '
 #--color=fg:#e5e9f0,bg:#2e3440,hl:#81a1c1
 #--color=fg+:#e5e9f0,bg+:#2e3440,hl+:#81a1c1
@@ -380,7 +379,6 @@ function ranger-cd() {
     fi
     rm -f -- "$tempfile" > /dev/null 2>&1
 }
-
 
 
 #Starship prompt
