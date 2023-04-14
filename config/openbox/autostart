@@ -7,7 +7,7 @@
 # Change if issues
 #autorandr horizontal
 
-setxkbmap eu
+#setxkbmap eu
 
 picom -b --config ~/.config/picom.conf &
 

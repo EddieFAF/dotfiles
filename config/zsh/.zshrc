@@ -203,7 +203,9 @@ export HIST_STAMPS="dd.mm.yyyy"
 export HISTSIZE=1000
 export SAVEHIST=$HISTSIZE
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
 export ZSH_PECO_HISTORY_OPTS="--layout=bottom-up --initial-filter=Fuzzy"
+export EDITOR='nvim'
 
 #####################
 # SETOPT            #
@@ -315,6 +317,17 @@ function ranger-cd() {
     rm -f -- "$tempfile" > /dev/null 2>&1
 }
 
+### CHANGE TITLE OF TERMINALS
+case ${TERM} in
+  xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|alacritty|st|konsole*)
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+        ;;
+  screen*)
+    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
+    ;;
+esac
+
+
 # Allow local customizations in the ~/.zshrc_local_after file
 if [ -f ~/.zshrc_local_after ]; then
     source ~/.zshrc_local_after
@@ -322,7 +335,21 @@ fi
 
 source ~/.cache/zsh-shortcuts
 
-export EDITOR='nvim'
+
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+
+function nvims() {
+  items=("default" "kickstart" "LazyVim" "AstroNvim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt="Neovim Config > " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
 
 #function set_win_title(){
 #    echo -ne "\033]0; $(basename "$PWD") \007"
