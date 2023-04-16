@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 
 # PATH MODIFICATIONS
 
@@ -26,12 +33,6 @@ _force_prepend_to_path /usr/local/bin
 _force_prepend_to_path ~/bin
 _append_to_path /usr/sbin
 
-#####################
-# FIRST PROMPT LINE #
-#####################
-red='\e[1;34m'
-NC='\e[0m'
-echo -e "${red}ArcoLinux${NC}" `cat /version` "| ${red}ZSH${NC} ${ZSH_VERSION}"
 
 #####################
 # ZINIT             #
@@ -60,10 +61,6 @@ bindkey '^[[4~' end-of-line
 bindkey '^[[3~' delete-char
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
-
-# FZF-TAB
-zinit ice wait"1" lucid
-zinit light Aloxaf/fzf-tab
 
 zinit wait lucid for \
  silent atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
@@ -150,7 +147,7 @@ bindkey -M menuselect '^M' accept
 # PLUGINS           #
 #####################
 # SSH-AGENT
-zinit light bobsoppe/zsh-ssh-agent
+#zinit light bobsoppe/zsh-ssh-agent
 
 # FZF BINARY AND TMUX HELPER SCRIPT
 zinit ice lucid wait'0c' as"command" pick"bin/fzf-tmux"
@@ -160,6 +157,9 @@ zinit light junegunn/fzf
 zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
 zinit light junegunn/fzf
 
+# FZF-TAB
+zinit ice wait"1" lucid
+zinit light Aloxaf/fzf-tab
 
 # zsh-fzf-history-search
 zinit ice lucid wait'0'
@@ -169,19 +169,29 @@ zinit light joshskidmore/zsh-fzf-history-search
 zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
 zinit light sharkdp/fd
 
-zinit snippet OMZ::plugins/common-aliases/common-aliases.plugin.zsh
+zinit for \
+  OMZP::common-aliases \
+  OMZL::correction.zsh \
+  OMZL::directories.zsh \
+  OMZL::key-bindings.zsh \
+  OMZL::theme-and-appearance.zsh
+
 zinit snippet OMZ::plugins/archlinux/archlinux.plugin.zsh
 zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
 zinit ice wait'!'
-zinit snippet OMZP::colored-man-pages
+zinit wait lucid for \
+  OMZP::colored-man-pages \
 
-zinit light "supercrabtree/k"
+#zinit light "supercrabtree/k"
 zinit light "le0me55i/zsh-extract"
 
 #zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
 #    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
 #    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
 #zinit light trapd00r/LS_COLORS
+
+zinit wait lucid light-mode depth"1" for \
+  zsh-users/zsh-history-substring-search \
 
 zinit load "agkozak/zsh-z"
 zinit light "MichaelAquilina/zsh-you-should-use"
@@ -193,7 +203,7 @@ zinit ice as"program" pick"bin/git-dsf"
 zinit light zdharma-continuum/zsh-diff-so-fancy
 
 #Powerlevel10k Theme
-#zinit ice depth=1; zinit light romkatv/Powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 #####################
 # HISTORY           #
@@ -277,8 +287,6 @@ function fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 #####################
 # FZF SETTINGS      #
 #####################
@@ -306,6 +314,7 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 #--color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
 #--color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b'
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 function ranger-cd() {
     tempfile=$(mktemp /tmp/${tempfoo}.XXXXXX)
@@ -358,7 +367,7 @@ function nvims() {
 #precmd_functions+=(set_win_title)
 
 #Starship prompt
-eval "$(starship init zsh)"
+#eval "$(starship init zsh)"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
