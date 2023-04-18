@@ -87,16 +87,12 @@ zstyle ':completion:complete:*:options' sort false
 zstyle ':completion::complete:*' gain-privileges 1
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm,cmd -w -w"
-zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
-zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
-#zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-
-# case insensitive path-completion
-zstyle ':completion:*' matcher-list                       \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]}'             \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' \
-'m:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
+zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
+#zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --git -hl --icons --color=always $realpath'
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
+export LESSOPEN='|~/.lessfilter %s'
 
 # partial completion suggestions
 zstyle ':completion:*'                list-suffixes
@@ -298,17 +294,15 @@ export FZF_ALT_C_OPTS='--preview="ls {}" --preview-window=right:60%:wrap'
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --exit-0
 --cycle
+--ansi
 --bind=ctrl-j:accept
---height=80%
---layout=reverse
---preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -500"
---info=inline
+--height=40%
 --bind "?:toggle-preview"
---pointer=">"
 --color=dark
 --color=fg:-1,bg:-1,hl:#5AF78E,fg+:-1,bg+:#4D4D4D,hl+:#f1FA8C
 --color=info:#BD93F9,prompt:#5AF78E,pointer:#ff79C6,marker:#ff79C6,spinner:#ff79C6
 '
+#--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -500"
 #--color=fg:#e5e9f0,bg:#2e3440,hl:#81a1c1
 #--color=fg+:#e5e9f0,bg+:#2e3440,hl+:#81a1c1
 #--color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
