@@ -8,5 +8,5 @@ return {
       require("mini.map").setup(opts)
     end,
   },
-  { "echanovski/mini.bracketed", version = false },
+  { "echasnovski/mini.bracketed", version = false },
 }
