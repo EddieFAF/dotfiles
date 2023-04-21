@@ -9,3 +9,4 @@ vim.opt.listchars = {
   precedes = "‹",
   trail = "•",
 }
+vim.opt.laststatus = 3
