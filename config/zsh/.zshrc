@@ -344,6 +344,7 @@ export FZF_ALT_C_OPTS='--preview="ls {}" --preview-window=right:60%:wrap'
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --exit-0
 --cycle
+--border
 --bind=ctrl-j:accept
 --height=80%
 --layout=reverse

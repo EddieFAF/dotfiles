@@ -5,7 +5,7 @@ return {
     "b0o/incline.nvim",
     event = "BufReadPre",
     config = function()
-      local colors = require("tokyonight.colors").setup()
+      --local colors = require("tokyonight.colors").setup()
       require("incline").setup({
         highlight = {
           groups = {
