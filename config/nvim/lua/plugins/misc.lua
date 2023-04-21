@@ -42,7 +42,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "doom-one",
+      colorscheme = "onedark",
     },
   },
   {

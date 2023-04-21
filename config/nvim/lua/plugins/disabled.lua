@@ -8,5 +8,5 @@ return {
     enabled = true,
   },
   { "stevearc/dressing.nvim", enabled = true },
-  { "folke/noice.nvim", enabled = false },
+  { "folke/noice.nvim", enabled = true },
 }

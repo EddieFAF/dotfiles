@@ -311,8 +311,8 @@ dwm.normfgcolor: base15
 dwm.normbgcolor: bg1
 dwm.normbordercolor: base00
 
-dwm.tagsselfgcolor: base04
-dwm.tagsselbgcolor: bg1
+dwm.tagsselfgcolor: bg1
+dwm.tagsselbgcolor: base04
 
 dwm.tagsnormfgcolor: base15
 dwm.tagsnormbgcolor: bg1
