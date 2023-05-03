@@ -7,18 +7,19 @@ set filesep "\n"  # default already
 set scrolloff 3
 set drawbox
 set hidden true
-set preview false
+set preview true
 set icons false
 set period 1
 set findlen 2
 set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml:lost+found"
 set incsearch
-set promptfmt "\033[33;1m%u\033[0m\033[32;1m@\033[0m\033[34;1m%h\033[0m:\033[35;1m%d\033[0m\033[36;1m%f\033[0m"
+set promptfmt "\033[33;1m%u\033[0m\033[32;1m@\033[0m\033[34;1m%h\033[0m:\033[35;1m%d\033[0m\033[36;1m%f%S%F\033[0m"
 set mouse
 set dircounts
 set previewer ~/.config/lf/preview
 set cleaner ~/.config/lf/cleaner
-set timefmt " 2006-01-02  15:04:05.000000000-0700"
+#set timefmt " 02.01.2006  15:04:05.000000000-0700"
+set ruler "acc:progress:selection:ind"
 
 # adjust coloumn width to terminal
 cmd recol ${{
@@ -32,6 +33,16 @@ cmd recol ${{
 		lf -remote "send $id set ratios 1:2:3; set preview"
 	fi
 }}
+
+cmd toggle_preview %{{
+  if [ "$lf_preview" = "true" ]; then
+    lf -remote "send $id :set preview false; set ratios 1:5"
+  else
+    lf -remote "send $id :set preview true; set ratios 1:2:3"
+  fi
+}}
+
+map zp toggle_preview
 
 # set terminal title to current working directory
 cmd on-cd &{{
