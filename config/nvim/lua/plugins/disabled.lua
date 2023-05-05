@@ -8,4 +8,5 @@ return {
     enabled = true,
   },
   { "stevearc/dressing.nvim", enabled = true },
+  { "goolord/alpha-nvim", enabled = false },
 }

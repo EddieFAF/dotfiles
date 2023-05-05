@@ -18,7 +18,7 @@ set mouse
 set dircounts
 set previewer ~/.config/lf/preview
 set cleaner ~/.config/lf/cleaner
-#set timefmt " 02.01.2006  15:04:05.000000000-0700"
+set timefmt " 02.01.2006  15:04:05.000000000-0700"
 set ruler "acc:progress:selection:ind"
 
 # adjust coloumn width to terminal
