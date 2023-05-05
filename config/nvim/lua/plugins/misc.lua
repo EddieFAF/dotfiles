@@ -67,7 +67,7 @@ return {
   -- kanagawa
   {
     "rebelot/kanagawa.nvim",
-    lazy = true,
+    lazy = false,
     config = function()
       require("kanagawa").setup({
         transparent = true,
@@ -82,7 +82,7 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = true,
+    lazy = false,
     config = function()
       require("catppuccin").setup({
         transparent_background = true,
@@ -95,6 +95,16 @@ return {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "tokyonight",
+    },
+  },
+
+  -- Weniger Notify Meldungen
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      level = 3,
+      render = "minimal",
+      stages = "static",
     },
   },
 }
