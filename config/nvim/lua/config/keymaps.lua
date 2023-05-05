@@ -13,3 +13,10 @@ vim.keymap.set("n", "<leader>p", '"+p')
 vim.keymap.set("n", "<leader>y", '"+y')
 vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("n", "<leader>Y", '"+Y')
+
+-- select all
+vim.keymap.set("n", "<C-a>", "gg<S-v>G")
+
+-- increment/decrement
+vim.keymap.set("n", "+", "<C-a>")
+vim.keymap.set("n", "-", "<C-x>")

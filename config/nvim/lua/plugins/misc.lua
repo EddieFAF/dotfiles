@@ -37,12 +37,64 @@ return {
 
   -- add gruvbox
   { "navarasu/onedark.nvim" },
+  -- tokyonight
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    config = function()
+      require("tokyonight").setup({
+        transparent = true,
+      })
+    end,
+  },
+
+  -- nightfox
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = true,
+    config = function()
+      require("nightfox").setup({
+        options = {
+          transparent = true,
+          styles = {
+            comments = "italic",
+          },
+        },
+      })
+    end,
+  },
+
+  -- kanagawa
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = true,
+    config = function()
+      require("kanagawa").setup({
+        transparent = true,
+        keywordStyle = {
+          italic = false,
+        },
+      })
+    end,
+  },
+
+  -- catppuccin
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = true,
+    config = function()
+      require("catppuccin").setup({
+        transparent_background = true,
+      })
+    end,
+  },
 
   -- Jetzt Auswahl des Themes
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "onedark",
+      colorscheme = "tokyonight",
     },
   },
 }

@@ -84,7 +84,7 @@ return {
   event = "VeryLazy",
   opts = {
     options = {
-      theme = "onedark",
+      theme = "tokyonight",
       icons_enabled = true,
       component_separators = "┊",
       -- component_separators = { left = "╲", right = "╱" },

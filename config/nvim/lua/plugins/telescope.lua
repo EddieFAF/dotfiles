@@ -1,3 +1,9 @@
+local function current_buffer_fuzzy_find()
+  require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+    previewer = false,
+  }))
+end
+
 return {
 
   -- add telescope-fzf-native
@@ -22,6 +28,9 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
+    keys = {
+      { "<leader>/", current_buffer_fuzzy_find, mode = "n", desc = "Fuzzy Find in current buffer" },
+    },
     opts = {
       defaults = {
         layout_strategy = "horizontal",
