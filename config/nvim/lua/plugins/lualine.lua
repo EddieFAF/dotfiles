@@ -70,22 +70,17 @@ local function mixed_indent()
 end
 
 local icons = require("lazyvim.config").icons
-
-local function fg(name)
-  return function()
-    ---@type {foreground?:number}?
-    local hl = vim.api.nvim_get_hl_by_name(name, true)
-    return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
-  end
-end
+local Util = require("lazyvim.util")
 
 return {
   "nvim-lualine/lualine.nvim", -- Fancier statusline
   event = "VeryLazy",
   opts = {
     options = {
-      theme = "tokyonight",
+      theme = "auto",
       icons_enabled = true,
+      global_status = true,
+      disabled_filetypes = { statusline = { "dashboard", "alpha" } },
       component_separators = "┊",
       -- component_separators = { left = "╲", right = "╱" },
       section_separators = "",
@@ -123,6 +118,7 @@ return {
             hint = icons.diagnostics.Hint,
           },
         },
+        { "filename", path = 1 },
         -- stylua: ignore
         {
           function() return require("nvim-navic").get_location() end,
@@ -137,9 +133,9 @@ return {
         {
           function() return require("noice").api.status.command.get() end,
           cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-          color = fg("Constant"),
+          color = Util.fg("Constant"),
         },
-        { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = fg("Special") },
+        { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = Util.fg("Special") },
         {
           "diff",
           symbols = {
