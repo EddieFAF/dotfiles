@@ -136,3 +136,21 @@ function drmi() {
 #  cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 #}
 
+
+alias nvim-kick="NVIM_APPNAME=nvim-kickstart nvim"
+alias nvim-astro="NVIM_APPNAME=nvim.astro nvim"
+alias lunarvim="NVIM_APPNAME=lunarvim nvim"
+
+function nvims() {
+  items=("default" "nvim-raven" "nvim-2k" "lunarvim" "nvim-kickstart" "nvim.astro")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+
+#bindkey -s ^a "nvims\n"
