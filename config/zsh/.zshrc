@@ -341,9 +341,10 @@ source ~/.cache/zsh-shortcuts
 
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+alias lunarvim="NVIM_APPNAME=lunarvim nvim"
 
 function nvims() {
-  items=("default" "nvim-kickstart" "nvim3" "LunarVim" "AstroNvim" "NvChad")
+  items=("default" "nvim-eddie" "nvim-kickstart" "nvim3" "nvimdots" "lunarvim" "AstroNvim" "NvChad")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt="Neovim Config > " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
