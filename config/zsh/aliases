@@ -142,7 +142,7 @@ alias nvim-astro="NVIM_APPNAME=nvim.astro nvim"
 alias lunarvim="NVIM_APPNAME=lunarvim nvim"
 
 function nvims() {
-  items=("default" "nvim-raven" "nvim-2k" "lunarvim" "nvim-kickstart" "nvim.astro")
+  items=("default" "nvim-eddie" "lunarvim" "nvim.astro" "nvim-raven" "nvim-2k" "nvim-kickstart" "nvim-basic")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
   if [[ -z $config ]]; then
     echo "Nothing selected"
