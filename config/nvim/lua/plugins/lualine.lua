@@ -118,7 +118,7 @@ return {
             hint = icons.diagnostics.Hint,
           },
         },
-        { "filename", path = 1 },
+        { "filename", path = 4 },
         -- stylua: ignore
         {
           function() return require("nvim-navic").get_location() end,
