@@ -9,4 +9,5 @@ return {
   },
   { "stevearc/dressing.nvim", enabled = true },
   { "folke/noice.nvim", enabled = true },
+  { "lukas-reineke/indent-blankline.nvim", enabled = false },
 }
