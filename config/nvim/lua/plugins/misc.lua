@@ -37,6 +37,7 @@ return {
 
   -- add gruvbox
   { "navarasu/onedark.nvim" },
+
   -- tokyonight
   {
     "folke/tokyonight.nvim",
@@ -94,7 +95,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "onedark",
+      colorscheme = "tokyonight",
     },
   },
 
