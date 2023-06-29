@@ -72,7 +72,7 @@ for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
 alias duck='du -cksh *(D) | sort -hr | head -n 15'
 
-alias v='nvim'
+#alias v='nvim'
 
 alias display='xrandr --output DisplayPort-0 --mode 1920x1200 --output DVI-1 --mode 1680x1050 --primary --right-of DisplayPort-0'
 

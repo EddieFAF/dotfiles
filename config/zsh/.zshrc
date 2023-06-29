@@ -74,66 +74,98 @@ zinit wait lucid for \
  pick"zsh-interactive-cd.plugin.zsh" \
     changyuheng/zsh-interactive-cd \
 
-# TAB COMPLETIONS
-zstyle ':completion:*' rehash true
-zstyle ':completion:*' menu select=2
-zstyle ':completion:*' completer _complete _expand _ignored _approximate
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
-zstyle ':completion:*' group-name '' # group results by category
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle ':completion:*:descriptions' format '-- %d --'
-zstyle ':completion:*:processes' command 'ps -au$USER'
+# +-------------+
+# | COMPLETIONS |
+# +-------------+
+
+# Zstyle pattern
+# :completion:<function>:<completer>:<command>:<argument>:<tag>
+
+zstyle ':completion:*:*:*:*:default'  list-colors         ${(s.:.)LS_COLORS}
+
+# Define completers
+zstyle ':completion:*' completer _extensions _complete _approximate
+
+# Use cache for commands using cache
+zstyle ':completion:*'                 use-cache           true
+zstyle ':completion:*'                 cache-path          $XDG_CACHE_HOME/zsh/.zcompcache
+
+zstyle ':completion:*'                 list-dirs-first     true
+zstyle ':completion:*'                 verbose             true
+zstyle ':completion:*'                 matcher-list        'm:{[:lower:]}={[:upper:]}'
+zstyle ':completion:*:descriptions'    format              '[%d]'
+zstyle ':completion:*:manuals'         separate-sections   true
+zstyle ':completion:*:git-checkout:*'  sort                false # disable sort when completing `git checkout`
+
+# disable sort when completing options of any command
 zstyle ':completion:complete:*:options' sort false
-zstyle ':completion::complete:*' gain-privileges 1
+
+# Complete the alias when _expand_alias is used as a function
+zstyle ':completion:*'                 complete            true
+zle -C alias-expension complete-word _generic
+bindkey '^Xa' alias-expension
+zstyle ':completion:alias-expension:*' completer           _expand_alias
+
+# Allow you to select in a menu
+zstyle ':completion:*'                 menu                select
+
+# Autocomplete options for cd instead of directory stack
+zstyle ':completion:*'                 complete-options    true
+
+# Only display some tags for the command cd
+zstyle ':completion:*:*:cd:*'          tag-order local-directories directory-stack path-directories
+
+# Required for completion to be in good groups (named after the tags)
+zstyle ':completion:*'                 group-name ''
+
+zstyle ':completion:*:*:-command-:*:*' group-order aliases builtins functions commands
+
+zstyle ':completion:*'                 keep-prefix         true
+
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+
+# Enable cached completions, if present
+if [[ -d ${XDG_CACHE_HOME}/zsh/fpath ]]; then
+     FPATH+=${XDG_CACHE_HOME}/zsh/fpath
+     fi
+
+export LESSOPEN='|lesspipe.sh %s'
+
+
+#############
+## FZF-TAB ##
+#############
+zstyle ':fzf-tab:*' prefix ''
+
+zstyle ':fzf-tab:complete:*' popup-pad 200 50
+
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
-zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm,cmd -w -w"
-zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
-#zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --git -hl --icons --color=always $realpath'
+
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+  '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+# Preview directory's content with exa
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa --long --header --icons --group-directories-first --group --git --all --links --color=always $realpath'
+
+# df
+zstyle ':fzf-tab:complete:(\\|*/|)df:argument-rest' fzf-preview '[[ $group != "device label" ]] && grc --colour=on df -Th $word'
+
 zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
-export LESSOPEN='|~/.lessfilter %s'
 
-# partial completion suggestions
-zstyle ':completion:*'                list-suffixes
-zstyle ':completion:*'                expand prefix suffix
+# Parameter
+zstyle ':fzf-tab:complete:((-parameter-|unset):|(export|typeset|declare|local):argument-rest)' fzf-preview 'echo ${(P)word}'
 
-# speedup path completion
-zstyle ':completion:*'                accept-exact '*(N)'
-zstyle ':completion:*'                use-cache on
-zstyle ':completion:*'                cache-path ${CACHE}/zsh
-zstyle ':completion:*'                use-perl on
+# Docker
+zstyle ':fzf-tab:complete:docker-container:argument-1' fzf-preview 'docker container $word --help | bat --color=always -plhelp'
+zstyle ':fzf-tab:complete:docker-image:argument-1' fzf-preview 'docker image $word --help | bat --color=always -plhelp'
+zstyle ':fzf-tab:complete:docker-inspect:' fzf-preview 'docker inspect $word | bat --color=always -pljson'
+zstyle ':fzf-tab:complete:docker-(run|images):argument-1' fzf-preview 'docker images $word'
+zstyle ':fzf-tab:complete:((\\|*/|)docker|docker-help):argument-1' fzf-preview 'docker help $word | bat --color=always -plhelp'
 
-# colors
-zstyle ':completion:*:default'        list-colors '${(s.:.)LS_COLORS}'
-
-# manuals
-zstyle ':completion:*:manuals'        separate-sections true
-zstyle ':completion:*:manuals.(^1*)'  insert-sections   true
-zstyle ':completion:*:man:*'          menu yes select
-
-# Fuzzy match mistyped completions.
-zstyle ':completion:*'                completer _complete _list _match _approximate
-zstyle ':completion:*:match:*'        original only
-zstyle ':completion:*:approximate:*'  max-errors 1 numeric
-
-# Don't complete unavailable commands.
-zstyle ':completion:*:functions'      ignored-patterns '(_*|pre(cmd|exec))'
-
-# Array completion element sorting.
-zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-
-# Insert all expansions for expand completer
-zstyle ':completion:*:expand:*'        tag-order all-expansions
-
-# History
-zstyle ':completion:*:history-words'   list false
-zstyle ':completion:*:history-words'   menu yes
-zstyle ':completion:*:history-words'   remove-all-dups yes
-zstyle ':completion:*:history-words'   stop yes
-
-# Make zsh know about hosts already accessed by SSH
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # Load menu-style completion.
 zmodload -i zsh/complist
@@ -288,20 +320,34 @@ bindkey '^Z' fancy-ctrl-z
 #####################
 export FZF_BASE=$(which fzf)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_DEFAULT_OPTS="--ansi"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
-export FZF_ALT_C_OPTS='--preview="ls {}" --preview-window=right:60%:wrap'
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
---exit-0
---cycle
---ansi
---bind=ctrl-j:accept
---height=40%
---bind "?:toggle-preview"
---color=dark
---color=fg:-1,bg:-1,hl:#5AF78E,fg+:-1,bg+:#4D4D4D,hl+:#f1FA8C
---color=info:#BD93F9,prompt:#5AF78E,pointer:#ff79C6,marker:#ff79C6,spinner:#ff79C6
-'
+#export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'
+  --select-1 --exit-0
+"
+#export FZF_ALT_C_OPTS='--preview="ls {}" --preview-window=right:60%:wrap'
+export FZF_ALT_C_OPTS="--preview 'tree -C | head -200'"
+#export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+#--exit-0
+#--cycle
+#--ansi
+#--bind=ctrl-j:accept
+#--height=40%
+#--bind "?:toggle-preview"
+#--color=dark
+#--color=fg:-1,bg:-1,hl:#5AF78E,fg+:-1,bg+:#4D4D4D,hl+:#f1FA8C
+#--color=info:#BD93F9,prompt:#5AF78E,pointer:#ff79C6,marker:#ff79C6,spinner:#ff79C6
+#'
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --bind '?:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+
 #--preview "(highlight -O ansi {} || cat {}) 2> /dev/null | head -500"
 #--color=fg:#e5e9f0,bg:#2e3440,hl:#81a1c1
 #--color=fg+:#e5e9f0,bg+:#2e3440,hl+:#81a1c1
@@ -342,9 +388,11 @@ source ~/.cache/zsh-shortcuts
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 alias lunarvim="NVIM_APPNAME=lunarvim nvim"
+alias v="NVIM_APPNAME=nvim-eddie nvim"
+alias astronvim="NVIM_APPNAME=nvim.astro nvim"
 
 function nvims() {
-  items=("default" "nvim-eddie" "nvim-kickstart" "nvim3" "nvimdots" "lunarvim" "AstroNvim" "NvChad")
+  items=("default" "nvim-eddie" "nvim.astro" "nvim-eddie.old" "nvim-starter" "nvim-kickstart" "nvim3" "nvimdots" "lunarvim" "NvChad")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt="Neovim Config > " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"

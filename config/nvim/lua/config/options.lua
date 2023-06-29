@@ -21,7 +21,7 @@ vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
 vim.opt.inccommand = "split" -- preview incremental substitute
 vim.opt.laststatus = 3
-vim.opt.listchars = { trail = "", tab = "", nbsp = "_", extends = ">", precedes = "<" } -- highlight
+vim.opt.listchars = {eol = "↲", trail = "", tab = "", nbsp = "_", extends = ">", precedes = "<" } -- highlight
 vim.opt.numberwidth = 4 -- set number column width to 2 {default 4}
 vim.opt.scrolloff = 10 -- is one of my fav
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
