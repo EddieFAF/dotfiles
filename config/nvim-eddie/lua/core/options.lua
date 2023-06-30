@@ -29,11 +29,11 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.listchars = {
   eol = "↲",
-  tab = "→ ",
+  tab = "▸ ",
+  trail = "·",
   nbsp = "_",
   extends = "›",
   precedes = "‹",
-  trail = "•",
 }
 
 -- Settings from nvim-normal
