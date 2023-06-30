@@ -1,0 +1,7 @@
+{
+    "workspace.library": [
+        "/usr/local/share/nvim/runtime/lua",
+        "/home/eddie/.config/nvim-eddie/lua",
+        "${3rd}/luv/library"
+    ]
+}
