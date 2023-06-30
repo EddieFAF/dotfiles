@@ -7,7 +7,7 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "j-hui/fidget.nvim",
       "folke/neodev.nvim",
-      --"RRethy/vim-illuminate",
+      "RRethy/vim-illuminate",
       "hrsh7th/cmp-nvim-lsp",
     },
     lazy = false,

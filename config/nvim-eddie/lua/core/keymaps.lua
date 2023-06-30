@@ -31,6 +31,7 @@ map("i", "jk", "<esc>")
 --map("n", "<leader>qa", "<cmd>qa!<cr>", "Quit all")
 map("n", "<leader>dw", "<cmd>close<cr>", "Window")
 
+
 -- Diagnostic keymaps
 map("n", "gx", vim.diagnostic.open_float, "Show diagnostics under cursor")
 
@@ -120,14 +121,17 @@ if is_available("nvim-colorizer.lua") then
   map("n", "<leader>uC", "<cmd>ColorizerToggle<cr>", "Toggle color highlight")
 end
 map("n", "<leader>ud", ui.toggle_diagnostics, "Toggle diagnostics")
+map("n", "<leader>uf", ui.toggle_autoformat, "Toggle autoformat")
 map("n", "<leader>ug", ui.toggle_signcolumn, "Toggle signcolumn")
 map("n", "<leader>uh", ui.toggle_foldcolumn, "Toggle foldcolumn")
 map("n", "<leader>ui", ui.set_indent, "Change indent setting")
+map("n", "<leader>uI", "<cmd>set list!<cr>", "Toggle [in]visible characters")
 map("n", "<leader>ul", ui.toggle_statusline, "Toggle statusline")
 map("n", "<leader>uL", ui.toggle_codelens, "Toggle CodeLens")
 map("n", "<leader>un", ui.change_number, "Change line numbering")
 map("n", "<leader>uN", ui.toggle_ui_notifications, "Toggle UI notifications")
 map("n", "<leader>up", ui.toggle_paste, "Toggle paste mode")
+map("n", "<F1>", ui.toggle_paste, "Toggle paste mode")
 map("n", "<leader>us", ui.toggle_spell, "Toggle spellcheck")
 map("n", "<leader>uS", ui.toggle_conceal, "Toggle conceal")
 map("n", "<leader>ut", ui.toggle_tabline, "Toggle tabline")
