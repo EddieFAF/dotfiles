@@ -110,28 +110,51 @@ Xft.dpi: 96
 !#define base14 #46d9ff
 !#define base15 #dfdfdf
 
-!OneDark
-*.foreground:    #ABB2BF
-*.background:    #1E2127
-*.cursorColor:   #5C6370
-*.highlightColor:#3A3F4B
+! TokyoNight colors for Xresources
 
-#define base00 #1E2127
-#define base01 #BE5046
-#define base02 #98C379
-#define base03 #D19A66
-#define base04 #61AFEF
-#define base05 #8A3FA0
-#define base06 #2B6F77
-#define base07 #ABB2BF
-#define base08 #5C6370
-#define base09 #E06C75
-#define base10 #BAE59B
-#define base11 #E5C07B
-#define base12 #83CFFF
-#define base13 #C678DD
-#define base14 #56B6C2
-#define base15 #FFFFFF
+*.background: #222436
+*.foreground: #c8d3f5
+
+#define base00 #1b1d2b
+#define base01 #ff757f
+#define base02 #c3e88d
+#define base03 #ffc777
+#define base04 #82aaff
+#define base05 #c099ff
+#define base06 #86e1fc
+#define base07 #828bb8
+
+#define base08 #444a73
+#define base09 #ff757f
+#define base10 #c3e88d
+#define base11 #ffc777
+#define base12 #82aaff
+#define base13 #c099ff
+#define base14 #86e1fc
+#define base15 #c8d3f5
+
+!OneDark
+!*.foreground:    #ABB2BF
+!*.background:    #1E2127
+!*.cursorColor:   #5C6370
+!*.highlightColor:#3A3F4B
+
+!#define base00 #1E2127
+!#define base01 #BE5046
+!#define base02 #98C379
+!#define base03 #D19A66
+!#define base04 #61AFEF
+!#define base05 #8A3FA0
+!#define base06 #2B6F77
+!#define base07 #ABB2BF
+!#define base08 #5C6370
+!#define base09 #E06C75
+!#define base10 #BAE59B
+!#define base11 #E5C07B
+!#define base12 #83CFFF
+!#define base13 #C678DD
+!#define base14 #56B6C2
+!#define base15 #FFFFFF
 
 #define bg1 #282C34
 #define bg2 #31353F

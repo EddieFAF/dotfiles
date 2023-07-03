@@ -21,10 +21,10 @@ end
 -- local colorscheme = get_if_available('onedark')
 -- local colorscheme = get_if_available('rose-pine')
 -- local colorscheme = get_if_available('everforest')
--- local colorscheme = get_if_available('tokyonight')
+local colorscheme = get_if_available('tokyonight')
 -- local colorscheme = get_if_available('doom-one')
 -- local colorscheme = get_if_available('melange')
 -- local colorscheme = get_if_available('kanagawa')
-local colorscheme = get_if_available('onedark')
+-- local colorscheme = get_if_available('onedark')
 
 return colorscheme

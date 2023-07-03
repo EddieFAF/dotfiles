@@ -31,6 +31,13 @@ return {
     opts = {},
   },
 
+  {
+    "echasnovski/mini.cursorword",
+    event = "VeryLazy",
+    config = function()
+      require("mini.cursorword").setup()
+    end,
+  },
   -- Indentscope
   {
     "echasnovski/mini.indentscope",

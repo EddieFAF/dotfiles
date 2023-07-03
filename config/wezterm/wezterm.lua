@@ -128,7 +128,7 @@ return {
 
 	-- Cursor style
 	default_cursor_style = "BlinkingUnderline",
-	color_scheme = "OneDark (base16)",
+	color_scheme = "Tokyo Night Moon",
 
 	-- X11
 	enable_wayland = false,

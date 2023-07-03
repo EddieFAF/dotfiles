@@ -5,6 +5,14 @@ return {
   -- },
   {
     'folke/tokyonight.nvim',
+    config = function()
+      require("tokyonight").setup({
+        style = "moon",
+        styles = {
+          comments = { italic = true },
+        },
+      })
+    end,
   },
   {
     "ellisonleao/gruvbox.nvim",

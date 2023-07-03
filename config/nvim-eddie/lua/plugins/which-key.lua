@@ -26,7 +26,7 @@ return {
           q = { name = "Quit" },
           s = { name = "Search" },
           l = { name = "LSP" },
---          u = { name = "UI" },
+          u = { name = "UI" },
 --          b = { name = "Debugging" },
           g = { name = "Git" },
         },
