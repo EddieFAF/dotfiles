@@ -4,20 +4,6 @@ return {
   --   "typicode/bg.nvim",
   -- },
   {
-    'folke/tokyonight.nvim',
-    config = function()
-      require("tokyonight").setup({
-        style = "moon",
-        styles = {
-          comments = { italic = true },
-        },
-      })
-    end,
-  },
-  {
-    "ellisonleao/gruvbox.nvim",
-  },
-  {
     'joshdick/onedark.vim'
   },
   {
@@ -26,14 +12,7 @@ return {
   },
 
   {
-    "rose-pine/nvim",
-    name = "rose-pine",
-  },
-  {
     "sainnhe/everforest",
-  },
-  {
-    "savq/melange-nvim"
   },
   {
     'romgrk/doom-one.vim'
