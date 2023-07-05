@@ -80,9 +80,10 @@ end
 
 -- Show number of Spaces for indention
 local spaces = function()
-  return "SPC: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+  return "SP: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 end
 
+local navic = require 'nvim-navic'
 
 -- Fancier statusline
 return {
@@ -94,7 +95,7 @@ return {
     require("lualine").setup({
       options = {
         icons_enabled = true,
-        disabled_filetypes = { statusline = { "dashboard", "alpha", "lazy", "mason" } },
+        disabled_filetypes = { statusline = { "dashboard", "alpha", "lazy", "mason", "neo-tree" } },
         theme = lualine_theme,
         component_separators = "|",
         section_separators = "",
@@ -107,14 +108,16 @@ return {
         --        {'mode', fmt = function(str) return ' ' end, padding = { left = 0, right = 0 } },
           { 'mode', fmt = function(str) return str:sub(1, 1) end },
         },
-        lualine_b = { { "b:gitsigns_head", icon = "" } },
-        lualine_c = {
+        lualine_b = {
+          { "b:gitsigns_head", icon = "" },
           {
             "diagnostics",
           },
+        },
+        lualine_c = {
           { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
           --{ "filename", path = 4 },
-          { "filename", path = 4, symbols = { modified = "  ", readonly = "  ", unnamed = "" } },
+          { "filename", path = 1, symbols = { modified = "  ", readonly = "  ", unnamed = "" } },
         -- stylua: ignore
 --          {
 --            function() return require("nvim-navic").get_location() end,
@@ -139,7 +142,10 @@ return {
             color = fg("Special"),
           },
           {
-            "diff",
+            'diff',
+            -- Is it me or the symbol for modified us really weird
+--            symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+            symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
           },
         },
         lualine_y = {
@@ -162,10 +168,10 @@ return {
               return string.format(" %d", vim.api.nvim_buf_line_count(0))
             end,
           },
+          { "progress", separator = "", padding = { left = 1, right = 1 } },
         },
         lualine_z = {
-          { "progress", separator = "", padding = { left = 1, right = 1 } },
-          { "location", padding = { left = 0, right = 1 } },
+          { "location", padding = { left = 1, right = 1 } },
         },
       },
     })

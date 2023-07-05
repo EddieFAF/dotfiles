@@ -81,7 +81,7 @@ return {
       },
       window = {
         position = "left",
-        width = 40,
+        width = 35,
         mappings = {
           ["<space>"] = "none",
           ['e'] = function() vim.api.nvim_exec('Neotree focus filesystem left', true) end,
