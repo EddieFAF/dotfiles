@@ -78,6 +78,12 @@ local function mixed_indent()
   end
 end
 
+-- Show number of Spaces for indention
+local spaces = function()
+  return "SPC: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+end
+
+
 -- Fancier statusline
 return {
   "nvim-lualine/lualine.nvim",
@@ -88,10 +94,12 @@ return {
     require("lualine").setup({
       options = {
         icons_enabled = true,
-        disabled_filetypes = { statusline = { "dashboard", "alpha" } },
+        disabled_filetypes = { statusline = { "dashboard", "alpha", "lazy", "mason" } },
         theme = lualine_theme,
         component_separators = "|",
         section_separators = "",
+        globalstatus = true,
+        always_divide_middle = true,
       },
       sections = {
       -- stylua: ignore
@@ -108,10 +116,10 @@ return {
           --{ "filename", path = 4 },
           { "filename", path = 4, symbols = { modified = "  ", readonly = "  ", unnamed = "" } },
         -- stylua: ignore
-          {
-            function() return require("nvim-navic").get_location() end,
+--          {
+--            function() return require("nvim-navic").get_location() end,
 --            cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
-          },
+--          },
         },
         lualine_x = {
           lsp(),
@@ -139,10 +147,6 @@ return {
           --   "fileformat",
           -- },
           {
-            "diagnostics",
-            sources = { "nvim_diagnostic" },
-          },
-          {
             trailing_space,
             color = { fg = "WarningMsg" },
           },
@@ -151,13 +155,16 @@ return {
             color = { fg = "WarningMsg" },
           },
           {
+            spaces
+          },
+          {
             function()
               return string.format(" %d", vim.api.nvim_buf_line_count(0))
             end,
           },
         },
         lualine_z = {
-          { "progress", separator = "", padding = { left = 1, right = 0 } },
+          { "progress", separator = "", padding = { left = 1, right = 1 } },
           { "location", padding = { left = 0, right = 1 } },
         },
       },

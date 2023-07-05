@@ -5,9 +5,9 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      {"j-hui/fidget.nvim"},
+      { "j-hui/fidget.nvim" },
       "folke/neodev.nvim",
---      "RRethy/vim-illuminate",
+      --      "RRethy/vim-illuminate",
       "hrsh7th/cmp-nvim-lsp",
     },
     lazy = false,
@@ -18,6 +18,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "pyright",
+          "bashls",
         },
         automatic_installation = true,
       })
@@ -87,17 +88,16 @@ return {
         lsp_map("<leader>lf", "<cmd>Format<cr>", bufnr, "Format")
 
         -- Attach and configure vim-illuminate
-  --      require("illuminate").on_attach(client)
+        --      require("illuminate").on_attach(client)
 
         if client.server_capabilities.documentSymbolProvider then
-          navic.attach(client,bufnr)
+          navic.attach(client, bufnr)
         end
       end
 
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
 
       -- Lua
       require("lspconfig")["lua_ls"].setup({
@@ -149,6 +149,15 @@ return {
               },
             },
           },
+        },
+      })
+
+      -- Bash
+      require("lspconfig")["bashls"].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          bashls = {},
         },
       })
     end,

@@ -5,7 +5,7 @@ return {
     -- enabled = false,
     config = function()
     require("tokyonight").setup({
-      transparent = true,
+      transparent = false,
       styles = {
         comments = { italic = false },
         sidebars = "dark",
