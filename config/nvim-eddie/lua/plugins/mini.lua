@@ -17,12 +17,12 @@ return {
   },
 
   -- Better buffer closing actions. Available via the buffers helper.
---  {
---    "kazhala/close-buffers.nvim",
---    opts = {
---      preserve_window_layout = { "this", "nameless" },
---    },
---  },
+  --  {
+  --    "kazhala/close-buffers.nvim",
+  --    opts = {
+  --      preserve_window_layout = { "this", "nameless" },
+  --    },
+  --  },
 
   -- Comment with haste
   {
@@ -102,29 +102,33 @@ return {
       require("mini.statusline").setup({
         content = {
           active = function()
-          -- stylua: ignore start
+            -- stylua: ignore start
             local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
             local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
-            local wrap          = vim.wo.wrap  and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP')  or ''
+            local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
             local git           = MiniStatusline.section_git({ trunc_width = 75 })
             local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
             local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
             local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
             local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
             local location      = MiniStatusline.section_location({ trunc_width = 75 })
+            local location2     = "%7(%l/%3L%):%2c %P"
+
+
 
             return MiniStatusline.combine_groups({
-              { hl = mode_hl,                  strings = { mode, spell, wrap } },
-              { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics } },
+              { hl = mode_hl,                 strings = { mode, spell, wrap } },
+              { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics } },
               '%<',
               { hl = 'MiniStatuslineFilename', strings = { filename } },
               '%=',
               { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
               { hl = 'MoreMsg',                strings = { searchcount } },
-              { hl = mode_hl,                  strings = { location } },
+              { hl = mode_hl,                  strings = { location2 } },
             })
           end,
         },
+        use_icons = true,
         set_vim_settings = false,
       })
     end,
@@ -136,22 +140,24 @@ return {
     event = "VeryLazy",
     opts = {
       mappings = {
-        add = 'gza', -- Add surrounding in Normal and Visual modes
-        delete = 'gzd', -- Delete surrounding
-        find = 'gzf', -- Find surrounding (to the right)
-        find_left = 'gzF', -- Find surrounding (to the left)
-        highlight = 'gzh', -- Highlight surrounding
-        replace = 'gzr', -- Replace surrounding
+        add = 'gza',            -- Add surrounding in Normal and Visual modes
+        delete = 'gzd',         -- Delete surrounding
+        find = 'gzf',           -- Find surrounding (to the right)
+        find_left = 'gzF',      -- Find surrounding (to the left)
+        highlight = 'gzh',      -- Highlight surrounding
+        replace = 'gzr',        -- Replace surrounding
         update_n_lines = 'gzn', -- Update `n_lines`
       },
     },
   },
---  { 'echasnovski/mini.surround', version = false,
---    config = function()
---      require("mini.surround").setup()
---    end,
---  },
-  { 'echasnovski/mini.trailspace', version = false,
+  --  { 'echasnovski/mini.surround', version = false,
+  --    config = function()
+  --      require("mini.surround").setup()
+  --    end,
+  --  },
+  {
+    'echasnovski/mini.trailspace',
+    version = false,
     event = "VeryLazy",
     keys = {
       {
