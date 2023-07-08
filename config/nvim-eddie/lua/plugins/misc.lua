@@ -12,6 +12,7 @@ return {
       vim.g.barbar_auto_setup = false
     end,
     opts = {
+      auto_hide = true,
       icons = {
         -- Configure the base icons on the bufferline.
         -- Valid options to display the buffer index and -number are `true`, 'superscript' and 'subscript'
