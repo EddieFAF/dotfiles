@@ -10,8 +10,13 @@ return {
       "MunifTanjim/nui.nvim",
     },
     keys = {
-      { "<leader>e", function() require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() }) end,
-        desc = "Explorer NeoTree", },
+      {
+        "<leader>e",
+        function()
+          require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+        end,
+        desc = "Explorer NeoTree",
+      },
     },
     init = function()
       vim.g.neo_tree_remove_legacy_commands = 1
@@ -30,7 +35,7 @@ return {
         },
         git_status = {
           symbols = {
-            renamed  = "󰁕",
+            renamed = "󰁕",
             unstaged = "󰄱",
           },
         },
@@ -58,17 +63,26 @@ return {
           Struct = { icon = "󰌗", hl = "Type" },
           Operator = { icon = "󰆕", hl = "Operator" },
           TypeParameter = { icon = "󰊄", hl = "Type" },
-          StaticMethod = { icon = '󰠄 ', hl = 'Function' },
-        }
+          StaticMethod = { icon = "󰠄 ", hl = "Function" },
+        },
       },
       -- Add this section only if you've configured source selector.
       source_selector = {
-        winbar = true,
-        statusline = false,
+        winbar = false,
+        statusline = true,
         sources = {
           { source = "filesystem", display_name = " 󰉓 Files " },
           { source = "git_status", display_name = " 󰊢 Git " },
           { source = "document_symbols", display_name = " 󰉓 Symbols " },
+        },
+      },
+      event_handlers = {
+        {
+          event = "file_opened",
+          handler = function(file_path)
+            --auto close
+            require("neo-tree").close_all()
+          end,
         },
       },
       sources = { "filesystem", "buffers", "git_status", "document_symbols" },
@@ -81,12 +95,18 @@ return {
       },
       window = {
         position = "left",
-        width = 35,
+        width = 40,
         mappings = {
           ["<space>"] = "none",
-          ['e'] = function() vim.api.nvim_exec('Neotree focus filesystem left', true) end,
-          ['b'] = function() vim.api.nvim_exec('Neotree focus buffers left', true) end,
-          ['g'] = function() vim.api.nvim_exec('Neotree focus git_status left', true) end,
+          ["e"] = function()
+            vim.api.nvim_exec("Neotree focus filesystem left", true)
+          end,
+          ["b"] = function()
+            vim.api.nvim_exec("Neotree focus buffers left", true)
+          end,
+          ["g"] = function()
+            vim.api.nvim_exec("Neotree focus git_status left", true)
+          end,
         },
       },
     },

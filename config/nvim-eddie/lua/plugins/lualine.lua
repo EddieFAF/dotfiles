@@ -89,6 +89,7 @@ local navic = require 'nvim-navic'
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
+  enabled = false,
   config = function()
     local colorscheme = require("helpers.colorscheme")
     local lualine_theme = colorscheme == "default" and "auto" or colorscheme

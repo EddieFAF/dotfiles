@@ -1,41 +1,47 @@
 local opts = {
-  shiftwidth = 2,
-  tabstop = 2,
-  softtabstop = 2,
-  expandtab = true,
-  wrap = false,
-  hlsearch = true,
-  ignorecase = true,
-  smartcase = true,
-  breakindent = true,
-  mouse = "a",
-  undofile = true,
---  laststatus = 3,
-  termguicolors = true,
-  number = true,
-  relativenumber = true,
-  cursorline = true,
-  list = true,
-  cmdheight = 0,
-  scrolloff = 5,
+	shiftwidth = 2,
+	tabstop = 2,
+	softtabstop = 2,
+	expandtab = true,
+	wrap = false,
+	hlsearch = true,
+	ignorecase = true,
+	smartcase = true,
+	breakindent = true,
+	mouse = "a",
+	undofile = true,
+	laststatus = 3,
+	termguicolors = true,
+	number = true,
+	relativenumber = true,
+	cursorline = true,
+	list = true,
+	cmdheight = 0,
+	scrolloff = 5,
 }
 
 -- Set options from table
 for opt, val in pairs(opts) do
-  vim.o[opt] = val
+	vim.o[opt] = val
 end
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.listchars = {
-  eol = "↲",
-  tab = "▸ ",
-  trail = "·",
-  nbsp = "_",
-  extends = "›",
-  precedes = "‹",
+	eol = "↲",
+	tab = "▸ ",
+	trail = "·",
+	nbsp = "_",
+	extends = "›",
+	precedes = "‹",
 }
+
+if vim.fn.hostname() == "blackhole" then
+  vim.opt.list = true
+else
+  vim.opt.list = false
+end
 
 -- Settings from nvim-normal
 vim.g.autoformat_enabled = true -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)

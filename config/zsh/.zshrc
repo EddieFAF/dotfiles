@@ -175,7 +175,7 @@ bindkey -M menuselect '^M' accept
 # PLUGINS           #
 #####################
 # SSH-AGENT
-#zinit light bobsoppe/zsh-ssh-agent
+zinit light bobsoppe/zsh-ssh-agent
 
 # FZF BINARY AND TMUX HELPER SCRIPT
 zinit ice lucid wait'0c' as"command" pick"bin/fzf-tmux"
