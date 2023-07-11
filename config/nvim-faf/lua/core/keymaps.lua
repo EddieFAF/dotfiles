@@ -1,6 +1,3 @@
-local utils = require 'helpers'
-local get_icon = utils.get_icon
-local is_available = utils.is_available
 local map = require('helpers.keys').map
 
 -- Paste from clipboard
@@ -51,12 +48,6 @@ map('n', '<C-Down>', ':resize -2<CR>', 'Resize -2')
 map('n', '<C-Left>', ':vertical resize +2<CR>', 'VResize +2')
 map('n', '<C-Right>', ':vertical resize -2<CR>', 'VResize -2')
 
--- Deleting buffers
-local buffers = require 'helpers.buffers'
-map('n', '<leader>db', buffers.delete_this, 'Current buffer')
-map('n', '<leader>do', buffers.delete_others, 'Other buffers')
-map('n', '<leader>da', buffers.delete_all, 'All buffers')
-
 -- Navigate buffers
 map('n', '<S-l>', ':bnext<CR>', 'Next Buffer')
 map('n', '<S-h>', ':bprevious<CR>', 'Previous Buffer')
@@ -67,18 +58,3 @@ map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
 map('v', '<', '<gv')
 map('v', '>', '>gv')
 
--- icons displayed on which-key.nvim ---------------------------------------
-local icons = {
-  f = { desc = get_icon('Search', 1, true) .. 'Find' },
-  p = { desc = get_icon('Package', 1, true) .. 'Packages' },
-  l = { desc = get_icon('ActiveLSP', 1, true) .. 'LSP' },
-  u = { desc = get_icon('Window', 1, true) .. 'UI' },
-  b = { desc = get_icon('Tab', 1, true) .. 'Buffers' },
-  bs = { desc = get_icon('Sort', 1, true) .. 'Sort Buffers' },
-  d = { desc = get_icon('Debugger', 1, true) .. 'Debugger' },
-  tt = { desc = get_icon('Test', 1, true) .. 'Test' },
-  dc = { desc = get_icon('Docs', 1, true) .. 'Docs' },
-  g = { desc = get_icon('Git', 1, true) .. 'Git' },
-  S = { desc = get_icon('Session', 1, true) .. 'Session' },
-  t = { desc = get_icon('Terminal', 1, true) .. 'Terminal' },
-}

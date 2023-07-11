@@ -54,7 +54,3 @@ vim.g.icons_enabled = true -- disable icons in the UI (disable if no nerd font i
 vim.g.lsp_handlers_enabled = true -- enable or disable default vim.lsp.handlers (hover and signatureHelp)
 vim.g.ui_notifications_enabled = true -- disable notifications when toggling UI elements
 
--- Set other options
-local colorscheme = require("helpers.colorscheme")
---vim.cmd.colorscheme(colorscheme)
---vim.cmd[[colorscheme tokyonight]]

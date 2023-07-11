@@ -1,4 +1,11 @@
-require 'core.options'
-require 'core.keymaps'
-require 'core.lazy'
-require 'core.autocommands'
+-- Handle plugins with lazy.nvim
+require("core.lazy")
+
+-- General Neovim keymaps
+require("core.keymaps")
+
+-- Other options
+require("core.options")
+
+-- Autocommands
+require("core.autocmds")
