@@ -36,6 +36,12 @@ return {
             local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
             local location      = MiniStatusline.section_location({ trunc_width = 75 })
             local location2     = "%7(%l/%3L%):%2c %P"
+            local packages      = function()
+                                    return require("lazy.status").updates
+                                  end
+                  lazy          = function()
+                                    return "SP: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+                                  end
 
 
 
@@ -45,6 +51,7 @@ return {
               '%<',
               { hl = 'MiniStatuslineFilename', strings = { filename } },
               '%=',
+              { hl = mode_hl,                  strings = { lazy(),packages() } },
               { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
               { hl = 'MoreMsg',                strings = { searchcount } },
               { hl = mode_hl,                  strings = { location2 } },

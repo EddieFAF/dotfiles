@@ -11,12 +11,12 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       signs = {
-        add = { text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-        change = { text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-        delete = { text = "", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-        topdelete = { text = "", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-        changedelete = { text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-        untracked = { text = "▎" },
+        add          = { text = '│', numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+        change       = { text = '│', numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+        delete       = { text = '_', numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+        topdelete    = { text = '‾', numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+        changedelete = { text = '~', numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+        untracked    = { text = '┆' },
       },
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
       watch_gitdir = {
@@ -80,12 +80,4 @@ return {
       })
     end,
   },
-  {
-    "tpope/vim-fugitive",
-    config = function()
-      local map = require("helpers.keys").map
-      map("n", "<leader>ga", "<cmd>Git add %<cr>", "Stage the current file")
-      map("n", "<leader>gb", "<cmd>Git blame<cr>", "Show the blame")
-    end
-  }
 }
