@@ -12,11 +12,11 @@ local M = {
     },
     { 'jose-elias-alvarez/null-ls.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
     { 'hrsh7th/cmp-nvim-lsp' },
-    {
-      'j-hui/fidget.nvim',
-      tag = "legacy",
-      config = true,
-    },
+    --    {
+    --      'j-hui/fidget.nvim',
+    --      tag = "legacy",
+    --      config = true,
+    --    },
     { 'b0o/schemastore.nvim' },
     { 'SmiteshP/nvim-navic' },
   },
