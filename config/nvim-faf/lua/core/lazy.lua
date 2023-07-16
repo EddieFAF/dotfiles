@@ -32,6 +32,9 @@ lazy.setup {
     version = false,
   },
   checker = { enabled = true },
+  ui = {
+    border = 'single',
+  },
   performance = {
     rtp = {
       disabled_plugins = {

@@ -1,5 +1,5 @@
 -- Miscelaneous fun stuff
-return {
+local M = {
 
   -- Comment with haste
   {
@@ -16,10 +16,30 @@ return {
     end,
   },
 
+  {
+    'echasnovski/mini.hipatterns',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = function()
+      local hi = require 'mini.hipatterns'
+      return {
+        highlighters = {
+          -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+          fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+          hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+          todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+          note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+
+          hex_color = hi.gen_highlighter.hex_color(),
+        },
+      }
+    end,
+  },
+
   -- Indentscope
   {
     'echasnovski/mini.indentscope',
     version = false, -- wait till new 0.7.0 release to put it back on semver
+    enabled = true,
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       -- symbol = "▏",
@@ -88,8 +108,7 @@ return {
             local location      = MiniStatusline.section_location({ trunc_width = 75 })
             local location2     = "%7(%l/%3L%):%2c %P"
             local lazy_updates  = require("lazy.status").updates
-
-
+            vim.api.nvim_set_hl(0, "Update", { fg = 0, bg = "bg" })
 
             return MiniStatusline.combine_groups({
               { hl = mode_hl,                 strings = { mode, spell, wrap } },
@@ -97,7 +116,7 @@ return {
               '%<',
               { hl = 'MiniStatuslineFilename', strings = { filename } },
               '%=',
-              { hl = mode_hl,                  strings = { lazy_updates() } },
+              { hl = 'Update',                 strings = { lazy_updates() } },
               { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
               { hl = 'MoreMsg',                strings = { searchcount } },
               { hl = mode_hl,                  strings = { location2 } },
@@ -107,6 +126,14 @@ return {
         use_icons = true,
         set_vim_settings = false,
       }
+    end,
+  },
+
+  {
+    'echasnovski/mini.tabline',
+    event = 'VeryLazy',
+    config = function()
+      require('mini.tabline').setup()
     end,
   },
 
@@ -126,3 +153,5 @@ return {
     },
   },
 }
+
+return M

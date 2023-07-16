@@ -2,10 +2,10 @@ local M = {
   'hrsh7th/nvim-cmp',
   dependencies = {
     { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-nvim-lua' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
     { 'hrsh7th/cmp-cmdline' },
-    { 'saadparwaiz1/cmp_luasnip' },
     {
       'L3MON4D3/LuaSnip',
       event = 'InsertEnter',
@@ -13,7 +13,7 @@ local M = {
         'rafamadriz/friendly-snippets',
       },
     },
-    { 'hrsh7th/cmp-nvim-lua' },
+    { 'saadparwaiz1/cmp_luasnip' },
     { 'onsails/lspkind.nvim' },
   },
   event = {
@@ -32,36 +32,6 @@ function M.config()
     local col = vim.fn.col '.' - 1
     return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
   end
-
-  local kind_icons = {
-    Text = '󰉿',
-    Method = 'm',
-    Function = '󰊕',
-    Constructor = '',
-    Field = '',
-    Variable = '󰆧',
-    Class = '󰌗',
-    Interface = '',
-    Module = '',
-    Property = '',
-    Unit = '',
-    Value = '󰎠',
-    Enum = '',
-    Keyword = '󰌋',
-    Snippet = '',
-    Color = '󰏘',
-    File = '󰈙',
-    Reference = '',
-    Folder = '󰉋',
-    EnumMember = '',
-    Constant = '󰇽',
-    Struct = '',
-    Event = '',
-    Operator = '󰆕',
-    TypeParameter = '󰊄',
-    Codeium = '󰚩',
-    Copilot = '',
-  }
 
   cmp.setup {
     snippet = {
@@ -112,7 +82,7 @@ function M.config()
       }),
     },
     formatting = {
-      fields = { 'kind', 'abbr', 'menu' },
+      fields = { 'menu', 'abbr', 'kind' },
       format = lspkind.cmp_format {
         mode = 'symbol_text',
         maxwidth = 50,
@@ -130,8 +100,8 @@ function M.config()
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
       { name = 'luasnip' },
-      { name = 'buffer' },
       { name = 'path' },
+      { name = 'buffer' },
     },
     confirm_opts = {
       behavior = cmp.ConfirmBehavior.Replace,
@@ -145,6 +115,21 @@ function M.config()
       ghost_text = true,
     },
   }
+
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'cmdline' },
+    },
+    window = {
+      completion = cmp.config.window.bordered {
+        border = 'rounded',
+        winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:Search',
+        col_offset = -3,
+        side_padding = 1,
+      },
+    },
+  })
 end
 
 return M
