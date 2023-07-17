@@ -27,9 +27,6 @@ map('i', 'jk', '<esc>')
 -- Quick access to some common actions
 map('n', '<leader>dw', '<cmd>close<cr>', 'Window')
 
--- Diagnostic keymaps
-map('n', 'gx', vim.diagnostic.open_float, 'Show diagnostics under cursor')
-
 -- Better window navigation
 map('n', '<C-h>', '<C-w><C-h>', 'Navigate windows to the left')
 map('n', '<C-j>', '<C-w><C-j>', 'Navigate windows down')
@@ -57,4 +54,3 @@ map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')
-

@@ -36,14 +36,16 @@ M.config = function()
       underline = true,
       float = {
         focusable = true,
-        style = "minimal",
-        border = "rounded",
-        source = "always",
+        style = 'minimal',
+        border = 'rounded',
+        source = 'always',
       },
     }
 
     vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic list' })
-    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagonstic window' })
+    --    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagonstic window' })
+    -- Diagnostic keymaps
+    vim.keymap.set('n', 'gx', vim.diagnostic.open_float, { desc = 'Show diagnostics under cursor' })
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
   end
@@ -98,14 +100,14 @@ M.config = function()
   end
 
   local signs = {
-    { name = "DiagnosticSignError", text = "" },
-    { name = "DiagnosticSignWarn",  text = "" },
-    { name = "DiagnosticSignHint",  text = "" },
-    { name = "DiagnosticSignInfo",  text = "" },
+    { name = 'DiagnosticSignError', text = '' },
+    { name = 'DiagnosticSignWarn',  text = '' },
+    { name = 'DiagnosticSignHint',  text = '' },
+    { name = 'DiagnosticSignInfo',  text = '' },
   }
 
   for _, sign in ipairs(signs) do
-    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
   end
 
   local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
