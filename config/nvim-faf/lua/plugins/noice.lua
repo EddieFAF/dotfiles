@@ -1,10 +1,10 @@
 return {
-  "folke/noice.nvim",
-  event = "VeryLazy",
+  'folke/noice.nvim',
+  event = 'VeryLazy',
   enabled = true,
   dependencies = {
-    "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
+    'MunifTanjim/nui.nvim',
+    'rcarriga/nvim-notify',
   },
   opts = {
     lsp = {
@@ -13,59 +13,59 @@ return {
       },
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {
-        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-        ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true,
+        ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+        ['vim.lsp.util.stylize_markdown'] = true,
+        ['cmp.entry.get_documentation'] = true,
       },
     },
     routes = {
       --      { filter = { event = "msg_show", find = "%d+L,%s%d+B" }, opts = { skip = true } }, -- skip save notifications
-      { filter = { event = "msg_show", find = "^%d+ more lines$" },   opts = { skip = true } }, -- skip paste notifications
-      { filter = { event = "msg_show", find = "^%d+ fewer lines$" },  opts = { skip = true } }, -- skip delete notifications
-      { filter = { event = "msg_show", find = "^%d+ lines yanked$" }, opts = { skip = true } }, -- skip yank notifications
-      { filter = { event = "msg_show", min_height = 20 },             view = "messages" },      -- send long messages to split
+      { filter = { event = 'msg_show', find = '^%d+ more lines$' },   opts = { skip = true } }, -- skip paste notifications
+      { filter = { event = 'msg_show', find = '^%d+ fewer lines$' },  opts = { skip = true } }, -- skip delete notifications
+      { filter = { event = 'msg_show', find = '^%d+ lines yanked$' }, opts = { skip = true } }, -- skip yank notifications
+      { filter = { event = 'msg_show', min_height = 20 },             view = 'messages' },      -- send long messages to split
     },
     views = {
       cmdline_popup = {
         position = {
-          row = 5,
-          col = "50%",
+          row = '90%',
+          col = '50%',
         },
         size = {
           width = 60,
-          height = "auto",
+          height = 'auto',
         },
         filter_options = {},
         win_options = {
-          winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+          winhighlight = 'NormalFloat:NormalFloat,FloatBorder:FloatBorder',
         },
       },
       messages = {
         -- NOTE: If you enable messages, then the cmdline is enabled automatically.
         -- This is a current Neovim limitation.
         enabled = true,              -- enables the Noice messages UI
-        view = "mini",               -- default view for messages
-        view_error = "mini",         -- view for errors
-        view_warn = "mini",          -- view for warnings
-        view_history = "messages",   -- view for :messages
-        view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+        view = 'mini',               -- default view for messages
+        view_error = 'mini',         -- view for errors
+        view_warn = 'mini',          -- view for warnings
+        view_history = 'messages',   -- view for :messages
+        view_search = 'virtualtext', -- view for search count messages. Set to `false` to disable
       },
       popupmenu = {
-        relative = "editor",
+        relative = 'editor',
         position = {
           row = 8,
-          col = "50%",
+          col = '50%',
         },
         size = {
           width = 60,
           height = 10,
         },
         border = {
-          style = "rounded",
+          style = 'rounded',
           padding = { 0, 1 },
         },
         win_options = {
-          winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+          winhighlight = { Normal = 'Normal', FloatBorder = 'DiagnosticInfo' },
         },
       },
     },
