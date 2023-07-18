@@ -80,7 +80,7 @@ end
 
 -- Show number of Spaces for indention
 local spaces = function()
-  return 'SP: ' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
+  return 'SP:' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
 end
 
 local navic = require 'nvim-navic'
@@ -104,7 +104,7 @@ return {
       sections = {
         -- stylua: ignore
         lualine_a = {
-          --        {'mode', fmt = function(str) return ' ' end, padding = { left = 0, right = 0 } },
+          -- {'mode', fmt = function(str) return ' ' end, padding = { left = 0, right = 0 } },
           { 'mode', fmt = function(str) return str:sub(1, 1) end },
         },
         lualine_b = {
@@ -170,14 +170,14 @@ return {
           {
             spaces,
           },
-          { 'progress', separator = '', padding = { left = 1, right = 1 } },
         },
         lualine_z = {
           {
             function()
-              return '%7(%l/%3L%):%2c %P'
+              return '%7(%l/%3L%):%2c'
             end,
           },
+          { 'progress', separator = '', padding = { left = 1, right = 1 } },
         },
       },
     }
