@@ -1,6 +1,20 @@
 -- Miscelaneous fun stuff
 local M = {
 
+  {
+    'echasnovski/mini.bufremove',
+    opts = {},
+    keys = {
+      {
+        '<leader>bd',
+        function()
+          require('mini.bufremove').delete(0, false)
+        end,
+        desc = 'Delete Buffer',
+      },
+    },
+  },
+
   -- Comment with haste
   {
     'echasnovski/mini.comment',

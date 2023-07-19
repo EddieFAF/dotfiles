@@ -1,24 +1,27 @@
 -- Git related plugins
 return {
-  --  {
-  --    "lewis6991/gitsigns.nvim",
-  --    opts = {},
-  --  },
 
   -- git signs
   {
-    "lewis6991/gitsigns.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       signs = {
-        add          = { text = '│', numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-        change       = { text = '│', numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-        delete       = { text = '_', numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-        topdelete    = { text = '‾', numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-        changedelete = { text = '~', numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-        untracked    = { text = '┆' },
+        add = { text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        change = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        delete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        topdelete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        -- add = { text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        -- change = { text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        -- delete = { text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        -- topdelete = { text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        -- changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        untracked = { text = '┆' },
       },
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+      numhl = false,
+      linehl = false,
       watch_gitdir = {
         interval = 1000,
         follow_files = true,
@@ -26,7 +29,7 @@ return {
       attach_to_untracked = true,
       current_line_blame_opts = {
         virt_text = true,
-        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
         delay = 1000,
       },
       sign_priority = 6,
@@ -34,9 +37,9 @@ return {
       status_formatter = nil, -- Use default
       preview_config = {
         -- Options passed to nvim_open_win
-        border = "single",
-        style = "minimal",
-        relative = "cursor",
+        border = 'single',
+        style = 'minimal',
+        relative = 'cursor',
         row = 0,
         col = 1,
       },
@@ -66,18 +69,18 @@ return {
   },
 
   {
-    "akinsho/git-conflict.nvim",
+    'akinsho/git-conflict.nvim',
     config = function()
-      require("git-conflict").setup({
+      require('git-conflict').setup {
         default_mappings = {
-          ours = "co",
-          theirs = "ct",
-          none = "c0",
-          both = "cb",
-          next = "cn",
-          prev = "cp",
+          ours = 'co',
+          theirs = 'ct',
+          none = 'c0',
+          both = 'cb',
+          next = 'cn',
+          prev = 'cp',
         },
-      })
+      }
     end,
   },
 }

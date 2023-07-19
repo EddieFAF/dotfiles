@@ -25,7 +25,7 @@ local function lsp()
         return msg
       end
     end,
-    icon = 'LSP:',
+    icon = ' LSP:',
     color = { gui = 'bold' },
   }
 end
@@ -129,13 +129,13 @@ return {
               right = 0,
             },
           },
-          --{ "filename", path = 4 },
+          -- { 'filename', path = 4 },
           { 'filename', path = 1, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
-          -- stylua: ignore
-          --          {
-          --            function() return require("nvim-navic").get_location() end,
-          --            cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
-          --          },
+          -- -- stylua: ignore
+          -- {
+          --   function() return require("nvim-navic").get_location() end,
+          --   cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
+          -- },
         },
         lualine_x = {
           lsp(),
