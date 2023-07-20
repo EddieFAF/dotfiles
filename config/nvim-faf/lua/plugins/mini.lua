@@ -120,6 +120,7 @@ local M = {
   {
     'echasnovski/mini.tabline',
     event = 'VeryLazy',
+    enabled = false,
     config = function()
       require('mini.tabline').setup()
     end,

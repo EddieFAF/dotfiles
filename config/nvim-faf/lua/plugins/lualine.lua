@@ -80,7 +80,7 @@ end
 
 -- Show number of Spaces for indention
 local spaces = function()
-  return 'SP:' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
+  return ' ' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
 end
 
 local navic = require 'nvim-navic'
@@ -130,7 +130,7 @@ return {
             },
           },
           -- { 'filename', path = 4 },
-          { 'filename', path = 1, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
+          { 'filename', path = 4, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
           -- -- stylua: ignore
           -- {
           --   function() return require("nvim-navic").get_location() end,
