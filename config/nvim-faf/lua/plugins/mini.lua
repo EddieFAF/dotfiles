@@ -2,6 +2,22 @@
 local M = {
 
   {
+    'echasnovski/mini.ai',
+    event = 'VeryLazy',
+    config = function()
+      require('mini.ai').setup()
+    end,
+  },
+
+  {
+    'echasnovski/mini.bracketed',
+    event = 'VeryLazy',
+    config = function()
+      require('mini.bracketed').setup()
+    end,
+  },
+
+  {
     'echasnovski/mini.bufremove',
     opts = {},
     keys = {
@@ -59,7 +75,11 @@ local M = {
       -- symbol = "▏",
       --symbol = "│",
       symbol = '┊', -- default ╎, -- alts: ┊│┆ ┊  ▎││ ▏▏
-      options = { try_as_border = true },
+      options = {
+        try_as_border = true,
+        border = 'both',
+        indent_at_cursor = false,
+      },
     },
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
@@ -95,22 +115,6 @@ local M = {
         line_right = '<M-l>',
       },
     },
-  },
-
-  {
-    'echasnovski/mini.bracketed',
-    event = 'VeryLazy',
-    config = function()
-      require('mini.bracketed').setup()
-    end,
-  },
-
-  {
-    'echasnovski/mini.ai',
-    event = 'VeryLazy',
-    config = function()
-      require('mini.ai').setup()
-    end,
   },
 
   {
