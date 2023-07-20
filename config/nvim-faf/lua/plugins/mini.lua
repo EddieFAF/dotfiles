@@ -2,6 +2,22 @@
 local M = {
 
   {
+    'echasnovski/mini.ai',
+    event = 'VeryLazy',
+    config = function()
+      require('mini.ai').setup()
+    end,
+  },
+
+  {
+    'echasnovski/mini.bracketed',
+    event = 'VeryLazy',
+    config = function()
+      require('mini.bracketed').setup()
+    end,
+  },
+
+  {
     'echasnovski/mini.bufremove',
     opts = {},
     keys = {
@@ -98,24 +114,9 @@ local M = {
   },
 
   {
-    'echasnovski/mini.bracketed',
-    event = 'VeryLazy',
-    config = function()
-      require('mini.bracketed').setup()
-    end,
-  },
-
-  {
-    'echasnovski/mini.ai',
-    event = 'VeryLazy',
-    config = function()
-      require('mini.ai').setup()
-    end,
-  },
-
-  {
     'echasnovski/mini.tabline',
     event = 'VeryLazy',
+    enabled = false,
     config = function()
       require('mini.tabline').setup()
     end,
