@@ -94,7 +94,7 @@ return {
     require('lualine').setup {
       options = {
         icons_enabled = true,
-        disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'lazy', 'mason', 'neo-tree' } },
+        disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'lazy', 'mason', 'neo-tree', 'starter' } },
         theme = 'auto',
         component_separators = '|',
         section_separators = '',
@@ -113,7 +113,8 @@ return {
             'diff',
             -- Is it me or the symbol for modified us really weird
             --            symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-            symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
+            --  symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
+            symbols = { added = '+', modified = '~', removed = '-' }, -- changes diff symbols
           },
           {
             'diagnostics',

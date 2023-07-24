@@ -12,19 +12,22 @@ local M = {
           require('mini.bufremove').delete(n, false)
         end,
         diagnostics = 'nvim_lsp', -- | "nvim_lsp" | "coc",
+        -- diagnostics_indicator = function(count, level, diagnostics_dict, context)
+        --   return '(' .. count .. ')'
+        -- end,
         diagnostics_indicator = function(count, _, _, _)
           if count > 9 then
-            return '9+'
+            return '(9+)'
           end
-          return tostring(count)
+          return '(' .. tostring(count) .. ')'
         end,
         -- separator_style = "", -- | "thick" | "thin" | "slope" | { 'any', 'any' },
         -- separator_style = { "", "" }, -- | "thick" | "thin" | { 'any', 'any' },
-        separator_style = 'slant', -- | "thick" | "thin" | { 'any', 'any' },
+        separator_style = 'thick', -- | "thick" | "thin" | { 'any', 'any' },
         indicator = {
           -- icon = " ",
-          -- style = 'icon',
-          style = 'underline',
+          style = 'icon',
+          --   style = 'underline',
         },
         always_show_bufferline = true,
         custom_filter = function(buf_number)
