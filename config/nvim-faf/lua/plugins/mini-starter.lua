@@ -4,12 +4,6 @@ return {
     event = 'VimEnter',
     config = function()
       local starter = require 'mini.starter'
-      -- get the window width
-      local width = vim.api.nvim_win_get_width(0)
-      -- divide in half
-      local half_width = width / 2
-      -- subtract by half the length of the longest menu item (Recent files)
-      local final_width = half_width - (15 / 2)
       local logo = table.concat({
         [[                                  __]],
         [[     ___     ___    ___   __  __ /\_\    ___ ___]],
