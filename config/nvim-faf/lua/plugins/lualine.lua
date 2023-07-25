@@ -89,7 +89,7 @@ local navic = require 'nvim-navic'
 return {
   'nvim-lualine/lualine.nvim',
   event = 'VeryLazy',
-  enabled = true,
+  enabled = false,
   config = function()
     require('lualine').setup {
       options = {
