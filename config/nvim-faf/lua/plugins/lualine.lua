@@ -30,6 +30,17 @@ local function lsp()
   }
 end
 
+local function diff_source()
+  local gitsigns = vim.b.gitsigns_status_dict
+  if gitsigns then
+    return {
+      added = gitsigns.added,
+      modified = gitsigns.changed,
+      removed = gitsigns.removed,
+    }
+  end
+end
+
 -- Get FG by name
 local function fg(name)
   return function()
@@ -111,6 +122,7 @@ return {
           { 'b:gitsigns_head', icon = '' },
           {
             'diff',
+            diff_source = diff_source,
             -- Is it me or the symbol for modified us really weird
             --            symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
             --  symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
@@ -130,7 +142,7 @@ return {
               right = 0,
             },
           },
-          -- { 'filename', path = 4 },
+          -- { custom_fname },
           { 'filename', path = 4, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
           -- -- stylua: ignore
           -- {
@@ -181,6 +193,38 @@ return {
           { 'progress', separator = '', padding = { left = 1, right = 1 } },
         },
       },
+      tabline = {
+        lualine_a = {
+          {
+            'buffers',
+            mode = 4,
+            show_filename_only = true,
+            show_modified_status = true,
+            filetype_names = {
+              NvimTree = 'NvimTree',
+              TelescopePrompt = 'Telescope',
+              lazy = 'Lazy',
+              alpha = 'Alpha',
+              ['dap-repl'] = 'DAP REPL',
+            },
+          },
+        },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      winbar = {
+        -- Starting with B due to nicer theming on B and C sections
+        lualine_b = { 'diagnostics', { 'diff', source = diff_source } },
+        lualine_c = {
+          'navic',
+          color_correction = nil,
+          navic_opts = nil,
+        },
+      },
+      inactive_winbar = {},
     }
   end,
 }
