@@ -1,7 +1,7 @@
 local M = {
   'akinsho/bufferline.nvim',
   event = 'VeryLazy',
-  enabled = false,
+  enabled = true,
   config = function()
     require('bufferline').setup {
       options = {

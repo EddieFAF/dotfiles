@@ -1,6 +1,26 @@
+local git_status = function(type, prefix)
+  local status = vim.b.gitsigns_status_dict
+  if not status then
+    return nil
+  end
+  if not status[type] or status[type] == 0 then
+    return nil
+  end
+  return prefix .. status[type]
+end
+
+local lazy_status = function()
+  local updates = require('lazy.status').updates
+  if not require('lazy.status').has_updates then
+    return nil
+  end
+  return 'U:' .. updates
+end
+
 local M = {
   {
     'tamton-aquib/staline.nvim',
+    enabled = false,
     dependencies = 'nvim-tree/nvim-web-devicons',
     event = { 'User', 'BufNewFile', 'BufReadPost' },
 
@@ -12,66 +32,56 @@ local M = {
     },
 
     config = function()
-      require('stabline').setup {
-        style = 'arrow',
-      }
-
       require('staline').setup {
         sections = {
           left = {
-            ' ',
-            'right_sep_double',
+            '- ',
             '-mode',
-            'left_sep_double',
+            '- ',
+            {
+              'GitSignsAdd',
+              function()
+                return git_status('added', '+') or ''
+              end,
+            },
             ' ',
-            'right_sep',
-            '-file_name',
-            'left_sep',
+            {
+              'GitSignsChange',
+              function()
+                return git_status('changed', '~') or ''
+              end,
+            },
             ' ',
-            'right_sep_double',
-            '-branch',
-            'left_sep_double',
+            {
+              'GitSignsDelete',
+              function()
+                return git_status('removed', '-') or ''
+              end,
+            },
+            'branch',
+            ' ',
+            'file_name',
             ' ',
           },
           mid = { 'lsp' },
           right = {
-            'right_sep',
-            '-cool_symbol',
-            'left_sep',
+            'lsp_name',
             ' ',
-            'right_sep',
-            '- ',
-            '-lsp_name',
-            '- ',
-            'left_sep',
+            {
+              'MoreMsg',
+              function()
+                return lazy_status
+              end,
+            },
             ' ',
-            'right_sep_double',
             '-line_column',
-            'left_sep_double',
-            ' ',
           },
         },
 
         defaults = {
-          fg = '#add8e6',
-          left_separator = '',
-          right_separator = '',
           true_colors = true,
-          line_column = '[%l:%c] ≡%p%% ',
-        },
-
-        mode_colors = {
-          n = '#181a23',
-          i = '#181a23',
-          c = '#181a23',
-          v = '#181a23',
-          ic = '#181a23',
-          V = '#181a23',
-          t = '#181a23',
-          R = '#181a23',
-          r = '#181a23',
-          s = '#181a23',
-          S = '#181a23',
+          expand_null_ls = true,
+          line_column = '[%l/%L:%c] ≡%p%% ',
         },
       }
     end,

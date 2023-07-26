@@ -83,13 +83,13 @@ local spaces = function()
   return ' ' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
 end
 
-local navic = require 'nvim-navic'
+-- local navic = require 'nvim-navic'
 
 -- Fancier statusline
 return {
   'nvim-lualine/lualine.nvim',
   event = 'VeryLazy',
-  enabled = false,
+  enabled = true,
   config = function()
     require('lualine').setup {
       options = {
@@ -175,7 +175,7 @@ return {
         lualine_z = {
           {
             function()
-              return '%7(%l/%3L%):%2c'
+              return '[%l/%L] :%c'
             end,
           },
           { 'progress', separator = '', padding = { left = 1, right = 1 } },
