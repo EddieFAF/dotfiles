@@ -58,3 +58,7 @@ vim.g.highlighturl_enabled = true     -- highlight URLs by default
 vim.g.icons_enabled = true            -- disable icons in the UI (disable if no nerd font is available)
 vim.g.lsp_handlers_enabled = true     -- enable or disable default vim.lsp.handlers (hover and signatureHelp)
 vim.g.ui_notifications_enabled = true -- disable notifications when toggling UI elements
+
+vim.opt.title = true
+vim.opt.titlelen = 0
+vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'

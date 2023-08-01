@@ -217,7 +217,8 @@ return {
       },
       winbar = {
         -- Starting with B due to nicer theming on B and C sections
-        lualine_b = { 'diagnostics', { 'diff', source = diff_source } },
+        -- lualine_b = { 'diagnostics', { 'diff', source = diff_source } },
+        lualine_b = {},
         lualine_c = {
           'navic',
           color_correction = nil,
