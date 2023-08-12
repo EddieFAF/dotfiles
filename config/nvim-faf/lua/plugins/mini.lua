@@ -22,7 +22,7 @@ local M = {
     opts = {},
     keys = {
       {
-        '<leader>bd',
+        '<leader>db',
         function()
           require('mini.bufremove').delete(0, false)
         end,

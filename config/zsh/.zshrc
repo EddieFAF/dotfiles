@@ -389,7 +389,7 @@ source ~/.cache/zsh-shortcuts
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 alias lunarvim="NVIM_APPNAME=lunarvim nvim"
-alias v="NVIM_APPNAME=nvim-faf nvim"
+alias v="NVIM_APPNAME=nvim nvim"
 alias astronvim="NVIM_APPNAME=nvim.astro nvim"
 
 function nvims() {
