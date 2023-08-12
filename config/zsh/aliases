@@ -28,9 +28,11 @@ done
 alias vfm=vifmrun
 alias em="emacsclient -c -a 'emacs'"
 #alias lf=lf-uberzug
+alias lf=lfrun
 alias ra='ranger'
 alias racd=ranger-cd
 alias lg="lazygit"
+alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙────────────────────────────────────── ─ ─ "; lsblk -a; echo ""; echo "╓───── d i s k . u s a g e";echo "╙────────────────────────────────────── ─ ─ "; df -h;echo "╓───── s w a p s "; echo "╙────────────────────────────────────── ─ ─ "; swapon --show'
 
 # fzf aliases
 # use fp to do a fzf search and preview the files

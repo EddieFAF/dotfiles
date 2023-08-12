@@ -321,6 +321,7 @@ bindkey '^Z' fancy-ctrl-z
 export FZF_BASE=$(which fzf)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 export FZF_DEFAULT_OPTS="--ansi"
+#export FZF_DEFAULT_OPTS='--color="hl:206" --keep-right --pointer=⟐ --prompt="❱ " --ellipsis=… --scroll-off=3 --cycle --layout=reverse --height="90%"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 #export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
 export FZF_CTRL_T_OPTS="
@@ -392,7 +393,7 @@ alias v="NVIM_APPNAME=nvim-faf nvim"
 alias astronvim="NVIM_APPNAME=nvim.astro nvim"
 
 function nvims() {
-  items=("default" "nvim-eddie" "nvim-faf" "nvim-eddie.old" "nvim-starter" "nvim-kickstart" "nvim-basic-ide" "nvim3" "nvimdots")
+  items=("default" "nvim-eddie" "nvim-faf" "nvim-xero" "nvim-eddie.old" "nvim-starter" "nvim-kickstart" "nvim-basic-ide" "nvim3" "nvimdots")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt="Neovim Config > " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"

@@ -1,15 +1,18 @@
 return {
   settings = {
     Lua = {
+      hint = {
+        enable = true,
+      },
       diagnostics = {
-        globals = { "vim" },
+        globals = { 'vim' },
       },
       workspace = {
         library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-          ["$HOME/.local/share/nvim-faf/lazy/lazy.nvim/lua/lazy/types.lua"] = true,
+          [vim.fn.expand '$VIMRUNTIME/lua'] = true,
+          [vim.fn.expand '$VIMRUNTIME/lua/vim/lsp'] = true,
         },
+        checkThirdParty = false,
       },
     },
   },

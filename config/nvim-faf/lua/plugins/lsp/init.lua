@@ -10,7 +10,7 @@ local M = {
       build = ':MasonUpdate',
       opts = {},
     },
-    { 'jose-elias-alvarez/null-ls.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
+    { 'jose-elias-alvarez/null-ls.nvim',             dependencies = { 'nvim-lua/plenary.nvim' } },
     { 'hrsh7th/cmp-nvim-lsp' },
     --    {
     --      'j-hui/fidget.nvim',
@@ -19,10 +19,12 @@ local M = {
     --    },
     { 'b0o/schemastore.nvim' },
     { 'SmiteshP/nvim-navic' },
+    { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
   },
 }
 
 M.config = function()
+  require('lsp_lines').setup()
   local mason_lsp = require 'mason-lspconfig'
   local lsp = require 'lspconfig'
 
@@ -32,6 +34,7 @@ M.config = function()
   local setupDiagnostics = function()
     vim.diagnostic.config {
       virtual_text = true,
+      virtual_lines = true,
       update_in_insert = true,
       underline = true,
       float = {
@@ -101,9 +104,9 @@ M.config = function()
 
   local signs = {
     { name = 'DiagnosticSignError', text = '' },
-    { name = 'DiagnosticSignWarn',  text = '' },
-    { name = 'DiagnosticSignHint',  text = '' },
-    { name = 'DiagnosticSignInfo',  text = '' },
+    { name = 'DiagnosticSignWarn', text = '' },
+    { name = 'DiagnosticSignHint', text = '' },
+    { name = 'DiagnosticSignInfo', text = '' },
   }
 
   for _, sign in ipairs(signs) do

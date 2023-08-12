@@ -41,7 +41,68 @@ local function diff_source()
   end
 end
 
--- Get FG by name
+-----------------------------------------------------------
+local function selectionCount()
+  local isVisualMode = vim.fn.mode():find '[Vv]'
+  if not isVisualMode then
+    return ''
+  end
+  local starts = vim.fn.line 'v'
+  local ends = vim.fn.line '.'
+  local lines = starts <= ends and ends - starts + 1 or starts - ends + 1
+  return ' ' .. tostring(lines) .. 'L ' .. tostring(vim.fn.wordcount().visual_chars) .. 'C'
+end
+-----------------------------------------------------------
+
+local function searchCounter()
+  if vim.v.hlsearch == 0 then
+    return ''
+  end
+  if vim.fn.mode() == 'n' then
+    local total = vim.fn.searchcount().total
+    local current = vim.fn.searchcount().current
+    local searchTerm = vim.fn.getreg '/'
+    local isStarSearch = searchTerm:find [[^\<.*\>$]]
+    if isStarSearch then
+      searchTerm = '*' .. searchTerm:sub(3, -3)
+    end
+    if total == 0 then
+      return ' 0 ' .. searchTerm
+    end
+    return (' %s/%s %s'):format(current, total, searchTerm)
+
+    -- manual method of counting necessary since `fn.searchcount()` does not work
+    -- during the search in the cmdline
+  elseif vim.fn.mode() == 'c' and vim.fn.getcmdtype():find '[/?]' then
+    -- for correct count, requires autocmd below refreshing lualine on CmdlineChanged
+    local searchTerm = vim.fn.getcmdline()
+    if searchTerm == '' then
+      return ''
+    end
+
+    local buffer = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, true), '\n')
+
+    -- determine case-sensitive from user's vim settings
+    local ignoreCase = vim.opt.smartcase:get() and (searchTerm:find '%u' == nil) or vim.opt.ignorecase:get()
+
+    -- using `fn.count()` instead of `string.find` since `/` uses vimscript
+    local count = vim.fn.count(buffer, searchTerm, ignoreCase)
+    return (' %s'):format(count)
+  end
+end
+
+-- force refreshing for search count, since lualine otherwise lags behind
+vim.api.nvim_create_autocmd('CmdlineChanged', {
+  callback = function()
+    if not vim.fn.getcmdtype():find '[/?]' then
+      return
+    end
+    require('lualine').refresh()
+  end,
+})
+-----------------------------------------------------------
+
+-- Get FG by name -----------------------------------------
 local function fg(name)
   return function()
     ---@type {foreground?:number}?
@@ -96,6 +157,13 @@ end
 
 -- local navic = require 'nvim-navic'
 
+local function navicBreadcrumbs()
+  if vim.bo.filetype == 'css' or not require('nvim-navic').is_available() then
+    return ''
+  end
+  return require('nvim-navic').get_location()
+end
+
 -- Fancier statusline
 return {
   'nvim-lualine/lualine.nvim',
@@ -144,11 +212,11 @@ return {
           },
           -- { custom_fname },
           { 'filename', path = 4, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
-          -- -- stylua: ignore
-          -- {
-          --   function() return require("nvim-navic").get_location() end,
-          --   cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
-          -- },
+          -- stylua: ignore
+          {
+            function() return require("nvim-navic").get_location() end,
+            cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
+          },
         },
         lualine_x = {
           lsp(),
@@ -162,13 +230,13 @@ return {
           --   function() return require("noice").api.status.command.get() end,
           --   cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
           -- },
+        },
+        lualine_y = {
           {
             require('lazy.status').updates,
             cond = require('lazy.status').has_updates,
             color = fg 'Special',
           },
-        },
-        lualine_y = {
           -- {
           --   "fileformat",
           -- },
@@ -185,47 +253,61 @@ return {
           },
         },
         lualine_z = {
+          { selectionCount, padding = { left = 0, right = 1 } },
           {
             function()
               return '[%l/%L] :%c'
             end,
           },
-          { 'progress', separator = '', padding = { left = 1, right = 1 } },
+          { 'progress',     separator = '',                   padding = { left = 1, right = 1 } },
         },
       },
-      tabline = {
-        lualine_a = {
-          {
-            'buffers',
-            mode = 4,
-            show_filename_only = true,
-            show_modified_status = true,
-            filetype_names = {
-              NvimTree = 'NvimTree',
-              TelescopePrompt = 'Telescope',
-              lazy = 'Lazy',
-              alpha = 'Alpha',
-              ['dap-repl'] = 'DAP REPL',
-            },
-          },
-        },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      },
-      winbar = {
-        -- Starting with B due to nicer theming on B and C sections
-        -- lualine_b = { 'diagnostics', { 'diff', source = diff_source } },
-        lualine_b = {},
-        lualine_c = {
-          'navic',
-          color_correction = nil,
-          navic_opts = nil,
-        },
-      },
-      inactive_winbar = {},
+      -- tabline = {
+      --   lualine_a = {
+      --     { searchCounter },
+      --     {
+      --       'buffers',
+      --       mode = 4,
+      --       show_filename_only = true,
+      --       show_modified_status = true,
+      --       filetype_names = {
+      --         NvimTree = 'NvimTree',
+      --         TelescopePrompt = 'Telescope',
+      --         lazy = 'Lazy',
+      --         alpha = 'Alpha',
+      --         ['dap-repl'] = 'DAP REPL',
+      --       },
+      --     },
+      --     {
+      --       'tabs',
+      --       mode = 1,
+      --       max_length = vim.o.columns * 0.7,
+      --       cond = function()
+      --         return vim.fn.tabpagenr '$' > 1
+      --       end,
+      --     },
+      --   },
+      --   lualine_b = {},
+      --   lualine_c = {
+      --     { navicBreadcrumbs },
+      --   },
+      --   lualine_x = {
+      --     {
+      --       require('lazy.status').updates,
+      --       cond = require('lazy.status').has_updates,
+      --       color = fg 'NonText',
+      --     },
+      --   },
+      --   lualine_y = {},
+      --   lualine_z = {},
+      -- },
+      -- winbar = {
+      --   -- Starting with B due to nicer theming on B and C sections
+      --   -- lualine_b = { 'diagnostics', { 'diff', source = diff_source } },
+      --   lualine_b = {},
+      --   lualine_c = {},
+      -- },
+      -- inactive_winbar = {},
     }
   end,
 }
