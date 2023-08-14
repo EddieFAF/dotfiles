@@ -10,7 +10,7 @@ local M = {
       build = ':MasonUpdate',
       opts = {},
     },
-    { 'jose-elias-alvarez/null-ls.nvim',             dependencies = { 'nvim-lua/plenary.nvim' } },
+    { 'jose-elias-alvarez/null-ls.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
     { 'hrsh7th/cmp-nvim-lsp' },
     --    {
     --      'j-hui/fidget.nvim',
@@ -19,12 +19,10 @@ local M = {
     --    },
     { 'b0o/schemastore.nvim' },
     { 'SmiteshP/nvim-navic' },
-    { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
   },
 }
 
 M.config = function()
-  require('lsp_lines').setup()
   local mason_lsp = require 'mason-lspconfig'
   local lsp = require 'lspconfig'
 
@@ -34,7 +32,7 @@ M.config = function()
   local setupDiagnostics = function()
     vim.diagnostic.config {
       virtual_text = true,
-      virtual_lines = true,
+      virtual_lines = false,
       update_in_insert = true,
       underline = true,
       float = {
@@ -65,7 +63,7 @@ M.config = function()
       vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
     end
     nmap('<leader>lr', vim.lsp.buf.rename, 'Rename')
-    nmap('<leader>la', vim.lsp.buf.code_action, 'Code Action')
+    nmap('ga', vim.lsp.buf.code_action, 'Code Action')
 
     nmap('gd', vim.lsp.buf.definition, 'Goto Definition')
     nmap('gr', require('telescope.builtin').lsp_references, 'Goto References')
@@ -95,6 +93,11 @@ M.config = function()
           vim.lsp.buf.format { bufnr = bufnr }
         end,
       })
+    end
+
+    if client.name == 'efm' then
+      client.server_capabilities.documentFormattingProvider = true
+      client.server_capabilities.documentFormattingRangeProvider = true
     end
 
     if client.server_capabilities.documentSymbolProvider then

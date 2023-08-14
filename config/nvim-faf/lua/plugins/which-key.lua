@@ -12,11 +12,11 @@ local M = {
         },
       },
       window = {
-        border = 'shadow',        -- none, single, double, shadow
+        border = 'single',        -- none, single, double, shadow
         position = 'bottom',      -- bottom, top
         -- margin = { 1, 0, 1, 0 },  -- extra window margin [top, right, bottom, left]
-        margin = { 0, 1, 1, 5 },  -- extra window margin [top, right, bottom, left]
-        padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
+        margin = { 0, 4, 1, 1 },  -- extra window margin [top, right, bottom, left]
+        padding = { 0, 4, 2, 1 }, -- extra window padding [top, right, bottom, left]
         winblend = 05,
       },
       layout = {
