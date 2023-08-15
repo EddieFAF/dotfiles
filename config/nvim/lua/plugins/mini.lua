@@ -1,5 +1,5 @@
 return {
-  { "echasnovski/mini.move", version = false },
+  { "echasnovski/mini.move",      version = false },
   {
     "echasnovski/mini.map",
     event = "VeryLazy",
