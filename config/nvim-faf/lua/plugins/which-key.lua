@@ -23,7 +23,6 @@ return {
       ['<leader>l'] = { name = '+LSP' },
       ['<leader>s'] = { name = '+search' },
       ['<leader>m'] = { name = '+Minimap' },
-      ['<leader>u'] = { name = '+ui' },
       ['<leader>x'] = { name = '+diagnostics/quickfix' },
       ['<leader>w'] = { name = '+Workspace' },
     },

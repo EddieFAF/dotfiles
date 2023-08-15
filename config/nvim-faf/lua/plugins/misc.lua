@@ -69,4 +69,13 @@ return {
       -- labels = "��������������",
     },
   },
+
+  {
+    'mbbill/undotree',
+    cmd = 'UndotreeToggle',
+    lazy = false,
+    keys = {
+      { '<leader>u', '<cmd>UndotreeToggle<CR>', desc = 'Undo Tree' },
+    },
+  },
 }
