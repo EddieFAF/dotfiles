@@ -1,57 +1,37 @@
-local M = {
+return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
+  opts = {
+    icons = {
+      breadcrumb = '»', -- symbol used in the command line area that shows your active key combo
+      separator = '➜', -- symbol used between a key and it's label
+      group = '', -- symbol prepended to a group
+    },
 
-  config = function()
+    window = { winblend = 0 },
+    defaults = {
+      mode = { 'n', 'v' },
+      [';'] = { name = '+telescope' },
+      [';d'] = { name = '+lsp/todo' },
+      ['g'] = { name = '+goto' },
+      ['gz'] = { name = '+surround' },
+      [']'] = { name = '+next' },
+      ['['] = { name = '+prev' },
+      ['<leader>d'] = { name = '+Delete' },
+      ['<leader>f'] = { name = '+Files' },
+      ['<leader>g'] = { name = '+Git' },
+      ['<leader>l'] = { name = '+LSP' },
+      ['<leader>s'] = { name = '+search' },
+      ['<leader>m'] = { name = '+Minimap' },
+      ['<leader>u'] = { name = '+ui' },
+      ['<leader>x'] = { name = '+diagnostics/quickfix' },
+      ['<leader>w'] = { name = '+Workspace' },
+    },
+  },
+
+  config = function(_, opts)
     local wk = require 'which-key'
-    wk.setup {
-      plugins = {
-        spelling = {
-          enabled = true,
-          suggestions = 20,
-        },
-      },
-      window = {
-        border = 'single',        -- none, single, double, shadow
-        position = 'bottom',      -- bottom, top
-        -- margin = { 1, 0, 1, 0 },  -- extra window margin [top, right, bottom, left]
-        margin = { 0, 4, 1, 1 },  -- extra window margin [top, right, bottom, left]
-        padding = { 0, 4, 2, 1 }, -- extra window padding [top, right, bottom, left]
-        winblend = 05,
-      },
-      layout = {
-        height = { min = 4, max = 25 }, -- min and max height of the columns
-        width = { min = 20, max = 50 }, -- min and max width of the columns
-        spacing = 3,                    -- spacing between columns
-        align = 'center',               -- align columns left, center or right
-      },
-    }
-
-    local opts = {
-      prefix = '<leader>',
-    }
-
-    local groups = {
-      r = { name = 'refactor' },
-      n = { name = 'notifications' },
-      ["'"] = { name = 'marks' },
-      ['/'] = { name = 'search' },
-      ['['] = { name = 'previous' },
-      [']'] = { name = 'next' },
-      f = { name = 'File' },
-      d = { name = 'Delete/Close' },
-      q = { name = 'Quit' },
-      s = { name = 'Search' },
-      l = { name = 'LSP' },
-      -- u = { name = "UI" },
-      --          b = { name = "Debugging" },
-      g = { name = 'Git' },
-      m = { name = 'Minimap' },
-      w = { name = 'Workspace' },
-    }
-
-    wk.register(groups, opts)
+    wk.setup(opts)
+    wk.register(opts.defaults)
   end,
 }
-
-return M

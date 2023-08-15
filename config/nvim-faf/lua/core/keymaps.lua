@@ -54,3 +54,6 @@ map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')
+
+-- Toggle Terminal
+map('n', '<leader>t', ':ToggleTerm<CR>', 'Toggle Terminal')

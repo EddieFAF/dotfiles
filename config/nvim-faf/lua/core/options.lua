@@ -62,3 +62,6 @@ vim.g.ui_notifications_enabled = true -- disable notifications when toggling UI 
 vim.opt.title = true
 vim.opt.titlelen = 0
 vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
+
+vim.o.timeout = true
+vim.o.timeoutlen = 300
