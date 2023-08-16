@@ -25,6 +25,7 @@ return {
       ['<leader>m'] = { name = '+Minimap' },
       ['<leader>x'] = { name = '+diagnostics/quickfix' },
       ['<leader>w'] = { name = '+Workspace' },
+      ['<leader>u'] = { name = '+UI' },
     },
   },
 

@@ -50,6 +50,7 @@ map('n', '<S-l>', ':bnext<CR>', 'Next Buffer')
 map('n', '<S-h>', ':bprevious<CR>', 'Previous Buffer')
 map('n', ']b', ':bnext<CR>', 'Next Buffer')
 map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
+map('n', '<leader>bp', '<Cmd>BufferPick<CR>', 'Buffer Pick')
 
 -- Stay in indent mode
 map('v', '<', '<gv')
@@ -57,3 +58,44 @@ map('v', '>', '>gv')
 
 -- Toggle Terminal
 map('n', '<leader>t', ':ToggleTerm<CR>', 'Toggle Terminal')
+
+-- FZF Keys
+map('n', '<leader>sc', "<cmd>lua require('fzf-lua').colorschemes()<CR>", 'Search Colorschemes Preview (FZF)')
+
+-- UI Toggles
+local utils = require 'helpers'
+local ui = require 'helpers.ui'
+local is_available = utils.is_available
+
+if is_available 'nvim-autopairs' then
+  map('n', '<leader>ua', ui.toggle_autopairs, 'Toggle autopairs')
+end
+if is_available 'nvim-cmp' then
+  map('n', '<leader>uc', ui.toggle_cmp, 'Toggle autocompletion')
+end
+if is_available 'nvim-colorizer.lua' then
+  map('n', '<leader>uC', '<cmd>ColorizerToggle<cr>', 'Toggle color highlight')
+end
+map('n', '<leader>uf', ui.toggle_autoformat, 'Toggle autoformat')
+map('n', '<leader>ug', ui.toggle_signcolumn, 'Toggle signcolumn')
+map('n', '<leader>uh', ui.toggle_foldcolumn, 'Toggle foldcolumn')
+map('n', '<leader>ui', ui.set_indent, 'Change indent setting')
+map('n', '<leader>uI', '<cmd>set list!<cr>', 'Toggle [in]visible characters')
+map('n', '<leader>ul', ui.toggle_statusline, 'Toggle statusline')
+map('n', '<leader>un', ui.change_number, 'Change line numbering')
+map('n', '<leader>uN', ui.toggle_ui_notifications, 'Toggle UI notifications')
+map('n', '<leader>up', ui.toggle_paste, 'Toggle paste mode')
+map('n', '<F1>', ui.toggle_paste, 'Toggle paste mode')
+map('n', '<leader>us', ui.toggle_spell, 'Toggle spellcheck')
+map('n', '<leader>uS', ui.toggle_conceal, 'Toggle conceal')
+map('n', '<leader>ut', ui.toggle_tabline, 'Toggle tabline')
+map('n', '<leader>uu', ui.toggle_url_match, 'Toggle URL highlight')
+map('n', '<leader>uw', ui.toggle_wrap, 'Toggle wrap')
+map('n', '<leader>uy', ui.toggle_syntax, 'Toggle syntax highlight')
+map('n', '<leader>ua', function()
+  if vim.g.minianimate_disable then
+    vim.g.minianimate_disable = false
+  else
+    vim.g.minianimate_disable = true
+  end
+end, 'Toggle animations')

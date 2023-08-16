@@ -1,0 +1,59 @@
+return {
+
+  {
+    'folke/flash.nvim',
+    enabled = true,
+    event = 'VeryLazy',
+    keys = {
+      {
+        's',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Flash',
+      },
+      {
+        'S',
+        mode = { 'n', 'o', 'x' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = 'Flash Treesitter',
+      },
+    },
+    ---@type Flash.Config
+    opts = {
+      label = {
+        rainbow = {
+          enabled = true,
+          shade = 9,
+        },
+        -- format = function(opts)
+        --   return { { opts.match.label:upper(), opts.hl_group } }
+        -- end,
+      },
+      modes = {
+        treesitter_search = {
+          label = {
+            -- rainbow = { enabled = true },
+            -- format = function(opts)
+            --   local label = opts.match.label
+            --   if opts.after then
+            --     label = label .. '>'
+            --   else
+            --     label = '<' .. label
+            --   end
+            --   return { { label, opts.hl_group } }
+            -- end,
+          },
+        },
+        char = {
+          jump_labels = true,
+        },
+      },
+      -- search = { mode = "fuzzy" },
+      -- labels = "��������������",
+    },
+  },
+}

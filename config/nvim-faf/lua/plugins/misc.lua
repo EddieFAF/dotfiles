@@ -2,11 +2,11 @@ return {
   {
     'romgrk/barbar.nvim',
     version = false,
-    enabled = true,
+    enabled = false,
     event = 'VeryLazy',
     dependencies = {
       'lewis6991/gitsigns.nvim',
-      'nvim-tree/nvim-web-devicons',
+      --    'nvim-tree/nvim-web-devicons',
     },
     init = function()
       vim.g.barbar_auto_setup = false
@@ -39,35 +39,8 @@ return {
   },
 
   {
-    'folke/flash.nvim',
-    enabled = true,
-    event = 'VeryLazy',
-    ---@type Flash.Config
-    opts = {
-      label = {
-        -- format = function(opts)
-        --   return { { opts.match.label:upper(), opts.hl_group } }
-        -- end,
-      },
-      modes = {
-        treesitter_search = {
-          label = {
-            rainbow = { enabled = true },
-            -- format = function(opts)
-            --   local label = opts.match.label
-            --   if opts.after then
-            --     label = label .. ">"
-            --   else
-            --     label = "<" .. label
-            --   end
-            --   return { { label, opts.hl_group } }
-            -- end,
-          },
-        },
-      },
-      -- search = { mode = "fuzzy" },
-      -- labels = "��������������",
-    },
+    'nvim-tree/nvim-web-devicons',
+    enabled = false,
   },
 
   {
@@ -75,7 +48,7 @@ return {
     cmd = 'UndotreeToggle',
     lazy = false,
     keys = {
-      { '<leader>u', '<cmd>UndotreeToggle<CR>', desc = 'Undo Tree' },
+      { '<leader>uu', '<cmd>UndotreeToggle<CR>', desc = 'Undo Tree' },
     },
   },
 }

@@ -1,13 +1,13 @@
 return {
   {
     'utilyre/barbecue.nvim',
-    enabled = false,
+    enabled = true,
     name = 'barbecue',
     event = 'VeryLazy',
     version = '*',
     dependencies = {
       'SmiteshP/nvim-navic',
-      'nvim-tree/nvim-web-devicons', -- optional dependency
+      --      'nvim-tree/nvim-web-devicons', -- optional dependency
     },
     keys = {
       {
@@ -20,8 +20,9 @@ return {
       },
     },
     opts = {
-      show_dirname = true,
+      show_dirname = false,
       show_modified = true,
+      -- kinds = false,
       kinds = {
         File = '󰈙 ',
         Module = ' ',

@@ -18,14 +18,20 @@ local function lsp()
           end
         end
       end
-
+      local icon = 'LSP:'
+      if vim.g.icons_enabled then
+        icon = ':'
+      else
+        icon = 'LSP:'
+      end
       if #clients_output > 0 then
-        return table.concat(clients_output, '/')
+        return icon .. table.concat(clients_output, '/')
       else
         return msg
       end
     end,
-    icon = ' LSP:',
+    icon = '',
+    --icon = ' LSP:',
     color = { gui = 'bold' },
   }
 end
@@ -152,7 +158,11 @@ end
 
 -- Show number of Spaces for indention
 local spaces = function()
-  return 'SPC:' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
+  local icon = 'SPC:'
+  if vim.g.icons_enabled then
+    icon = '->'
+  end
+  return icon .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
 end
 
 -- local navic = require 'nvim-navic'
@@ -193,7 +203,7 @@ return {
   config = function()
     require('lualine').setup {
       options = {
-        icons_enabled = false,
+        icons_enabled = vim.g.icons_enabled,
         disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'lazy', 'mason', 'neo-tree', 'starter' } },
         theme = 'auto',
         component_separators = '|',
@@ -234,7 +244,8 @@ return {
           },
           -- { custom_fname },
           { 'filename', path = 4, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
-          navicBreadcrumbs,
+          { 'filesize' },
+          --navicBreadcrumbs,
           -- stylua: ignore
           -- {
           --   function() return require("nvim-navic").get_location() end,
