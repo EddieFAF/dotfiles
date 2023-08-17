@@ -21,15 +21,15 @@ return {
         button = '',
         -- Enables / disables diagnostic symbols
         diagnostics = {
-          [vim.diagnostic.severity.ERROR] = {enabled = true, icon = 'ﬀ'},
-          [vim.diagnostic.severity.WARN] = {enabled = false},
-          [vim.diagnostic.severity.INFO] = {enabled = false},
-          [vim.diagnostic.severity.HINT] = {enabled = false},
+          [vim.diagnostic.severity.ERROR] = { enabled = true, icon = 'ﬀ' },
+          [vim.diagnostic.severity.WARN] = { enabled = false },
+          [vim.diagnostic.severity.INFO] = { enabled = false },
+          [vim.diagnostic.severity.HINT] = { enabled = false },
         },
         gitsigns = {
-          added = {enabled = false, icon = '+'},
-          changed = {enabled = false, icon = '~'},
-          deleted = {enabled = false, icon = '-'},
+          added = { enabled = false, icon = '+' },
+          changed = { enabled = false, icon = '~' },
+          deleted = { enabled = false, icon = '-' },
         },
       },
       sidebar_filetypes = {
@@ -38,35 +38,4 @@ return {
     },
   },
 
-  {
-    "folke/flash.nvim",
-    enabled = true,
-    event = "VeryLazy",
-    ---@type Flash.Config
-    opts = {
-      label = {
-        -- format = function(opts)
-        --   return { { opts.match.label:upper(), opts.hl_group } }
-        -- end,
-      },
-      modes = {
-        treesitter_search = {
-          label = {
-            rainbow = { enabled = true },
-            -- format = function(opts)
-            --   local label = opts.match.label
-            --   if opts.after then
-            --     label = label .. ">"
-            --   else
-            --     label = "<" .. label
-            --   end
-            --   return { { label, opts.hl_group } }
-            -- end,
-          },
-        },
-      },
-      -- search = { mode = "fuzzy" },
-      -- labels = "��������������",
-    },
-  },
 }

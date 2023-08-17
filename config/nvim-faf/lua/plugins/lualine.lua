@@ -19,13 +19,21 @@ local function lsp()
         end
       end
 
-      if #clients_output > 0 then
-        return table.concat(clients_output, '/')
+      local icon = 'LSP:'
+      if vim.g.icons_enabled then
+        icon = ':'
       else
-        return msg
+        icon = 'LSP:'
+      end
+
+      if #clients_output > 0 then
+        return icon .. table.concat(clients_output, '/')
+      else
+        return icon .. msg
       end
     end,
-    icon = ' LSP:',
+    icon = '',
+    --icon = ' LSP:',
     color = { gui = 'bold' },
   }
 end
@@ -152,7 +160,11 @@ end
 
 -- Show number of Spaces for indention
 local spaces = function()
-  return ' ' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
+  local icon = 'SPC:'
+  if vim.g.icons_enabled then
+    icon = ' '
+  end
+  return icon .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
 end
 
 -- local navic = require 'nvim-navic'
