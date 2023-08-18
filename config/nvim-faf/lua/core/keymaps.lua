@@ -50,6 +50,7 @@ map('n', '<S-l>', ':bnext<CR>', 'Next Buffer')
 map('n', '<S-h>', ':bprevious<CR>', 'Previous Buffer')
 map('n', ']b', ':bnext<CR>', 'Next Buffer')
 map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
+map('n', '<leader>bp', '<Cmd>BufferPick<CR>', 'Buffer Pick')
 
 -- Stay in indent mode
 map('v', '<', '<gv')

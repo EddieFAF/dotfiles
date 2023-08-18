@@ -6,8 +6,15 @@ return {
     lazy = false,
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'debugloop/telescope-undo.nvim',
+      'nvim-telescope/telescope-live-grep-args.nvim',
+      'nvim-telescope/telescope-file-browser.nvim',
       -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', cond = vim.fn.executable 'make' == 1 },
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = vim.fn.executable 'make' == 1,
+      },
     },
     config = function()
       require('telescope').setup {
@@ -24,6 +31,42 @@ return {
               ['<C-d>'] = false,
               ['<esc>'] = require('telescope.actions').close,
               ['<M-p>'] = require('telescope.actions.layout').toggle_preview,
+            },
+          },
+          extensions = {
+            undo = {
+              use_delta = true,
+              side_by_side = true,
+              entry_format = '󰣜  #$ID, $STAT, $TIME',
+              layout_strategy = 'flex',
+              mappings = {
+                i = {
+                  ['<cr>'] = require('telescope-undo.actions').yank_additions,
+                  ['§'] = require('telescope-undo.actions').yank_deletions, -- term mapped to shift+enter
+                  ['<c-\\>'] = require('telescope-undo.actions').restore,
+                },
+              },
+            },
+            live_grep_args = {
+              auto_quoting = true,
+              mappings = {
+                i = {
+                  ['<c-\\>'] = require('telescope-live-grep-args.actions').quote_prompt { postfix = ' --hidden ' },
+                },
+              },
+            },
+            file_browser = {
+              depth = 1,
+              auto_depth = false,
+              hidden = { file_browser = true, folder_browser = true },
+              hide_parent_dir = false,
+              collapse_dirs = false,
+              prompt_path = false,
+              quiet = false,
+              dir_icon = '󰉓 ',
+              dir_icon_hl = 'Default',
+              display_stat = { date = true, size = true, mode = true },
+              git_status = true,
             },
           },
           theme = 'dropdown',
@@ -57,11 +100,12 @@ return {
       end, 'Search in current buffer')
 
       map('n', '<leader>ff', require('telescope.builtin').find_files, 'Find Files')
+      map('n', '<leader>.', require('telescope.builtin').find_files, 'Find Files')
       map('n', '<leader>fF', '<cmd>Telescope find_files hidden=true cwd=$HOME prompt_title=<~><CR>', 'Find Files HOME')
       map('n', '<leader>sh', require('telescope.builtin').help_tags, 'Show Help Tags')
-      map('n', '<leader>fc', require('telescope.builtin').grep_string, 'Current word')
-      map('n', '<leader>fs', require('telescope.builtin').live_grep, 'Grep all files')
-      map('n', '<leader>sd', require('telescope.builtin').diagnostics, 'Diagnostics')
+      map('n', '<leader>sw', require('telescope.builtin').grep_string, 'Search Current word')
+      map('n', '<leader>sa', require('telescope.builtin').live_grep, 'Grep all files')
+      map('n', '<leader>sd', require('telescope.builtin').diagnostics, 'Show Diagnostics')
 
       map('n', 'gb', require('telescope.builtin').buffers, 'Goto Buffer')
       -- telescope git commands
@@ -72,14 +116,28 @@ return {
 
       map('n', '<C-p>', require('telescope.builtin').keymaps, 'Search keymaps')
       map('n', '<leader>sk', require('telescope.builtin').keymaps, 'Search keymaps')
+
+      -- Undo
+      map('n', '<leader>fu', ':Telescope undo<cr>', 'undo tree')
+      map('n', '\\', function()
+        require('telescope').extensions.live_grep_args.live_grep_args {
+          prompt_title = 'grep',
+          additional_args = '-i',
+        }
+      end, 'live grep')
+
+      -- File_Browser
+      map('n', '<leader>fb', '<cmd>Telescope file_browser<CR>', 'Filebrowser')
+      map('n', '<leader>fB', '<cmd>Telescope file_browser hidden=true cwd="$HOME"<CR>', 'Filebrowser (Home Dir)')
+      map('n', '<leader>fd', function()
+        require('telescope').extensions.file_browser.file_browser {
+          path = vim.fn.stdpath 'config',
+        }
+      end, 'Filebrowser (Config Dir)')
+
+      require('telescope').load_extension 'undo'
+      require('telescope').load_extension 'file_browser'
+      require('telescope').load_extension 'live_grep_args'
     end,
-  },
-  {
-    'nvim-telescope/telescope-file-browser.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-    keys = {
-      { '<leader>fb', '<cmd>Telescope file_browser<CR>',                         desc = 'Filebrowser' },
-      { '<leader>fB', '<cmd>Telescope file_browser hidden=true cwd="$HOME"<CR>', desc = 'Filebrowser (Home Dir)' },
-    },
   },
 }

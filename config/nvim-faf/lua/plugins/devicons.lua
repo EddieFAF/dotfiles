@@ -1,803 +1,804 @@
 return {
-  "nvim-tree/nvim-web-devicons",
-  event = "VeryLazy",
+  'nvim-tree/nvim-web-devicons',
+  event = 'VeryLazy',
+  enabled = false,
   config = function()
-    require("nvim-web-devicons").setup({
+    require('nvim-web-devicons').setup {
       -- yes, this is all the icons w/ an extra space
       override = {
-        ["default_icon"] = {
-          icon = "󱔗 ",
+        ['default_icon'] = {
+          icon = '󱔗 ',
         },
-        [".babelrc"] = {
-          icon = " ",
+        ['.babelrc'] = {
+          icon = ' ',
         },
-        [".bash_profile"] = {
-          icon = " ",
+        ['.bash_profile'] = {
+          icon = ' ',
         },
-        [".bashrc"] = {
-          icon = " ",
+        ['.bashrc'] = {
+          icon = ' ',
         },
-        [".ds_store"] = {
-          icon = " ",
+        ['.ds_store'] = {
+          icon = ' ',
         },
-        [".eslintrc"] = {
-          icon = " ",
+        ['.eslintrc'] = {
+          icon = ' ',
         },
-        [".gitattributes"] = {
-          icon = " ",
+        ['.gitattributes'] = {
+          icon = ' ',
         },
-        [".gitconfig"] = {
-          icon = " ",
+        ['.gitconfig'] = {
+          icon = ' ',
         },
-        [".gitignore"] = {
-          icon = " ",
+        ['.gitignore'] = {
+          icon = ' ',
         },
-        [".gitlab-ci.yml"] = {
-          icon = " ",
+        ['.gitlab-ci.yml'] = {
+          icon = ' ',
         },
-        [".gitmodules"] = {
-          icon = " ",
+        ['.gitmodules'] = {
+          icon = ' ',
         },
-        [".gvimrc"] = {
-          icon = " ",
+        ['.gvimrc'] = {
+          icon = ' ',
         },
-        [".npmignore"] = {
-          icon = " ",
+        ['.npmignore'] = {
+          icon = ' ',
         },
-        [".npmrc"] = {
-          icon = " ",
+        ['.npmrc'] = {
+          icon = ' ',
         },
-        [".settings.json"] = {
-          icon = " ",
+        ['.settings.json'] = {
+          icon = ' ',
         },
-        [".vimrc"] = {
-          icon = " ",
+        ['.vimrc'] = {
+          icon = ' ',
         },
-        [".zprofile"] = {
-          icon = " ",
+        ['.zprofile'] = {
+          icon = ' ',
         },
-        [".zshenv"] = {
-          icon = " ",
+        ['.zshenv'] = {
+          icon = ' ',
         },
-        [".zshrc"] = {
-          icon = " ",
+        ['.zshrc'] = {
+          icon = ' ',
         },
-        ["brewfile"] = {
-          icon = " ",
+        ['brewfile'] = {
+          icon = ' ',
         },
-        ["cmakelists.txt"] = {
-          icon = " ",
+        ['cmakelists.txt'] = {
+          icon = ' ',
         },
-        ["commit_editmsg"] = {
-          icon = " ",
+        ['commit_editmsg'] = {
+          icon = ' ',
         },
-        ["containerfile"] = {
-          icon = "󰡨 ",
+        ['containerfile'] = {
+          icon = '󰡨 ',
         },
-        ["copying"] = {
-          icon = " ",
+        ['copying'] = {
+          icon = ' ',
         },
-        ["copying.lesser"] = {
-          icon = " ",
+        ['copying.lesser'] = {
+          icon = ' ',
         },
-        ["docker-compose.yml"] = {
-          icon = "󰡨 ",
+        ['docker-compose.yml'] = {
+          icon = '󰡨 ',
         },
-        ["docker-compose.yaml"] = {
-          icon = "󰡨 ",
+        ['docker-compose.yaml'] = {
+          icon = '󰡨 ',
         },
-        [".dockerignore"] = {
-          icon = "󰡨 ",
+        ['.dockerignore'] = {
+          icon = '󰡨 ',
         },
-        ["gemfile$"] = {
-          icon = " ",
+        ['gemfile$'] = {
+          icon = ' ',
         },
-        ["vagrantfile$"] = {
-          icon = " ",
+        ['vagrantfile$'] = {
+          icon = ' ',
         },
-        ["_gvimrc"] = {
-          icon = " ",
+        ['_gvimrc'] = {
+          icon = ' ',
         },
-        ["_vimrc"] = {
-          icon = " ",
+        ['_vimrc'] = {
+          icon = ' ',
         },
-        ["package.json"] = {
-          icon = " ",
+        ['package.json'] = {
+          icon = ' ',
         },
-        ["package-lock.json"] = {
-          icon = " ",
+        ['package-lock.json'] = {
+          icon = ' ',
         },
-        ["node_modules"] = {
-          icon = " ",
+        ['node_modules'] = {
+          icon = ' ',
         },
-        ["favicon.ico"] = {
-          icon = " ",
+        ['favicon.ico'] = {
+          icon = ' ',
         },
-        ["mix.lock"] = {
-          icon = " ",
+        ['mix.lock'] = {
+          icon = ' ',
         },
-        [".env"] = {
-          icon = " ",
+        ['.env'] = {
+          icon = ' ',
         },
-        ["gruntfile"] = {
-          icon = " ",
+        ['gruntfile'] = {
+          icon = ' ',
         },
-        ["gulpfile"] = {
-          icon = " ",
+        ['gulpfile'] = {
+          icon = ' ',
         },
-        ["rakefile"] = {
-          icon = " ",
+        ['rakefile'] = {
+          icon = ' ',
         },
-        ["procfile"] = {
-          icon = " ",
+        ['procfile'] = {
+          icon = ' ',
         },
-        ["dockerfile"] = {
-          icon = "󰡨 ",
+        ['dockerfile'] = {
+          icon = '󰡨 ',
         },
-        ["build"] = {
-          icon = " ",
+        ['build'] = {
+          icon = ' ',
         },
-        ["workspace"] = {
-          icon = " ",
+        ['workspace'] = {
+          icon = ' ',
         },
-        ["unlicense"] = {
-          icon = " ",
+        ['unlicense'] = {
+          icon = ' ',
         },
-        ["ai"] = {
-          icon = " ",
+        ['ai'] = {
+          icon = ' ',
         },
-        ["awk"] = {
-          icon = " ",
+        ['awk'] = {
+          icon = ' ',
         },
-        ["bash"] = {
-          icon = " ",
+        ['bash'] = {
+          icon = ' ',
         },
-        ["bat"] = {
-          icon = " ",
+        ['bat'] = {
+          icon = ' ',
         },
-        ["bazel"] = {
-          icon = " ",
+        ['bazel'] = {
+          icon = ' ',
         },
-        ["bzl"] = {
-          icon = " ",
+        ['bzl'] = {
+          icon = ' ',
         },
-        ["bmp"] = {
-          icon = " ",
+        ['bmp'] = {
+          icon = ' ',
         },
-        ["c"] = {
-          icon = " ",
+        ['c'] = {
+          icon = ' ',
         },
-        ["c++"] = {
-          icon = " ",
+        ['c++'] = {
+          icon = ' ',
         },
-        ["cbl"] = {
-          icon = "⚙ ",
+        ['cbl'] = {
+          icon = '⚙ ',
         },
-        ["cc"] = {
-          icon = " ",
+        ['cc'] = {
+          icon = ' ',
         },
-        ["cfg"] = {
-          icon = " ",
+        ['cfg'] = {
+          icon = ' ',
         },
-        ["cjs"] = {
-          icon = " ",
+        ['cjs'] = {
+          icon = ' ',
         },
-        ["clj"] = {
-          icon = " ",
+        ['clj'] = {
+          icon = ' ',
         },
-        ["cljc"] = {
-          icon = " ",
+        ['cljc'] = {
+          icon = ' ',
         },
-        ["cljs"] = {
-          icon = " ",
+        ['cljs'] = {
+          icon = ' ',
         },
-        ["cljd"] = {
-          icon = " ",
+        ['cljd'] = {
+          icon = ' ',
         },
-        ["cmake"] = {
-          icon = " ",
+        ['cmake'] = {
+          icon = ' ',
         },
-        ["cob"] = {
-          icon = "⚙ ",
+        ['cob'] = {
+          icon = '⚙ ',
         },
-        ["cobol"] = {
-          icon = "⚙ ",
+        ['cobol'] = {
+          icon = '⚙ ',
         },
-        ["coffee"] = {
-          icon = " ",
+        ['coffee'] = {
+          icon = ' ',
         },
-        ["conf"] = {
-          icon = " ",
+        ['conf'] = {
+          icon = ' ',
         },
-        ["config.ru"] = {
-          icon = " ",
+        ['config.ru'] = {
+          icon = ' ',
         },
-        ["cp"] = {
-          icon = " ",
+        ['cp'] = {
+          icon = ' ',
         },
-        ["cpp"] = {
-          icon = " ",
+        ['cpp'] = {
+          icon = ' ',
         },
-        ["cpy"] = {
-          icon = "⚙ ",
+        ['cpy'] = {
+          icon = '⚙ ',
         },
-        ["cr"] = {
-          icon = " ",
+        ['cr'] = {
+          icon = ' ',
         },
-        ["cs"] = {
-          icon = "󰌛 ",
+        ['cs'] = {
+          icon = '󰌛 ',
         },
-        ["csh"] = {
-          icon = " ",
+        ['csh'] = {
+          icon = ' ',
         },
-        ["cson"] = {
-          icon = " ",
+        ['cson'] = {
+          icon = ' ',
         },
-        ["css"] = {
-          icon = " ",
+        ['css'] = {
+          icon = ' ',
         },
-        ["csv"] = {
-          icon = "󰈙 ",
+        ['csv'] = {
+          icon = '󰈙 ',
         },
-        ["cxx"] = {
-          icon = " ",
+        ['cxx'] = {
+          icon = ' ',
         },
-        ["d"] = {
-          icon = " ",
+        ['d'] = {
+          icon = ' ',
         },
-        ["dart"] = {
-          icon = " ",
+        ['dart'] = {
+          icon = ' ',
         },
-        ["db"] = {
-          icon = " ",
+        ['db'] = {
+          icon = ' ',
         },
-        ["desktop"] = {
-          icon = " ",
+        ['desktop'] = {
+          icon = ' ',
         },
-        ["diff"] = {
-          icon = " ",
+        ['diff'] = {
+          icon = ' ',
         },
-        ["doc"] = {
-          icon = "󰈬 ",
+        ['doc'] = {
+          icon = '󰈬 ',
         },
-        ["docx"] = {
-          icon = "󰈬 ",
+        ['docx'] = {
+          icon = '󰈬 ',
         },
-        ["drl"] = {
-          icon = " ",
+        ['drl'] = {
+          icon = ' ',
         },
-        ["dropbox"] = {
-          icon = " ",
+        ['dropbox'] = {
+          icon = ' ',
         },
-        ["dump"] = {
-          icon = " ",
+        ['dump'] = {
+          icon = ' ',
         },
-        ["edn"] = {
-          icon = " ",
+        ['edn'] = {
+          icon = ' ',
         },
-        ["eex"] = {
-          icon = " ",
+        ['eex'] = {
+          icon = ' ',
         },
-        ["ejs"] = {
-          icon = " ",
+        ['ejs'] = {
+          icon = ' ',
         },
-        ["elm"] = {
-          icon = " ",
+        ['elm'] = {
+          icon = ' ',
         },
-        ["epp"] = {
-          icon = " ",
+        ['epp'] = {
+          icon = ' ',
         },
-        ["erb"] = {
-          icon = " ",
+        ['erb'] = {
+          icon = ' ',
         },
-        ["erl"] = {
-          icon = " ",
+        ['erl'] = {
+          icon = ' ',
         },
-        ["ex"] = {
-          icon = " ",
+        ['ex'] = {
+          icon = ' ',
         },
-        ["exs"] = {
-          icon = " ",
+        ['exs'] = {
+          icon = ' ',
         },
-        ["f#"] = {
-          icon = " ",
+        ['f#'] = {
+          icon = ' ',
         },
-        ["f90"] = {
-          icon = "󱈚 ",
+        ['f90'] = {
+          icon = '󱈚 ',
         },
-        ["fnl"] = {
-          icon = "🌜 ",
+        ['fnl'] = {
+          icon = '🌜 ',
         },
-        ["fish"] = {
-          icon = " ",
+        ['fish'] = {
+          icon = ' ',
         },
-        ["fs"] = {
-          icon = " ",
+        ['fs'] = {
+          icon = ' ',
         },
-        ["fsi"] = {
-          icon = " ",
+        ['fsi'] = {
+          icon = ' ',
         },
-        ["fsscript"] = {
-          icon = " ",
+        ['fsscript'] = {
+          icon = ' ',
         },
-        ["fsx"] = {
-          icon = " ",
+        ['fsx'] = {
+          icon = ' ',
         },
-        ["gd"] = {
-          icon = " ",
+        ['gd'] = {
+          icon = ' ',
         },
-        ["gemspec"] = {
-          icon = " ",
+        ['gemspec'] = {
+          icon = ' ',
         },
-        ["gif"] = {
-          icon = " ",
+        ['gif'] = {
+          icon = ' ',
         },
-        ["git"] = {
-          icon = " ",
+        ['git'] = {
+          icon = ' ',
         },
-        ["glb"] = {
-          icon = " ",
+        ['glb'] = {
+          icon = ' ',
         },
-        ["go"] = {
-          icon = " ",
+        ['go'] = {
+          icon = ' ',
         },
-        ["godot"] = {
-          icon = " ",
+        ['godot'] = {
+          icon = ' ',
         },
-        ["graphql"] = {
-          icon = " ",
+        ['graphql'] = {
+          icon = ' ',
         },
-        ["gql"] = {
-          icon = " ",
+        ['gql'] = {
+          icon = ' ',
         },
-        ["h"] = {
-          icon = " ",
+        ['h'] = {
+          icon = ' ',
         },
-        ["haml"] = {
-          icon = " ",
+        ['haml'] = {
+          icon = ' ',
         },
-        ["hbs"] = {
-          icon = " ",
+        ['hbs'] = {
+          icon = ' ',
         },
-        ["heex"] = {
-          icon = " ",
+        ['heex'] = {
+          icon = ' ',
         },
-        ["hh"] = {
-          icon = " ",
+        ['hh'] = {
+          icon = ' ',
         },
-        ["hpp"] = {
-          icon = " ",
+        ['hpp'] = {
+          icon = ' ',
         },
-        ["hrl"] = {
-          icon = " ",
+        ['hrl'] = {
+          icon = ' ',
         },
-        ["hs"] = {
-          icon = " ",
+        ['hs'] = {
+          icon = ' ',
         },
-        ["htm"] = {
-          icon = " ",
+        ['htm'] = {
+          icon = ' ',
         },
-        ["html"] = {
-          icon = " ",
+        ['html'] = {
+          icon = ' ',
         },
-        ["hxx"] = {
-          icon = " ",
+        ['hxx'] = {
+          icon = ' ',
         },
-        ["ico"] = {
-          icon = " ",
+        ['ico'] = {
+          icon = ' ',
         },
-        ["import"] = {
-          icon = " ",
+        ['import'] = {
+          icon = ' ',
         },
-        ["ini"] = {
-          icon = " ",
+        ['ini'] = {
+          icon = ' ',
         },
-        ["java"] = {
-          icon = " ",
+        ['java'] = {
+          icon = ' ',
         },
-        ["jl"] = {
-          icon = " ",
+        ['jl'] = {
+          icon = ' ',
         },
-        ["jpeg"] = {
-          icon = " ",
+        ['jpeg'] = {
+          icon = ' ',
         },
-        ["jpg"] = {
-          icon = " ",
+        ['jpg'] = {
+          icon = ' ',
         },
-        ["js"] = {
-          icon = " ",
+        ['js'] = {
+          icon = ' ',
         },
-        ["test.js"] = {
-          icon = " ",
+        ['test.js'] = {
+          icon = ' ',
         },
-        ["spec.js"] = {
-          icon = " ",
+        ['spec.js'] = {
+          icon = ' ',
         },
-        ["json"] = {
-          icon = " ",
+        ['json'] = {
+          icon = ' ',
         },
-        ["json5"] = {
-          icon = " ",
+        ['json5'] = {
+          icon = ' ',
         },
-        ["jsx"] = {
-          icon = " ",
+        ['jsx'] = {
+          icon = ' ',
         },
-        ["test.jsx"] = {
-          icon = " ",
+        ['test.jsx'] = {
+          icon = ' ',
         },
-        ["spec.jsx"] = {
-          icon = " ",
+        ['spec.jsx'] = {
+          icon = ' ',
         },
-        ["ksh"] = {
-          icon = " ",
+        ['ksh'] = {
+          icon = ' ',
         },
-        ["kt"] = {
-          icon = " ",
+        ['kt'] = {
+          icon = ' ',
         },
-        ["kts"] = {
-          icon = " ",
+        ['kts'] = {
+          icon = ' ',
         },
-        ["leex"] = {
-          icon = " ",
+        ['leex'] = {
+          icon = ' ',
         },
-        ["less"] = {
-          icon = " ",
+        ['less'] = {
+          icon = ' ',
         },
-        ["lhs"] = {
-          icon = " ",
+        ['lhs'] = {
+          icon = ' ',
         },
-        ["license"] = {
-          icon = " ",
+        ['license'] = {
+          icon = ' ',
         },
-        ["lua"] = {
-          icon = " ",
+        ['lua'] = {
+          icon = ' ',
         },
-        ["luau"] = {
-          icon = " ",
+        ['luau'] = {
+          icon = ' ',
         },
-        ["gnumakefile"] = {
-          icon = " ",
+        ['gnumakefile'] = {
+          icon = ' ',
         },
-        ["makefile"] = {
-          icon = " ",
+        ['makefile'] = {
+          icon = ' ',
         },
-        ["mk"] = {
-          icon = " ",
+        ['mk'] = {
+          icon = ' ',
         },
-        ["markdown"] = {
-          icon = " ",
+        ['markdown'] = {
+          icon = ' ',
         },
-        ["material"] = {
-          icon = "󰔉 ",
+        ['material'] = {
+          icon = '󰔉 ',
         },
-        ["md"] = {
-          icon = " ",
+        ['md'] = {
+          icon = ' ',
         },
-        ["mdx"] = {
-          icon = " ",
+        ['mdx'] = {
+          icon = ' ',
         },
-        ["mint"] = {
-          icon = "󰌪 ",
+        ['mint'] = {
+          icon = '󰌪 ',
         },
-        ["mjs"] = {
-          icon = " ",
+        ['mjs'] = {
+          icon = ' ',
         },
-        ["ml"] = {
-          icon = "λ ",
+        ['ml'] = {
+          icon = 'λ ',
         },
-        ["mli"] = {
-          icon = "λ ",
+        ['mli'] = {
+          icon = 'λ ',
         },
-        ["mo"] = {
-          icon = "∞ ",
+        ['mo'] = {
+          icon = '∞ ',
         },
-        ["mustache"] = {
-          icon = " ",
+        ['mustache'] = {
+          icon = ' ',
         },
-        ["nim"] = {
-          icon = " ",
+        ['nim'] = {
+          icon = ' ',
         },
-        ["nix"] = {
-          icon = " ",
+        ['nix'] = {
+          icon = ' ',
         },
-        ["opus"] = {
-          icon = "󰈣 ",
+        ['opus'] = {
+          icon = '󰈣 ',
         },
-        ["org"] = {
-          icon = " ",
+        ['org'] = {
+          icon = ' ',
         },
-        ["otf"] = {
-          icon = " ",
+        ['otf'] = {
+          icon = ' ',
         },
-        ["pck"] = {
-          icon = " ",
+        ['pck'] = {
+          icon = ' ',
         },
-        ["pdf"] = {
-          icon = " ",
+        ['pdf'] = {
+          icon = ' ',
         },
-        ["php"] = {
-          icon = " ",
+        ['php'] = {
+          icon = ' ',
         },
-        ["pl"] = {
-          icon = " ",
+        ['pl'] = {
+          icon = ' ',
         },
-        ["pm"] = {
-          icon = " ",
+        ['pm'] = {
+          icon = ' ',
         },
-        ["png"] = {
-          icon = " ",
+        ['png'] = {
+          icon = ' ',
         },
-        ["pp"] = {
-          icon = " ",
+        ['pp'] = {
+          icon = ' ',
         },
-        ["ppt"] = {
-          icon = "󰈧 ",
+        ['ppt'] = {
+          icon = '󰈧 ',
         },
-        ["pro"] = {
-          icon = " ",
+        ['pro'] = {
+          icon = ' ',
         },
-        ["ps1"] = {
-          icon = "󰨊 ",
+        ['ps1'] = {
+          icon = '󰨊 ',
         },
-        ["psd1"] = {
-          icon = "󰨊 ",
+        ['psd1'] = {
+          icon = '󰨊 ',
         },
-        ["psm1"] = {
-          icon = "󰨊 ",
+        ['psm1'] = {
+          icon = '󰨊 ',
         },
-        ["psb"] = {
-          icon = " ",
+        ['psb'] = {
+          icon = ' ',
         },
-        ["psd"] = {
-          icon = " ",
+        ['psd'] = {
+          icon = ' ',
         },
-        ["py"] = {
-          icon = " ",
+        ['py'] = {
+          icon = ' ',
         },
-        ["pyc"] = {
-          icon = " ",
+        ['pyc'] = {
+          icon = ' ',
         },
-        ["pyd"] = {
-          icon = " ",
+        ['pyd'] = {
+          icon = ' ',
         },
-        ["pyo"] = {
-          icon = " ",
+        ['pyo'] = {
+          icon = ' ',
         },
-        ["query"] = {
-          icon = " ",
+        ['query'] = {
+          icon = ' ',
         },
-        ["r"] = {
-          icon = "󰟔 ",
+        ['r'] = {
+          icon = '󰟔 ',
         },
-        ["rake"] = {
-          icon = " ",
+        ['rake'] = {
+          icon = ' ',
         },
-        ["rb"] = {
-          icon = " ",
+        ['rb'] = {
+          icon = ' ',
         },
-        ["README"] = {
-          icon = "󰑇 ",
+        ['README'] = {
+          icon = '󰑇 ',
         },
-        ["README.md"] = {
-          icon = "󰑇 ",
+        ['README.md'] = {
+          icon = '󰑇 ',
         },
-        ["res"] = {
-          icon = " ",
+        ['res'] = {
+          icon = ' ',
         },
-        ["resi"] = {
-          icon = " ",
+        ['resi'] = {
+          icon = ' ',
         },
-        ["rlib"] = {
-          icon = " ",
+        ['rlib'] = {
+          icon = ' ',
         },
-        ["rmd"] = {
-          icon = " ",
+        ['rmd'] = {
+          icon = ' ',
         },
-        ["robots.txt"] = {
-          icon = "󱚤 ",
+        ['robots.txt'] = {
+          icon = '󱚤 ',
         },
-        ["rproj"] = {
-          icon = "󰗆 ",
+        ['rproj'] = {
+          icon = '󰗆 ',
         },
-        ["rs"] = {
-          icon = " ",
+        ['rs'] = {
+          icon = ' ',
         },
-        ["rss"] = {
-          icon = " ",
+        ['rss'] = {
+          icon = ' ',
         },
-        ["sass"] = {
-          icon = " ",
+        ['sass'] = {
+          icon = ' ',
         },
-        ["sbt"] = {
-          icon = " ",
+        ['sbt'] = {
+          icon = ' ',
         },
-        ["scala"] = {
-          icon = " ",
+        ['scala'] = {
+          icon = ' ',
         },
-        ["scm"] = {
-          icon = "󰘧 ",
+        ['scm'] = {
+          icon = '󰘧 ',
         },
-        ["scss"] = {
-          icon = " ",
+        ['scss'] = {
+          icon = ' ',
         },
-        ["sh"] = {
-          icon = " ",
+        ['sh'] = {
+          icon = ' ',
         },
-        ["sig"] = {
-          icon = "λ ",
+        ['sig'] = {
+          icon = 'λ ',
         },
-        ["slim"] = {
-          icon = " ",
+        ['slim'] = {
+          icon = ' ',
         },
-        ["sln"] = {
-          icon = " ",
+        ['sln'] = {
+          icon = ' ',
         },
-        ["sml"] = {
-          icon = "λ ",
+        ['sml'] = {
+          icon = 'λ ',
         },
-        ["sql"] = {
-          icon = " ",
+        ['sql'] = {
+          icon = ' ',
         },
-        ["sqlite"] = {
-          icon = " ",
+        ['sqlite'] = {
+          icon = ' ',
         },
-        ["sqlite3"] = {
-          icon = " ",
+        ['sqlite3'] = {
+          icon = ' ',
         },
-        ["styl"] = {
-          icon = " ",
+        ['styl'] = {
+          icon = ' ',
         },
-        ["sublime"] = {
-          icon = " ",
+        ['sublime'] = {
+          icon = ' ',
         },
-        ["suo"] = {
-          icon = " ",
+        ['suo'] = {
+          icon = ' ',
         },
-        ["sv"] = {
-          icon = "󰍛 ",
+        ['sv'] = {
+          icon = '󰍛 ',
         },
-        ["svelte"] = {
-          icon = " ",
+        ['svelte'] = {
+          icon = ' ',
         },
-        ["svh"] = {
-          icon = "󰍛 ",
+        ['svh'] = {
+          icon = '󰍛 ',
         },
-        ["svg"] = {
-          icon = "󰜡 ",
+        ['svg'] = {
+          icon = '󰜡 ',
         },
-        ["swift"] = {
-          icon = " ",
+        ['swift'] = {
+          icon = ' ',
         },
-        ["t"] = {
-          icon = " ",
+        ['t'] = {
+          icon = ' ',
         },
-        ["tbc"] = {
-          icon = "󰛓 ",
+        ['tbc'] = {
+          icon = '󰛓 ',
         },
-        ["tcl"] = {
-          icon = "󰛓 ",
+        ['tcl'] = {
+          icon = '󰛓 ',
         },
-        ["terminal"] = {
-          icon = " ",
+        ['terminal'] = {
+          icon = ' ',
         },
-        ["tex"] = {
-          icon = "󰙩 ",
+        ['tex'] = {
+          icon = '󰙩 ',
         },
-        ["tf"] = {
-          icon = " ",
+        ['tf'] = {
+          icon = ' ',
         },
-        ["tfvars"] = {
-          icon = " ",
+        ['tfvars'] = {
+          icon = ' ',
         },
-        ["toml"] = {
-          icon = " ",
+        ['toml'] = {
+          icon = ' ',
         },
-        ["tres"] = {
-          icon = " ",
+        ['tres'] = {
+          icon = ' ',
         },
-        ["ts"] = {
-          icon = " ",
+        ['ts'] = {
+          icon = ' ',
         },
-        ["test.ts"] = {
-          icon = " ",
+        ['test.ts'] = {
+          icon = ' ',
         },
-        ["spec.ts"] = {
-          icon = " ",
+        ['spec.ts'] = {
+          icon = ' ',
         },
-        ["tscn"] = {
-          icon = "󰎁 ",
+        ['tscn'] = {
+          icon = '󰎁 ',
         },
-        ["tsx"] = {
-          icon = " ",
+        ['tsx'] = {
+          icon = ' ',
         },
-        ["test.tsx"] = {
-          icon = " ",
+        ['test.tsx'] = {
+          icon = ' ',
         },
-        ["spec.tsx"] = {
-          icon = " ",
+        ['spec.tsx'] = {
+          icon = ' ',
         },
-        ["twig"] = {
-          icon = " ",
+        ['twig'] = {
+          icon = ' ',
         },
-        ["txt"] = {
-          icon = "󰈙 ",
+        ['txt'] = {
+          icon = '󰈙 ',
         },
-        ["v"] = {
-          icon = "󰍛 ",
+        ['v'] = {
+          icon = '󰍛 ',
         },
-        ["vala"] = {
-          icon = " ",
+        ['vala'] = {
+          icon = ' ',
         },
-        ["vh"] = {
-          icon = "󰍛 ",
+        ['vh'] = {
+          icon = '󰍛 ',
         },
-        ["vhd"] = {
-          icon = "󰍛 ",
+        ['vhd'] = {
+          icon = '󰍛 ',
         },
-        ["vhdl"] = {
-          icon = "󰍛 ",
+        ['vhdl'] = {
+          icon = '󰍛 ',
         },
-        ["vim"] = {
-          icon = " ",
+        ['vim'] = {
+          icon = ' ',
         },
-        ["vue"] = {
-          icon = " ",
+        ['vue'] = {
+          icon = ' ',
         },
-        ["webmanifest"] = {
-          icon = " ",
+        ['webmanifest'] = {
+          icon = ' ',
         },
-        ["webp"] = {
-          icon = " ",
+        ['webp'] = {
+          icon = ' ',
         },
-        ["webpack"] = {
-          icon = "󰜫 ",
+        ['webpack'] = {
+          icon = '󰜫 ',
         },
-        ["xcplayground"] = {
-          icon = " ",
+        ['xcplayground'] = {
+          icon = ' ',
         },
-        ["xls"] = {
-          icon = "󰈛 ",
+        ['xls'] = {
+          icon = '󰈛 ',
         },
-        ["xlsx"] = {
-          icon = "󰈛 ",
+        ['xlsx'] = {
+          icon = '󰈛 ',
         },
-        ["xml"] = {
-          icon = "󰗀 ",
+        ['xml'] = {
+          icon = '󰗀 ',
         },
-        ["xul"] = {
-          icon = " ",
+        ['xul'] = {
+          icon = ' ',
         },
-        ["yaml"] = {
-          icon = " ",
+        ['yaml'] = {
+          icon = ' ',
         },
-        ["yml"] = {
-          icon = " ",
+        ['yml'] = {
+          icon = ' ',
         },
-        ["zig"] = {
-          icon = " ",
+        ['zig'] = {
+          icon = ' ',
         },
-        ["zsh"] = {
-          icon = " ",
+        ['zsh'] = {
+          icon = ' ',
         },
-        ["sol"] = {
-          icon = "󰞻 ",
+        ['sol'] = {
+          icon = '󰞻 ',
         },
-        ["prisma"] = {
-          icon = "󰔶 ",
+        ['prisma'] = {
+          icon = '󰔶 ',
         },
-        ["lock"] = {
-          icon = " ",
+        ['lock'] = {
+          icon = ' ',
         },
-        ["log"] = {
-          icon = "󰌱 ",
+        ['log'] = {
+          icon = '󰌱 ',
         },
-        ["wasm"] = {
-          icon = " ",
+        ['wasm'] = {
+          icon = ' ',
         },
-        ["liquid"] = {
-          icon = " ",
+        ['liquid'] = {
+          icon = ' ',
         },
       },
-    })
+    }
   end,
 }
