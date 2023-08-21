@@ -20,7 +20,8 @@ return {
       },
     },
     opts = {
-      show_dirname = true,
+      show_dirname = false,
+      show_basename = false,
       show_modified = true,
       kinds = {
         File = '󰈙 ',

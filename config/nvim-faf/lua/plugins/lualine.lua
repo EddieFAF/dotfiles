@@ -224,6 +224,7 @@ return {
           },
           -- { custom_fname },
           { 'filename', path = 4, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
+          { 'filesize' },
           -- stylua: ignore
           -- {
           --   function() return require("nvim-navic").get_location() end,

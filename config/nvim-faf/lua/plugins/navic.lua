@@ -5,6 +5,7 @@ local M = {
       return {
         --  separator = '  ',
         highlight = true,
+        depth_limit = 4,
         icons = {
           File = '󰈙 ',
           Module = ' ',

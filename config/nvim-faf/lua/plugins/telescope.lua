@@ -109,10 +109,10 @@ return {
 
       map('n', 'gb', require('telescope.builtin').buffers, 'Goto Buffer')
       -- telescope git commands
-      map('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', 'Git Commits')       -- list all git commits (use <cr> to checkout) ["gc" for git commits]
-      map('n', '<leader>gfc', '<cmd>Telescope git_bcommits<cr>', 'Commits Current') -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-      map('n', '<leader>gb', '<cmd>Telescope git_branches<cr>', 'List Branches')    -- list git branches (use <cr> to checkout) ["gb" for git branch]
-      map('n', '<leader>gs', '<cmd>Telescope git_status<cr>', 'Changes')            -- list current changes per file with diff preview ["gs" for git status]
+      map('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', 'Git Commits')             -- list all git commits (use <cr> to checkout) ["gc" for git commits]
+      map('n', '<leader>gC', '<cmd>Telescope git_bcommits<cr>', '(Current) File Commits') -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
+      map('n', '<leader>gb', '<cmd>Telescope git_branches<cr>', 'List Branches')          -- list git branches (use <cr> to checkout) ["gb" for git branch]
+      map('n', '<leader>gs', '<cmd>Telescope git_status<cr>', 'Git Status')               -- list current changes per file with diff preview ["gs" for git status]
 
       map('n', '<C-p>', require('telescope.builtin').keymaps, 'Search keymaps')
       map('n', '<leader>sk', require('telescope.builtin').keymaps, 'Search keymaps')

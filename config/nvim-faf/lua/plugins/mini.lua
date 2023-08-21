@@ -125,22 +125,6 @@ local M = {
       require('mini.tabline').setup()
     end,
   },
-
-  {
-    'kdheepak/lazygit.nvim',
-    -- optional for floating window border decoration
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    cmd = 'LazyGit',
-    keys = {
-      {
-        '<leader>gg',
-        '<cmd>LazyGit<CR>',
-        desc = 'LazyGit',
-      },
-    },
-  },
 }
 
 return M
