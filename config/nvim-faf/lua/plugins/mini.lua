@@ -88,6 +88,7 @@ local M = {
           'alpha',
           'dashboard',
           'neo-tree',
+          'NvimTree',
           'Trouble',
           'lazy',
           'mason',
