@@ -2,6 +2,7 @@ return {
   'nvim-neo-tree/neo-tree.nvim',
   lazy = false,
   enabled = true,
+  dependencies = 'mrbjarksen/neo-tree-diagnostics.nvim',
   config = function()
     require('neo-tree').setup {
       open_files_do_not_replace_types = { 'terminal', 'Trouble', 'qf', 'edgy' },
@@ -10,24 +11,26 @@ return {
       -- popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = true,
-      --[[ sources = { ]]
-      --[[   "filesystem", ]]
-      --[[   "buffers", ]]
-      --[[   "git_status", ]]
-      --[[   "diagnostics" ]]
-      --[[ }, ]]
-      --[[ source_selector = { ]]
-      --[[   winbar = false, ]]
-      --[[   statusline = false, -- toggle to show selector on statusline ]]
-      --[[   content_layout = "center", ]]
-      --[[   tabs_layout = "equal", ]]
-      --[[   sources = { ]]
-      --[[     { source = "filesystem", display_name = "" }, ]]
-      --[[     { source = "buffers", display_name = "" }, ]]
-      --[[     { source = "git_status", display_name = "" }, ]]
-      --[[     { source = "diagnostics", display_name = "裂" } ]]
-      --[[   }, ]]
-      --[[ }, ]]
+
+      sources = {
+        'filesystem',
+        'buffers',
+        'git_status',
+        'diagnostics',
+      },
+      source_selector = {
+        winbar = true,
+        statusline = false, -- toggle to show selector on statusline
+        content_layout = 'center',
+        tabs_layout = 'equal',
+        sources = {
+          { source = 'filesystem', display_name = ' Files' },
+          { source = 'buffers', display_name = ' Buffers' },
+          { source = 'git_status', display_name = ' Git Status' },
+          { source = 'diagnostics', display_name = '裂Diagnostics' },
+        },
+      },
+
       default_component_configs = {
         container = {
           enable_character_fade = true,
@@ -37,13 +40,13 @@ return {
           padding = 1, -- extra padding on left hand side
           -- indent guides
           with_markers = true,
-          -- indent_marker = "│",
-          -- last_indent_marker = "└",-- └
-          indent_marker = '▏',
-          last_indent_marker = '▏',
+          indent_marker = '│',
+          last_indent_marker = '└', -- └
+          -- indent_marker = '▏',
+          -- last_indent_marker = '▏',
           highlight = 'NeoTreeIndentMarker',
           -- expander config, needed for nesting files
-          with_expanders = false, -- if nil and file nesting is enabled, will enable expanders
+          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
           -- expander_collapsed = "",
           -- expander_expanded = "",
 
@@ -104,7 +107,7 @@ return {
       },
       window = {
         position = 'left',
-        width = 30,
+        width = 40,
         mapping_options = {
           noremap = true,
           nowait = true,
@@ -112,7 +115,7 @@ return {
         mappings = {
           ['<space>'] = {
             'toggle_node',
-            nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
+            nowait = true, -- disable `nowait` if you have existing combos starting with this char that you want to use
           },
           ['<1-LeftMouse>'] = 'open',
           ['<cr>'] = 'open',
@@ -142,6 +145,15 @@ return {
           ['q'] = 'close_window',
           ['R'] = 'refresh',
           ['?'] = 'show_help',
+          ['e'] = function()
+            vim.api.nvim_exec('Neotree focus filesystem left', true)
+          end,
+          ['b'] = function()
+            vim.api.nvim_exec('Neotree focus buffers left', true)
+          end,
+          ['g'] = function()
+            vim.api.nvim_exec('Neotree focus git_status left', true)
+          end,
         },
       },
       nesting_rules = {
