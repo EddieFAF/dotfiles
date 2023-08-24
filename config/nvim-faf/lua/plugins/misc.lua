@@ -1,12 +1,12 @@
 return {
   {
-    'romgrk/barbar.nvim',
+    "romgrk/barbar.nvim",
     version = false,
-    enabled = false,
-    event = 'VeryLazy',
+    enabled = true,
+    event = "VeryLazy",
     dependencies = {
-      'lewis6991/gitsigns.nvim',
-      --    'nvim-tree/nvim-web-devicons',
+      "lewis6991/gitsigns.nvim",
+      "nvim-tree/nvim-web-devicons",
     },
     init = function()
       vim.g.barbar_auto_setup = false
@@ -33,22 +33,9 @@ return {
         },
       },
       sidebar_filetypes = {
-        ['neo-tree'] = { event = 'BufWipeout' },
+        ["neo-tree"] = { event = "BufWipeout" },
       },
     },
   },
 
-  {
-    'nvim-tree/nvim-web-devicons',
-    enabled = false,
-  },
-
-  {
-    'mbbill/undotree',
-    cmd = 'UndotreeToggle',
-    lazy = false,
-    keys = {
-      { '<leader>uu', '<cmd>UndotreeToggle<CR>', desc = 'Undo Tree' },
-    },
-  },
 }

@@ -25,12 +25,6 @@ for opt, val in pairs(opts) do
   vim.o[opt] = val
 end
 
--- true color support
-vim.g.colorterm = os.getenv 'COLORTERM'
-if vim.fn.exists '+termguicolors' == 1 then
-  vim.o.termguicolors = true
-end
-
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -60,7 +54,7 @@ vim.g.autopairs_enabled = true        -- enable autopairs at start
 vim.g.cmp_enabled = true              -- enable completion at start
 vim.g.diagnostics_mode = 3            -- set the visibility of diagnostics in the UI (0=off, 1=only show in status line, 2=virtual text off, 3=all on)
 vim.g.highlighturl_enabled = true     -- highlight URLs by default
-vim.g.icons_enabled = false           -- disable icons in the UI (disable if no nerd font is available)
+vim.g.icons_enabled = true            -- disable icons in the UI (disable if no nerd font is available)
 vim.g.ui_notifications_enabled = true -- disable notifications when toggling UI elements
 
 vim.opt.title = true

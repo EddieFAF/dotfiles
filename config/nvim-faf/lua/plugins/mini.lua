@@ -22,7 +22,7 @@ local M = {
     opts = {},
     keys = {
       {
-        '<leader>db',
+        '<leader>bd',
         function()
           require('mini.bufremove').delete(0, false)
         end,
@@ -88,6 +88,7 @@ local M = {
           'alpha',
           'dashboard',
           'neo-tree',
+          'NvimTree',
           'Trouble',
           'lazy',
           'mason',
@@ -124,22 +125,6 @@ local M = {
     config = function()
       require('mini.tabline').setup()
     end,
-  },
-
-  {
-    'kdheepak/lazygit.nvim',
-    -- optional for floating window border decoration
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    cmd = 'LazyGit',
-    keys = {
-      {
-        '<leader>gg',
-        '<cmd>LazyGit<CR>',
-        desc = 'LazyGit',
-      },
-    },
   },
 }
 

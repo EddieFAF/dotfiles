@@ -99,3 +99,11 @@ map('n', '<leader>ua', function()
     vim.g.minianimate_disable = true
   end
 end, 'Toggle animations')
+
+map('n', '<F7>', ':Neotree filesystem reveal left toggle<CR>', 'NEO-Tree')
+map('n', '<leader>E', function()
+  require('neo-tree.command').execute {
+    toggle = true,
+    position = 'float',
+  }
+end, 'Explorer Float (root dir)')

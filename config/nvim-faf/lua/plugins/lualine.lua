@@ -18,16 +18,18 @@ local function lsp()
           end
         end
       end
+
       local icon = 'LSP:'
       if vim.g.icons_enabled then
         icon = ':'
       else
         icon = 'LSP:'
       end
+
       if #clients_output > 0 then
         return icon .. table.concat(clients_output, '/')
       else
-        return msg
+        return icon .. msg
       end
     end,
     icon = '',
@@ -160,7 +162,7 @@ end
 local spaces = function()
   local icon = 'SPC:'
   if vim.g.icons_enabled then
-    icon = '->'
+    icon = ' '
   end
   return icon .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
 end
@@ -174,27 +176,6 @@ local function navicBreadcrumbs()
   return require('nvim-navic').get_location()
 end
 
--- Mode Map
-local mode_map = {
-  ['NORMAL'] = 'N',
-  ['O-PENDING'] = 'N?',
-  ['INSERT'] = 'I',
-  ['VISUAL'] = 'V',
-  ['V-BLOCK'] = 'VB',
-  ['V-LINE'] = 'VL',
-  ['V-REPLACE'] = 'VR',
-  ['REPLACE'] = 'R',
-  ['COMMAND'] = '!',
-  ['SHELL'] = 'SH',
-  ['TERMINAL'] = 'T',
-  ['EX'] = 'X',
-  ['S-BLOCK'] = 'SB',
-  ['S-LINE'] = 'SL',
-  ['SELECT'] = 'S',
-  ['CONFIRM'] = 'Y?',
-  ['MORE'] = 'M',
-}
-
 -- Fancier statusline
 return {
   'nvim-lualine/lualine.nvim',
@@ -203,7 +184,7 @@ return {
   config = function()
     require('lualine').setup {
       options = {
-        icons_enabled = vim.g.icons_enabled,
+        icons_enabled = true,
         disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'lazy', 'mason', 'neo-tree', 'starter' } },
         theme = 'auto',
         component_separators = '|',
@@ -215,8 +196,7 @@ return {
         -- stylua: ignore
         lualine_a = {
           -- {'mode', fmt = function(str) return ' ' end, padding = { left = 0, right = 0 } },
-          -- { 'mode', fmt = function(str) return str:sub(1, 1) end },
-          { 'mode', fmt = function(s) return mode_map[s] or s end },
+          { 'mode', fmt = function(str) return str:sub(1, 1) end },
         },
         lualine_b = {
           { 'b:gitsigns_head', icon = '' },
@@ -245,7 +225,6 @@ return {
           -- { custom_fname },
           { 'filename', path = 4, symbols = { modified = '  ', readonly = '  ', unnamed = '' } },
           { 'filesize' },
-          --navicBreadcrumbs,
           -- stylua: ignore
           -- {
           --   function() return require("nvim-navic").get_location() end,
@@ -254,13 +233,12 @@ return {
         },
         lualine_x = {
           lsp(),
-          searchCounter,
           -- stylua: ignore
-          -- {
-          --   require("noice").api.status.search.get,
-          --   cond = require("noice").api.status.search.has,
-          --   color = { fg = "#ff9e64" },
-          -- },
+          {
+            require("noice").api.status.search.get,
+            cond = require("noice").api.status.search.has,
+            color = { fg = "#ff9e64" },
+          },
           -- {
           --   function() return require("noice").api.status.command.get() end,
           --   cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
