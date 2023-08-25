@@ -107,3 +107,4 @@ map('n', '<leader>E', function()
     position = 'float',
   }
 end, 'Explorer Float (root dir)')
+map('n', '<leader>G', '<Cmd>Neotree git_status<CR>', 'Neotree Git Status')

@@ -1,7 +1,7 @@
 local M = {
   'akinsho/bufferline.nvim',
   event = 'VeryLazy',
-  enabled = false,
+  enabled = true,
   config = function()
     require('bufferline').setup {
       options = {
@@ -23,11 +23,11 @@ local M = {
         end,
         -- separator_style = "", -- | "thick" | "thin" | "slope" | { 'any', 'any' },
         -- separator_style = { "", "" }, -- | "thick" | "thin" | { 'any', 'any' },
-        separator_style = 'thick', -- | "thick" | "thin" | { 'any', 'any' },
+        separator_style = 'slant', -- | "thick" | "thin" | { 'any', 'any' },
         indicator = {
           -- icon = " ",
-          style = 'icon',
-          --   style = 'underline',
+          --style = 'icon',
+          style = 'underline',
         },
         always_show_bufferline = true,
         custom_filter = function(buf_number)
@@ -45,7 +45,12 @@ local M = {
           {
             filetype = 'NvimTree',
             text = 'File Explorer',
-            highlight = 'EcovimNvimTreeTitle',
+            text_align = 'center',
+            separator = true,
+          },
+          {
+            filetype = 'neo-tree',
+            text = 'Explorer',
             text_align = 'center',
             separator = true,
           },

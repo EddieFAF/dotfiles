@@ -1,12 +1,12 @@
 return {
   {
-    "romgrk/barbar.nvim",
+    'romgrk/barbar.nvim',
     version = false,
-    enabled = true,
-    event = "VeryLazy",
+    enabled = false,
+    event = 'VeryLazy',
     dependencies = {
-      "lewis6991/gitsigns.nvim",
-      "nvim-tree/nvim-web-devicons",
+      'lewis6991/gitsigns.nvim',
+      'nvim-tree/nvim-web-devicons',
     },
     init = function()
       vim.g.barbar_auto_setup = false
@@ -33,9 +33,8 @@ return {
         },
       },
       sidebar_filetypes = {
-        ["neo-tree"] = { event = "BufWipeout" },
+        ['neo-tree'] = { event = 'BufWipeout' },
       },
     },
   },
-
 }

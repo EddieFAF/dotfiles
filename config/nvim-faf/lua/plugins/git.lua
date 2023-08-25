@@ -27,6 +27,7 @@ return {
         follow_files = true,
       },
       attach_to_untracked = true,
+      current_line_blame = true,
       current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
@@ -98,7 +99,7 @@ return {
       'LazyGitConfig',
     },
     keys = {
-      { '<leader>gg', '<cmd>LazyGit<CR>',            desc = 'LazyGit' },
+      { '<leader>gg', '<cmd>LazyGit<CR>', desc = 'LazyGit' },
       { '<leader>gG', '<cmd>LazyGitCurrentFile<CR>', desc = 'LazyGit Current File' },
     },
   },
