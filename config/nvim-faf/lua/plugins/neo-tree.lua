@@ -234,11 +234,11 @@ return {
             'container',
             content = {
               { 'name',      zindex = 10 },
-              -- {
-              --   "symlink_target",
-              --   zindex = 10,
-              --   highlight = "NeoTreeSymbolicLinkTarget",
-              -- },
+              {
+                'symlink_target',
+                zindex = 10,
+                highlight = 'NeoTreeSymbolicLinkTarget',
+              },
               { 'clipboard', zindex = 10 },
               {
                 'diagnostics',

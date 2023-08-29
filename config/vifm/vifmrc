@@ -197,10 +197,10 @@ set viewcolumns=*{name}.,10{size}.,18{mtime}.
 nnoremap sx :!sxiv -t %d & <cr>
 
 " Start shell in current directory
-nnoremap s :shell<cr>
+nnoremap S :shell<cr>
 
 " Display sorting dialog
-nnoremap S :sort<cr>
+nnoremap s :sort<cr>
 
 " Toggle visibility of preview window
 nnoremap w :view<cr>
@@ -253,6 +253,7 @@ nnoremap <f7> :mkdir<space> ""<left>
 nnoremap <f8> :delete<cr>
 nnoremap <s-f8> DD
 nnoremap <f2> :shell<cr>
+nnoremap r cw
 
 nnoremap D :delete!<cr>
 nnoremap dd :trash!<cr>
