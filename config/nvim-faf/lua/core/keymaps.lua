@@ -52,6 +52,10 @@ map('n', ']b', ':bnext<CR>', 'Next Buffer')
 map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
 map('n', '<leader>bp', '<Cmd>BufferPick<CR>', 'Buffer Pick')
 
+-- Center search results for easy finding.
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'N', 'Nzzzv')
+
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')

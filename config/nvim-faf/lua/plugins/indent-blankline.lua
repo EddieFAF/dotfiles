@@ -5,7 +5,7 @@ local M = {
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       indentLine_enabled = 1,
-      char = '┊',
+      char = '▏',
       --      char_list = { '|', '¦', '┆', '┊' },
       filetype_exclude = {
         'startify',
