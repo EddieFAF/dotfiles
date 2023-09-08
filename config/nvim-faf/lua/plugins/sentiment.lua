@@ -3,6 +3,7 @@ return {
     'utilyre/sentiment.nvim',
     version = '*',
     event = 'VeryLazy', -- keep for lazy loading
+    enabled = true,
     opts = {
       -- config
     },

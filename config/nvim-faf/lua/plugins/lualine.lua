@@ -246,6 +246,15 @@ return {
         },
         lualine_y = {
           {
+            function()
+              local buffers = require('buffalo').buffers()
+              local tabpages = require('buffalo').tabpages()
+              return '�� ' .. buffers .. ' �� ' .. tabpages
+            end,
+            color = { fg = '#ffaa00', bg = '#24273a' },
+          },
+
+          {
             require('lazy.status').updates,
             cond = require('lazy.status').has_updates,
             color = fg 'Special',
