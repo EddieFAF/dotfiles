@@ -33,7 +33,7 @@ local M = {
       },
       buftype_exclude = { 'terminal', 'nofile' },
       show_trailing_blankline_indent = false,
-      show_first_indent_level = false,
+      show_first_indent_level = true,
       show_current_context = false,
       show_current_context_start = true,
       use_treesitter = true,

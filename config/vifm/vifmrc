@@ -61,7 +61,7 @@ set norunexec
 
 " List of color schemes to try (picks the first one supported by the terminal)
 
-colorscheme onedark Default-256 Default
+colorscheme tokyonight onedark Default-256 Default
 
 " Format for displaying time in file list. For example:
 " TIME_STAMP_FORMAT=%m/%d-%H:%M
@@ -82,7 +82,7 @@ set wildstyle=popup
 
 set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
 
-set milleroptions="lsize:1,csize:1,rsize:1,rpreview:all"
+"set milleroptions="lsize:1,csize:1,rsize:1,rpreview:all"
 
 " Ignore case in search patterns unless it contains at least one uppercase
 " letter
@@ -206,8 +206,19 @@ nnoremap S :shell<cr>
 nnoremap s :sort<cr>
 
 " Toggle visibility of preview window
-nnoremap w :view<cr>
-vnoremap w :view<cr>gv
+"nnoremap w :view<cr>
+"vnoremap w :view<cr>gv
+nnoremap <silent> w : if &quickview && !layoutis('only')
+                   \|     view
+                   \| else
+                   \|     if layoutis('only')
+                   \|         if &lines + 50 < &columns | vsplit | else | split | endif
+                   \|     endif
+                   \|     view!
+                   \|     execute 'qnoremap w q:view|only|qunmap w<lt>cr>'
+                   \|     execute 'wincmd w'
+                   \| endif
+                   \| <cr>
 
 " Open file in existing instance of gvim
 nnoremap o :!gvim --remote-tab-silent %f<cr>

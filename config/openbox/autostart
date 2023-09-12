@@ -18,8 +18,8 @@ picom -b --config ~/.config/picom.conf &
 #nitrogen --restore
 wallpaper
 
-tint2 &
-#sh ~/.config/polybar/launch.sh &
+#tint2 &
+sh ~/.config/polybar/launch.sh &
 
 #(am-conky-session --autostart) &
 

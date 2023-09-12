@@ -295,7 +295,7 @@ vicd()
     fi
     cd "$dst"
 }
-#source $HOME/.config/zsh/lf_icons
+source $HOME/.config/zsh/lf_icons
 
 #####################
 # FANCY-CTRL-Z      #
@@ -386,14 +386,11 @@ fi
 source ~/.cache/zsh-shortcuts
 
 
-alias nvim-chad="NVIM_APPNAME=NvChad nvim"
-alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
-alias lunarvim="NVIM_APPNAME=lunarvim nvim"
 alias v="NVIM_APPNAME=nvim nvim"
-alias astronvim="NVIM_APPNAME=nvim.astro nvim"
+alias astro="NVIM_APPNAME=nvim-astro nvim"
 
 function nvims() {
-  items=("default" "nvim-eddie" "nvim-faf" "nvim-xero" "nvim-eddie.old" "nvim-starter" "nvim-kickstart" "nvim-basic-ide" "nvim3" "nvimdots")
+  items=("default" "nvim-eddie" "nvim-astro")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt="Neovim Config > " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"

@@ -10,6 +10,14 @@ local M = {
   },
 
   {
+    'echasnovski/mini.animate',
+    event = 'VeryLazy',
+    config = function()
+      require('mini.animate').setup()
+    end,
+  },
+
+  {
     'echasnovski/mini.bracketed',
     event = 'VeryLazy',
     config = function()
