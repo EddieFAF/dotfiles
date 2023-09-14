@@ -46,8 +46,8 @@ map('n', '<C-Left>', ':vertical resize +2<CR>', 'VResize +2')
 map('n', '<C-Right>', ':vertical resize -2<CR>', 'VResize -2')
 
 -- Navigate buffers
-map('n', '<S-l>', ':BufferNext<CR>', 'Next Buffer')
-map('n', '<S-h>', ':BufferPrevious<CR>', 'Previous Buffer')
+map('n', '<S-l>', ':bnext<CR>', 'Next Buffer')
+map('n', '<S-h>', ':bprevious<CR>', 'Previous Buffer')
 map('n', ']b', ':bnext<CR>', 'Next Buffer')
 map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
 map('n', '<leader>bp', '<Cmd>BufferPick<CR>', 'Buffer Pick')

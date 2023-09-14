@@ -248,8 +248,9 @@ return {
           {
             function()
               local buffers = require('buffalo').buffers()
-              local tabpages = require('buffalo').tabpages()
-              return '�� ' .. buffers .. ' �� ' .. tabpages
+              -- local tabpages = require('buffalo').tabpages()
+              --              return '󱂬 ' .. buffers .. ' 󰓩 ' .. tabpages
+              return '󱂬 ' .. buffers
             end,
             color = { fg = '#ffaa00', bg = '#24273a' },
           },

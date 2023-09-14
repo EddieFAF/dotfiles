@@ -7,7 +7,7 @@ return {
     { '<leader>/c',  function() require('fzf-lua').commands() end,        desc = 'Search commands', },
     { '<leader>/C',  function() require('fzf-lua').command_history() end, desc = 'Search command history', },
     { '<leader>/f',  function() require('fzf-lua').files() end,           desc = 'Find files', },
-    { '<leader>/o',  function() require('fzf-lua').oldfiles() end,        desc = 'Find files', },
+    { '<leader>/o',  function() require('fzf-lua').oldfiles() end,        desc = 'Find old files', },
     { '<leader>/h',  function() require('fzf-lua').highlights() end,      desc = 'Search highlights', },
     { '<leader>/M',  function() require('fzf-lua').marks() end,           desc = 'Search marks', },
     { '<leader>/k',  function() require('fzf-lua').keymaps() end,         desc = 'Search keymaps', },

@@ -7,7 +7,7 @@ return {
       require('buffalo').setup {
 
         tab_commands = { -- use default neovim commands for tabs e.g `tablast`, `tabnew` etc
-          next = {       -- you can use any unique name e.g `tabnext`, `tab_next`, `next`, `random` etc
+          next = { -- you can use any unique name e.g `tabnext`, `tab_next`, `next`, `random` etc
             key = '<CR>',
             command = 'tabnext',
           },
@@ -43,11 +43,11 @@ return {
           },
         },
         general_commands = {
-          cycle = true,    -- cycle through buffers or tabs
+          cycle = true, -- cycle through buffers or tabs
           exit_menu = 'x', -- similar to 'q' and '<esc>'
         },
         go_to = {
-          enabled = true,
+          enabled = false,
           go_to_tab = '<leader>%s',
           go_to_buffer = '<M-%s>',
         },
