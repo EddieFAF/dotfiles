@@ -17,6 +17,6 @@ export BAT_THEME="ansi"
 
 export LOCATION="Uetze"
 
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.config/zsh/.zinit/plugins/ogham---exa/bin:$HOME/.local/bin::$PATH
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin::$PATH
 
 export QT_QPA_PLATFORMTHEME="qt5ct"

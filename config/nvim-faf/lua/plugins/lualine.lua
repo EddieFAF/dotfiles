@@ -180,6 +180,7 @@ end
 return {
   'nvim-lualine/lualine.nvim',
   event = 'VeryLazy',
+  dependencies = { 'MunifTanjim/nui.nvim' },
   enabled = true,
   config = function()
     require('lualine').setup {
@@ -234,11 +235,11 @@ return {
         lualine_x = {
           lsp(),
           -- stylua: ignore
-          {
-            require("noice").api.status.search.get,
-            cond = require("noice").api.status.search.has,
-            color = { fg = "#ff9e64" },
-          },
+          -- {
+          --   require("noice").api.status.search.get,
+          --   cond = require("noice").api.status.search.has,
+          --   color = { fg = "#ff9e64" },
+          -- },
           -- {
           --   function() return require("noice").api.status.command.get() end,
           --   cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
@@ -248,9 +249,9 @@ return {
           {
             function()
               local buffers = require('buffalo').buffers()
-              -- local tabpages = require('buffalo').tabpages()
-              --              return '󱂬 ' .. buffers .. ' 󰓩 ' .. tabpages
-              return '󱂬 ' .. buffers
+              local tabpages = require('buffalo').tabpages()
+              return '󱂬 ' .. buffers .. ' 󰓩 ' .. tabpages
+              --return '󱂬 ' .. buffers
             end,
             color = { fg = '#ffaa00', bg = '#24273a' },
           },

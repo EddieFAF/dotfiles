@@ -2,7 +2,7 @@ return {
   'nvim-neo-tree/neo-tree.nvim',
   lazy = false,
   enabled = true,
-  dependencies = 'mrbjarksen/neo-tree-diagnostics.nvim',
+  dependencies = { 'mrbjarksen/neo-tree-diagnostics.nvim', 'MunifTanjim/nui.nvim' },
   config = function()
     require('neo-tree').setup {
       open_files_do_not_replace_types = { 'terminal', 'Trouble', 'qf', 'edgy' },
@@ -25,7 +25,7 @@ return {
         tabs_layout = 'equal',
         sources = {
           { source = 'filesystem', display_name = ' Files' },
-          { source = 'buffers', display_name = ' Buffers' },
+          -- { source = 'buffers', display_name = ' Buffers' },
           { source = 'git_status', display_name = ' Git Status' },
           { source = 'diagnostics', display_name = '裂Diagnostics' },
         },
@@ -175,7 +175,9 @@ return {
             --"thumbs.db"
           },
         },
-        follow_current_file = true,             -- This will find and focus the file in the active buffer every
+        follow_current_file = {
+          enabled = true,
+        },                                      -- This will find and focus the file in the active buffer every
         -- time the current file is changed while the tree is open.
         group_empty_dirs = false,               -- when true, empty folders will be grouped together
         hijack_netrw_behavior = 'open_default', -- netrw disabled, opening a directory opens neo-tree
@@ -199,9 +201,11 @@ return {
         },
       },
       buffers = {
-        follow_current_file = true, -- This will find and focus the file in the active buffer every
+        follow_current_file = {
+          enabled = true,
+        },                       -- This will find and focus the file in the active buffer every
         -- time the current file is changed while the tree is open.
-        group_empty_dirs = true,    -- when true, empty folders will be grouped together
+        group_empty_dirs = true, -- when true, empty folders will be grouped together
         show_unloaded = true,
         window = {
           mappings = {
