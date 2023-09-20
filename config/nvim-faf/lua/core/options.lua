@@ -37,11 +37,11 @@ vim.opt.listchars = {
   precedes = '‹',
 }
 
-if vim.fn.hostname() == 'blackhole' then
-  vim.opt.list = true
-else
-  vim.opt.list = false
-end
+-- if vim.fn.hostname() == 'blackhole' then
+vim.opt.list = true
+-- else
+--   vim.opt.list = false
+-- end
 
 vim.o.foldcolumn = '1' -- '0' is not bad
 vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
