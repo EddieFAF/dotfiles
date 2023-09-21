@@ -52,6 +52,10 @@ map('n', ']b', ':bnext<CR>', 'Next Buffer')
 map('n', '[b', ':bprevious<CR>', 'Previous Buffer')
 map('n', '<leader>bp', '<Cmd>BufferPick<CR>', 'Buffer Pick')
 
+-- Center search results for easy finding.
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')
@@ -107,3 +111,20 @@ map('n', '<leader>E', function()
     position = 'float',
   }
 end, 'Explorer Float (root dir)')
+map('n', '<leader>G', '<Cmd>Neotree git_status<CR>', 'Neotree Git Status')
+
+local opts = { noremap = true }
+local map2 = vim.keymap.set
+local buffalo = require 'buffalo.ui'
+
+-- buffers
+map({ 't', 'n' }, '<leader>bm', buffalo.toggle_buf_menu, 'Buffer Menu')
+
+map2('n', '<C-j>', buffalo.nav_buf_next, opts)
+map2('n', '<C-k>', buffalo.nav_buf_prev, opts)
+
+-- tabpages
+map2({ 't', 'n' }, '<M-Space>', buffalo.toggle_tab_menu, opts)
+
+map2('n', '<C-n>', buffalo.nav_tab_next, opts)
+map2('n', '<C-p>', buffalo.nav_tab_prev, opts)

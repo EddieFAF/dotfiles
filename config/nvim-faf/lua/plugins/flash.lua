@@ -70,7 +70,7 @@ return {
         -- clear highlight after jump
         nohlsearch = true,
         -- automatically jump when there is only one match
-        autojump = false,
+        autojump = true,
         -- You can force inclusive/exclusive jumps by setting the
         -- `inclusive` option. By default it will be automatically
         -- set based on the mode.
@@ -84,7 +84,7 @@ return {
         -- allow uppercase labels
         -- add any labels with the correct case here, that you want to exclude
         exclude = '',
-        uppercase = true,
+        uppercase = false,
         -- add a label for the first match in the current window.
         -- you can always jump to the first match with `<CR>`
         current = true,
@@ -137,7 +137,7 @@ return {
         -- options used when flash is activated through
         -- a regular search with `/` or `?`
         search = {
-          enabled = false, -- enable flash for search
+          enabled = true, -- enable flash for search
           highlight = { backdrop = false },
           jump = { history = true, register = true, nohlsearch = true },
           search = {
