@@ -2,7 +2,7 @@ return {
   {
     'romgrk/barbar.nvim',
     version = false,
-    enabled = true,
+    enabled = false,
     event = 'VeryLazy',
     dependencies = {
       'lewis6991/gitsigns.nvim',

@@ -286,45 +286,45 @@ return {
           { 'progress',     separator = '',                   padding = { left = 1, right = 1 } },
         },
       },
-      -- tabline = {
-      --   lualine_a = {
-      --     { searchCounter },
-      --     {
-      --       'buffers',
-      --       mode = 4,
-      --       show_filename_only = true,
-      --       show_modified_status = true,
-      --       filetype_names = {
-      --         NvimTree = 'NvimTree',
-      --         TelescopePrompt = 'Telescope',
-      --         lazy = 'Lazy',
-      --         alpha = 'Alpha',
-      --         ['dap-repl'] = 'DAP REPL',
-      --       },
-      --     },
-      --     {
-      --       'tabs',
-      --       mode = 1,
-      --       max_length = vim.o.columns * 0.7,
-      --       cond = function()
-      --         return vim.fn.tabpagenr '$' > 1
-      --       end,
-      --     },
-      --   },
-      --   lualine_b = {},
-      --   lualine_c = {
-      --     { navicBreadcrumbs },
-      --   },
-      --   lualine_x = {
-      --     {
-      --       require('lazy.status').updates,
-      --       cond = require('lazy.status').has_updates,
-      --       color = fg 'NonText',
-      --     },
-      --   },
-      --   lualine_y = {},
-      --   lualine_z = {},
-      -- },
+      tabline = {
+        lualine_a = {
+          { searchCounter },
+          {
+            'buffers',
+            mode = 4,
+            show_filename_only = true,
+            show_modified_status = true,
+            filetype_names = {
+              NvimTree = 'NvimTree',
+              TelescopePrompt = 'Telescope',
+              lazy = 'Lazy',
+              alpha = 'Alpha',
+              ['dap-repl'] = 'DAP REPL',
+            },
+          },
+          {
+            'tabs',
+            mode = 1,
+            max_length = vim.o.columns * 0.7,
+            cond = function()
+              return vim.fn.tabpagenr '$' > 1
+            end,
+          },
+        },
+        lualine_b = {},
+        lualine_c = {
+          -- { navicBreadcrumbs },
+        },
+        lualine_x = {
+          {
+            require('lazy.status').updates,
+            cond = require('lazy.status').has_updates,
+            color = fg 'NonText',
+          },
+        },
+        lualine_y = {},
+        lualine_z = {},
+      },
       -- winbar = {
       --   -- Starting with B due to nicer theming on B and C sections
       --   -- lualine_b = { 'diagnostics', { 'diff', source = diff_source } },
