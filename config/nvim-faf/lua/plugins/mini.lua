@@ -121,9 +121,14 @@ local M = {
   {
     'echasnovski/mini.tabline',
     event = 'VeryLazy',
-    enabled = false,
+    enabled = true,
     config = function()
       require('mini.tabline').setup()
+      -- Colors in tabs
+      vim.cmd 'hi MiniTablineCurrent gui=underline guifg=#83a598'
+      vim.cmd 'hi MiniTablineVisible guifg=#83a598'
+      vim.cmd 'hi MiniTablineModifiedCurrent guifg=#af6f81 gui=underline'
+      vim.cmd 'hi MiniTablineModifiedHidden guifg=#af6f81'
     end,
   },
 }
