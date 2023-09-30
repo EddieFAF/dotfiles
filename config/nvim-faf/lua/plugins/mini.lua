@@ -77,12 +77,12 @@ local M = {
   {
     'echasnovski/mini.indentscope',
     version = false, -- wait till new 0.7.0 release to put it back on semver
-    enabled = true,
+    enabled = false,
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
-      -- symbol = "▏",
+      symbol = '▏',
       --symbol = "│",
-      symbol = '┊', -- default ╎, -- alts: ┊│┆ ┊  ▎││ ▏▏
+      --symbol = '┊', -- default ╎, -- alts: ┊│┆ ┊  ▎││ ▏▏
       options = {
         try_as_border = true,
         border = 'both',
@@ -129,9 +129,14 @@ local M = {
   {
     'echasnovski/mini.tabline',
     event = 'VeryLazy',
-    enabled = false,
+    enabled = true,
     config = function()
       require('mini.tabline').setup()
+      -- Colors
+      -- vim.cmd 'hi MiniTablineCurrent gui=underline guifg=#83a598'
+      -- vim.cmd 'hi MiniTablineVisible guifg=#83a598'
+      -- vim.cmd 'hi MiniTablineModifiedCurrent gui=underline guifg=#af6f81'
+      -- vim.cmd 'hi MiniTablineModifiedHidden gui=underline guifg=#af6f81'
     end,
   },
 }

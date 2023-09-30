@@ -391,7 +391,7 @@ myKeys =
     ("C-M1-e", spawn "arcolinux-tweak-tool"),
     ("C-M1-p", spawn "pamac-manager"),
     ("C-S-<ESC>", spawn "xfce4-taskmanager"),
-    ("M-<F3>", spawn "rofi -show ssh -font 'JetBrains Mono Nerd Font 11' -lines 5 -width 300"),
+    ("M-<F3>", spawn "rofi -show ssh -theme ~/.config/rofi.eddie/ssh.rasi"),
     ("M-<F2>", spawn "rofi -show drun"),
 --    ("S-M1-k", spawn "rofi -show linkding -modi linkding:$HOME/.local/bin/rofi-linkding"),
     ("M-e",    spawn myFilemanager),

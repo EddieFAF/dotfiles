@@ -37,7 +37,7 @@ local M = {
     'echasnovski/mini.statusline',
     version = false,
     lazy = false,
-    enabled = false,
+    enabled = true,
     config = function()
       require('mini.statusline').setup {
         content = {

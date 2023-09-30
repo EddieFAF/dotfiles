@@ -40,6 +40,8 @@ alias fp="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}
 # search for a file with fzf and open it in vim
 alias vf='v $(fp)'
 
+alias tt='taskwarrior-tui'
+
 ### Set alias
 #############
 alias cls="clear"

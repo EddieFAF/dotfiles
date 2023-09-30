@@ -63,3 +63,5 @@ vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
 
 vim.o.timeout = true
 vim.o.timeoutlen = 300
+
+vim.cmd 'hi MiniIndentscopeSymbol guifg=#61afef'
