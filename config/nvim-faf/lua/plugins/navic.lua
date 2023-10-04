@@ -1,3 +1,5 @@
+vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+
 local M = {
   {
     'SmiteshP/nvim-navic',
