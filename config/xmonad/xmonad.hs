@@ -495,6 +495,7 @@ myManageHook =
         "Vlc",
         "pamac-manager",
         "xfce4-terminal",
+        "xfce4-appfinder",
         "confirm",
         "file_progress",
         "Pcmanfm",

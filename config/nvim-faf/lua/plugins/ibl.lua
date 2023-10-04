@@ -15,8 +15,6 @@ return {
         node_type = { ['*'] = { '*' } },
       },
     },
-    highlight = { 'Function', 'Label' },
-    remove_blankline_trail = true,
     exclude = {
       filetypes = {
         'help',
