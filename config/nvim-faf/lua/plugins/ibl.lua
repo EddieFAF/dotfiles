@@ -2,13 +2,24 @@ local M = {
   {
     'lukas-reineke/indent-blankline.nvim',
     enabled = true,
-    main = 'ibl',
     event = { 'BufReadPost', 'BufNewFile' },
+    main = 'ibl',
     opts = {
       indent = {
         char = '▏',
         --      char_list = { '|', '¦', '┆', '┊' },
-        highlight = 'IndentBlanklineChar',
+      },
+      scope = {
+        enabled = true,
+        injected_languages = false,
+        highlight = { 'Function', 'Label' },
+        priority = 500,
+        char = '▏',
+        show_start = true,
+        show_end = true,
+        include = {
+          node_type = { ['*'] = { '*' } },
+        },
       },
       exclude = {
         filetypes = {
@@ -37,11 +48,6 @@ local M = {
           'lazy',
           '', -- for all buffers without a file type
         },
-        buftypes = { 'terminal', 'nofile' },
-      },
-      scope = {
-        enabled = true,
-        show_start = true,
       },
     },
   },
