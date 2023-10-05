@@ -19,7 +19,7 @@ vimcmd_symbol = "[<](bold green)"
 
 [git_branch]
 #symbol = "git "
-symbol = " "
+symbol = ""
 format = "[$symbol$branch]($style) "
 style = "bright-black"
 
@@ -50,7 +50,7 @@ style = "bold italic red"
 [directory]
 read_only = " ro"
 #read_only = " "
-truncation_length = 10
+truncation_length = 7
 truncation_symbol = "…/"
 truncate_to_repo = true
 style = "bold italic blue"
