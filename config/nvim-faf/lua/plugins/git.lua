@@ -17,7 +17,7 @@ return {
         -- delete = { text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
         -- topdelete = { text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
         -- changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        untracked = { text = '┆' },
+        untracked = { text = '│' },
       },
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
       numhl = false,

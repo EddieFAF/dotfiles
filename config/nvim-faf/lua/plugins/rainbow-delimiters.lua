@@ -1,18 +1,31 @@
+-- rainbow parentheses
+-- maintained repo of the original "ts-rainbow"
 return {
-  {
-    'HiPhish/rainbow-delimiters.nvim',
-    lazy = false,
-    enabled = false,
-    config = function(_, _)
-      local rainbow_delimiters = require 'rainbow-delimiters'
-      vim.g.rainbow_delimiters = {
-        strategy = {
-          [''] = rainbow_delimiters.strategy['global'],
-        },
-        query = {
-          [''] = 'rainbow-delimiters',
-        },
-      }
-    end,
-  },
+  'HiPhish/rainbow-delimiters.nvim',
+  enabled = true,
+  event = { 'BufReadPost', 'BufNewFile' },
+  Config = function()
+    -- This module contains a number of default definitions
+    local rainbow_delimiters = require 'rainbow-delimiters'
+
+    vim.g.rainbow_delimiters = {
+      strategy = {
+        [''] = rainbow_delimiters.strategy['global'],
+        vim = rainbow_delimiters.strategy['local'],
+      },
+      query = {
+        [''] = 'rainbow-delimiters',
+        lua = 'rainbow-blocks',
+      },
+      highlight = {
+        'RainbowDelimiterRed',
+        'RainbowDelimiterYellow',
+        'RainbowDelimiterBlue',
+        'RainbowDelimiterOrange',
+        'RainbowDelimiterGreen',
+        'RainbowDelimiterViolet',
+        'RainbowDelimiterCyan',
+      },
+    }
+  end,
 }

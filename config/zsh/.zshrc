@@ -1,9 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
 
 
 # PATH MODIFICATIONS
@@ -38,19 +38,26 @@ _append_to_path /usr/sbin
 # ZINIT             #
 #####################
 ### Added by Zinit's installer
-if [[ ! -f $HOME/.config/zsh/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
-    command mkdir -p $HOME/.config/zsh/.zinit
-    command git clone https://github.com/zdharma-continuum/zinit $HOME/.config/zsh/.zinit/bin && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%F" || \
-        print -P "%F{160}▓▒░ The clone has failed.%F"
-fi
-source "$HOME/.config/zsh/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+# if [[ ! -f $HOME/.config/zsh/.zinit/bin/zinit.zsh ]]; then
+#     print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+#     command mkdir -p $HOME/.config/zsh/.zinit
+#     command git clone https://github.com/zdharma-continuum/zinit $HOME/.config/zsh/.zinit/bin && \
+#         print -P "%F{33}▓▒░ %F{34}Installation successful.%F" || \
+#         print -P "%F{160}▓▒░ The clone has failed.%F"
+# fi
+# source "$HOME/.config/zsh/.zinit/bin/zinit.zsh"
+
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/psprint/Zinit-4.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
+
+#autoload -Uz _zinit
+#(( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit installer's chunk
 
-fpath=($HOME/.config/zsh $fpath)
+#fpath=($HOME/.config/zsh $fpath)
 
 
 # HISTORY SUBSTRING SEARCHING
@@ -231,7 +238,7 @@ zinit ice as"program" pick"bin/git-dsf"
 zinit light zdharma-continuum/zsh-diff-so-fancy
 
 #Powerlevel10k Theme
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+#zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 #####################
 # HISTORY           #
@@ -296,6 +303,40 @@ vicd()
     cd "$dst"
 }
 source $HOME/.config/zsh/lf_icons
+
+######################
+# nnn quit on cd     #
+######################
+n ()
+{
+    # Block nesting of nnn in subshells
+    [ "${NNNLVL:-0}" -eq 0 ] || {
+        echo "nnn is already running"
+        return
+    }
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
+    # see. To cd on quit only on ^G, remove the "export" and make sure not to
+    # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
+    #      NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    # The command builtin allows one to alias nnn to n, if desired, without
+    # making an infinitely recursive alias
+    command nnn "$@"
+
+    [ ! -f "$NNN_TMPFILE" ] || {
+        . "$NNN_TMPFILE"
+        rm -f "$NNN_TMPFILE" > /dev/null
+    }
+}
 
 #####################
 # FANCY-CTRL-Z      #
@@ -404,11 +445,11 @@ function nvims() {
 function set_win_title(){
     echo -ne "\033]0; $(basename "$PWD") \007"
 }
-#starship_precmd_user_func="set_win_title"
+starship_precmd_user_func="set_win_title"
 precmd_functions+=(set_win_title)
 
 #Starship prompt
-#eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

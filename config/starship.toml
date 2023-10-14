@@ -53,63 +53,13 @@ format = "took [$duration]($style)"
 
 [directory]
 #read_only = " ro"
-read_only = " "
-truncation_length = 5
+read_only = " "
+truncation_length = 2
 truncation_symbol = "…/"
 #style = "blue"
 fish_style_pwd_dir_length = 2
 #style = "bold cyan"
 format = "[$path]($style)[$read_only]($read_only_style) "
-
-[aws]
-#symbol = "aws "
-symbol = "  "
-
-[buf]
-symbol = " "
-format = '(with [$symbol$version ]($style))'
-
-[bun]
-symbol = "bun "
-format = '(via [$symbol($version )]($style))'
-
-[c]
-symbol = " "
-#symbol = "C "
-format = '(via [$symbol($version )]($style))'
-
-[cmake]
-symbol = "cmake "
-format = '(via [$symbol($version )]($style))'
-
-[cobol]
-symbol = "cobol "
-format = '(via [$symbol($version )]($style))'
-
-[conda]
-symbol = " "
-#symbol = "conda "
-
-[crystal]
-symbol = "cr "
-format = '(via [$symbol($version )]($style))'
-
-[daml]
-symbol = "daml "
-format = '(via [$symbol($version )]($style))'
-
-[dart]
-symbol = " "
-#symbol = "dart "
-format = '(via [$symbol($version )]($style))'
-
-[deno]
-symbol = "deno "
-format = '(via [$symbol($version )]($style))'
-
-[dotnet]
-symbol = ".NET "
-format = '(via [$symbol($version )(🎯 $tfm )]($style))'
 
 [docker_context]
 symbol = " "
@@ -120,47 +70,8 @@ detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
 detect_folders = []
 disabled = false
 
-[elixir]
-#symbol = "exs "
-symbol = " "
-format = '(via [$symbol($version \(OTP $otp_version\) )]($style))'
-
-[elm]
-#symbol = "elm "
-symbol = " "
-format = '(via [$symbol($version \(OTP $otp_version\) )]($style))'
-
-[golang]
-symbol = " "
-#symbol = "go "
-format = '(via [$symbol($version )]($style))'
-
-[hg_branch]
-symbol = " "
-#symbol = "hg "
-
-[guix_shell]
-symbol = " "
-
 [haskell]
 symbol = " "
-format = '(via [$symbol($version )]($style))'
-
-[haxe]
-symbol = "⌘ "
-
-[java]
-#symbol = "java "
-symbol = " "
-format = '(via [$symbol($version )]($style))'
-
-[julia]
-symbol = " "
-#symbol = "jl "
-format = '(via [$symbol($version )]($style))'
-
-[kotlin]
-symbol = "kt "
 format = '(via [$symbol($version )]($style))'
 
 [lua]
@@ -168,94 +79,6 @@ symbol = " "
 #symbol = "lua "
 format = '(via [$symbol($version )]($style))'
 
-[memory_usage]
-symbol = " "
-#symbol = "memory "
-
-[meson]
-symbol = "喝 "
-#symbol = "meson "
-
-[nim]
-symbol = " "
-#symbol = "nim "
-format = '(via [$symbol($version )]($style))'
-
-[nix_shell]
-symbol = " "
-#symbol = "nix "
-
-[nodejs]
-symbol = " "
-#symbol = "nodejs "
-format = '(via [$symbol($version )]($style))'
-
-[ocaml]
-symbol = "ml "
-format = '(via [$symbol($version )(\($switch_indicator$switch_name\) )]($style))'
-
-[package]
-symbol = " "
-#symbol = "pkg "
-format = '(is [$symbol$version]($style) )'
-
-[perl]
-symbol = "pl "
-format = '(via [$symbol($version )]($style))'
-
-[php]
-symbol = "php "
-format = '(via [$symbol($version )]($style))'
-
-[pulumi]
-symbol = "pulumi "
-
-[purescript]
-symbol = "purs "
-format = '(via [$symbol($version )]($style))'
-
-[python]
-#symbol = "py "
-symbol = " "
-format = '(via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style))'
-
-[raku]
-symbol = "raku "
-format = '(via [$symbol($version-$vm_version )]($style))'
-
-[rlang]
-symbol = "ﳒ "
-format = '(via [$symbol($version )]($style))'
-
-[ruby]
-symbol = " "
-#symbol = "rb "
-format = '(via [$symbol($version )]($style))'
-
-[rust]
-symbol = " "
-#symbol = "rs "
-format = '(via [$symbol($version )]($style))'
-
-[scala]
-#symbol = "scala "
-symbol = " "
-format = '(via [$symbol($version )]($style))'
-
-[spack]
-symbol = "🅢 "
-#symbol = "spack "
-
 [sudo]
 symbol = "sudo "
 
-[swift]
-symbol = "swift "
-format = '(via [$symbol($version )]($style))'
-
-[terraform]
-symbol = "terraform "
-
-[zig]
-symbol = "zig "
-format = '(via [$symbol($version )]($style))'

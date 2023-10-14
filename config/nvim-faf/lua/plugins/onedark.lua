@@ -9,12 +9,18 @@ return {
       require('onedark').setup {
         transparent = false,
         term_colors = true,
+        ending_tildes = false,
         code_style = {
-          comments = 'bold,italic',
+          comments = 'italic',
+          keywords = 'bold',
+          functions = 'bold',
+          strings = 'none',
+          variables = 'italic',
         },
         diagnostics = {
           darker = true,
           undercurl = true,
+          background = true,
         },
       }
       vim.cmd 'colorscheme onedark'

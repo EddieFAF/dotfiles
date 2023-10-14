@@ -67,7 +67,7 @@ local M = {
           todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
           note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
 
-          -- hex_color = hi.gen_highlighter.hex_color(),
+          hex_color = hi.gen_highlighter.hex_color(),
         },
       }
     end,
@@ -77,7 +77,7 @@ local M = {
   {
     'echasnovski/mini.indentscope',
     version = false, -- wait till new 0.7.0 release to put it back on semver
-    enabled = false,
+    enabled = true,
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       symbol = '▏',
@@ -86,7 +86,7 @@ local M = {
       options = {
         try_as_border = true,
         border = 'both',
-        indent_at_cursor = false,
+        indent_at_cursor = true,
       },
     },
     init = function()
