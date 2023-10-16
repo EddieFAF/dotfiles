@@ -20,3 +20,9 @@ export LOCATION="Uetze"
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin::$PATH
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
+
+export NNN_OPTS="dDHreuUxQ"
+export NNN_PLUG="f:finder;o:fzopen;z:autojump"
+export NNN_BMS="d:~/Downloads;c:~/.config"
+export NNN_TMPFILE='/tmp/last.d'
+

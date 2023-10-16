@@ -119,6 +119,14 @@ local M = {
   },
 
   {
+    'echasnovski/mini.pairs',
+    enabled = true,
+    version = false,
+    event = 'VeryLazy',
+    opts = {},
+  },
+
+  {
     'echasnovski/mini.tabline',
     event = 'VeryLazy',
     enabled = false,

@@ -30,15 +30,15 @@ end
 
 --- Toggle autopairs
 function M.toggle_autopairs()
-  local ok, autopairs = pcall(require, 'nvim-autopairs')
+  local ok, autopairs = pcall(require, 'mini.pairs')
   if ok then
-    if autopairs.state.disabled then
-      autopairs.enable()
+    vim.g.minipairs_disable = not vim.g.minipairs_disable
+
+    if vim.g.minipairs_disable then
+      ui_notify(string.format 'autopairs disabled')
     else
-      autopairs.disable()
+      ui_notify(string.format 'autopairs enabled')
     end
-    vim.g.autopairs_enabled = autopairs.state.disabled
-    ui_notify(string.format('autopairs %s', bool2str(not autopairs.state.disabled)))
   else
     ui_notify 'autopairs not available'
   end
@@ -131,16 +131,16 @@ function M.set_indent()
     end
     vim.bo.expandtab = (indent > 0) -- local to buffer
     indent = math.abs(indent)
-    vim.bo.tabstop = indent -- local to buffer
-    vim.bo.softtabstop = indent -- local to buffer
-    vim.bo.shiftwidth = indent -- local to buffer
+    vim.bo.tabstop = indent         -- local to buffer
+    vim.bo.softtabstop = indent     -- local to buffer
+    vim.bo.shiftwidth = indent      -- local to buffer
     ui_notify(string.format('indent=%d %s', indent, vim.bo.expandtab and 'expandtab' or 'noexpandtab'))
   end
 end
 
 --- Change the number display modes
 function M.change_number()
-  local number = vim.wo.number -- local to window
+  local number = vim.wo.number                 -- local to window
   local relativenumber = vim.wo.relativenumber -- local to window
   if not number and not relativenumber then
     vim.wo.number = true

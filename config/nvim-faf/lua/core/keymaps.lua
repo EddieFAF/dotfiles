@@ -71,7 +71,7 @@ local utils = require 'helpers'
 local ui = require 'helpers.ui'
 local is_available = utils.is_available
 
-if is_available 'nvim-autopairs' then
+if is_available 'mini.pairs' then
   map('n', '<leader>ua', ui.toggle_autopairs, 'Toggle autopairs')
 end
 if is_available 'nvim-cmp' then
@@ -96,7 +96,7 @@ map('n', '<leader>ut', ui.toggle_tabline, 'Toggle tabline')
 map('n', '<leader>uu', ui.toggle_url_match, 'Toggle URL highlight')
 map('n', '<leader>uw', ui.toggle_wrap, 'Toggle wrap')
 map('n', '<leader>uy', ui.toggle_syntax, 'Toggle syntax highlight')
-map('n', '<leader>ua', function()
+map('n', '<leader>uA', function()
   if vim.g.minianimate_disable then
     vim.g.minianimate_disable = false
   else
