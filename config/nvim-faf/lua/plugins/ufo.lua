@@ -3,7 +3,7 @@ local M = {}
 ---@type LazySpec
 M.spec = {
   'kevinhwang91/nvim-ufo',
-  enabled = true,
+  enabled = false,
   event = 'BufRead',
   dependencies = {
     'kevinhwang91/promise-async',

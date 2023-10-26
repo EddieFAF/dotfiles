@@ -58,7 +58,7 @@ local M = {
               local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
               return "SPC:" .. shiftwidth
             end
-            vim.api.nvim_set_hl(0, "Update", { fg = 0, bg = "bg" })
+            --            vim.api.nvim_set_hl(0, "Update", { fg = 0, bg = "bg" })
 
             return MiniStatusline.combine_groups({
               { hl = mode_hl,                 strings = { mode, spell, wrap } },
@@ -75,7 +75,7 @@ local M = {
           end,
         },
         use_icons = true,
-        set_vim_settings = false,
+        set_vim_settings = true,
       }
     end,
   },

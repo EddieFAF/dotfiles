@@ -18,6 +18,35 @@ local M = {
   },
 
   {
+    'echasnovski/mini.base16',
+    enabled = false,
+    version = false,
+    config = function()
+      require('mini.base16').setup {
+        palette = {
+          base00 = '#1E2127',
+          base01 = '#BE5046',
+          base02 = '#98C379',
+          base03 = '#D19A66',
+          base04 = '#61AFEF',
+          base05 = '#8A3FA0',
+          base06 = '#2B6F77',
+          base07 = '#ABB2BF',
+          base08 = '#5C6370',
+          base09 = '#E06C75',
+          base0A = '#BAE59B',
+          base0B = '#E5C07B',
+          base0C = '#83CFFF',
+          base0D = '#C678DD',
+          base0E = '#56B6C2',
+          base0F = '#FFFFFF',
+        },
+        use_cterm = true,
+      }
+    end,
+  },
+
+  {
     'echasnovski/mini.bracketed',
     event = 'VeryLazy',
     config = function()
@@ -129,7 +158,7 @@ local M = {
   {
     'echasnovski/mini.tabline',
     event = 'VeryLazy',
-    enabled = true,
+    enabled = false,
     config = function()
       require('mini.tabline').setup()
       -- Colors

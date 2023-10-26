@@ -90,7 +90,7 @@ return {
 
       local map = require('helpers.keys').map
       map('n', '<leader>fr', require('telescope.builtin').oldfiles, 'Recently opened')
-      map('n', '<leader><space>', require('telescope.builtin').buffers, 'Open buffers')
+      --     map('n', '<leader><space>', require('telescope.builtin').buffers, 'Open buffers')
       map('n', '<leader>/', function()
         -- You can pass additional configuration to telescope to change theme, layout, etc.
         require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -99,7 +99,7 @@ return {
         })
       end, 'Search in current buffer')
 
-      map('n', '<leader>ff', require('telescope.builtin').find_files, 'Find Files')
+      --      map('n', '<leader>ff', require('telescope.builtin').find_files, 'Find Files')
       map('n', '<leader>.', require('telescope.builtin').find_files, 'Find Files')
       map('n', '<leader>fF', '<cmd>Telescope find_files hidden=true cwd=$HOME prompt_title=<~><CR>', 'Find Files HOME')
       map('n', '<leader>sh', require('telescope.builtin').help_tags, 'Show Help Tags')
