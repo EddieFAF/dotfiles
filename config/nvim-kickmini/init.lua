@@ -29,6 +29,10 @@ require("lazy").setup({
   {
     "echasnovski/mini.nvim",
     version = false,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'lewis6991/gitsigns.nvim'
+    },
   },
 
   {
@@ -79,6 +83,7 @@ require("lazy").setup({
 vim.keymap.set("n", "<esc>", ':noh<cr><esc>', { desc = "Remove Search Highlight" })
 vim.keymap.set("n", "<S-l>", ':bnext<cr>', { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-h>", ':bprevious<cr>', { desc = "Previous Buffer" })
+
 
 -- [[ Autocommands ]]
 local function augroup(name)
@@ -153,7 +158,52 @@ require("mini.comment").setup()
 
 require("mini.cursorword").setup()
 
-require("mini.files").setup()
+require('mini.files').setup({
+  mappings = {
+    -- Here 'L' will also close explorer after opening file.
+    -- Switch to `go_in` if you want to not close explorer.
+    go_in = '',
+    go_in_plus = 'L',
+    go_out = 'H',
+    go_out_plus = '',
+    -- Will be overriden by manual `<BS>`, which seems wasteful
+    reset = '',
+    -- Overrides built-in `?` for backward search
+    show_help = '?',
+  },
+
+  -- Only automated preview is possible
+  windows = {
+    preview = true,
+  },
+})
+
+local go_in_plus = function()
+  for _ = 1, vim.v.count1 - 1 do
+    MiniFiles.go_in()
+  end
+  local fs_entry = MiniFiles.get_fs_entry()
+  local is_at_file = fs_entry ~= nil and fs_entry.fs_type == 'file'
+  MiniFiles.go_in()
+  if is_at_file then MiniFiles.close() end
+end
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'MiniFilesBufferCreate',
+  callback = function(args)
+    local map_buf = function(lhs, rhs) vim.keymap.set('n', lhs, rhs, { buffer = args.data.buf_id }) end
+
+    map_buf('<CR>', go_in_plus)
+    map_buf('<Right>', go_in_plus)
+
+    map_buf('<BS>', MiniFiles.go_out)
+    map_buf('<Left>', MiniFiles.go_out)
+
+    map_buf('<Esc>', MiniFiles.close)
+
+    -- Add extra mappings from *MiniFiles-examples*
+  end,
+})
 vim.keymap.set("n", "<leader>fm", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
 
 require("mini.move").setup()
@@ -219,6 +269,7 @@ local lsp_client = function(msg)
   return 'LSP:' .. table.concat(client_names, ', ')
 end
 
+
 require("mini.statusline").setup({
   content = {
     active = function()
@@ -247,6 +298,7 @@ require("mini.statusline").setup({
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         '%=',
         { hl = 'MiniStatuslineFilename', strings = { lsp_client() } },
+
         { hl = 'Special',                strings = { lazy_updates() } },
         { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
         { hl = 'MoreMsg',                strings = { searchcount } },
@@ -269,6 +321,23 @@ require("mini.hues").setup({ background = "#002734", foreground = "#c0c8cc" }) -
 --vim.cmd.colo("randomhue")
 
 -- [[ Settings options ]]
+
+vim.opt.scrolloff = 5
+vim.opt.title = true
+vim.opt.titlelen = 0
+vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.listchars = {
+  eol = '↲',
+  tab = '▸ ',
+  trail = '·',
+  nbsp = '_',
+  extends = '›',
+  precedes = '‹',
+}
+vim.opt.list = true
 
 -- Decrease update time
 vim.o.updatetime = 250
