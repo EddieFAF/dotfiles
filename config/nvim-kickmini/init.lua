@@ -70,6 +70,73 @@ require("lazy").setup({
   },
 
   {
+    'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = {
+      signs = {
+        add = { text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        change = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        delete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        topdelete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        -- add = { text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        -- change = { text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        -- delete = { text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        -- topdelete = { text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        -- changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        untracked = { text = '│' },
+      },
+      signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+      numhl = false,
+      linehl = false,
+      watch_gitdir = {
+        interval = 1000,
+        follow_files = true,
+      },
+      attach_to_untracked = true,
+      current_line_blame = true,
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 1000,
+      },
+      sign_priority = 6,
+      update_debounce = 100,
+      status_formatter = nil, -- Use default
+      preview_config = {
+        -- Options passed to nvim_open_win
+        border = 'single',
+        style = 'minimal',
+        relative = 'cursor',
+        row = 0,
+        col = 1,
+      },
+
+      on_attach = function(buffer)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+        end
+
+        -- stylua: ignore start
+        map("n", "]h", gs.next_hunk, "Next Hunk")
+        map("n", "[h", gs.prev_hunk, "Prev Hunk")
+        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
+        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
+        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
+        map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
+        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
+        map("n", "<leader>ghd", gs.diffthis, "Diff This")
+        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
+        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+      end,
+    },
+  },
+
+  {
     -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
@@ -152,6 +219,31 @@ require("mini.basics").setup({
   -- Whether to disable showing non-error feedback
   silent = false,
 })
+
+local use_cterm, palette
+palette = {
+	base00 = "#1A1B26",
+	base01 = "#16161E",
+	base02 = "#2F3549",
+	base03 = "#444B6A",
+	base04 = "#787C99",
+	base05 = "#A9B1D6",
+	base06 = "#CBCCD1",
+	base07 = "#D5D6DB",
+	base08 = "#C0CAF5",
+	base09 = "#A9B1D6",
+	base0A = "#0DB9D7",
+	base0B = "#9ECE6A",
+	base0C = "#B4F9F8",
+	base0D = "#2AC3DE",
+	base0E = "#BB9AF7",
+	base0F = "#F7768E",
+}
+
+if palette then
+  require('mini.base16').setup({ palette = palette, use_cterm = use_cterm })
+  vim.g.colors_name = "base16-tokyo-night-dark"
+end
 
 -- 'gc' to toggle comment
 require("mini.comment").setup()
@@ -269,7 +361,6 @@ local lsp_client = function(msg)
   return 'LSP:' .. table.concat(client_names, ', ')
 end
 
-
 require("mini.statusline").setup({
   content = {
     active = function()
@@ -289,7 +380,6 @@ require("mini.statusline").setup({
         local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
         return "SPC:" .. shiftwidth
       end
-      --            vim.api.nvim_set_hl(0, "Update", { fg = 0, bg = "bg" })
 
       return MiniStatusline.combine_groups({
         { hl = mode_hl,                 strings = { mode, spell, wrap } },
@@ -305,9 +395,12 @@ require("mini.statusline").setup({
         { hl = mode_hl,                  strings = { location2 } },
       })
     end
-  }
+  },
+  use_icons = true,
+  set_vim_settings = true,
 }
 )
+
 require("mini.tabline").setup()
 
 require("mini.fuzzy").setup()
@@ -317,8 +410,10 @@ require("mini.completion").setup()
 vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
 
-require("mini.hues").setup({ background = "#002734", foreground = "#c0c8cc" }) -- azure
+--require("mini.hues").setup({ background = "#002734", foreground = "#c0c8cc" }) -- azure
+--require('mini.hues').setup({ background = '#002734', foreground = '#c0c8cc', n_hues = 6 })
 --vim.cmd.colo("randomhue")
+--vim.cmd('hi MiniTablineCurrent gui=underline')
 
 -- [[ Settings options ]]
 
