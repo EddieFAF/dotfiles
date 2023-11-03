@@ -24,7 +24,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-
+  checker = { enabled = true },
+  ui = {
+    border = "single",
+  },
   -- The star of the show
   {
     "echasnovski/mini.nvim",
@@ -220,6 +223,7 @@ require("mini.basics").setup({
   silent = false,
 })
 
+-- Color Palette Tokyo Night
 local use_cterm, palette
 palette = {
 	base00 = "#1A1B26",
@@ -438,15 +442,20 @@ vim.opt.list = true
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
+require("mini.extra").setup()
+
 -- [[ Configure Mini.pick ]]
 require("mini.pick").setup()
 
-vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "[ ] Find existing buffers" })
+vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
 
-vim.keymap.set("n", "<leader>sf", MiniPick.builtin.files, { desc = "[S]earch [F]iles" })
-vim.keymap.set("n", "<leader>sh", MiniPick.builtin.help, { desc = "[S]earch [H]elp" })
-vim.keymap.set("n", "<leader>sg", MiniPick.builtin.grep_live, { desc = "[S]earch by [G]rep" })
+vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
+vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
 vim.keymap.set("n", "<leader>sr", MiniPick.builtin.resume, { desc = "[S]earch [R]esume" })
+vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer"})
+vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps"})
+vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files"})
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -534,7 +543,8 @@ end, 0)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+--vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "<leader>q", ":Pick diagnostic scope='current'<CR>", { desc = "Open diagnostics list" })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -623,10 +633,11 @@ miniclue.setup({
     miniclue.gen_clues.registers(),
     miniclue.gen_clues.windows(),
     miniclue.gen_clues.z(),
-    { mode = "n", keys = "<Leader>c", desc = "+[C]ode" },
-    { mode = "n", keys = "<Leader>d", desc = "+[D]ocument" },
-    { mode = "n", keys = "<Leader>w", desc = "+[W]orkspace" },
-    { mode = "n", keys = "<Leader>s", desc = "+[S]earch" },
+    { mode = "n", keys = "<Leader>c", desc = "-> Code" },
+    { mode = "n", keys = "<Leader>d", desc = "-> Document" },
+    { mode = "n", keys = "<Leader>w", desc = "-> Workspace" },
+    { mode = "n", keys = "<Leader>f", desc = "-> Find" },
+    { mode = "n", keys = "<Leader>g", desc = "-> Git" },
   },
   window = {
     config = {
