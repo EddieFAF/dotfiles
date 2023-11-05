@@ -153,7 +153,7 @@ require("lazy").setup({
 vim.keymap.set("n", "<esc>", ':noh<cr><esc>', { desc = "Remove Search Highlight" })
 vim.keymap.set("n", "<S-l>", ':bnext<cr>', { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-h>", ':bprevious<cr>', { desc = "Previous Buffer" })
-
+vim.keymap.set("n", "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", { desc = "Buffer Delete" })
 
 -- [[ Autocommands ]]
 local function augroup(name)
@@ -226,22 +226,22 @@ require("mini.basics").setup({
 -- Color Palette Tokyo Night
 local use_cterm, palette
 palette = {
-	base00 = "#1A1B26",
-	base01 = "#16161E",
-	base02 = "#2F3549",
-	base03 = "#444B6A",
-	base04 = "#787C99",
-	base05 = "#A9B1D6",
-	base06 = "#CBCCD1",
-	base07 = "#D5D6DB",
-	base08 = "#C0CAF5",
-	base09 = "#A9B1D6",
-	base0A = "#0DB9D7",
-	base0B = "#9ECE6A",
-	base0C = "#B4F9F8",
-	base0D = "#2AC3DE",
-	base0E = "#BB9AF7",
-	base0F = "#F7768E",
+  base00 = "#1A1B26",
+  base01 = "#16161E",
+  base02 = "#2F3549",
+  base03 = "#444B6A",
+  base04 = "#787C99",
+  base05 = "#A9B1D6",
+  base06 = "#CBCCD1",
+  base07 = "#D5D6DB",
+  base08 = "#C0CAF5",
+  base09 = "#A9B1D6",
+  base0A = "#0DB9D7",
+  base0B = "#9ECE6A",
+  base0C = "#B4F9F8",
+  base0D = "#2AC3DE",
+  base0E = "#BB9AF7",
+  base0F = "#F7768E",
 }
 
 if palette then
@@ -392,7 +392,6 @@ require("mini.statusline").setup({
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         '%=',
         { hl = 'MiniStatuslineFilename', strings = { lsp_client() } },
-
         { hl = 'Special',                strings = { lazy_updates() } },
         { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
         { hl = 'MoreMsg',                strings = { searchcount } },
@@ -453,14 +452,15 @@ vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" 
 vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
 vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
 vim.keymap.set("n", "<leader>sr", MiniPick.builtin.resume, { desc = "[S]earch [R]esume" })
-vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer"})
-vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps"})
-vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files"})
+vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer" })
+vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps" })
+vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files" })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
+  ---@diagnostic disable: missing-fields
   require("nvim-treesitter.configs").setup({
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
@@ -477,6 +477,8 @@ vim.defer_fn(function()
       "vim",
       "bash",
     },
+    sync_install = false,
+    ignore_install = {},
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -536,6 +538,7 @@ vim.defer_fn(function()
         },
       },
     },
+    ---@diagnostic disable: missing-fields
   })
 end, 0)
 
@@ -570,7 +573,8 @@ local on_attach = function(_, bufnr)
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-  nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+  --nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+  nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
   nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
   -- See `:help K` for why this keymap
@@ -641,10 +645,11 @@ miniclue.setup({
   },
   window = {
     config = {
-      anchor = "SW",
+      anchor = "SE",
       row = "auto",
       col = "auto",
       width = "auto",
+      border = "single",
     },
   },
 })
