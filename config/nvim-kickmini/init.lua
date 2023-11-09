@@ -77,16 +77,15 @@ require("lazy").setup({
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       signs = {
-        add = { text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-        change = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        delete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        topdelete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        -- add = { text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        -- change = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        -- delete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        -- topdelete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        add = { text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+        change = { text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        delete = { text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+        topdelete = { text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
         changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        -- add = { text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-        -- change = { text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        -- delete = { text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        -- topdelete = { text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        -- changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
         untracked = { text = '│' },
       },
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
@@ -149,13 +148,13 @@ require("lazy").setup({
   },
 }, {})
 
--- [[ Keymappings ]]
+-- [[ Keymappings ]] ---------------------------------------------------------
 vim.keymap.set("n", "<esc>", ':noh<cr><esc>', { desc = "Remove Search Highlight" })
 vim.keymap.set("n", "<S-l>", ':bnext<cr>', { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-h>", ':bprevious<cr>', { desc = "Previous Buffer" })
 vim.keymap.set("n", "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", { desc = "Buffer Delete" })
 
--- [[ Autocommands ]]
+-- [[ Autocommands ]] --------------------------------------------------------
 local function augroup(name)
   return vim.api.nvim_create_augroup("kick_" .. name, { clear = true })
 end
@@ -193,8 +192,31 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- [[ Settings options ]] ----------------------------------------------------
+vim.opt.scrolloff = 5
+vim.opt.title = true
+vim.opt.titlelen = 0
+vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.listchars = {
+  eol = '↲',
+  tab = '▸ ',
+  trail = '·',
+  nbsp = '_',
+  extends = '›',
+  precedes = '‹',
+}
+vim.opt.list = true
+--vim.opt.foldmethod = "syntax"
 
--- [[ Configure Mini.nvim ]]
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+
+
+-- [[ Configure Mini.nvim ]] -------------------------------------------------
 -- Collection of basic options
 require("mini.basics").setup({
   options = {
@@ -223,7 +245,7 @@ require("mini.basics").setup({
   silent = false,
 })
 
--- Color Palette Tokyo Night
+-- Color Palette Tokyo Night -------------------------------------------------
 local use_cterm, palette
 palette = {
   base00 = "#1A1B26",
@@ -249,11 +271,12 @@ if palette then
   vim.g.colors_name = "base16-tokyo-night-dark"
 end
 
--- 'gc' to toggle comment
+-- 'gc' to toggle comment ----------------------------------------------------
 require("mini.comment").setup()
 
 require("mini.cursorword").setup()
 
+-- Files ---------------------------------------------------------------------
 require('mini.files').setup({
   mappings = {
     -- Here 'L' will also close explorer after opening file.
@@ -302,8 +325,39 @@ vim.api.nvim_create_autocmd('User', {
 })
 vim.keymap.set("n", "<leader>fm", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
 
-require("mini.move").setup()
+-- Fuzzy ---------------------------------------------------------------------
+require("mini.fuzzy").setup()
 
+-- Jump2d --------------------------------------------------------------------
+require("mini.jump2d").setup({
+  view = {
+    dim = true,
+  },
+})
+
+-- MiniMap -------------------------------------------------------------------
+local map = require('mini.map')
+map.setup({
+  symbols = {
+    encode = require('mini.map').gen_encode_symbols.dot '4x2',
+  },
+  integrations = {
+    map.gen_integration.builtin_search(),
+    map.gen_integration.gitsigns(),
+    map.gen_integration.diagnostic(),
+  },
+  window = {
+    width = 20,
+  }
+})
+vim.keymap.set('n', '<Leader>mc', MiniMap.close, { desc = "Minimap Close" })
+vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus, { desc = "Minimap Focus" })
+vim.keymap.set('n', '<Leader>mo', MiniMap.open, { desc = "Minimap Open" })
+vim.keymap.set('n', '<Leader>mr', MiniMap.refresh, { desc = "Minimap Refresh" })
+vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side, { desc = "Minimap Swap Side" })
+vim.keymap.set('n', '<Leader>mt', MiniMap.toggle, { desc = "Minimap Toggle" })
+
+-- HiPatterns ----------------------------------------------------------------
 local hi = require 'mini.hipatterns'
 hi.setup({
   highlighters = {
@@ -317,7 +371,7 @@ hi.setup({
   }
 })
 
--- Animated indentation guide
+-- Animated indentation guide ------------------------------------------------
 require("mini.indentscope").setup({
   symbol = "▏",
   options = {
@@ -327,12 +381,16 @@ require("mini.indentscope").setup({
   },
 })
 
+-- Move ----------------------------------------------------------------------
+require("mini.move").setup()
+
+-- Starter -------------------------------------------------------------------
 require("mini.starter").setup({
   autoopen = true,
   evaluate_single = true,
 })
 
--- Statusline
+-- Statusline ----------------------------------------------------------------
 local lsp_client = function(msg)
   msg = msg or ''
   local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
@@ -403,12 +461,13 @@ require("mini.statusline").setup({
   set_vim_settings = true,
 }
 )
-
+-- Tabline -------------------------------------------------------------------
 require("mini.tabline").setup()
 
-require("mini.fuzzy").setup()
+-- Pairs ---------------------------------------------------------------------
 require("mini.pairs").setup()
 
+-- Completion ----------------------------------------------------------------
 require("mini.completion").setup()
 vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
@@ -418,32 +477,11 @@ vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 --vim.cmd.colo("randomhue")
 --vim.cmd('hi MiniTablineCurrent gui=underline')
 
--- [[ Settings options ]]
 
-vim.opt.scrolloff = 5
-vim.opt.title = true
-vim.opt.titlelen = 0
-vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-vim.opt.listchars = {
-  eol = '↲',
-  tab = '▸ ',
-  trail = '·',
-  nbsp = '_',
-  extends = '›',
-  precedes = '‹',
-}
-vim.opt.list = true
-
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeoutlen = 300
-
+-- [[ Mini.Extras ]] ---------------------------------------------------------
 require("mini.extra").setup()
 
--- [[ Configure Mini.pick ]]
+-- [[ Configure Mini.pick ]] -------------------------------------------------
 require("mini.pick").setup()
 
 vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
@@ -456,7 +494,7 @@ vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer
 vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps" })
 vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files" })
 
--- [[ Configure Treesitter ]]
+-- [[ Configure Treesitter ]] ------------------------------------------------
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
@@ -549,7 +587,7 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open float
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 vim.keymap.set("n", "<leader>q", ":Pick diagnostic scope='current'<CR>", { desc = "Open diagnostics list" })
 
--- [[ Configure LSP ]]
+-- [[ Configure LSP ]] -------------------------------------------------------
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
@@ -575,7 +613,6 @@ local on_attach = function(_, bufnr)
   nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
   --nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
-  nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
   -- See `:help K` for why this keymap
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -583,6 +620,7 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+  nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
   nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
   nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
   nmap("<leader>wl", function()
@@ -595,6 +633,7 @@ local on_attach = function(_, bufnr)
   end, { desc = "Format current buffer with LSP" })
 end
 
+-- CLues (Whichkey Ersatz) ---------------------------------------------------
 local miniclue = require("mini.clue")
 miniclue.setup({
   triggers = {
@@ -642,15 +681,17 @@ miniclue.setup({
     { mode = "n", keys = "<Leader>w", desc = "-> Workspace" },
     { mode = "n", keys = "<Leader>f", desc = "-> Find" },
     { mode = "n", keys = "<Leader>g", desc = "-> Git" },
+    { mode = "n", keys = "<Leader>m", desc = "-> Minimap" },
   },
   window = {
     config = {
-      anchor = "SE",
+      anchor = "SW",
       row = "auto",
       col = "auto",
       width = "auto",
       border = "single",
     },
+    delay = 200,
   },
 })
 

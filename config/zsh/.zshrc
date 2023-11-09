@@ -185,8 +185,8 @@ bindkey -M menuselect '^M' accept
 zinit light bobsoppe/zsh-ssh-agent
 
 # FZF BINARY AND TMUX HELPER SCRIPT
-zinit ice lucid wait'0c' as"command" pick"bin/fzf-tmux"
-zinit light junegunn/fzf
+#zinit ice lucid wait'0c' as"command" pick"bin/fzf-tmux"
+#zinit light junegunn/fzf
 
 # BIND MULTIPLE WIDGETS USING FZF
 zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
@@ -206,10 +206,10 @@ zinit light sharkdp/fd
 
 zinit for \
   OMZP::common-aliases \
-  OMZL::correction.zsh \
   OMZL::directories.zsh \
-  OMZL::key-bindings.zsh \
-  OMZL::theme-and-appearance.zsh
+#  OMZL::correction.zsh \
+#  OMZL::key-bindings.zsh \
+#  OMZL::theme-and-appearance.zsh
 
 zinit snippet OMZ::plugins/archlinux/archlinux.plugin.zsh
 zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
@@ -229,7 +229,7 @@ zinit wait lucid light-mode depth"1" for \
   zsh-users/zsh-history-substring-search \
 
 zinit load "agkozak/zsh-z"
-zinit light "MichaelAquilina/zsh-you-should-use"
+#zinit light "MichaelAquilina/zsh-you-should-use"
 zinit load "andrewferrier/fzf-z"
 zinit load "chrissicool/zsh-256color"
 zinit load "unixorn/fzf-zsh-plugin"
