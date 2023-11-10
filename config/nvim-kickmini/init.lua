@@ -245,7 +245,7 @@ require("mini.basics").setup({
   silent = false,
 })
 
--- Color Palette Tokyo Night -------------------------------------------------
+-- [[ Color Palette Tokyo Night ]] -------------------------------------------
 local use_cterm, palette
 palette = {
   base00 = "#1A1B26",
@@ -271,12 +271,13 @@ if palette then
   vim.g.colors_name = "base16-tokyo-night-dark"
 end
 
--- 'gc' to toggle comment ----------------------------------------------------
+-- [[ 'gc' to toggle comment ]] ----------------------------------------------
 require("mini.comment").setup()
 
+-- [[ Mini Cursorword ]] -----------------------------------------------------
 require("mini.cursorword").setup()
 
--- Files ---------------------------------------------------------------------
+-- [[ Files ]] ---------------------------------------------------------------
 require('mini.files').setup({
   mappings = {
     -- Here 'L' will also close explorer after opening file.
@@ -325,17 +326,17 @@ vim.api.nvim_create_autocmd('User', {
 })
 vim.keymap.set("n", "<leader>fm", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
 
--- Fuzzy ---------------------------------------------------------------------
+-- [[ Fuzzy ]] ---------------------------------------------------------------
 require("mini.fuzzy").setup()
 
--- Jump2d --------------------------------------------------------------------
+-- [[ Jump2d ]] --------------------------------------------------------------
 require("mini.jump2d").setup({
   view = {
     dim = true,
   },
 })
 
--- MiniMap -------------------------------------------------------------------
+-- [[ MiniMap ]] -------------------------------------------------------------
 local map = require('mini.map')
 map.setup({
   symbols = {
@@ -357,7 +358,7 @@ vim.keymap.set('n', '<Leader>mr', MiniMap.refresh, { desc = "Minimap Refresh" })
 vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side, { desc = "Minimap Swap Side" })
 vim.keymap.set('n', '<Leader>mt', MiniMap.toggle, { desc = "Minimap Toggle" })
 
--- HiPatterns ----------------------------------------------------------------
+-- [[ HiPatterns ]] ----------------------------------------------------------
 local hi = require 'mini.hipatterns'
 hi.setup({
   highlighters = {
@@ -371,7 +372,7 @@ hi.setup({
   }
 })
 
--- Animated indentation guide ------------------------------------------------
+-- [[ Animated indentation guide ]] ------------------------------------------
 require("mini.indentscope").setup({
   symbol = "▏",
   options = {
@@ -381,16 +382,16 @@ require("mini.indentscope").setup({
   },
 })
 
--- Move ----------------------------------------------------------------------
+-- [[ Move ]] ----------------------------------------------------------------
 require("mini.move").setup()
 
--- Starter -------------------------------------------------------------------
+-- [[ Starter ]] -------------------------------------------------------------
 require("mini.starter").setup({
   autoopen = true,
   evaluate_single = true,
 })
 
--- Statusline ----------------------------------------------------------------
+-- [[ Statusline ]] ----------------------------------------------------------
 local lsp_client = function(msg)
   msg = msg or ''
   local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
@@ -461,13 +462,14 @@ require("mini.statusline").setup({
   set_vim_settings = true,
 }
 )
--- Tabline -------------------------------------------------------------------
+
+-- [[ Tabline ]] -------------------------------------------------------------
 require("mini.tabline").setup()
 
--- Pairs ---------------------------------------------------------------------
+-- [[ Pairs ]] ---------------------------------------------------------------
 require("mini.pairs").setup()
 
--- Completion ----------------------------------------------------------------
+-- [[ Completion ]] ----------------------------------------------------------
 require("mini.completion").setup()
 vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
@@ -633,7 +635,7 @@ local on_attach = function(_, bufnr)
   end, { desc = "Format current buffer with LSP" })
 end
 
--- CLues (Whichkey Ersatz) ---------------------------------------------------
+-- [[ Clues (Whichkey Ersatz) ]] ---------------------------------------------
 local miniclue = require("mini.clue")
 miniclue.setup({
   triggers = {
@@ -706,6 +708,7 @@ miniclue.setup({
 --  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 --}
 
+-- [[ Mason Setup ]] ---------------------------------------------------------
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require("mason").setup()
