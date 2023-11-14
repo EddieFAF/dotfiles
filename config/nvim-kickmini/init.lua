@@ -33,8 +33,8 @@ require("lazy").setup({
     "echasnovski/mini.nvim",
     version = false,
     dependencies = {
-      'nvim-tree/nvim-web-devicons',
-      'lewis6991/gitsigns.nvim'
+      "nvim-tree/nvim-web-devicons",
+      "lewis6991/gitsigns.nvim",
     },
   },
 
@@ -47,7 +47,19 @@ require("lazy").setup({
       "williamboman/mason-lspconfig.nvim",
 
       -- Useful status updates for LSP
-      { "j-hui/fidget.nvim", tag = "legacy", opts = {} },
+      {
+        "j-hui/fidget.nvim",
+        opts = {
+          progress = {
+            display = {
+              progress_icon = { pattern = "dots", period = 1 },
+            },
+          },
+          notification = {
+            override_vim_notify = true,
+          },
+        },
+      },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       "folke/neodev.nvim",
@@ -73,20 +85,20 @@ require("lazy").setup({
   },
 
   {
-    'lewis6991/gitsigns.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       signs = {
         -- add = { text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
         -- change = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
         -- delete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
         -- topdelete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        add = { text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-        change = { text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        delete = { text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        topdelete = { text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-        changedelete = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-        untracked = { text = '│' },
+        add = { text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+        change = { text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+        delete = { text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+        topdelete = { text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+        changedelete = { text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+        untracked = { text = "│" },
       },
       signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
       numhl = false,
@@ -99,7 +111,7 @@ require("lazy").setup({
       current_line_blame = true,
       current_line_blame_opts = {
         virt_text = true,
-        virt_text_pos = 'right_align', -- 'eol' | 'overlay' | 'right_align'
+        virt_text_pos = "right_align", -- 'eol' | 'overlay' | 'right_align'
         delay = 1000,
       },
       sign_priority = 6,
@@ -107,9 +119,9 @@ require("lazy").setup({
       status_formatter = nil, -- Use default
       preview_config = {
         -- Options passed to nvim_open_win
-        border = 'single',
-        style = 'minimal',
-        relative = 'cursor',
+        border = "single",
+        style = "minimal",
+        relative = "cursor",
         row = 0,
         col = 1,
       },
@@ -149,10 +161,12 @@ require("lazy").setup({
 }, {})
 
 -- [[ Keymappings ]] ---------------------------------------------------------
-vim.keymap.set("n", "<esc>", ':noh<cr><esc>', { desc = "Remove Search Highlight" })
-vim.keymap.set("n", "<S-l>", ':bnext<cr>', { desc = "Next Buffer" })
-vim.keymap.set("n", "<S-h>", ':bprevious<cr>', { desc = "Previous Buffer" })
+vim.keymap.set("n", "<esc>", ":noh<cr><esc>", { desc = "Remove Search Highlight" })
+vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "Previous Buffer" })
 vim.keymap.set("n", "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", { desc = "Buffer Delete" })
+vim.keymap.set("n", "<leader>L", ":Lazy<cr>", { desc = "Lazy" })
+vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
 
 -- [[ Autocommands ]] --------------------------------------------------------
 local function augroup(name)
@@ -197,16 +211,16 @@ vim.opt.scrolloff = 5
 vim.opt.title = true
 vim.opt.titlelen = 0
 vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.listchars = {
-  eol = '↲',
-  tab = '▸ ',
-  trail = '·',
-  nbsp = '_',
-  extends = '›',
-  precedes = '‹',
+  eol = "↲",
+  tab = "▸ ",
+  trail = "·",
+  nbsp = "_",
+  extends = "›",
+  precedes = "‹",
 }
 vim.opt.list = true
 --vim.opt.foldmethod = "syntax"
@@ -214,7 +228,6 @@ vim.opt.list = true
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
-
 
 -- [[ Configure Mini.nvim ]] -------------------------------------------------
 -- Collection of basic options
@@ -246,8 +259,7 @@ require("mini.basics").setup({
 })
 
 -- [[ Color Palette ]] -------------------------------------------------------
-require("colors.base16-everforest")
-
+require("colors.base16-catppuccin-mocha")
 
 -- local use_cterm, palette
 -- palette = {
@@ -281,18 +293,18 @@ require("mini.comment").setup()
 require("mini.cursorword").setup()
 
 -- [[ Files ]] ---------------------------------------------------------------
-require('mini.files').setup({
+require("mini.files").setup({
   mappings = {
     -- Here 'L' will also close explorer after opening file.
     -- Switch to `go_in` if you want to not close explorer.
-    go_in = '',
-    go_in_plus = 'L',
-    go_out = 'H',
-    go_out_plus = '',
+    go_in = "",
+    go_in_plus = "L",
+    go_out = "H",
+    go_out_plus = "",
     -- Will be overriden by manual `<BS>`, which seems wasteful
-    reset = '',
+    reset = "",
     -- Overrides built-in `?` for backward search
-    show_help = '?',
+    show_help = "?",
   },
 
   -- Only automated preview is possible
@@ -306,23 +318,27 @@ local go_in_plus = function()
     MiniFiles.go_in()
   end
   local fs_entry = MiniFiles.get_fs_entry()
-  local is_at_file = fs_entry ~= nil and fs_entry.fs_type == 'file'
+  local is_at_file = fs_entry ~= nil and fs_entry.fs_type == "file"
   MiniFiles.go_in()
-  if is_at_file then MiniFiles.close() end
+  if is_at_file then
+    MiniFiles.close()
+  end
 end
 
-vim.api.nvim_create_autocmd('User', {
-  pattern = 'MiniFilesBufferCreate',
+vim.api.nvim_create_autocmd("User", {
+  pattern = "MiniFilesBufferCreate",
   callback = function(args)
-    local map_buf = function(lhs, rhs) vim.keymap.set('n', lhs, rhs, { buffer = args.data.buf_id }) end
+    local map_buf = function(lhs, rhs)
+      vim.keymap.set("n", lhs, rhs, { buffer = args.data.buf_id })
+    end
 
-    map_buf('<CR>', go_in_plus)
-    map_buf('<Right>', go_in_plus)
+    map_buf("<CR>", go_in_plus)
+    map_buf("<Right>", go_in_plus)
 
-    map_buf('<BS>', MiniFiles.go_out)
-    map_buf('<Left>', MiniFiles.go_out)
+    map_buf("<BS>", MiniFiles.go_out)
+    map_buf("<Left>", MiniFiles.go_out)
 
-    map_buf('<Esc>', MiniFiles.close)
+    map_buf("<Esc>", MiniFiles.close)
 
     -- Add extra mappings from *MiniFiles-examples*
   end,
@@ -340,10 +356,10 @@ require("mini.jump2d").setup({
 })
 
 -- [[ MiniMap ]] -------------------------------------------------------------
-local map = require('mini.map')
+local map = require("mini.map")
 map.setup({
   symbols = {
-    encode = require('mini.map').gen_encode_symbols.dot '4x2',
+    encode = require("mini.map").gen_encode_symbols.dot("4x2"),
   },
   integrations = {
     map.gen_integration.builtin_search(),
@@ -352,27 +368,27 @@ map.setup({
   },
   window = {
     width = 20,
-  }
+  },
 })
-vim.keymap.set('n', '<Leader>mc', MiniMap.close, { desc = "Minimap Close" })
-vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus, { desc = "Minimap Focus" })
-vim.keymap.set('n', '<Leader>mo', MiniMap.open, { desc = "Minimap Open" })
-vim.keymap.set('n', '<Leader>mr', MiniMap.refresh, { desc = "Minimap Refresh" })
-vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side, { desc = "Minimap Swap Side" })
-vim.keymap.set('n', '<Leader>mt', MiniMap.toggle, { desc = "Minimap Toggle" })
+vim.keymap.set("n", "<Leader>mc", MiniMap.close, { desc = "Minimap Close" })
+vim.keymap.set("n", "<Leader>mf", MiniMap.toggle_focus, { desc = "Minimap Focus" })
+vim.keymap.set("n", "<Leader>mo", MiniMap.open, { desc = "Minimap Open" })
+vim.keymap.set("n", "<Leader>mr", MiniMap.refresh, { desc = "Minimap Refresh" })
+vim.keymap.set("n", "<Leader>ms", MiniMap.toggle_side, { desc = "Minimap Swap Side" })
+vim.keymap.set("n", "<Leader>mt", MiniMap.toggle, { desc = "Minimap Toggle" })
 
 -- [[ HiPatterns ]] ----------------------------------------------------------
-local hi = require 'mini.hipatterns'
+local hi = require("mini.hipatterns")
 hi.setup({
   highlighters = {
     -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-    fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-    hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
-    todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
-    note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+    fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+    hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+    todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+    note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
 
     hex_color = hi.gen_highlighter.hex_color(),
-  }
+  },
 })
 
 -- [[ Animated indentation guide ]] ------------------------------------------
@@ -396,12 +412,12 @@ require("mini.starter").setup({
 
 -- [[ Statusline ]] ----------------------------------------------------------
 local lsp_client = function(msg)
-  msg = msg or ''
-  local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
+  msg = msg or ""
+  local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
 
   if next(buf_clients) == nil then
-    if type(msg) == 'boolean' or #msg == 0 then
-      return ''
+    if type(msg) == "boolean" or #msg == 0 then
+      return ""
     end
     return msg
   end
@@ -410,7 +426,7 @@ local lsp_client = function(msg)
 
   -- add client
   for _, client in pairs(buf_clients) do
-    if client.name ~= 'null-ls' then
+    if client.name ~= "null-ls" then
       table.insert(buf_client_names, client.name)
     end
   end
@@ -424,7 +440,7 @@ local lsp_client = function(msg)
     end
   end
   table.sort(client_names)
-  return 'LSP:' .. table.concat(client_names, ', ')
+  return "LSP:" .. table.concat(client_names, ", ")
 end
 
 require("mini.statusline").setup({
@@ -459,12 +475,11 @@ require("mini.statusline").setup({
         { hl = 'MoreMsg',                strings = { searchcount } },
         { hl = mode_hl,                  strings = { location2 } },
       })
-    end
+    end,
   },
   use_icons = true,
   set_vim_settings = true,
-}
-)
+})
 
 -- [[ Tabline ]] -------------------------------------------------------------
 require("mini.tabline").setup()
@@ -481,7 +496,6 @@ vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 --require('mini.hues').setup({ background = '#002734', foreground = '#c0c8cc', n_hues = 6 })
 --vim.cmd.colo("randomhue")
 --vim.cmd('hi MiniTablineCurrent gui=underline')
-
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
 require("mini.extra").setup()
