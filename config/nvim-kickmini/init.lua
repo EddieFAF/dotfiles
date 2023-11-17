@@ -170,6 +170,14 @@ vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
 -- increment/decrement
 vim.keymap.set('n', '-', '<C-x>', { desc ='decrement'})
 vim.keymap.set('n', '+', '<C-a>', { desc ='increment'})
+-- Split window
+vim.keymap.set("n", "<leader>ss", ":split<CR>", { desc = "Split horizontal"})
+vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertical"})
+-- Move window
+vim.keymap.set("n", "<leader>sh", "<C-w>h", { desc = "Window left"})
+vim.keymap.set("n", "<leader>sk", "<C-w>k", { desc = "Window up"})
+vim.keymap.set("n", "<leader>sj", "<C-w>j", { desc = "Window down"})
+vim.keymap.set("n", "<leader>sl", "<C-w>l", { desc = "Window right"})
 
 -- [[ Autocommands ]] --------------------------------------------------------
 local function augroup(name)
@@ -508,7 +516,8 @@ require("mini.pick").setup()
 
 vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
 
-vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
+--vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>ff", ':Pick files<cr>', { noremap = true, silent = true, desc = "Find Files" })
 vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
 vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
 vim.keymap.set("n", "<leader>sr", MiniPick.builtin.resume, { desc = "[S]earch [R]esume" })
