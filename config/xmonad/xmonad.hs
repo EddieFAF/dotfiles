@@ -32,6 +32,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeWindows
+import XMonad.Hooks.FloatNext
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
@@ -102,7 +103,7 @@ myModMask :: KeyMask
 myModMask = mod4Mask
 
 --myBrowser = "qutebrowser "
-myBrowser = "vivaldi-stable "
+myBrowser = "brave "
 
 altMask :: KeyMask
 altMask = mod1Mask
@@ -222,19 +223,6 @@ multiScreenFocusHook MotionEvent {ev_x = x, ev_y = y} = do
     focusWS ids = windows (W.view ids)
 multiScreenFocusHook _ = return (All True)
 
-spawnSelected' :: [(String, String)] -> X ()
-spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
-  where
-    conf =
-      def
-        { gs_cellheight = 40,
-          gs_cellwidth = 200,
-          gs_cellpadding = 6,
-          gs_originFractX = 0.5,
-          gs_originFractY = 0.5,
-          gs_font = myFont
-        }
-
 ------------------------------------------------------------------------
 -- desktop notifications -- dunst package required
 ------------------------------------------------------------------------
@@ -324,6 +312,7 @@ myKeys =
     ("M-t", withFocused $ windows . W.sink), -- Push floating window back to tile
     ("M-S-t", sinkAll), -- Push ALL floating windows back to tile
     ("M-C-<Space>", withFocused toggleFloat),
+    ("M-S-e", toggleFloatNext),
     -- Window Movement
     ("M-<Right>", sendMessage $ Go LWN.R),
     ("M-<Left>", sendMessage $ Go LWN.L),
@@ -373,8 +362,8 @@ myKeys =
     ("M-C-m", withFocused (sendMessage . MergeAll)),
     ("M-C-u", withFocused (sendMessage . UnMerge)),
     ("M-C-/", withFocused (sendMessage . UnMergeAll)),
-    ("M-C-.", onGroup W.focusUp'), -- Switch focus to next tab
-    ("M-C-,", onGroup W.focusDown'), -- Switch focus to prev tab
+    ("M-C-,", onGroup W.focusUp'), -- Switch focus to next tab
+    ("M-C-.", onGroup W.focusDown'), -- Switch focus to prev tab
 
     -- KB_GROUP Scratchpads
     -- Toggle show/hide these programs.  They run on a hidden workspace.
@@ -391,6 +380,7 @@ myKeys =
     ("C-M1-e", spawn "arcolinux-tweak-tool"),
     ("C-M1-p", spawn "pamac-manager"),
     ("C-S-<ESC>", spawn "xfce4-taskmanager"),
+    ("M-<F11>", spawn "/home/eddie/.config/rofi/launchers/type-2/launcher.sh"),
     ("M-<F3>", spawn "rofi -show ssh -theme ~/.config/rofi.eddie/ssh.rasi"),
     ("M-<F2>", spawn "rofi -show drun"),
 --    ("S-M1-k", spawn "rofi -show linkding -modi linkding:$HOME/.local/bin/rofi-linkding"),
@@ -637,7 +627,7 @@ myTabConfig =
   def
     { fontName = myFont,
       activeColor = myFocusColor,
-      inactiveColor = color07,
+      inactiveColor = color08,
       activeBorderColor = myFocusColor,
       inactiveBorderColor = colorBack,
       activeTextColor = colorBack,
@@ -650,11 +640,11 @@ myTabConfig =
 myColorizer :: Window -> Bool -> X (String, String)
 myColorizer =
   colorRangeFromClassName
-    (0x1a, 0x1b, 0x29) -- lowest inactive bg
-    (0x1a, 0x1b, 0x29) -- highest inactive bg
+    (0x28, 0x2c, 0x34) -- lowest inactive bg
+    (0x28, 0x2c, 0x34) -- highest inactive bg
     (0xc7, 0x92, 0xea) -- active bg
     (0xc0, 0xa7, 0x9a) -- inactive fg
-    (0x1a, 0x1b, 0x29) -- active fg
+    (0x28, 0x2c, 0x34) -- active fg
 
 -- gridSelect menu layout
 myGridConfig :: p -> GSConfig Window
@@ -668,8 +658,21 @@ myGridConfig colorizer =
       gs_font = myFont
     }
 
+spawnSelected' :: [(String, String)] -> X ()
+spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
+  where
+    conf =
+      def
+        { gs_cellheight = 40,
+          gs_cellwidth = 200,
+          gs_cellpadding = 6,
+          gs_originFractX = 0.5,
+          gs_originFractY = 0.5,
+          gs_font = myFont
+        }
+
 myAppGrid =
-  [ ("Kitty", "alacritty"),
+  [ ("Kitty", "kitty"),
     ("Brave", "brave"),
     ("Emacs", "emacsclient -c -a emacs"),
     ("Firefox", "firefox"),
@@ -709,8 +712,8 @@ myScratchPads =
     findTerm = title =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
       where
-        h = 0.8
-        w = 0.8
+        h = 0.9
+        w = 0.9
         t = (1 - h) / 2
         l = (1 - w) / 2
     spawnAudio = myTerminal ++ " -t audio -e ncmpcpp"
@@ -750,7 +753,7 @@ myConfig =
   def
     { modMask = myModMask, -- Rebind Mod to the Super key
       layoutHook = showWName' myShowWNameConfig $ myLayout, -- Use custom layouts
-      manageHook = myManageHook, -- Match on certain windows
+      manageHook = floatNextHook <> myManageHook, -- Match on certain windows
       workspaces = withScreens 2 myWorkspaces,
       focusFollowsMouse = myFocusFollowsMouse,
       clickJustFocuses = myClickJustFocuses,

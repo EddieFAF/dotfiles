@@ -167,6 +167,9 @@ vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "Previous Buffer" })
 vim.keymap.set("n", "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", { desc = "Buffer Delete" })
 vim.keymap.set("n", "<leader>L", ":Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
+-- increment/decrement
+vim.keymap.set('n', '-', '<C-x>', { desc ='decrement'})
+vim.keymap.set('n', '+', '<C-a>', { desc ='increment'})
 
 -- [[ Autocommands ]] --------------------------------------------------------
 local function augroup(name)
