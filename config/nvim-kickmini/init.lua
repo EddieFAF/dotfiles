@@ -67,22 +67,22 @@ require("lazy").setup({
   },
 
   -- Fuzzy Finder (files, lsp, etc)
-  {
-    "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      -- Only load if `make` is available. Make sure you have the system
-      -- requirements installed.
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-        cond = function()
-          return vim.fn.executable("make") == 1
-        end,
-      },
-    },
-  },
+  -- {
+  --   "nvim-telescope/telescope.nvim",
+  --   branch = "0.1.x",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     -- Only load if `make` is available. Make sure you have the system
+  --     -- requirements installed.
+  --     {
+  --       "nvim-telescope/telescope-fzf-native.nvim",
+  --       build = "make",
+  --       cond = function()
+  --         return vim.fn.executable("make") == 1
+  --       end,
+  --     },
+  --   },
+  -- },
 
   {
     "lewis6991/gitsigns.nvim",
@@ -629,10 +629,10 @@ local on_attach = function(_, bufnr)
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-  nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-  nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-  nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+--  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  -- nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+  -- nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+  -- nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
   --nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
 
@@ -642,7 +642,7 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-  nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+  -- nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
   nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
   nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
   nmap("<leader>wl", function()
