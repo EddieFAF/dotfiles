@@ -384,6 +384,16 @@ require("mini.jump2d").setup({
     dim = true,
   },
 })
+vim.keymap.set("n", "gl", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
+  { desc = "Jump2d Line Start" })
+vim.keymap.set("n", "gm", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
+  { desc = "Jump2d Word Start" })
+vim.keymap.set("n", "g!", function()
+    MiniJump2d.start({
+      spotter = MiniJump2d.gen_pattern_spotter("['\"`]"),
+    })
+  end,
+  { desc = "Jump2d Quote" })
 
 -- [[ Jump ]] --------------------------------------------------------------
 require("mini.jump").setup({
