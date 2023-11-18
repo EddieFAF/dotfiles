@@ -66,24 +66,6 @@ require("lazy").setup({
     },
   },
 
-  -- Fuzzy Finder (files, lsp, etc)
-  -- {
-  --   "nvim-telescope/telescope.nvim",
-  --   branch = "0.1.x",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     -- Only load if `make` is available. Make sure you have the system
-  --     -- requirements installed.
-  --     {
-  --       "nvim-telescope/telescope-fzf-native.nvim",
-  --       build = "make",
-  --       cond = function()
-  --         return vim.fn.executable("make") == 1
-  --       end,
-  --     },
-  --   },
-  -- },
-
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -168,16 +150,50 @@ vim.keymap.set("n", "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<c
 vim.keymap.set("n", "<leader>L", ":Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
 -- increment/decrement
-vim.keymap.set('n', '-', '<C-x>', { desc ='decrement'})
-vim.keymap.set('n', '+', '<C-a>', { desc ='increment'})
+vim.keymap.set('n', '-', '<C-x>', { desc = 'decrement' })
+vim.keymap.set('n', '+', '<C-a>', { desc = 'increment' })
 -- Split window
-vim.keymap.set("n", "<leader>ss", ":split<CR>", { desc = "Split horizontal"})
-vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertical"})
+vim.keymap.set("n", "<leader>ss", ":split<CR>", { desc = "Split horizontal" })
+vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertical" })
 -- Move window
-vim.keymap.set("n", "<leader>sh", "<C-w>h", { desc = "Window left"})
-vim.keymap.set("n", "<leader>sk", "<C-w>k", { desc = "Window up"})
-vim.keymap.set("n", "<leader>sj", "<C-w>j", { desc = "Window down"})
-vim.keymap.set("n", "<leader>sl", "<C-w>l", { desc = "Window right"})
+vim.keymap.set("n", "<leader>sh", "<C-w>h", { desc = "Window left" })
+vim.keymap.set("n", "<leader>sk", "<C-w>k", { desc = "Window up" })
+vim.keymap.set("n", "<leader>sj", "<C-w>j", { desc = "Window down" })
+vim.keymap.set("n", "<leader>sl", "<C-w>l", { desc = "Window right" })
+vim.keymap.set('n', '<Leader>p', function()
+  vim.ui.select({
+      'buf_lines',
+      'buffers',
+      'cli',
+      'commands',
+      'diagnostic',
+      'explorer',
+      'files',
+      'git_branches',
+      'git_commits',
+      'git_files',
+      'hit_hunks',
+      'grep',
+      'grep_live',
+      'help',
+      'hipatterns',
+      'history',
+      'hl_groups',
+      'keymaps',
+      'list',
+      'lsp',
+      'makrs',
+      'oldfiles',
+      'options',
+      'registers',
+      'resume',
+      'spellsuggest',
+      'treesitter'
+    }, { prompt = "Pick " },
+    function(choice)
+      return vim.cmd({ cmd = 'Pick', args = { choice } })
+    end)
+end)
 
 -- [[ Autocommands ]] --------------------------------------------------------
 local function augroup(name)
@@ -297,6 +313,9 @@ require("colors.base16-catppuccin-mocha")
 --   vim.g.colors_name = "base16-tokyo-night-dark"
 -- end
 
+-- [[ Bracketed ]] -----------------------------------------------------------
+require("mini.bracketed").setup()
+
 -- [[ 'gc' to toggle comment ]] ----------------------------------------------
 require("mini.comment").setup()
 
@@ -366,6 +385,10 @@ require("mini.jump2d").setup({
   },
 })
 
+-- [[ Jump ]] --------------------------------------------------------------
+require("mini.jump").setup({
+})
+
 -- [[ MiniMap ]] -------------------------------------------------------------
 local map = require("mini.map")
 map.setup({
@@ -419,6 +442,25 @@ require("mini.move").setup()
 require("mini.starter").setup({
   autoopen = true,
   evaluate_single = true,
+  items = {
+    require("mini.starter").sections.builtin_actions(),
+    require("mini.starter").sections.recent_files(10, false),
+    {
+      action = 'Lazy',
+      name = 'Lazy',
+      section = 'Plugin Actions',
+    },
+    {
+      action = 'Mason',
+      name = 'Mason',
+      section = 'Plugin Actions',
+    },
+  },
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "Starter", "starter" },
+  command = "lua vim.b.ministatusline_disable = true"
 })
 
 -- [[ Statusline ]] ----------------------------------------------------------
@@ -513,6 +555,7 @@ require("mini.extra").setup()
 
 -- [[ Configure Mini.pick ]] -------------------------------------------------
 require("mini.pick").setup()
+vim.ui.select = MiniPick.ui_select
 
 vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
 
@@ -638,11 +681,10 @@ local on_attach = function(_, bufnr)
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
---  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-  -- nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-  -- nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-  -- nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-  --nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+  nmap("<leader>gd", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
+  nmap("<leader>gr", "<cmd>:Pick lsp scope='references'<cr>", "[G]oto [R]eferences")
+  nmap("<leader>gI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
+  nmap("<leader>D", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type [D]efinition")
   nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
 
   -- See `:help K` for why this keymap
@@ -651,7 +693,7 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-  -- nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+  nmap("<leader>ws", "<cmd>:Pick lsp scope='workspace_symbol'<cr>", "[W]orkspace [S]ymbols")
   nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
   nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
   nmap("<leader>wl", function()
@@ -716,7 +758,7 @@ miniclue.setup({
   },
   window = {
     config = {
-      anchor = "SW",
+      anchor = "SE",
       row = "auto",
       col = "auto",
       width = "auto",
