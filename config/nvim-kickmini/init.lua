@@ -255,6 +255,13 @@ vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
 -- [[ Configure Mini.nvim ]] -------------------------------------------------
+
+-- [[ AI ]] ------------------------------------------------------------------
+require("mini.ai").setup()
+
+-- [[ Animate ]] -------------------------------------------------------------
+require("mini.animate").setup()
+
 -- Collection of basic options
 require("mini.basics").setup({
   options = {
@@ -320,6 +327,9 @@ end
 
 -- [[ Bracketed ]] -----------------------------------------------------------
 require("mini.bracketed").setup()
+
+-- [[ Bufremove ]] -----------------------------------------------------------
+require("mini.bufremove").setup()
 
 -- [[ 'gc' to toggle comment ]] ----------------------------------------------
 require("mini.comment").setup()
