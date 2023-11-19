@@ -24,10 +24,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  checker = { enabled = true },
-  ui = {
-    border = "single",
-  },
   -- The star of the show
   {
     "echasnovski/mini.nvim",
@@ -140,7 +136,12 @@ require("lazy").setup({
     },
     build = ":TSUpdate",
   },
-}, {})
+}, {
+  checker = { enabled = true },
+  ui = {
+    border = "single",
+  },
+})
 
 -- [[ Keymappings ]] ---------------------------------------------------------
 vim.keymap.set("n", "<esc>", ":noh<cr><esc>", { desc = "Remove Search Highlight" })
