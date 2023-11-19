@@ -286,7 +286,14 @@ require("mini.basics").setup({
 })
 
 -- [[ Color Palette ]] -------------------------------------------------------
-require("colors.base16-catppuccin-mocha")
+--require("colors.base16-dracula")
+if vim.fn.hostname() == 'blackhole' then
+  require("colors.base16-gruvbox-dark-medium")
+elseif vim.fn.hostname() == 'atomium' then
+  require("colors.base16-colors.base16-everforest")
+else
+  require("colors.base16-colors.base16-tokyo-night-storm")
+end
 
 -- local use_cterm, palette
 -- palette = {
@@ -420,6 +427,7 @@ vim.keymap.set("n", "<Leader>mo", MiniMap.open, { desc = "Minimap Open" })
 vim.keymap.set("n", "<Leader>mr", MiniMap.refresh, { desc = "Minimap Refresh" })
 vim.keymap.set("n", "<Leader>ms", MiniMap.toggle_side, { desc = "Minimap Swap Side" })
 vim.keymap.set("n", "<Leader>mt", MiniMap.toggle, { desc = "Minimap Toggle" })
+vim.keymap.set("n", "<F5>", MiniMap.toggle, { desc = "Minimap Toggle" })
 
 -- [[ HiPatterns ]] ----------------------------------------------------------
 local hi = require("mini.hipatterns")

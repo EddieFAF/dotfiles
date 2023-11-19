@@ -712,8 +712,8 @@ myScratchPads =
     findTerm = title =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
       where
-        h = 0.9
-        w = 0.9
+        h = 0.85
+        w = 0.85
         t = (1 - h) / 2
         l = (1 - w) / 2
     spawnAudio = myTerminal ++ " -t audio -e ncmpcpp"
