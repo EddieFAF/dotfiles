@@ -290,7 +290,7 @@ require("mini.basics").setup({
 if vim.fn.hostname() == 'blackhole' then
   require("colors.base16-gruvbox-dark-medium")
 elseif vim.fn.hostname() == 'atomium' then
-  require("colors.base16-colors.base16-everforest")
+  require("colors.base16-everforest")
 else
   require("colors.base16-tokyo-night-storm")
 end
