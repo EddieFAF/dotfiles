@@ -233,7 +233,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("User", {
   group = augroup("disable_statusbar_on_starter"),
-  pattern = {'MiniStarterOpened' },
+  pattern = { 'MiniStarterOpened' },
   callback = function()
     vim.b.ministatusline_disable = true
   end,
@@ -500,7 +500,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- [[ Statusline ]] ----------------------------------------------------------
 local lsp_client = function(msg)
   msg = msg or ""
-  local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+  local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
 
   if next(buf_clients) == nil then
     if type(msg) == "boolean" or #msg == 0 then
@@ -575,9 +575,35 @@ require("mini.tabline").setup()
 require("mini.pairs").setup()
 
 -- [[ Completion ]] ----------------------------------------------------------
-require("mini.completion").setup()
+require("mini.completion").setup({
+  window = {
+    info = { height = 25, width = 80, border = 'single' },
+    signature = { height = 25, width = 80, border = 'double' },
+  },
+})
+
 vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
+local keys = {
+  ['cr']        = vim.api.nvim_replace_termcodes('<CR>', true, true, true),
+  ['ctrl-y']    = vim.api.nvim_replace_termcodes('<C-y>', true, true, true),
+  ['ctrl-y_cr'] = vim.api.nvim_replace_termcodes('<C-y><CR>', true, true, true),
+}
+
+_G.cr_action = function()
+  if vim.fn.pumvisible() ~= 0 then
+    -- If popup is visible, confirm selected item or add new line otherwise
+    local item_selected = vim.fn.complete_info()['selected'] ~= -1
+    return item_selected and keys['ctrl-y'] or keys['ctrl-y_cr']
+  else
+    -- If popup is not visible, use plain `<CR>`. You might want to customize
+    -- according to other plugins. For example, to use 'mini.pairs', replace
+    -- next line with `return require('mini.pairs').cr()`
+    return keys['cr']
+  end
+end
+
+vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
 
 --require("mini.hues").setup({ background = "#002734", foreground = "#c0c8cc" }) -- azure
 --require('mini.hues').setup({ background = '#002734', foreground = '#c0c8cc', n_hues = 6 })
