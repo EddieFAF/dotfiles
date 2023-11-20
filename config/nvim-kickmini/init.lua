@@ -231,6 +231,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+  group = augroup("disable_statusbar_on_starter"),
+  pattern = {'MiniStarterOpened' },
+  callback = function()
+    vim.b.ministatusline_disable = true
+  end,
+})
+
 -- [[ Settings options ]] ----------------------------------------------------
 vim.opt.scrolloff = 5
 vim.opt.title = true
@@ -293,7 +301,7 @@ require("mini.basics").setup({
 -- [[ Color Palette ]] -------------------------------------------------------
 --require("colors.base16-dracula")
 if vim.fn.hostname() == 'blackhole' then
-  require("colors.base16-gruvbox-dark-medium")
+  require("colors.base16-default-dark")
 elseif vim.fn.hostname() == 'atomium' then
   require("colors.base16-everforest")
 else
