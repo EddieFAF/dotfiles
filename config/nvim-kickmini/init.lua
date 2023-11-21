@@ -484,9 +484,17 @@ require("mini.indentscope").setup({
 require("mini.move").setup()
 
 -- [[ Starter ]] -------------------------------------------------------------
+local logo = table.concat({
+"     _____  .__       .______   ____.__             ",
+"    /     \\ |__| ____ |__\\   \\ /   /|__| _____   ",
+"   /  \\ /  \\|  |/    \\|  |\\   Y   / |  |/     \\  ",
+"  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ",
+"  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ",
+"          \\/        \\/                       \\/  " }, "\n")
 require("mini.starter").setup({
   autoopen = true,
   evaluate_single = true,
+  header = logo,
   items = {
     require("mini.starter").sections.builtin_actions(),
     require("mini.starter").sections.recent_files(10, false),
