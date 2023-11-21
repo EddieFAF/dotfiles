@@ -10,6 +10,7 @@
 ******************************************************************************
 
 --]]
+
 -- Set <space> as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -28,6 +29,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Starting setup of plugins
 require("lazy").setup({
   -- The star of the show
   {
@@ -68,6 +70,7 @@ require("lazy").setup({
   },
 
   {
+    -- show gitstatus in statuscolumn and more
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     opts = {
@@ -236,6 +239,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- disable statusline in starter window
 vim.api.nvim_create_autocmd("User", {
   group = augroup("disable_statusbar_on_starter"),
   pattern = { 'MiniStarterOpened' },
@@ -277,7 +281,7 @@ require("mini.ai").setup()
 -- [[ Animate ]] -------------------------------------------------------------
 require("mini.animate").setup()
 
--- Collection of basic options
+-- [[ Collection of basic options ]] -----------------------------------------
 require("mini.basics").setup({
   options = {
     basic = true,
@@ -499,11 +503,6 @@ require("mini.starter").setup({
   },
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "Starter", "starter" },
-  command = "lua vim.b.ministatusline_disable = true"
-})
-
 -- [[ Statusline ]] ----------------------------------------------------------
 local lsp_client = function(msg)
   msg = msg or ""
@@ -553,7 +552,7 @@ require("mini.statusline").setup({
       local location2     = "%7(%l/%3L%):%2c %P"
       local lazy_updates  = require("lazy.status").updates
       local spaces        = function()
-        local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
+        local shiftwidth = vim.api.nvim_get_option_value("shiftwidth",{ buf=0 })
         return "SPC:" .. shiftwidth
       end
 
@@ -626,8 +625,8 @@ vim.ui.select = MiniPick.ui_select
 
 vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
 
---vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>ff", ':Pick files<cr>', { noremap = true, silent = true, desc = "Find Files" })
+vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
+--vim.keymap.set("n", "<leader>ff", ':Pick files<cr>', { noremap = true, silent = true, desc = "Find Files" })
 vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
 vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
 vim.keymap.set("n", "<leader>sr", MiniPick.builtin.resume, { desc = "[S]earch [R]esume" })
@@ -773,7 +772,7 @@ local on_attach = function(_, bufnr)
   end, { desc = "Format current buffer with LSP" })
 end
 
--- [[ Clues (Whichkey Ersatz) ]] ---------------------------------------------
+-- [[ Clues (Whichkey replacement) ]] ----------------------------------------
 local miniclue = require("mini.clue")
 miniclue.setup({
   triggers = {
@@ -834,17 +833,6 @@ miniclue.setup({
     delay = 200,
   },
 })
-
--- document existing key chains
---require('which-key').register {
---  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
---  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
---  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
---  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
---  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
---  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
---  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
---}
 
 -- [[ Mason Setup ]] ---------------------------------------------------------
 -- mason-lspconfig requires that these setup functions are called in this order
