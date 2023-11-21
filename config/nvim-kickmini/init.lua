@@ -1,8 +1,13 @@
 --[[
 
-=====================================================================
-========================== KICKSTART.MINI  ==========================
-=====================================================================
+******************************************************************************
+* init.lua                                                                   *
+* Neovim config mostly based on mini.nvim from echasnovski                   *
+* written by EddieFAF                                                        *
+*                                                                            *
+* version 0.1                                                                *
+* initial release                                                            *
+******************************************************************************
 
 --]]
 -- Set <space> as the leader key
@@ -27,7 +32,7 @@ require("lazy").setup({
   -- The star of the show
   {
     "echasnovski/mini.nvim",
-    version = false,
+    version = 'false',
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "lewis6991/gitsigns.nvim",
