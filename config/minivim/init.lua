@@ -152,7 +152,6 @@ require("lazy").setup({
 vim.keymap.set("n", "<esc>", ":noh<cr><esc>", { desc = "Remove Search Highlight" })
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "Previous Buffer" })
-vim.keymap.set("n", "<leader>bd", "<cmd>lua require('mini.bufremove').delete()<cr>", { desc = "Buffer Delete" })
 vim.keymap.set("n", "<leader>L", ":Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
 -- increment/decrement
@@ -312,7 +311,7 @@ require("mini.basics").setup({
 -- [[ Color Palette ]] -------------------------------------------------------
 --require("colors.base16-dracula")
 if vim.fn.hostname() == 'blackhole' then
-  require("colors.base16-default-dark")
+  require("colors.base16-onedark")
 elseif vim.fn.hostname() == 'atomium' then
   require("colors.base16-everforest")
 else
@@ -349,6 +348,11 @@ require("mini.bracketed").setup()
 
 -- [[ Bufremove ]] -----------------------------------------------------------
 require("mini.bufremove").setup()
+vim.keymap.set("n", '<leader>bd', '<Cmd>lua MiniBufremove.delete()<CR>', { desc = 'Delete buffer' })
+vim.keymap.set("n", '<leader>bD', '<Cmd>lua MiniBufremove.delete(0,  true)<CR>', { desc = 'Delete! buffer' })
+
+vim.keymap.set("n", '<leader>bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', { desc = 'Wipeout buffer' })
+vim.keymap.set("n", '<leader>bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', { desc = 'Wipeout! buffer' })
 
 -- [[ 'gc' to toggle comment ]] ----------------------------------------------
 require("mini.comment").setup()
@@ -485,12 +489,12 @@ require("mini.move").setup()
 
 -- [[ Starter ]] -------------------------------------------------------------
 local logo = table.concat({
-"     _____  .__       .______   ____.__             ",
-"    /     \\ |__| ____ |__\\   \\ /   /|__| _____   ",
-"   /  \\ /  \\|  |/    \\|  |\\   Y   / |  |/     \\  ",
-"  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ",
-"  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ",
-"          \\/        \\/                       \\/  " }, "\n")
+  "     _____  .__       .______   ____.__             ",
+  "    /     \\ |__| ____ |__\\   \\ /   /|__| _____   ",
+  "   /  \\ /  \\|  |/    \\|  |\\   Y   / |  |/     \\  ",
+  "  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ",
+  "  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ",
+  "          \\/        \\/                       \\/  " }, "\n")
 require("mini.starter").setup({
   autoopen = true,
   evaluate_single = true,
@@ -560,7 +564,7 @@ require("mini.statusline").setup({
       local location2     = "%7(%l/%3L%):%2c %P"
       local lazy_updates  = require("lazy.status").updates
       local spaces        = function()
-        local shiftwidth = vim.api.nvim_get_option_value("shiftwidth",{ buf=0 })
+        local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
         return "SPC:" .. shiftwidth
       end
 
