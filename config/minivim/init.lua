@@ -57,9 +57,17 @@ require("lazy").setup({
             display = {
               progress_icon = { pattern = "dots", period = 1 },
             },
+            ignore = {
+              "null-ls",
+              "tailwindcss",
+            },
           },
           notification = {
             override_vim_notify = true,
+            window = {
+              winblend = 150,
+              max_width = 200,
+            },
           },
         },
       },
@@ -155,8 +163,8 @@ vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "Previous Buffer" })
 vim.keymap.set("n", "<leader>L", ":Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
 -- increment/decrement
-vim.keymap.set('n', '-', '<C-x>', { desc = 'decrement' })
-vim.keymap.set('n', '+', '<C-a>', { desc = 'increment' })
+vim.keymap.set("n", "-", "<C-x>", { desc = "decrement" })
+vim.keymap.set("n", "+", "<C-a>", { desc = "increment" })
 -- Split window
 vim.keymap.set("n", "<leader>ss", ":split<CR>", { desc = "Split horizontal" })
 vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertical" })
@@ -165,39 +173,38 @@ vim.keymap.set("n", "<leader>sh", "<C-w>h", { desc = "Window left" })
 vim.keymap.set("n", "<leader>sk", "<C-w>k", { desc = "Window up" })
 vim.keymap.set("n", "<leader>sj", "<C-w>j", { desc = "Window down" })
 vim.keymap.set("n", "<leader>sl", "<C-w>l", { desc = "Window right" })
-vim.keymap.set('n', '<Leader>p', function()
+vim.keymap.set("n", "<Leader>p", function()
   vim.ui.select({
-      'buf_lines',
-      'buffers',
-      'cli',
-      'commands',
-      'diagnostic',
-      'explorer',
-      'files',
-      'git_branches',
-      'git_commits',
-      'git_files',
-      'hit_hunks',
-      'grep',
-      'grep_live',
-      'help',
-      'hipatterns',
-      'history',
-      'hl_groups',
-      'keymaps',
-      'list',
-      'lsp',
-      'makrs',
-      'oldfiles',
-      'options',
-      'registers',
-      'resume',
-      'spellsuggest',
-      'treesitter'
-    }, { prompt = "Pick " },
-    function(choice)
-      return vim.cmd({ cmd = 'Pick', args = { choice } })
-    end)
+    "buf_lines",
+    "buffers",
+    "cli",
+    "commands",
+    "diagnostic",
+    "explorer",
+    "files",
+    "git_branches",
+    "git_commits",
+    "git_files",
+    "hit_hunks",
+    "grep",
+    "grep_live",
+    "help",
+    "hipatterns",
+    "history",
+    "hl_groups",
+    "keymaps",
+    "list",
+    "lsp",
+    "makrs",
+    "oldfiles",
+    "options",
+    "registers",
+    "resume",
+    "spellsuggest",
+    "treesitter",
+  }, { prompt = "Pick " }, function(choice)
+    return vim.cmd({ cmd = "Pick", args = { choice } })
+  end)
 end)
 
 -- [[ Autocommands ]] --------------------------------------------------------
@@ -241,7 +248,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- disable statusline in starter window
 vim.api.nvim_create_autocmd("User", {
   group = augroup("disable_statusbar_on_starter"),
-  pattern = { 'MiniStarterOpened' },
+  pattern = { "MiniStarterOpened" },
   callback = function()
     vim.b.ministatusline_disable = true
   end,
@@ -255,20 +262,39 @@ vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.listchars = {
-  eol = "↲",
-  tab = "▸ ",
-  trail = "·",
-  nbsp = "_",
-  extends = "›",
-  precedes = "‹",
-}
+-- vim.opt.listchars = {
+--   eol = "↲",
+--   tab = "▸ ",
+--   trail = "·",
+--   nbsp = "_",
+--   extends = "›",
+--   precedes = "‹",
+-- }
 vim.opt.list = true
 --vim.opt.foldmethod = "syntax"
 
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
+
+-- Global
+vim.opt.fillchars = {
+  fold = " ",
+  foldopen = "",
+  foldclose = "",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
+}
+vim.opt.listchars = {
+  tab = ">>>",
+  trail = "·",
+  precedes = "←",
+  extends = "→",
+  eol = "↲",
+  nbsp = "␣",
+}
+vim.o.foldnestmax = 4
 
 ------------------------------------------------------------------------------
 -- Configuration of all parts of mini.nvim                                  --
@@ -310,9 +336,9 @@ require("mini.basics").setup({
 
 -- [[ Color Palette ]] -------------------------------------------------------
 --require("colors.base16-dracula")
-if vim.fn.hostname() == 'blackhole' then
+if vim.fn.hostname() == "blackhole" then
   require("colors.base16-onedark")
-elseif vim.fn.hostname() == 'atomium' then
+elseif vim.fn.hostname() == "atomium" then
   require("colors.base16-everforest")
 else
   require("colors.base16-tokyo-night-storm")
@@ -348,11 +374,11 @@ require("mini.bracketed").setup()
 
 -- [[ Bufremove ]] -----------------------------------------------------------
 require("mini.bufremove").setup()
-vim.keymap.set("n", '<leader>bd', '<Cmd>lua MiniBufremove.delete()<CR>', { desc = 'Delete buffer' })
-vim.keymap.set("n", '<leader>bD', '<Cmd>lua MiniBufremove.delete(0,  true)<CR>', { desc = 'Delete! buffer' })
+vim.keymap.set("n", "<leader>bd", "<Cmd>lua MiniBufremove.delete()<CR>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>bD", "<Cmd>lua MiniBufremove.delete(0,  true)<CR>", { desc = "Delete! buffer" })
 
-vim.keymap.set("n", '<leader>bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', { desc = 'Wipeout buffer' })
-vim.keymap.set("n", '<leader>bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', { desc = 'Wipeout! buffer' })
+vim.keymap.set("n", "<leader>bw", "<Cmd>lua MiniBufremove.wipeout()<CR>", { desc = "Wipeout buffer" })
+vim.keymap.set("n", "<leader>bW", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", { desc = "Wipeout! buffer" })
 
 -- [[ 'gc' to toggle comment ]] ----------------------------------------------
 require("mini.comment").setup()
@@ -422,20 +448,26 @@ require("mini.jump2d").setup({
     dim = true,
   },
 })
-vim.keymap.set("n", "gl", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
-  { desc = "Jump2d Line Start" })
-vim.keymap.set("n", "gm", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
-  { desc = "Jump2d Word Start" })
+vim.keymap.set(
+  "n",
+  "gl",
+  "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
+  { desc = "Jump2d Line Start" }
+)
+vim.keymap.set(
+  "n",
+  "gm",
+  "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
+  { desc = "Jump2d Word Start" }
+)
 vim.keymap.set("n", "g!", function()
-    MiniJump2d.start({
-      spotter = MiniJump2d.gen_pattern_spotter("['\"`]"),
-    })
-  end,
-  { desc = "Jump2d Quote" })
+  MiniJump2d.start({
+    spotter = MiniJump2d.gen_pattern_spotter("['\"`]"),
+  })
+end, { desc = "Jump2d Quote" })
 
 -- [[ Jump ]] --------------------------------------------------------------
-require("mini.jump").setup({
-})
+require("mini.jump").setup({})
 
 -- [[ MiniMap ]] -------------------------------------------------------------
 local map = require("mini.map")
@@ -494,7 +526,8 @@ local logo = table.concat({
   "   /  \\ /  \\|  |/    \\|  |\\   Y   / |  |/     \\  ",
   "  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ",
   "  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ",
-  "          \\/        \\/                       \\/  " }, "\n")
+  "          \\/        \\/                       \\/  ",
+}, "\n")
 require("mini.starter").setup({
   autoopen = true,
   evaluate_single = true,
@@ -503,14 +536,14 @@ require("mini.starter").setup({
     require("mini.starter").sections.builtin_actions(),
     require("mini.starter").sections.recent_files(10, false),
     {
-      action = 'Lazy',
-      name = 'Lazy',
-      section = 'Plugin Actions',
+      action = "Lazy",
+      name = "Lazy",
+      section = "Plugin Actions",
     },
     {
-      action = 'Mason',
-      name = 'Mason',
-      section = 'Plugin Actions',
+      action = "Mason",
+      name = "Mason",
+      section = "Plugin Actions",
     },
   },
 })
@@ -595,33 +628,33 @@ require("mini.pairs").setup()
 -- [[ Completion ]] ----------------------------------------------------------
 require("mini.completion").setup({
   window = {
-    info = { height = 25, width = 80, border = 'single' },
-    signature = { height = 25, width = 80, border = 'double' },
+    info = { height = 25, width = 80, border = "single" },
+    signature = { height = 25, width = 80, border = "double" },
   },
 })
 
 vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
 local keys = {
-  ['cr']        = vim.api.nvim_replace_termcodes('<CR>', true, true, true),
-  ['ctrl-y']    = vim.api.nvim_replace_termcodes('<C-y>', true, true, true),
-  ['ctrl-y_cr'] = vim.api.nvim_replace_termcodes('<C-y><CR>', true, true, true),
+  ["cr"] = vim.api.nvim_replace_termcodes("<CR>", true, true, true),
+  ["ctrl-y"] = vim.api.nvim_replace_termcodes("<C-y>", true, true, true),
+  ["ctrl-y_cr"] = vim.api.nvim_replace_termcodes("<C-y><CR>", true, true, true),
 }
 
 _G.cr_action = function()
   if vim.fn.pumvisible() ~= 0 then
     -- If popup is visible, confirm selected item or add new line otherwise
-    local item_selected = vim.fn.complete_info()['selected'] ~= -1
-    return item_selected and keys['ctrl-y'] or keys['ctrl-y_cr']
+    local item_selected = vim.fn.complete_info()["selected"] ~= -1
+    return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
   else
     -- If popup is not visible, use plain `<CR>`. You might want to customize
     -- according to other plugins. For example, to use 'mini.pairs', replace
     -- next line with `return require('mini.pairs').cr()`
-    return keys['cr']
+    return keys["cr"]
   end
 end
 
-vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
+vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 
 --require("mini.hues").setup({ background = "#002734", foreground = "#c0c8cc" }) -- azure
 --require('mini.hues').setup({ background = '#002734', foreground = '#c0c8cc', n_hues = 6 })
