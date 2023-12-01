@@ -281,6 +281,25 @@ vim.opt.list = true
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
+vim.opt.wildmode = "list:longest,list:full"
+
+local wilder = require("wilder")
+wilder.setup({modes = {":", "/", "?"}})
+wilder.set_option("renderer", wilder.popupmenu_renderer({
+  highlighter = wilder.basic_highlighter(),
+  left = {" ", wilder.popupmenu_devicons()},
+  right = {" ", wilder.popupmenu_scrollbar({thumb_char = " "})},
+  highlights = {default = "WilderMenu", accent = "WilderAccent"}
+}))
+
+wilder.set_option("renderer", wilder.popupmenu_renderer(
+  wilder.popupmenu_border_theme({
+    highlights = {
+      border = 'Normal',
+    },
+    border = 'rounded',
+  })
+))
 
 -- Global
 vim.opt.fillchars = {
