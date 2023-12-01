@@ -40,7 +40,7 @@ require("lazy").setup({
         "lewis6991/gitsigns.nvim",
       },
     },
-
+    {"gelguy/wilder.nvim", build = ":UpdateRemotePlugins"}, -- : autocomplete
     {
       "junegunn/fzf",
       "junegunn/fzf.vim"
