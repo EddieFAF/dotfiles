@@ -40,10 +40,56 @@ require("lazy").setup({
         "lewis6991/gitsigns.nvim",
       },
     },
-    {"gelguy/wilder.nvim", build = ":UpdateRemotePlugins"}, -- : autocomplete
+    { "gelguy/wilder.nvim", build = ":UpdateRemotePlugins" }, -- : autocomplete
+    -- {
+    --   "junegunn/fzf",
+    --   "junegunn/fzf.vim"
+    -- },
+    -- {
+    --   "ibhagwan/fzf-lua",
+    --   -- optional for icon support
+    --   dependencies = { "nvim-tree/nvim-web-devicons" },
+    --   config = function()
+    --     -- calling `setup` is optional for customization
+    --     require("fzf-lua").setup({
+    --       winopts = {
+    --         win_height = 0.9,
+    --         win_width = 0.9,
+    --       },
+    --     })
+    --   end
+    -- },
     {
-      "junegunn/fzf",
-      "junegunn/fzf.vim"
+      'ibhagwan/fzf-lua',
+      event = 'VeryLazy',
+      dependencies = { 'nvim-tree/nvim-web-devicons' },
+      -- stylua: ignore
+      keys = {
+        { '<leader>/c',  function() require('fzf-lua').commands() end,        desc = 'Search commands', },
+        { '<leader>/C',  function() require('fzf-lua').command_history() end, desc = 'Search command history', },
+        { '<leader>/f',  function() require('fzf-lua').files() end,           desc = 'Find files', },
+        { '<leader>/o',  function() require('fzf-lua').oldfiles() end,        desc = 'Find files', },
+        { '<leader>/h',  function() require('fzf-lua').highlights() end,      desc = 'Search highlights', },
+        { '<leader>/M',  function() require('fzf-lua').marks() end,           desc = 'Search marks', },
+        { '<leader>/k',  function() require('fzf-lua').keymaps() end,         desc = 'Search keymaps', },
+        { '<leader>/t',  function() require('fzf-lua').treesitter() end,      desc = 'Search treesitter', },
+        { '<leader>/gf', function() require('fzf-lua').git_files() end,       desc = 'Find git files', },
+        { '<leader>/gb', function() require('fzf-lua').git_branches() end,    desc = 'Search git branches', },
+        { '<leader>/gc', function() require('fzf-lua').git_commits() end,     desc = 'Search git commits', },
+        { '<leader>/gC', function() require('fzf-lua').git_bcommits() end,    desc = 'Search git buffer commits', },
+        { '<leader>//',  function() require('fzf-lua').resume() end,          desc = 'Resume FZF', },
+      },
+      config = function()
+        local fzf = require 'fzf-lua'
+        fzf.setup {
+          keymap = {
+            fzf = {
+              ['CTRL-Q'] = 'select-all+accept',
+            },
+          },
+        }
+        fzf.register_ui_select()
+      end,
     },
     {
       -- LSP Configuration & Plugins
@@ -284,12 +330,12 @@ vim.o.timeoutlen = 300
 vim.opt.wildmode = "list:longest,list:full"
 
 local wilder = require("wilder")
-wilder.setup({modes = {":", "/", "?"}})
+wilder.setup({ modes = { ":", "/", "?" } })
 wilder.set_option("renderer", wilder.popupmenu_renderer({
   highlighter = wilder.basic_highlighter(),
-  left = {" ", wilder.popupmenu_devicons()},
-  right = {" ", wilder.popupmenu_scrollbar({thumb_char = " "})},
-  highlights = {default = "WilderMenu", accent = "WilderAccent"}
+  left = { " ", wilder.popupmenu_devicons() },
+  right = { " ", wilder.popupmenu_scrollbar({ thumb_char = " " }) },
+  highlights = { default = "WilderMenu", accent = "WilderAccent" }
 }))
 
 wilder.set_option("renderer", wilder.popupmenu_renderer(
