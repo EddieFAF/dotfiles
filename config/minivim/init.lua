@@ -578,7 +578,8 @@ hi.setup({
 
 -- [[ Animated indentation guide ]] ------------------------------------------
 require("mini.indentscope").setup({
-  symbol = "▏",
+  symbol = "│",
+  --symbol = "▏",
   options = {
     try_as_border = true,
     border = "both",
@@ -890,6 +891,7 @@ local on_attach = function(_, bufnr)
 end
 
 -- [[ Clues (Whichkey replacement) ]] ----------------------------------------
+local hints = {}
 local miniclue = require("mini.clue")
 miniclue.setup({
   triggers = {
@@ -932,6 +934,15 @@ miniclue.setup({
     miniclue.gen_clues.registers(),
     miniclue.gen_clues.windows(),
     miniclue.gen_clues.z(),
+
+    hints,
+
+    miniclue.gen_clues.windows({
+      submode_move = true,
+      submode_navigate = true,
+      submode_resize = true,
+    }),
+
     { mode = "n", keys = "<Leader>c", desc = "-> Code" },
     { mode = "n", keys = "<Leader>d", desc = "-> Document" },
     { mode = "n", keys = "<Leader>w", desc = "-> Workspace" },
@@ -946,9 +957,9 @@ miniclue.setup({
       row = "auto",
       col = "auto",
       width = "auto",
-      border = "single",
+      border = "solid",
     },
-    delay = 200,
+    delay = 0,
   },
 })
 
