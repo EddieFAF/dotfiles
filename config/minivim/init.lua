@@ -605,13 +605,13 @@ require("mini.starter").setup({
   header = logo,
   items = {
     --require("mini.starter").sections.builtin_actions(),
-    { action = "enew", name = "New File", section = "Files" },
-    { action = ":Pick files", name = "Find Files", section = "Files" },
-    { action = ":Pick oldfiles", name = "Recent Files", section = "Files" },
+    { action = "enew",           name = "New File",      section = "Files" },
+    { action = ":Pick files",    name = "Find Files",    section = "Files" },
+    { action = ":Pick oldfiles", name = "Recent Files",  section = "Files" },
     { action = ":Pick explorer", name = "File Explorer", section = "Files" },
-    { action = "qa", name = "Quit", section = "Files" },
+    { action = "qa",             name = "Quit",          section = "Files" },
     require("mini.starter").sections.recent_files(7, false),
-    { action = "Lazy", name = "Lazy", section = "Plugin Actions", },
+    { action = "Lazy",  name = "Lazy",  section = "Plugin Actions", },
     { action = "Mason", name = "Mason", section = "Plugin Actions", },
   },
   footer = table.concat({
@@ -938,6 +938,7 @@ miniclue.setup({
     { mode = "n", keys = "<Leader>f", desc = "-> Find" },
     { mode = "n", keys = "<Leader>g", desc = "-> Git" },
     { mode = "n", keys = "<Leader>m", desc = "-> Minimap" },
+    { mode = "n", keys = "<Leader>/", desc = "-> FZF" },
   },
   window = {
     config = {
