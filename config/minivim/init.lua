@@ -256,7 +256,7 @@ vim.keymap.set("n", "<Leader>p", function()
   }, { prompt = "Pick " }, function(choice)
     return vim.cmd({ cmd = "Pick", args = { choice } })
   end)
-end)
+end, { desc = "Pick something"})
 
 -- [[ Autocommands ]] --------------------------------------------------------
 local function augroup(name)
