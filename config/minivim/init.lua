@@ -78,13 +78,46 @@ require("lazy").setup({
         { '<leader>/gc', function() require('fzf-lua').git_commits() end,     desc = 'Search git commits', },
         { '<leader>/gC', function() require('fzf-lua').git_bcommits() end,    desc = 'Search git buffer commits', },
         { '<leader>//',  function() require('fzf-lua').resume() end,          desc = 'Resume FZF', },
+        { '<leader>/d',  '<cmd>FzfLua lsp_document_diagnostics<cr>',          desc = 'Document diagnostics' },
       },
       config = function()
         local fzf = require 'fzf-lua'
+        local actions = require 'fzf-lua.actions'
         fzf.setup {
           keymap = {
+            builtin = {
+              ['<C-/>'] = 'toggle-help',
+              ['<C-a>'] = 'toggle-fullscreen',
+              ['<C-i>'] = 'toggle-preview',
+              ['<C-f>'] = 'preview-page-down',
+              ['<C-b>'] = 'preview-page-up',
+            },
             fzf = {
               ['CTRL-Q'] = 'select-all+accept',
+            },
+          },
+          fzf_colors = {
+            bg = { 'bg', 'Normal' },
+            gutter = { 'bg', 'Normal' },
+            info = { 'fg', 'Conditional' },
+            scrollbar = { 'bg', 'Normal' },
+            separator = { 'fg', 'Comment' },
+          },
+          winopts = {
+            height = 0.7,
+            width = 0.55,
+            preview = {
+              scrollbar = false,
+              layout = 'vertical',
+              vertical = 'up:40%',
+            },
+          },
+          files = {
+            winopts = {
+              preview = { hidden = 'hidden' },
+            },
+            actions = {
+              ['ctrl-g'] = actions.toggle_ignore,
             },
           },
         }
@@ -256,7 +289,7 @@ vim.keymap.set("n", "<Leader>p", function()
   }, { prompt = "Pick " }, function(choice)
     return vim.cmd({ cmd = "Pick", args = { choice } })
   end)
-end, { desc = "Pick something"})
+end, { desc = "Pick something" })
 
 -- [[ Autocommands ]] --------------------------------------------------------
 local function augroup(name)
