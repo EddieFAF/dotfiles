@@ -856,22 +856,24 @@ vim.keymap.set("n", "<leader>q", ":Pick diagnostic scope='current'<CR>", { desc 
 
 -- [[ Configure LSP ]] -------------------------------------------------------
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
+  local methods = vim.lsp.protocol.Methods
   --
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
-  local nmap = function(keys, func, desc)
+  local nmap = function(keys, func, desc, mode)
+    mode = mode or 'n'
     if desc then
       desc = "LSP: " .. desc
     end
 
-    vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+    vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+  --nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
   nmap("<leader>gd", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
@@ -879,6 +881,24 @@ local on_attach = function(_, bufnr)
   nmap("<leader>gI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
   nmap("<leader>D", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type [D]efinition")
   nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
+
+  if client.supports_method(methods.textDocument_rename) then
+    nmap('<leader>cr', vim.lsp.buf.rename, 'Rename')
+  end
+
+  if client.supports_method(methods.textDocument_codeAction) then
+    nmap('<leader>ca', function()
+      require('fzf-lua').lsp_code_actions {
+        winopts = {
+          relative = 'cursor',
+          width = 0.6,
+          height = 0.6,
+          row = 1,
+          preview = { vertical = 'up:70%' },
+        },
+      }
+    end, 'Code actions', { 'n', 'v' })
+  end
 
   -- See `:help K` for why this keymap
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
