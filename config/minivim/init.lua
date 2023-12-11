@@ -874,7 +874,7 @@ local on_attach = function(client, bufnr)
   end
 
   --nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-  nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+  --nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
   nmap("<leader>gd", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
   nmap("<leader>gr", "<cmd>:Pick lsp scope='references'<cr>", "[G]oto [R]eferences")
