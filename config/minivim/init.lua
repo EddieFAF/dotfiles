@@ -882,6 +882,7 @@ local on_attach = function(client, bufnr)
   nmap("<leader>D", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type [D]efinition")
   nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
 
+  -- only if capeable
   if client.supports_method(methods.textDocument_rename) then
     nmap('<leader>cr', vim.lsp.buf.rename, 'Rename')
   end
