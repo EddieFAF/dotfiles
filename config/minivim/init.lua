@@ -41,24 +41,6 @@ require("lazy").setup({
       },
     },
     { "gelguy/wilder.nvim", build = ":UpdateRemotePlugins" }, -- : autocomplete
-    -- {
-    --   "junegunn/fzf",
-    --   "junegunn/fzf.vim"
-    -- },
-    -- {
-    --   "ibhagwan/fzf-lua",
-    --   -- optional for icon support
-    --   dependencies = { "nvim-tree/nvim-web-devicons" },
-    --   config = function()
-    --     -- calling `setup` is optional for customization
-    --     require("fzf-lua").setup({
-    --       winopts = {
-    --         win_height = 0.9,
-    --         win_width = 0.9,
-    --       },
-    --     })
-    --   end
-    -- },
     {
       'ibhagwan/fzf-lua',
       event = 'VeryLazy',
@@ -67,8 +49,9 @@ require("lazy").setup({
       keys = {
         { '<leader>/c',  function() require('fzf-lua').commands() end,        desc = 'Search commands', },
         { '<leader>/C',  function() require('fzf-lua').command_history() end, desc = 'Search command history', },
+        { '<leader>/b',  function() require('fzf-lua').buffers() end,         desc = 'Find buffers', },
         { '<leader>/f',  function() require('fzf-lua').files() end,           desc = 'Find files', },
-        { '<leader>/o',  function() require('fzf-lua').oldfiles() end,        desc = 'Find files', },
+        { '<leader>/o',  function() require('fzf-lua').oldfiles() end,        desc = 'Find recent files', },
         { '<leader>/h',  function() require('fzf-lua').highlights() end,      desc = 'Search highlights', },
         { '<leader>/M',  function() require('fzf-lua').marks() end,           desc = 'Search marks', },
         { '<leader>/k',  function() require('fzf-lua').keymaps() end,         desc = 'Search keymaps', },
@@ -123,6 +106,9 @@ require("lazy").setup({
         }
         fzf.register_ui_select()
       end,
+    },
+    {
+      "SmiteshP/nvim-navic"
     },
     {
       -- LSP Configuration & Plugins
@@ -398,6 +384,7 @@ vim.opt.listchars = {
   nbsp = "␣",
 }
 vim.o.foldnestmax = 4
+vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
 ------------------------------------------------------------------------------
 -- Configuration of all parts of mini.nvim                                  --
@@ -854,8 +841,11 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open float
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 vim.keymap.set("n", "<leader>q", ":Pick diagnostic scope='current'<CR>", { desc = "Open diagnostics list" })
 
+require("nvim-navic").setup()
+
 -- [[ Configure LSP ]] -------------------------------------------------------
 --  This function gets run when an LSP connects to a particular buffer.
+local navic = require("nvim-navic")
 local on_attach = function(client, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
@@ -885,6 +875,10 @@ local on_attach = function(client, bufnr)
   -- only if capeable
   if client.supports_method(methods.textDocument_rename) then
     nmap('<leader>cr', vim.lsp.buf.rename, 'Rename')
+  end
+
+  if client.server_capabilities.documentSymbolProvider then
+    navic.attach(client, bufnr)
   end
 
   if client.supports_method(methods.textDocument_codeAction) then

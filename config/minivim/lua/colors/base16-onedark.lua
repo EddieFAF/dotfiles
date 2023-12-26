@@ -37,6 +37,6 @@ palette = {
 }
 
 if palette then
-  require('mini.base16').setup({ palette = palette, use_cterm = use_cterm })
-  vim.g.colors_name = "base16-onedark"
+	require('mini.base16').setup({ palette = palette, use_cterm = use_cterm })
+	vim.g.colors_name = "base16-onedark"
 end
