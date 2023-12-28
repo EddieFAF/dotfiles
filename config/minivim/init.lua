@@ -108,7 +108,29 @@ require("lazy").setup({
       end,
     },
     {
-      "SmiteshP/nvim-navic"
+      "utilyre/barbecue.nvim",
+      name = "barbecue",
+      version = "*",
+      dependencies = {
+        "SmiteshP/nvim-navic",
+        "nvim-tree/nvim-web-devicons", -- optional dependency
+      },
+      keys = {
+        {
+          '<Leader>ub',
+          function()
+            local off = vim.b['barbecue_entries'] == nil
+            require('barbecue.ui').toggle(off and true or nil)
+          end,
+          desc = 'Breadcrumbs toggle',
+        },
+      },
+      opts = {
+        -- configurations go here
+        show_dirname = false,
+        show_modified = true,
+        show_basename = false,
+      },
     },
     {
       -- LSP Configuration & Plugins
@@ -221,6 +243,7 @@ require("lazy").setup({
       },
       build = ":TSUpdate",
     },
+
   },
   {
     checker = { enabled = true },
@@ -332,15 +355,6 @@ vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.splitright = true
 vim.opt.splitbelow = true
--- vim.opt.listchars = {
---   eol = "↲",
---   tab = "▸ ",
---   trail = "·",
---   nbsp = "_",
---   extends = "›",
---   precedes = "‹",
--- }
-vim.opt.list = true
 --vim.opt.foldmethod = "syntax"
 
 -- Decrease update time
@@ -348,23 +362,44 @@ vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 vim.opt.wildmode = "list:longest,list:full"
 
+-- [[ Setup Wilder Menu ]] ---------------------------------------------------
 local wilder = require("wilder")
 wilder.setup({ modes = { ":", "/", "?" } })
-wilder.set_option("renderer", wilder.popupmenu_renderer({
+
+local popupmenu_renderer = wilder.popupmenu_renderer(
+  wilder.popupmenu_border_theme({
+    border = 'rounded',
+    highlighter = wilder.basic_highlighter(),
+    highlights = { default = "WilderMenu", accent = "WilderAccent" },
+    left = {
+      ' ',
+      wilder.popupmenu_devicons(),
+      wilder.popupmenu_buffer_flags({
+        flags = ' a + ',
+        icons = {['+'] = '', a = '', h = ''},
+      }),
+    },
+    right = {
+      ' ',
+      wilder.popupmenu_scrollbar({ thumb_char = ' ' }),
+    },
+  })
+)
+
+local wildmenu_renderer = wilder.wildmenu_renderer({
   highlighter = wilder.basic_highlighter(),
-  left = { " ", wilder.popupmenu_devicons() },
-  right = { " ", wilder.popupmenu_scrollbar({ thumb_char = " " }) },
-  highlights = { default = "WilderMenu", accent = "WilderAccent" }
+  highlights = { default = "WilderMenu", accent = "WilderAccent" },
+  separator = ' · ',
+  left = {' ', wilder.wildmenu_spinner(), ' '},
+  right = {' ', wilder.wildmenu_index()},
+})
+
+wilder.set_option('renderer', wilder.renderer_mux({
+  [':'] = popupmenu_renderer,
+  ['/'] = wildmenu_renderer,
 }))
 
-wilder.set_option("renderer", wilder.popupmenu_renderer(
-  wilder.popupmenu_border_theme({
-    highlights = {
-      border = 'Normal',
-    },
-    border = 'rounded',
-  })
-))
+
 
 -- Global
 vim.opt.fillchars = {
@@ -375,16 +410,20 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
+vim.opt.list = true
 vim.opt.listchars = {
-  tab = ">>>",
+  --  tab = ">>>",
+  tab = "▸ ",
   trail = "·",
-  precedes = "←",
-  extends = "→",
+  --  precedes = "←",
+  --  extends = "→",
+  extends = "›",
+  precedes = "‹",
   eol = "↲",
   nbsp = "␣",
 }
 vim.o.foldnestmax = 4
-vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+--vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
 ------------------------------------------------------------------------------
 -- Configuration of all parts of mini.nvim                                  --
@@ -514,18 +553,10 @@ require("mini.jump2d").setup({
     dim = true,
   },
 })
-vim.keymap.set(
-  "n",
-  "gl",
-  "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
-  { desc = "Jump2d Line Start" }
-)
-vim.keymap.set(
-  "n",
-  "gm",
-  "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
-  { desc = "Jump2d Word Start" }
-)
+vim.keymap.set("n", "gl", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
+  { desc = "Jump2d Line Start" })
+vim.keymap.set("n", "gm", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
+  { desc = "Jump2d Word Start" })
 vim.keymap.set("n", "g!", function()
   MiniJump2d.start({
     spotter = MiniJump2d.gen_pattern_spotter("['\"`]"),
@@ -662,6 +693,7 @@ require("mini.statusline").setup({
       local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
       local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
       local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
+      -- local navic         = require 'nvim-navic'.get_location()
       -- local location      = MiniStatusline.section_location({ trunc_width = 75 })
       local location2     = "%7(%l/%3L%):%2c %P"
       local lazy_updates  = require("lazy.status").updates
@@ -841,7 +873,11 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open float
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 vim.keymap.set("n", "<leader>q", ":Pick diagnostic scope='current'<CR>", { desc = "Open diagnostics list" })
 
-require("nvim-navic").setup()
+-- [[ Configure Navic ]] -----------------------------------------------------
+-- require("nvim-navic").setup({
+--   depth_limit = 6,
+--   depth_limit_indicator = "..",
+-- })
 
 -- [[ Configure LSP ]] -------------------------------------------------------
 --  This function gets run when an LSP connects to a particular buffer.
@@ -993,14 +1029,6 @@ miniclue.setup({
 require("mason").setup()
 require("mason-lspconfig").setup()
 
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
---
---  If you want to override the default filetypes that your language server will attach to you can
---  define the property 'filetypes' to the map in question.
 local servers = {
   -- clangd = {},
   -- gopls = {},
