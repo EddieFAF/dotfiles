@@ -192,6 +192,31 @@ require("lazy").setup({
         --      vim.cmd 'colorscheme tokyonight'
       end,
     },
+  {
+    'navarasu/onedark.nvim',
+    enabled = true,
+    lazy = false,
+    priority = 1000, -- Ensure it loads first
+    config = function()
+      require('onedark').setup {
+        transparent = true,
+        term_colors = true,
+        ending_tildes = false,
+        code_style = {
+          comments = 'italic',
+          keywords = 'bold',
+          functions = 'bold',
+          strings = 'none',
+          variables = 'italic',
+        },
+        diagnostics = {
+          darker = true,
+          undercurl = true,
+          background = true,
+        },
+      }
+    end,
+  },
 
     {
       -- show gitstatus in statuscolumn and more
@@ -380,6 +405,10 @@ vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
 --vim.opt.foldmethod = "syntax"
 
 -- Decrease update time
@@ -490,13 +519,14 @@ require("mini.basics").setup({
 
 -- [[ Color Palette ]] -------------------------------------------------------
 --require("colors.base16-dracula")
--- vim.cmd [[colorscheme tokyonight]]
 if vim.fn.hostname() == "blackhole" then
-  require("colors.base16-onedark")
+  vim.cmd [[colorscheme onedark]]
+  -- require("colors.base16-onedark")
 elseif vim.fn.hostname() == "atomium" then
   require("colors.base16-everforest")
 else
-  require("colors.base16-tokyo-night-storm")
+  -- require("colors.base16-tokyo-night-storm")
+  vim.cmd [[colorscheme tokyonight]]
 end
 
 
