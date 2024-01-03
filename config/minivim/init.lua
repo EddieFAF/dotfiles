@@ -130,6 +130,7 @@ require("lazy").setup({
         show_dirname = false,
         show_modified = true,
         show_basename = false,
+        theme = 'tokyonight',
       },
     },
     {
@@ -166,6 +167,30 @@ require("lazy").setup({
         -- Additional lua configuration, makes nvim stuff amazing!
         "folke/neodev.nvim",
       },
+    },
+    {
+      'folke/tokyonight.nvim',
+      enabled = true,
+      lazy = false,
+      config = function()
+        require('tokyonight').setup {
+          style = 'night',
+          light_style = 'day',
+          transparent = true,
+          styles = {
+            comments = { italic = true },
+            keywords = { italic = true },
+            functions = {},
+            variables = {},
+            sidebars = 'dark',
+            floats = 'dark',
+          },
+          hide_inactive_statusline = false,
+          dim_inactive = true,
+          lualine_bold = true,
+        }
+        --      vim.cmd 'colorscheme tokyonight'
+      end,
     },
 
     {
@@ -376,7 +401,7 @@ local popupmenu_renderer = wilder.popupmenu_renderer(
       wilder.popupmenu_devicons(),
       wilder.popupmenu_buffer_flags({
         flags = ' a + ',
-        icons = {['+'] = '', a = '', h = ''},
+        icons = { ['+'] = '', a = '', h = '' },
       }),
     },
     right = {
@@ -390,8 +415,8 @@ local wildmenu_renderer = wilder.wildmenu_renderer({
   highlighter = wilder.basic_highlighter(),
   highlights = { default = "WilderMenu", accent = "WilderAccent" },
   separator = ' · ',
-  left = {' ', wilder.wildmenu_spinner(), ' '},
-  right = {' ', wilder.wildmenu_index()},
+  left = { ' ', wilder.wildmenu_spinner(), ' ' },
+  right = { ' ', wilder.wildmenu_index() },
 })
 
 wilder.set_option('renderer', wilder.renderer_mux({
@@ -465,13 +490,14 @@ require("mini.basics").setup({
 
 -- [[ Color Palette ]] -------------------------------------------------------
 --require("colors.base16-dracula")
-if vim.fn.hostname() == "blackhole" then
-  require("colors.base16-onedark")
-elseif vim.fn.hostname() == "atomium" then
-  require("colors.base16-everforest")
-else
-  require("colors.base16-tokyo-night-storm")
-end
+vim.cmd [[colorscheme tokyonight]]
+-- if vim.fn.hostname() == "blackhole" then
+--   require("colors.base16-onedark")
+-- elseif vim.fn.hostname() == "atomium" then
+--   require("colors.base16-everforest")
+-- else
+--   require("colors.base16-tokyo-night-storm")
+-- end
 
 
 -- [[ Bracketed ]] -----------------------------------------------------------
