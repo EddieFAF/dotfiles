@@ -142,27 +142,27 @@ require("lazy").setup({
         "williamboman/mason-lspconfig.nvim",
 
         -- Useful status updates for LSP
-        {
-          "j-hui/fidget.nvim",
-          opts = {
-            progress = {
-              display = {
-                progress_icon = { pattern = "dots", period = 1 },
-              },
-              ignore = {
-                "null-ls",
-                "tailwindcss",
-              },
-            },
-            notification = {
-              override_vim_notify = true,
-              window = {
-                winblend = 150,
-                max_width = 200,
-              },
-            },
-          },
-        },
+        -- {
+        --   "j-hui/fidget.nvim",
+        --   opts = {
+        --     progress = {
+        --       display = {
+        --         progress_icon = { pattern = "dots", period = 1 },
+        --       },
+        --       ignore = {
+        --         "null-ls",
+        --         "tailwindcss",
+        --       },
+        --     },
+        --     notification = {
+        --       override_vim_notify = true,
+        --       window = {
+        --         winblend = 150,
+        --         max_width = 200,
+        --       },
+        --     },
+        --   },
+        -- },
 
         -- Additional lua configuration, makes nvim stuff amazing!
         "folke/neodev.nvim",
@@ -672,6 +672,10 @@ require("mini.indentscope").setup({
 
 -- [[ Move ]] ----------------------------------------------------------------
 require("mini.move").setup()
+
+-- [[ Notify ]] --------------------------------------------------------------
+require("mini.notify").setup()
+vim.notify = require('mini.notify').make_notify()
 
 -- [[ Starter ]] -------------------------------------------------------------
 local logo = table.concat({
