@@ -520,8 +520,8 @@ require("mini.basics").setup({
 -- [[ Color Palette ]] -------------------------------------------------------
 --require("colors.base16-dracula")
 if vim.fn.hostname() == "blackhole" then
-  --vim.cmd [[colorscheme onedark]]
-  require("colors.base16-onedark")
+  vim.cmd [[colorscheme onedark]]
+--  require("colors.base16-onedark")
 elseif vim.fn.hostname() == "atomium" then
   require("colors.base16-everforest")
 else
