@@ -410,6 +410,8 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.expandtab = true
 --vim.opt.foldmethod = "syntax"
+vim.opt.termguicolors = true
+
 
 -- Decrease update time
 vim.o.updatetime = 250
@@ -518,15 +520,43 @@ require("mini.basics").setup({
 })
 
 -- [[ Color Palette ]] -------------------------------------------------------
+-- local use_cterm, palette
+--
+-- palette = {
+-- 	base00 = "#282c34",
+-- 	base01 = "#353b45",
+-- 	base02 = "#3e4451",
+-- 	base03 = "#545862",
+-- 	base04 = "#565c64",
+-- 	base05 = "#abb2bf",
+-- 	base06 = "#b6bdca",
+-- 	base07 = "#c8ccd4",
+-- 	base08 = "#e06c75",
+-- 	base09 = "#d19a66",
+-- 	base0A = "#e5c07b",
+-- 	base0B = "#98c379",
+-- 	base0C = "#56b6c2",
+-- 	base0D = "#61afef",
+-- 	base0E = "#c678dd",
+-- 	base0F = "#be5046",
+-- }
+--
+-- use_cterm = true
+--
+-- if palette then
+-- 	require('mini.base16').setup({ palette = palette, use_cterm = use_cterm })
+-- 	vim.g.colors_name = "base16-onedark"
+-- end
+
 --require("colors.base16-dracula")
 if vim.fn.hostname() == "blackhole" then
-  vim.cmd [[colorscheme onedark]]
---  require("colors.base16-onedark")
+--  vim.cmd [[colorscheme onedark]]
+  require("colors.base16-onedark")
 elseif vim.fn.hostname() == "atomium" then
   require("colors.base16-everforest")
 else
-  -- require("colors.base16-tokyo-night-storm")
-  vim.cmd [[colorscheme tokyonight]]
+  require("colors.base16-tokyo-night-storm")
+--  vim.cmd [[colorscheme tokyonight]]
 end
 
 
