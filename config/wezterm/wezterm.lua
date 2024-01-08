@@ -1,7 +1,7 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
-local keybindings = require("keys")
+local config = wezterm.config_builder()
 
 local xcursor_size = nil
 local xcursor_theme = nil
@@ -16,10 +16,6 @@ local success, stdout, stderr =
     wezterm.run_child_process({ "gsettings", "get", "org.gnome.desktop.interface", "cursor-size" })
 if success then
   xcursor_size = tonumber(stdout)
-end
-local function font_with_fallback(name, params)
-  local names = { name, "Iosevka Term", "Apple Color Emoji", "azuki_font" }
-  return wezterm.font_with_fallback(names, params)
 end
 
 wezterm.on("update-right-status", function(window)
@@ -45,91 +41,97 @@ wezterm.on("format-tab-title", function(tab, tabs, _, _, _, _)
   return { { Text = title } }
 end)
 
--- wezterm.on("update-right-status", function(window, pane)
---   local name = window:active_key_table()
---
---   if name then
---     name = "active key table: " .. name
---   end
---
---   window:set_right_status(name or "")
--- end)
+config.term = "wezterm"
+config.disable_default_key_bindings = true
 
-local font_name = "JetBrainsMonoNL Nerd Font"
+config.keys = {
+    { key = "Tab", mods = "CTRL",       action = act.ActivateTabRelative(1) },
+    { key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
+    { key = "+",   mods = "CTRL",       action = act.IncreaseFontSize },
+    { key = "=",   mods = "CTRL",       action = act.IncreaseFontSize },
+    { key = "=",   mods = "SHIFT|CTRL", action = act.IncreaseFontSize },
+    { key = "-",   mods = "CTRL",       action = act.DecreaseFontSize },
+    { key = "s",   mods = "CTRL|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+    { key = "v",   mods = "CTRL|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    { key = "0",   mods = "CTRL",       action = act.ResetFontSize },
+    { key = "1",   mods = "ALT",        action = act.ActivateTab(0) },
+    { key = "2",   mods = "ALT",        action = act.ActivateTab(1) },
+    { key = "3",   mods = "ALT",        action = act.ActivateTab(2) },
+    { key = "4",   mods = "ALT",        action = act.ActivateTab(3) },
+    { key = "5",   mods = "ALT",        action = act.ActivateTab(4) },
+    { key = "6",   mods = "ALT",        action = act.ActivateTab(5) },
+    { key = "7",   mods = "ALT",        action = act.ActivateTab(6) },
+    { key = "8",   mods = "ALT",        action = act.ActivateTab(7) },
+    { key = "9",   mods = "ALT",        action = act.ActivateTab(8) },
+    { key = "c",   mods = "CTRL",       action = act.CopyTo("Clipboard") },
+    { key = "v",   mods = "CTRL",       action = act.PasteFrom("Clipboard") },
+    { key = "n",   mods = "SHIFT|CTRL", action = act.SpawnWindow },
+    { key = "w",   mods = "SHIFT|CTRL", action = act.CloseCurrentPane({ confirm = true }) },
+    { key = "s",   mods = "ALT",        action = act.PaneSelect({ alphabet = "1234567890", mode = "Activate" }) },
+    { key = "t",   mods = "SHIFT|CTRL", action = act.SpawnTab("CurrentPaneDomain") },
+    { key = "q",          mods = "ALT",     action = act.CloseCurrentTab({ confirm = true }) },
+    { key = "PageUp",     mods = "SHIFT",          action = act.ScrollByPage(-1) },
+    { key = "PageUp",     mods = "ALT",            action = act.ScrollByPage(-1) },
+    { key = "PageDown",   mods = "SHIFT",          action = act.ScrollByPage(1) },
+    { key = "PageDown",   mods = "ALT",            action = act.ScrollByPage(1) },
+    { key = "LeftArrow",  mods = "CTRL",           action = act.ActivatePaneDirection("Left") },
+    { key = "RightArrow", mods = "CTRL",           action = act.ActivatePaneDirection("Right") },
+    { key = "UpArrow",    mods = "CTRL",           action = act.ActivatePaneDirection("Up") },
+    { key = "DownArrow",  mods = "CTRL",           action = act.ActivatePaneDirection("Down") },
+  }
 
-return {
   -- OpenGL for GPU acceleration, Software for CPU
-  front_end = "OpenGL",
+config.front_end = "OpenGL"
 
-  -- Font config
-  font = font_with_fallback(font_name),
-  font_rules = {
-    {
-      italic = true,
-      font = font_with_fallback(font_name, { italic = true }),
-    },
-    {
-      italic = true,
-      intensity = "Bold",
-      font = font_with_fallback(font_name, { bold = true, italic = true }),
-    },
-    {
-      intensity = "Bold",
-      font = font_with_fallback(font_name, { bold = true }),
-    },
-    {
-      intensity = "Half",
-      font = font_with_fallback(font_name, { weight = "Light" }),
-    },
-  },
-  font_size = 10,
-  line_height = 1.0,
+-- Font config
+config.font = wezterm.font_with_fallback({ "Iosevka Nerd Font Mono" })
+config.font_size = 10
+config.line_height = 1.0
 
-  -- Cursor style
-  default_cursor_style = "BlinkingUnderline",
-  color_scheme = "Tokyo Night Moon",
+config.underline_position = -3
+config.underline_thickness = '250%'
 
-  -- X11
-  enable_wayland = false,
+-- Cursor style
+config.default_cursor_style = "BlinkingUnderline"
+config.color_scheme = "OneDark (base16)"
 
-  -- Keybinds
-  disable_default_key_bindings = false,
-  --leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
-  key_tables = keybindings.key_tables,
-  keys = keybindings.keys,
+-- X11
+config.enable_wayland = false
 
-  bold_brightens_ansi_colors = false,
+config.bold_brightens_ansi_colors = false
 
-  -- Padding
-  window_padding = {
-    left = 1,
-    right = 0,
-    top = 8,
-    bottom = 0,
-  },
-  -- Tab Bar
-  enable_tab_bar = true,
-  hide_tab_bar_if_only_one_tab = true,
-  show_tab_index_in_tab_bar = false,
-  tab_bar_at_bottom = true,
-  use_fancy_tab_bar = false,
-
-  -- General
-  animation_fps = 1,
-  cursor_blink_rate = 1000,
-  cursor_blink_ease_in = "Constant",
-  cursor_blink_ease_out = "Constant",
-  enable_kitty_graphics = true,
-  initial_cols = 132,
-  initial_rows = 43,
-  automatically_reload_config = true,
-  pane_focus_follows_mouse = true,
-  inactive_pane_hsb = { saturation = 1.0, brightness = 0.85 },
-  exit_behavior = "CloseOnCleanExit",
-  window_decorations = "TITLE | RESIZE",
-  selection_word_boundary = " \t\n{}[]()\"'`,;:",
-  warn_about_missing_glyphs = false,
-  xcursor_theme = xcursor_theme,
-  xcursor_size = xcursor_size,
-  check_for_updates = false,
+-- Padding
+config.window_padding = {
+  left = 0,
+  right = 0,
+  top = 0,
+  bottom = 0,
 }
+-- Tab Bar
+config.enable_tab_bar = true
+config.hide_tab_bar_if_only_one_tab = true
+config.show_tab_index_in_tab_bar = false
+config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = false
+
+-- General
+config.animation_fps = 1
+config.cursor_blink_rate = 1000
+config.cursor_blink_ease_in = "Constant"
+config.cursor_blink_ease_out = "Constant"
+config.enable_kitty_graphics = true
+config.initial_cols = 132
+config.initial_rows = 43
+config.automatically_reload_config = true
+config.pane_focus_follows_mouse = true
+config.inactive_pane_hsb = { saturation = 1.0, brightness = 0.85 }
+config.exit_behavior = "CloseOnCleanExit"
+config.window_decorations = "TITLE | RESIZE"
+config.selection_word_boundary = " \t\n{}[]()\"'`,;:"
+config.warn_about_missing_glyphs = false
+config.xcursor_theme = xcursor_theme
+config.xcursor_size = xcursor_size
+config.check_for_updates = false
+
+
+return config
