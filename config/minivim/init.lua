@@ -695,13 +695,14 @@ require("mini.starter").setup({
   evaluate_single = true,
   header = logo,
   items = {
-    --require("mini.starter").sections.builtin_actions(),
-    { action = "enew",           name = "New File",      section = "Files" },
-    { action = ":Pick files",    name = "Find Files",    section = "Files" },
-    { action = ":Pick oldfiles", name = "Recent Files",  section = "Files" },
-    { action = ":Pick explorer", name = "File Explorer", section = "Files" },
-    { action = "qa",             name = "Quit",          section = "Files" },
-    require("mini.starter").sections.recent_files(7, false),
+    require("mini.starter").sections.builtin_actions(),
+    require("mini.starter").sections.pick(),
+--    { action = "enew",           name = "New File",      section = "Files" },
+--    { action = ":Pick files",    name = "Find Files",    section = "Files" },
+--    { action = ":Pick oldfiles", name = "Recent Files",  section = "Files" },
+--    { action = ":Pick explorer", name = "File Explorer", section = "Files" },
+--    { action = "qa",             name = "Quit",          section = "Files" },
+    require("mini.starter").sections.recent_files(10, false),
     { action = "Lazy",  name = "Lazy",  section = "Plugin Actions", },
     { action = "Mason", name = "Mason", section = "Plugin Actions", },
   },
@@ -788,6 +789,9 @@ require("mini.tabline").setup()
 
 -- [[ Pairs ]] ---------------------------------------------------------------
 require("mini.pairs").setup()
+
+-- [[ Visits ]] --------------------------------------------------------------
+require("mini.visits").setup()
 
 -- [[ Completion ]] ----------------------------------------------------------
 require("mini.completion").setup({
