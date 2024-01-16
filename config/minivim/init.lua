@@ -503,20 +503,6 @@ require("mini.basics").setup({
   silent = false,
 })
 
--- [[ Color Palette ]] -------------------------------------------------------
-
--- if vim.fn.hostname() == "blackhole" then
---   --  vim.cmd [[colorscheme onedark]]
---   require("colors.base16-onedark")
--- elseif vim.fn.hostname() == "atomium" then
---   require("colors.base16-everforest")
--- else
---   require("colors.base16-tokyo-night-storm")
---   --  vim.cmd [[colorscheme tokyonight]]
--- end
-
-require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
-
 -- [[ Bracketed ]] -----------------------------------------------------------
 require("mini.bracketed").setup()
 
@@ -528,11 +514,141 @@ vim.keymap.set("n", "<leader>bD", "<Cmd>lua MiniBufremove.delete(0,  true)<CR>",
 vim.keymap.set("n", "<leader>bw", "<Cmd>lua MiniBufremove.wipeout()<CR>", { desc = "Wipeout buffer" })
 vim.keymap.set("n", "<leader>bW", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", { desc = "Wipeout! buffer" })
 
+-- [[ Clues (Whichkey replacement) ]] ----------------------------------------
+local hints = {}
+local miniclue = require("mini.clue")
+miniclue.setup({
+  triggers = {
+    -- Leader triggers
+    { mode = "n", keys = "<Leader>" },
+    { mode = "x", keys = "<Leader>" },
+
+    -- mini.basics
+    { mode = 'n', keys = [[\]] },
+
+    -- mini.bracketed
+    { mode = 'n', keys = '[' },
+    { mode = 'n', keys = ']' },
+    { mode = 'x', keys = '[' },
+    { mode = 'x', keys = ']' },
+
+    -- Built-in completion
+    { mode = "i", keys = "<C-x>" },
+
+    -- `g` key
+    { mode = "n", keys = "g" },
+    { mode = "x", keys = "g" },
+
+    -- Marks
+    { mode = "n", keys = "'" },
+    { mode = "n", keys = "`" },
+    { mode = "x", keys = "'" },
+    { mode = "x", keys = "`" },
+
+    -- Registers
+    { mode = "n", keys = '"' },
+    { mode = "x", keys = '"' },
+    { mode = "i", keys = "<C-r>" },
+    { mode = "c", keys = "<C-r>" },
+
+    -- Window commands
+    { mode = "n", keys = "<C-w>" },
+
+    -- `z` key
+    { mode = "n", keys = "z" },
+    { mode = "x", keys = "z" },
+  },
+
+  clues = {
+    -- Enhance this by adding descriptions for <Leader> mapping groups
+    miniclue.gen_clues.builtin_completion(),
+    miniclue.gen_clues.g(),
+    miniclue.gen_clues.marks(),
+    miniclue.gen_clues.registers(),
+    miniclue.gen_clues.windows(),
+    miniclue.gen_clues.z(),
+
+    hints,
+
+    miniclue.gen_clues.windows({
+      submode_move = true,
+      submode_navigate = true,
+      submode_resize = true,
+    }),
+
+    { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
+    { mode = "n", keys = "<Leader>c", desc = "+Code" },
+    { mode = "n", keys = "<Leader>d", desc = "+Document" },
+    { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
+    { mode = "n", keys = "<Leader>w", desc = "+Workspace" },
+    { mode = "n", keys = "<Leader>f", desc = "+Find" },
+    { mode = "n", keys = "<Leader>g", desc = "+Git" },
+    { mode = "n", keys = "<Leader>l", desc = "+LSP" },
+    { mode = "n", keys = "<Leader>m", desc = "+Minimap" },
+    { mode = "n", keys = "<Leader>s", desc = "+Windows" },
+    { mode = "n", keys = "<Leader>u", desc = "+UI" },
+    { mode = "n", keys = "<Leader>/", desc = "+FZF" },
+  },
+  window = {
+    config = {
+      anchor = "SE",
+      row = "auto",
+      col = "auto",
+      width = "auto",
+      border = "single",
+    },
+    delay = 0,
+  },
+})
+
 -- [[ 'gc' to toggle comment ]] ----------------------------------------------
 require("mini.comment").setup()
 
+-- [[ Completion ]] ----------------------------------------------------------
+require("mini.completion").setup({
+  lsp_completion = {
+    source_func = 'omnifunc',
+    auto_setup = false,
+    process_items = function(items, base)
+      -- Don't show 'Text' and 'Snippet' suggestions
+      items = vim.tbl_filter(function(x) return x.kind ~= 1 and x.kind ~= 15 end, items)
+      return MiniCompletion.default_process_items(items, base)
+    end,
+  },
+  window = {
+    info = { height = 25, width = 80, border = "rounded" },
+    signature = { height = 25, width = 80, border = "rounded" },
+  },
+})
+
+vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
+vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
+local keys = {
+  ["cr"] = vim.api.nvim_replace_termcodes("<CR>", true, true, true),
+  ["ctrl-y"] = vim.api.nvim_replace_termcodes("<C-y>", true, true, true),
+  ["ctrl-y_cr"] = vim.api.nvim_replace_termcodes("<C-y><CR>", true, true, true),
+}
+
+_G.cr_action = function()
+  if vim.fn.pumvisible() ~= 0 then
+    -- If popup is visible, confirm selected item or add new line otherwise
+    local item_selected = vim.fn.complete_info()["selected"] ~= -1
+    return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
+  else
+    -- If popup is not visible, use plain `<CR>`. You might want to customize
+    -- according to other plugins. For example, to use 'mini.pairs', replace
+    -- next line with `return require('mini.pairs').cr()`
+    return keys["cr"]
+  end
+end
+
+vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
+
 -- [[ Mini Cursorword ]] -----------------------------------------------------
 require("mini.cursorword").setup()
+
+-- [[ Mini.Extras ]] ---------------------------------------------------------
+require("mini.extra").setup()
 
 -- [[ Files ]] ---------------------------------------------------------------
 require("mini.files").setup({
@@ -595,6 +711,45 @@ vim.keymap.set('n', '<leader>em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR
 -- [[ Fuzzy ]] ---------------------------------------------------------------
 require("mini.fuzzy").setup()
 
+-- [[ HiPatterns ]] ----------------------------------------------------------
+local hi = require("mini.hipatterns")
+hi.setup({
+  highlighters = {
+    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+    fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+    hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+    todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+    note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+
+    hex_color = hi.gen_highlighter.hex_color(),
+  },
+})
+
+-- [[ Color Palette ]] -------------------------------------------------------
+
+-- if vim.fn.hostname() == "blackhole" then
+--   --  vim.cmd [[colorscheme onedark]]
+--   require("colors.base16-onedark")
+-- elseif vim.fn.hostname() == "atomium" then
+--   require("colors.base16-everforest")
+-- else
+--   require("colors.base16-tokyo-night-storm")
+--   --  vim.cmd [[colorscheme tokyonight]]
+-- end
+
+require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
+
+-- [[ Animated indentation guide ]] ------------------------------------------
+require("mini.indentscope").setup({
+  symbol = "│",
+  --symbol = "▏",
+  options = {
+    try_as_border = true,
+    border = "both",
+    indent_at_cursor = true,
+  },
+})
+
 -- [[ Jump2d ]] --------------------------------------------------------------
 require("mini.jump2d").setup({
   view = {
@@ -637,37 +792,54 @@ vim.keymap.set("n", "<Leader>ms", MiniMap.toggle_side, { desc = "Minimap Swap Si
 vim.keymap.set("n", "<Leader>mt", MiniMap.toggle, { desc = "Minimap Toggle" })
 vim.keymap.set("n", "<F5>", MiniMap.toggle, { desc = "Minimap Toggle" })
 
--- [[ HiPatterns ]] ----------------------------------------------------------
-local hi = require("mini.hipatterns")
-hi.setup({
-  highlighters = {
-    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-    fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-    hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
-    todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
-    note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-
-    hex_color = hi.gen_highlighter.hex_color(),
-  },
-})
-
--- [[ Animated indentation guide ]] ------------------------------------------
-require("mini.indentscope").setup({
-  symbol = "│",
-  --symbol = "▏",
-  options = {
-    try_as_border = true,
-    border = "both",
-    indent_at_cursor = true,
-  },
-})
-
 -- [[ Move ]] ----------------------------------------------------------------
 require("mini.move").setup()
 
 -- [[ Notify ]] --------------------------------------------------------------
 require("mini.notify").setup()
 vim.notify = require('mini.notify').make_notify()
+
+-- [[ Pairs ]] ---------------------------------------------------------------
+require("mini.pairs").setup()
+
+-- [[ Configure Mini.pick ]] -------------------------------------------------
+require("mini.pick").setup()
+vim.ui.select = MiniPick.ui_select
+
+vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
+
+vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
+--vim.keymap.set("n", "<leader>ff", ':Pick files<cr>', { noremap = true, silent = true, desc = "Find Files" })
+vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
+vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
+vim.keymap.set("n", "<leader>fr", MiniPick.builtin.resume, { desc = "Resume" })
+vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer" })
+vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps" })
+--vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files" })
+vim.keymap.set('n', '<leader>f/', [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
+vim.keymap.set('n', '<leader>f:', [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
+vim.keymap.set('n', '<leader>fa', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
+vim.keymap.set('n', '<leader>fA', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = 'Added hunks (current)' })
+vim.keymap.set('n', '<leader>fb', [[<Cmd>Pick buffers<CR>]], { desc = 'Buffers' })
+vim.keymap.set('n', '<leader>fc', [[<Cmd>Pick git_commits<CR>]], { desc = 'Commits (all)' })
+vim.keymap.set('n', '<leader>fC', [[<Cmd>Pick git_commits path='%'<CR>]], { desc = 'Commits (current)' })
+vim.keymap.set('n', '<leader>fd', [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = 'Diagnostic workspace' })
+vim.keymap.set('n', '<leader>fD', [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = 'Diagnostic buffer' })
+--vim.keymap.set('n','ff', [[<Cmd>Pick files<CR>]],                             {desc='Files'})
+--vim.keymap.set('n','fg', [[<Cmd>Pick grep_live<CR>]],                         {desc='Grep live'})
+vim.keymap.set('n', '<leader>fG', [[<Cmd>Pick grep pattern='<cword>'<CR>]], { desc = 'Grep current word' })
+--vim.keymap.set('n','fh', [[<Cmd>Pick help<CR>]],                              {desc='Help tags'})
+vim.keymap.set('n', '<leader>fH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
+vim.keymap.set('n', '<leader>fl', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
+vim.keymap.set('n', '<leader>fL', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
+vim.keymap.set('n', '<leader>fm', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
+vim.keymap.set('n', '<leader>fM', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
+--vim.keymap.set('n','fr', [[<Cmd>Pick resume<CR>]],                            {desc='Resume'})
+vim.keymap.set('n', '<leader>fR', [[<Cmd>Pick lsp scope='references'<CR>]], { desc = 'References (LSP)' })
+vim.keymap.set('n', '<leader>fs', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = 'Symbols workspace (LSP)' })
+vim.keymap.set('n', '<leader>fS', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
+vim.keymap.set('n', '<leader>fv', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
+vim.keymap.set('n', '<leader>fV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
 
 -- [[ Starter ]] -------------------------------------------------------------
 local logo = table.concat({
@@ -771,99 +943,12 @@ require("mini.statusline").setup({
 -- [[ Tabline ]] -------------------------------------------------------------
 require("mini.tabline").setup()
 
--- [[ Pairs ]] ---------------------------------------------------------------
-require("mini.pairs").setup()
-
 -- [[ Visits ]] --------------------------------------------------------------
 require("mini.visits").setup()
 
--- [[ Completion ]] ----------------------------------------------------------
-require("mini.completion").setup({
-  lsp_completion = {
-    source_func = 'omnifunc',
-    auto_setup = false,
-    process_items = function(items, base)
-      -- Don't show 'Text' and 'Snippet' suggestions
-      items = vim.tbl_filter(function(x) return x.kind ~= 1 and x.kind ~= 15 end, items)
-      return MiniCompletion.default_process_items(items, base)
-    end,
-  },
-  window = {
-    info = { height = 25, width = 80, border = "rounded" },
-    signature = { height = 25, width = 80, border = "rounded" },
-  },
-})
-
-vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
-vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
-local keys = {
-  ["cr"] = vim.api.nvim_replace_termcodes("<CR>", true, true, true),
-  ["ctrl-y"] = vim.api.nvim_replace_termcodes("<C-y>", true, true, true),
-  ["ctrl-y_cr"] = vim.api.nvim_replace_termcodes("<C-y><CR>", true, true, true),
-}
-
-_G.cr_action = function()
-  if vim.fn.pumvisible() ~= 0 then
-    -- If popup is visible, confirm selected item or add new line otherwise
-    local item_selected = vim.fn.complete_info()["selected"] ~= -1
-    return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
-  else
-    -- If popup is not visible, use plain `<CR>`. You might want to customize
-    -- according to other plugins. For example, to use 'mini.pairs', replace
-    -- next line with `return require('mini.pairs').cr()`
-    return keys["cr"]
-  end
-end
-
-vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
-
---require("mini.hues").setup({ background = "#002734", foreground = "#c0c8cc" }) -- azure
---require('mini.hues').setup({ background = '#002734', foreground = '#c0c8cc', n_hues = 6 })
---vim.cmd.colo("randomhue")
---vim.cmd('hi MiniTablineCurrent gui=underline')
-
--- [[ Mini.Extras ]] ---------------------------------------------------------
-require("mini.extra").setup()
-
--- [[ Configure Mini.pick ]] -------------------------------------------------
-require("mini.pick").setup()
-vim.ui.select = MiniPick.ui_select
-
-vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
-
-vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
---vim.keymap.set("n", "<leader>ff", ':Pick files<cr>', { noremap = true, silent = true, desc = "Find Files" })
-vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
-vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
-vim.keymap.set("n", "<leader>fr", MiniPick.builtin.resume, { desc = "Resume" })
-vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer" })
-vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps" })
---vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files" })
-vim.keymap.set('n', '<leader>f/', [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
-vim.keymap.set('n', '<leader>f:', [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
-vim.keymap.set('n', '<leader>fa', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
-vim.keymap.set('n', '<leader>fA', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = 'Added hunks (current)' })
-vim.keymap.set('n', '<leader>fb', [[<Cmd>Pick buffers<CR>]], { desc = 'Buffers' })
-vim.keymap.set('n', '<leader>fc', [[<Cmd>Pick git_commits<CR>]], { desc = 'Commits (all)' })
-vim.keymap.set('n', '<leader>fC', [[<Cmd>Pick git_commits path='%'<CR>]], { desc = 'Commits (current)' })
-vim.keymap.set('n', '<leader>fd', [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = 'Diagnostic workspace' })
-vim.keymap.set('n', '<leader>fD', [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = 'Diagnostic buffer' })
---vim.keymap.set('n','ff', [[<Cmd>Pick files<CR>]],                             {desc='Files'})
---vim.keymap.set('n','fg', [[<Cmd>Pick grep_live<CR>]],                         {desc='Grep live'})
-vim.keymap.set('n', '<leader>fG', [[<Cmd>Pick grep pattern='<cword>'<CR>]], { desc = 'Grep current word' })
---vim.keymap.set('n','fh', [[<Cmd>Pick help<CR>]],                              {desc='Help tags'})
-vim.keymap.set('n', '<leader>fH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
-vim.keymap.set('n', '<leader>fl', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
-vim.keymap.set('n', '<leader>fL', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
-vim.keymap.set('n', '<leader>fm', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
-vim.keymap.set('n', '<leader>fM', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
---vim.keymap.set('n','fr', [[<Cmd>Pick resume<CR>]],                            {desc='Resume'})
-vim.keymap.set('n', '<leader>fR', [[<Cmd>Pick lsp scope='references'<CR>]], { desc = 'References (LSP)' })
-vim.keymap.set('n', '<leader>fs', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = 'Symbols workspace (LSP)' })
-vim.keymap.set('n', '<leader>fS', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
-vim.keymap.set('n', '<leader>fv', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
-vim.keymap.set('n', '<leader>fV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
-
+------------------------------------------------------------------------------
+-- [[ END OF MINI CONFIG ]] --------------------------------------------------
+------------------------------------------------------------------------------
 
 -- [[ Configure Treesitter ]] ------------------------------------------------
 -- See `:help nvim-treesitter`
@@ -960,12 +1045,6 @@ vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floa
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 vim.keymap.set("n", "<leader>fD", ":Pick diagnostic scope='current'<CR>", { desc = "Diagnostic buffer" })
 
--- [[ Configure Navic ]] -----------------------------------------------------
--- require("nvim-navic").setup({
---   depth_limit = 6,
---   depth_limit_indicator = "..",
--- })
-
 -- [[ Configure LSP ]] -------------------------------------------------------
 --  This function gets run when an LSP connects to a particular buffer.
 local navic = require("nvim-navic")
@@ -1042,93 +1121,6 @@ local on_attach = function(client, bufnr)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
 end
-
--- [[ Clues (Whichkey replacement) ]] ----------------------------------------
-local hints = {}
-local miniclue = require("mini.clue")
-miniclue.setup({
-  triggers = {
-    -- Leader triggers
-    { mode = "n", keys = "<Leader>" },
-    { mode = "x", keys = "<Leader>" },
-
-    -- mini.basics
-    { mode = 'n', keys = [[\]] },
-
-    -- mini.bracketed
-    { mode = 'n', keys = '[' },
-    { mode = 'n', keys = ']' },
-    { mode = 'x', keys = '[' },
-    { mode = 'x', keys = ']' },
-
-    -- Built-in completion
-    { mode = "i", keys = "<C-x>" },
-
-    -- `g` key
-    { mode = "n", keys = "g" },
-    { mode = "x", keys = "g" },
-
-    -- Marks
-    { mode = "n", keys = "'" },
-    { mode = "n", keys = "`" },
-    { mode = "x", keys = "'" },
-    { mode = "x", keys = "`" },
-
-    -- Registers
-    { mode = "n", keys = '"' },
-    { mode = "x", keys = '"' },
-    { mode = "i", keys = "<C-r>" },
-    { mode = "c", keys = "<C-r>" },
-
-    -- Window commands
-    { mode = "n", keys = "<C-w>" },
-
-    -- `z` key
-    { mode = "n", keys = "z" },
-    { mode = "x", keys = "z" },
-  },
-
-  clues = {
-    -- Enhance this by adding descriptions for <Leader> mapping groups
-    miniclue.gen_clues.builtin_completion(),
-    miniclue.gen_clues.g(),
-    miniclue.gen_clues.marks(),
-    miniclue.gen_clues.registers(),
-    miniclue.gen_clues.windows(),
-    miniclue.gen_clues.z(),
-
-    hints,
-
-    miniclue.gen_clues.windows({
-      submode_move = true,
-      submode_navigate = true,
-      submode_resize = true,
-    }),
-
-    { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
-    { mode = "n", keys = "<Leader>c", desc = "+Code" },
-    { mode = "n", keys = "<Leader>d", desc = "+Document" },
-    { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
-    { mode = "n", keys = "<Leader>w", desc = "+Workspace" },
-    { mode = "n", keys = "<Leader>f", desc = "+Find" },
-    { mode = "n", keys = "<Leader>g", desc = "+Git" },
-    { mode = "n", keys = "<Leader>l", desc = "+LSP" },
-    { mode = "n", keys = "<Leader>m", desc = "+Minimap" },
-    { mode = "n", keys = "<Leader>s", desc = "+Windows" },
-    { mode = "n", keys = "<Leader>u", desc = "+UI" },
-    { mode = "n", keys = "<Leader>/", desc = "+FZF" },
-  },
-  window = {
-    config = {
-      anchor = "SE",
-      row = "auto",
-      col = "auto",
-      width = "auto",
-      border = "single",
-    },
-    delay = 0,
-  },
-})
 
 -- [[ Mason Setup ]] ---------------------------------------------------------
 -- mason-lspconfig requires that these setup functions are called in this order
