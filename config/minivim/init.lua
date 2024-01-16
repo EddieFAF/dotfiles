@@ -141,29 +141,6 @@ require("lazy").setup({
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
 
-        -- Useful status updates for LSP
-        -- {
-        --   "j-hui/fidget.nvim",
-        --   opts = {
-        --     progress = {
-        --       display = {
-        --         progress_icon = { pattern = "dots", period = 1 },
-        --       },
-        --       ignore = {
-        --         "null-ls",
-        --         "tailwindcss",
-        --       },
-        --     },
-        --     notification = {
-        --       override_vim_notify = true,
-        --       window = {
-        --         winblend = 150,
-        --         max_width = 200,
-        --       },
-        --     },
-        --   },
-        -- },
-
         -- Additional lua configuration, makes nvim stuff amazing!
         "folke/neodev.nvim",
       },
@@ -224,10 +201,6 @@ require("lazy").setup({
       event = { "BufReadPre", "BufNewFile" },
       opts = {
         signs = {
-          -- add = { text = '+', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-          -- change = { text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-          -- delete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-          -- topdelete = { text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
           add = { text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
           change = { text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
           delete = { text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
@@ -489,7 +462,7 @@ vim.opt.listchars = {
   eol = "↲",
   nbsp = "␣",
 }
--- Folds ======================================================================
+-- Folds
 vim.o.foldmethod  = 'indent' -- Set 'indent' folding method
 vim.o.foldlevel   = 4        -- Display all folds except top ones
 vim.o.foldnestmax = 10       -- Create folds only for some number of nested levels
@@ -536,16 +509,15 @@ require("mini.basics").setup({
 
 -- [[ Color Palette ]] -------------------------------------------------------
 
---require("colors.base16-dracula")
-if vim.fn.hostname() == "blackhole" then
-  --  vim.cmd [[colorscheme onedark]]
-  require("colors.base16-onedark")
-elseif vim.fn.hostname() == "atomium" then
-  require("colors.base16-everforest")
-else
-  require("colors.base16-tokyo-night-storm")
-  --  vim.cmd [[colorscheme tokyonight]]
-end
+-- if vim.fn.hostname() == "blackhole" then
+--   --  vim.cmd [[colorscheme onedark]]
+--   require("colors.base16-onedark")
+-- elseif vim.fn.hostname() == "atomium" then
+--   require("colors.base16-everforest")
+-- else
+--   require("colors.base16-tokyo-night-storm")
+--   --  vim.cmd [[colorscheme tokyonight]]
+-- end
 
 require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
 
@@ -583,7 +555,7 @@ require("mini.files").setup({
 
   -- Only automated preview is possible
   windows = {
-    preview = true,
+    preview = true, width_focus =30, width_preview = 40, height_focus =20, max_number = math.huge
   },
 })
 
@@ -718,11 +690,6 @@ require("mini.starter").setup({
   items = {
     require("mini.starter").sections.builtin_actions(),
     require("mini.starter").sections.pick(),
-    --    { action = "enew",           name = "New File",      section = "Files" },
-    --    { action = ":Pick files",    name = "Find Files",    section = "Files" },
-    --    { action = ":Pick oldfiles", name = "Recent Files",  section = "Files" },
-    --    { action = ":Pick explorer", name = "File Explorer", section = "Files" },
-    --    { action = "qa",             name = "Quit",          section = "Files" },
     require("mini.starter").sections.recent_files(10, false),
     { action = "Lazy",  name = "Lazy",  section = "Plugin Actions", },
     { action = "Mason", name = "Mason", section = "Plugin Actions", },
@@ -826,8 +793,8 @@ require("mini.completion").setup({
     end,
   },
   window = {
-    info = { height = 25, width = 80, border = "double" },
-    signature = { height = 25, width = 80, border = "double" },
+    info = { height = 25, width = 80, border = "rounded" },
+    signature = { height = 25, width = 80, border = "rounded" },
   },
 })
 
