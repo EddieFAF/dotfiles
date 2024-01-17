@@ -55,13 +55,11 @@ require("lazy").setup({
         { '<leader>/h',  function() require('fzf-lua').highlights() end,      desc = 'Search highlights', },
         { '<leader>/M',  function() require('fzf-lua').marks() end,           desc = 'Search marks', },
         { '<leader>/k',  function() require('fzf-lua').keymaps() end,         desc = 'Search keymaps', },
-        { '<leader>/t',  function() require('fzf-lua').treesitter() end,      desc = 'Search treesitter', },
         { '<leader>/gf', function() require('fzf-lua').git_files() end,       desc = 'Find git files', },
         { '<leader>/gb', function() require('fzf-lua').git_branches() end,    desc = 'Search git branches', },
         { '<leader>/gc', function() require('fzf-lua').git_commits() end,     desc = 'Search git commits', },
         { '<leader>/gC', function() require('fzf-lua').git_bcommits() end,    desc = 'Search git buffer commits', },
         { '<leader>//',  function() require('fzf-lua').resume() end,          desc = 'Resume FZF', },
-        { '<leader>/d',  '<cmd>FzfLua lsp_document_diagnostics<cr>',          desc = 'Document diagnostics' },
       },
       config = function()
         local fzf = require 'fzf-lua'
@@ -165,6 +163,12 @@ require("lazy").setup({
           hide_inactive_statusline = false,
           dim_inactive = true,
           lualine_bold = true,
+          ---@param colors ColorScheme
+          on_colors = function(colors) end,
+
+          ---@param highlights Highlights
+          ---@param colors ColorScheme
+          on_highlights = function(highlights, colors) end,
         }
         --      vim.cmd 'colorscheme tokyonight'
       end,
@@ -386,15 +390,15 @@ vim.opt.expandtab     = true
 --vim.opt.foldmethod = "syntax"
 vim.opt.termguicolors = true
 
-vim.o.autoindent      = true   -- Use auto indent
-vim.o.expandtab       = true   -- Convert tabs to spaces
+vim.o.autoindent      = true     -- Use auto indent
+vim.o.expandtab       = true     -- Convert tabs to spaces
 vim.o.formatoptions   = 'rqnl1j' -- Improve comment editing
-vim.o.ignorecase      = true   -- Ignore case when searching (use `\C` to force not doing that)
-vim.o.incsearch       = true   -- Show search results while typing
-vim.o.infercase       = true   -- Infer letter cases for a richer built-in keyword completion
-vim.o.smartcase       = true   -- Don't ignore case when searching if pattern has upper case
-vim.o.smartindent     = true   -- Make indenting smart
-vim.o.virtualedit     = 'block' -- Allow going past the end of line in visual block mode
+vim.o.ignorecase      = true     -- Ignore case when searching (use `\C` to force not doing that)
+vim.o.incsearch       = true     -- Show search results while typing
+vim.o.infercase       = true     -- Infer letter cases for a richer built-in keyword completion
+vim.o.smartcase       = true     -- Don't ignore case when searching if pattern has upper case
+vim.o.smartindent     = true     -- Make indenting smart
+vim.o.virtualedit     = 'block'  -- Allow going past the end of line in visual block mode
 
 
 -- Decrease update time
@@ -653,59 +657,52 @@ require("mini.extra").setup()
 -- [[ Files ]] ---------------------------------------------------------------
 require("mini.files").setup({
   mappings = {
-    -- Here 'L' will also close explorer after opening file.
-    -- Switch to `go_in` if you want to not close explorer.
-    go_in = "",
-    go_in_plus = "L",
+    go_in = "L",
+    go_in_plus = "l",
     go_out = "H",
-    go_out_plus = "",
-    -- Will be overriden by manual `<BS>`, which seems wasteful
+    go_out_plus = "h",
     reset = "",
-    -- Overrides built-in `?` for backward search
     show_help = "?",
   },
 
   -- Only automated preview is possible
   windows = {
-    preview = true, width_focus =30, width_preview = 40, height_focus =20, max_number = math.huge
+    preview = true, width_focus = 30, width_preview = 40, height_focus = 20, max_number = math.huge
   },
 })
 
-local go_in_plus = function()
-  for _ = 1, vim.v.count1 - 1 do
-    MiniFiles.go_in()
-  end
-  local fs_entry = MiniFiles.get_fs_entry()
-  local is_at_file = fs_entry ~= nil and fs_entry.fs_type == "file"
-  MiniFiles.go_in()
-  if is_at_file then
-    MiniFiles.close()
-  end
-end
+-- local go_in_plus = function()
+--   for _ = 1, vim.v.count1 - 1 do
+--     MiniFiles.go_in()
+--   end
+--   local fs_entry = MiniFiles.get_fs_entry()
+--   local is_at_file = fs_entry ~= nil and fs_entry.fs_type == "file"
+--   MiniFiles.go_in()
+--   if is_at_file then
+--     MiniFiles.close()
+--   end
+-- end
 
-vim.api.nvim_create_autocmd("User", {
-  pattern = "MiniFilesBufferCreate",
-  callback = function(args)
-    local map_buf = function(lhs, rhs)
-      vim.keymap.set("n", lhs, rhs, { buffer = args.data.buf_id })
-    end
-
-    map_buf("<CR>", go_in_plus)
-    map_buf("<Right>", go_in_plus)
-
-    map_buf("<BS>", MiniFiles.go_out)
-    map_buf("<Left>", MiniFiles.go_out)
-
-    map_buf("<Esc>", MiniFiles.close)
-
-    -- Add extra mappings from *MiniFiles-examples*
-  end,
-})
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "MiniFilesBufferCreate",
+--   callback = function(args)
+--     local map_buf = function(lhs, rhs)
+--       vim.keymap.set("n", lhs, rhs, { buffer = args.data.buf_id })
+--     end
+--
+--     map_buf("<CR>", go_in_plus)
+--     map_buf("<Right>", go_in_plus)
+--
+--     map_buf("<BS>", MiniFiles.go_out)
+--     map_buf("<Left>", MiniFiles.go_out)
+--
+--     map_buf("<Esc>", MiniFiles.close)
+--
+--     -- Add extra mappings from *MiniFiles-examples*
+--   end,
+-- })
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
-vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], {
-  desc =
-  'File directory'
-})
+vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], { desc = 'File directory' })
 vim.keymap.set('n', '<leader>em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = 'Mini.nvim directory' })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
@@ -809,7 +806,6 @@ vim.ui.select = MiniPick.ui_select
 vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
 
 vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
---vim.keymap.set("n", "<leader>ff", ':Pick files<cr>', { noremap = true, silent = true, desc = "Find Files" })
 vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
 vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
 vim.keymap.set("n", "<leader>fr", MiniPick.builtin.resume, { desc = "Resume" })
@@ -825,16 +821,12 @@ vim.keymap.set('n', '<leader>fc', [[<Cmd>Pick git_commits<CR>]], { desc = 'Commi
 vim.keymap.set('n', '<leader>fC', [[<Cmd>Pick git_commits path='%'<CR>]], { desc = 'Commits (current)' })
 vim.keymap.set('n', '<leader>fd', [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = 'Diagnostic workspace' })
 vim.keymap.set('n', '<leader>fD', [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = 'Diagnostic buffer' })
---vim.keymap.set('n','ff', [[<Cmd>Pick files<CR>]],                             {desc='Files'})
---vim.keymap.set('n','fg', [[<Cmd>Pick grep_live<CR>]],                         {desc='Grep live'})
 vim.keymap.set('n', '<leader>fG', [[<Cmd>Pick grep pattern='<cword>'<CR>]], { desc = 'Grep current word' })
---vim.keymap.set('n','fh', [[<Cmd>Pick help<CR>]],                              {desc='Help tags'})
 vim.keymap.set('n', '<leader>fH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
 vim.keymap.set('n', '<leader>fl', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
 vim.keymap.set('n', '<leader>fL', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
 vim.keymap.set('n', '<leader>fm', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
 vim.keymap.set('n', '<leader>fM', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
---vim.keymap.set('n','fr', [[<Cmd>Pick resume<CR>]],                            {desc='Resume'})
 vim.keymap.set('n', '<leader>fR', [[<Cmd>Pick lsp scope='references'<CR>]], { desc = 'References (LSP)' })
 vim.keymap.set('n', '<leader>fs', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = 'Symbols workspace (LSP)' })
 vim.keymap.set('n', '<leader>fS', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
@@ -1044,6 +1036,8 @@ vim.keymap.set('n', '<leader>lk', [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], {
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 vim.keymap.set("n", "<leader>fD", ":Pick diagnostic scope='current'<CR>", { desc = "Diagnostic buffer" })
+vim.keymap.set('n', '<leader>ds',  function() require('fzf-lua').lsp_document_symbols() end, { desc = 'Document Symbols' })
+vim.keymap.set('n', '<leader>dd',  function() require('fzf-lua').lsp_document_diagnostics() end, { desc = 'Document Diagnostics' })
 
 -- [[ Configure LSP ]] -------------------------------------------------------
 --  This function gets run when an LSP connects to a particular buffer.
@@ -1071,7 +1065,7 @@ local on_attach = function(client, bufnr)
   nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
   nmap("<leader>fR", "<cmd>:Pick lsp scope='references'<cr>", "References")
   nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
-  nmap("<leader>D", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type [D]efinition")
+  nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
   --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
   nmap('<leader>la', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], 'Arguments popup')
   nmap('<leader>ld', [[<Cmd>lua vim.diagnostic.open_float()<CR>]], 'Diagnostics popup')
