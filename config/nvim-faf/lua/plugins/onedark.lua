@@ -17,7 +17,7 @@ return {
           undercurl = true,
         },
       }
-      vim.cmd 'colorscheme tokyonight'
+      --vim.cmd 'colorscheme tokyonight'
     end,
   },
 }

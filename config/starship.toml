@@ -13,7 +13,7 @@ $character"""
 [hostname]
 ssh_only = true
 disabled = false
-style = "bold purple"
+style = "bold italic #87A752"
 format = "[@](white)[$ssh_symbol$hostname]($style) "
 ssh_symbol = ""
 trim_at = "."
@@ -25,9 +25,9 @@ style_root = "red bold"
 format = "[$user]($style)"
 
 [character]
-success_symbol = "[❯](purple)"
+success_symbol = "[❯](green)"
 error_symbol = "[❯](red)"
-vimcmd_symbol = "[❮](green)"
+vimcmd_symbol = "[❮](purple)"
 
 [git_branch]
 format = "[$branch]($style)"
