@@ -702,7 +702,8 @@ require("mini.files").setup({
 --   end,
 -- })
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
-vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], { desc = 'File directory' })
+vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
+  { desc = 'File directory' })
 vim.keymap.set('n', '<leader>em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = 'Mini.nvim directory' })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
@@ -905,7 +906,7 @@ require("mini.statusline").setup({
       local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
       local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
       local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
-      -- local navic         = require 'nvim-navic'.get_location()
+      local navic         = require 'nvim-navic'.get_location()
       -- local location      = MiniStatusline.section_location({ trunc_width = 75 })
       local location2     = "%7(%l/%3L%):%2c %P"
       local lazy_updates  = require("lazy.status").updates
@@ -919,6 +920,7 @@ require("mini.statusline").setup({
         { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics } },
         '%<',
         { hl = 'MiniStatuslineFilename', strings = { filename } },
+        -- { hl = 'MiniStatuslineFilename', strings = { navic } },
         '%=',
         { hl = 'MiniStatuslineFilename', strings = { lsp_client() } },
         { hl = 'Special',                strings = { lazy_updates() } },
@@ -1036,8 +1038,11 @@ vim.keymap.set('n', '<leader>lk', [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], {
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 vim.keymap.set("n", "<leader>fD", ":Pick diagnostic scope='current'<CR>", { desc = "Diagnostic buffer" })
-vim.keymap.set('n', '<leader>ds',  function() require('fzf-lua').lsp_document_symbols() end, { desc = 'Document Symbols' })
-vim.keymap.set('n', '<leader>dd',  function() require('fzf-lua').lsp_document_diagnostics() end, { desc = 'Document Diagnostics' })
+vim.keymap.set('n', '<leader>ds', function() require('fzf-lua').lsp_document_symbols() end, { desc = 'Document Symbols' })
+vim.keymap.set('n', '<leader>dd', function() require('fzf-lua').lsp_document_diagnostics() end,
+  { desc = 'Document Diagnostics' })
+
+vim.diagnostic.config({ update_in_insert = true })
 
 -- [[ Configure LSP ]] -------------------------------------------------------
 --  This function gets run when an LSP connects to a particular buffer.
@@ -1055,12 +1060,8 @@ local on_attach = function(client, bufnr)
     if desc then
       desc = "LSP: " .. desc
     end
-
     vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
   end
-
-  --nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-  --nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
   nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
   nmap("<leader>fR", "<cmd>:Pick lsp scope='references'<cr>", "References")
@@ -1073,6 +1074,34 @@ local on_attach = function(client, bufnr)
   nmap('<leader>li', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], 'Information')
   nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
   nmap('<leader>ls', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], 'Source definition')
+
+  client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
+
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+      local float_opts = {
+        focusable = false,
+        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        border = "rounded",
+        source = "always", -- show source in diagnostic popup window
+        prefix = " ",
+      }
+
+      if not vim.b.diagnostics_pos then
+        vim.b.diagnostics_pos = { nil, nil }
+      end
+
+      local cursor_pos = vim.api.nvim_win_get_cursor(0)
+      if (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
+          and #vim.diagnostic.get() > 0
+      then
+        vim.diagnostic.open_float(nil, float_opts)
+      end
+
+      vim.b.diagnostics_pos = cursor_pos
+    end,
+  })
 
   -- only if capeable
   if client.supports_method(methods.textDocument_rename) then
@@ -1132,6 +1161,15 @@ local servers = {
 
   lua_ls = {
     Lua = {
+      runtime = {
+        version = "LuaJIT",
+        path = vim.split(package.path, ';'),
+      },
+      diagnostics = {
+        globals = { 'vim', 'describe', 'it', 'before_each', 'after_each' },
+        disable = { 'need-check-nil' },
+        workspaceDelay = -1,
+      },
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
@@ -1141,9 +1179,7 @@ local servers = {
 -- Setup neovim lua configuration
 require("neodev").setup()
 
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
---capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require("mason-lspconfig")
@@ -1162,5 +1198,11 @@ mason_lspconfig.setup_handlers({
     })
   end,
 })
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 -- vim: ts=2 sts=2 sw=2 et
