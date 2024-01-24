@@ -198,7 +198,6 @@ require("lazy").setup({
         }
       end,
     },
-
     {
       -- show gitstatus in statuscolumn and more
       "lewis6991/gitsigns.nvim",
@@ -455,8 +454,10 @@ vim.opt.fillchars = {
   eob = " ",
 }
 vim.opt.list      = true
+
 vim.opt.listchars = {
   --  tab = ">>>",
+  space = '⋅',
   tab = "▸ ",
   trail = "·",
   --  precedes = "←",
@@ -794,7 +795,15 @@ vim.keymap.set("n", "<F5>", MiniMap.toggle, { desc = "Minimap Toggle" })
 require("mini.move").setup()
 
 -- [[ Notify ]] --------------------------------------------------------------
-require("mini.notify").setup()
+require("mini.notify").setup({
+  -- Notifications about LSP progress
+  lsp_progress = {
+    -- Whether to enable showing
+    enable = true,
+    -- Duration (in ms) of how long last message should be shown
+    duration_last = 1000,
+  },
+})
 vim.notify = require('mini.notify').make_notify()
 
 -- [[ Pairs ]] ---------------------------------------------------------------
