@@ -926,12 +926,12 @@ require("mini.statusline").setup({
 
       return MiniStatusline.combine_groups({
         { hl = mode_hl,                 strings = { mode, spell, wrap } },
-        { hl = 'MiniStatuslineDevinfo', strings = { git } },
+        { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics } },
         '%<',
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         -- { hl = 'MiniStatuslineFilename', strings = { navic } },
         '%=',
-        { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics } },
+        { hl = 'MiniStatuslineFilename', strings = { lsp_client() } },
         { hl = 'Special',                strings = { lazy_updates() } },
         { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
         { hl = 'MoreMsg',                strings = { searchcount } },

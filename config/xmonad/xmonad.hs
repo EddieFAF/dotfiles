@@ -103,7 +103,7 @@ myModMask :: KeyMask
 myModMask = mod4Mask
 
 --myBrowser = "qutebrowser "
-myBrowser = "brave "
+myBrowser = "firefox "
 
 altMask :: KeyMask
 altMask = mod1Mask
