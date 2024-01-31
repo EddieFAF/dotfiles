@@ -91,12 +91,12 @@ local VimMode = {
       return { fg = "bg", bg = self.mode_color }
     end,
   },
-  {
-    provider = "",
-    hl = function(self)
-      return { fg = self.mode_color, bg = "bg" }
-    end,
-  },
+  -- {
+  --   provider = "",
+  --   hl = function(self)
+  --     return { fg = self.mode_color, bg = "bg" }
+  --   end,
+  -- },
 }
 
 local GitBranch = {
@@ -110,7 +110,7 @@ local GitBranch = {
         filetype = self.filetypes,
       })
     end,
-    LeftSlantStart,
+    -- LeftSlantStart,
     {
       provider = function(self)
         return "  " .. (self.status_dict.head == "" and "main" or self.status_dict.head) .. " "
@@ -168,7 +168,7 @@ local GitBranch = {
         },
       },
     },
-    LeftSlantEnd,
+    -- LeftSlantEnd,
   },
 }
 
