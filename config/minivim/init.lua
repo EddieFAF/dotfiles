@@ -196,6 +196,7 @@ require("lazy").setup({
             background = true,
           },
         }
+              vim.cmd 'colorscheme onedark'
       end,
     },
     {
@@ -736,7 +737,7 @@ hi.setup({
 --   --  vim.cmd [[colorscheme tokyonight]]
 -- end
 
-require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
+--require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
 
 -- [[ Animated indentation guide ]] ------------------------------------------
 require("mini.indentscope").setup({
@@ -1179,7 +1180,8 @@ local servers = {
       },
       workspace = {
         checkThirdParty = false,
-        library = { vim.env.VIMRUNTIME },
+        library = vim.api.nvim_get_runtime_file('', true),
+        --library = { vim.env.VIMRUNTIME },
       },
       telemetry = { enable = false },
     },

@@ -73,5 +73,6 @@ vim.opt.listchars = {
   nbsp = "␣",
 }
 
+vim.cmd 'colorscheme onedark'
 
 -- vim: ts=2 sts=2 sw=2 et

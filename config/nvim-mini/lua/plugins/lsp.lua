@@ -90,15 +90,11 @@ return {
 
         nmap("<leader>lf", "<cmd>Format<cr>", "Format")
 
-        -- Attach and configure vim-illuminate
-        --      require("illuminate").on_attach(client)
-
         -- if client.server_capabilities.documentSymbolProvider then
         --   navic.attach(client, bufnr)
         -- end
       end
 
-      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
       local capabilities = vim.lsp.protocol.make_client_capabilities()
 
       -- Lua

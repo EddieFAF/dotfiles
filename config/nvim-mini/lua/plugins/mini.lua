@@ -242,7 +242,7 @@ return {
       })
 
       -- [[ Color Palette ]] -------------------------------------------------------
-      require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
+--      require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
 
       -- [[ Animated indentation guide ]] ------------------------------------------
       require("mini.indentscope").setup({

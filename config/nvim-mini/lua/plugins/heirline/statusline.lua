@@ -1,22 +1,18 @@
 local utils = require("heirline.utils")
 local conditions = require("heirline.conditions")
 
-local LeftSlantStart = {
-  provider = "",
-  hl = { fg = "bg", bg = "#2e323b" },
+local colors = {
+  bg = '#111111',
+  fg = '#eeeeee',
+  green = utils.get_highlight("String").fg,
+  blue = utils.get_highlight("Function").fg,
+  gray = utils.get_highlight("NonText").fg,
+  orange = utils.get_highlight("Constant").fg,
+  purple = utils.get_highlight("Statement").fg,
+  cyan = utils.get_highlight("Special").fg,
 }
-local LeftSlantEnd = {
-  provider = "",
-  hl = { fg = "#2e323b", bg = "bg" },
-}
-local RightSlantStart = {
-  provider = "",
-  hl = { fg = "#2e323b", bg = "bg" },
-}
-local RightSlantEnd = {
-  provider = "",
-  hl = { fg = "bg", bg = "#2e323b" },
-}
+
+require("heirline").load_colors(colors)
 
 local VimMode = {
   init = function(self)
@@ -68,17 +64,17 @@ local VimMode = {
       t = "TERM",
     },
     mode_colors = {
-      n = "purple",
-      i = "green",
-      v = "orange",
-      V = "orange",
-      ["\22"] = "orange",
+      n = "green",
+      i = "blue",
+      v = "cyan",
+      V = "cyan",
+      ["\22"] = "cyan",
       c = "orange",
-      s = "yellow",
-      S = "yellow",
-      ["\19"] = "yellow",
-      r = "green",
-      R = "green",
+      s = "purple",
+      S = "purple",
+      ["\19"] = "purple",
+      R = "orange",
+      r = "orange",
       ["!"] = "red",
       t = "red",
     },
@@ -215,7 +211,7 @@ local FileFlags = {
   },
 }
 
-local FileNameBlock = utils.insert(FileBlock, LeftSlantStart, utils.insert(FileName, FileFlags), LeftSlantEnd)
+local FileNameBlock = utils.insert(FileBlock, utils.insert(FileName, FileFlags))
 
 ---Return the LspDiagnostics from the LSP servers
 local LspDiagnostics = {
@@ -243,18 +239,18 @@ local LspDiagnostics = {
     end,
     hl = { fg = "bg", bg = "red" },
     {
-      {
-        provider = "",
-      },
+      -- {
+      --   provider = "",
+      -- },
       {
         provider = function(self)
           return vim.fn.sign_getdefined("DiagnosticSignError")[1].text .. self.errors
         end,
       },
-      {
-        provider = "",
-        hl = { bg = "bg", fg = "red" },
-      },
+      -- {
+      --   provider = "",
+      --   hl = { bg = "bg", fg = "red" },
+      -- },
     },
   },
   -- Warnings
@@ -262,20 +258,20 @@ local LspDiagnostics = {
     condition = function(self)
       return self.warnings > 0
     end,
-    hl = { fg = "bg", bg = "yellow" },
+    hl = { fg = "yellow", bg = "bg" },
     {
-      {
-        provider = "",
-      },
+      -- {
+      --   provider = "",
+      -- },
       {
         provider = function(self)
           return vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text .. self.warnings
         end,
       },
-      {
-        provider = "",
-        hl = { bg = "bg", fg = "yellow" },
-      },
+      -- {
+      --   provider = "",
+      --   hl = { bg = "bg", fg = "yellow" },
+      -- },
     },
   },
   -- Hints
@@ -338,12 +334,12 @@ local LspAttached = {
     condition = function(self)
       return self.lsp_attached
     end,
-    LeftSlantStart,
+    -- LeftSlantStart,
     {
       provider = "  ",
       hl = { fg = "gray", bg = "#2e323b" },
     },
-    LeftSlantEnd,
+    -- LeftSlantEnd,
   },
 }
 
@@ -354,10 +350,10 @@ local Ruler = {
       filetype = self.filetypes,
     })
   end,
-  {
-    provider = "",
-    hl = { fg = "gray", bg = "bg" },
-  },
+  -- {
+  --   provider = "",
+  --   hl = { fg = "gray", bg = "bg" },
+  -- },
   {
     -- %L = number of lines in the buffer
     -- %P = percentage through file of displayed window
@@ -389,12 +385,12 @@ local SearchResults = {
       self.search = search
     end
   end,
-  {
-    provider = "",
-    hl = function()
-      return { fg = utils.get_highlight("Substitute").bg, bg = "bg" }
-    end,
-  },
+  -- {
+  --   provider = "",
+  --   hl = function()
+  --     return { fg = utils.get_highlight("Substitute").bg, bg = "bg" }
+  --   end,
+  -- },
   {
     provider = function(self)
       local search = self.search
@@ -405,12 +401,12 @@ local SearchResults = {
       return { bg = utils.get_highlight("Substitute").bg, fg = "bg" }
     end,
   },
-  {
-    provider = "",
-    hl = function()
-      return { bg = utils.get_highlight("Substitute").bg, fg = "bg" }
-    end,
-  },
+  -- {
+  --   provider = "",
+  --   hl = function()
+  --     return { bg = utils.get_highlight("Substitute").bg, fg = "bg" }
+  --   end,
+  -- },
 }
 
 -- Show plugin updates available from lazy.nvim
@@ -422,7 +418,7 @@ local Lazy = {
   end,
   -- update = { "User", pattern = "LazyUpdate" },
   provider = function()
-    return "  " .. require("lazy.status").updates() .. " "
+    return "" .. require("lazy.status").updates() .. " "
   end,
   on_click = {
     callback = function()
@@ -449,7 +445,8 @@ local FileIcon = {
     end,
     name = "sl_fileicon_click",
   },
-  hl = { fg = "gray", bg = "#2e323b" },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true },
+  --hl = { fg = "gray", bg = "#2e323b" },
 }
 
 local FileType = {
@@ -462,10 +459,11 @@ local FileType = {
     end,
     name = "sl_filetype_click",
   },
-  hl = { fg = "gray", bg = "#2e323b" },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true },
+  --hl = { fg = "gray", bg = "#2e323b" },
 }
 
-local FileType = utils.insert(FileBlock, RightSlantStart, FileIcon, FileType, RightSlantEnd)
+local FileType = utils.insert(FileBlock, FileIcon, FileType)
 
 --- Return information on the current file's encoding
 local FileEncoding = {
@@ -474,7 +472,7 @@ local FileEncoding = {
       filetype = self.filetypes,
     })
   end,
-  RightSlantStart,
+  -- RightSlantStart,
   {
     provider = function()
       local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc -- :h 'enc'
@@ -485,7 +483,7 @@ local FileEncoding = {
       bg = "#2e323b",
     },
   },
-  RightSlantEnd,
+  -- RightSlantEnd,
 }
 
 return {
@@ -523,9 +521,9 @@ return {
     VimMode,
     GitBranch,
     -- FileNameBlock,
+    { provider = "%=" },
     LspAttached,
     LspDiagnostics,
-    { provider = "%=" },
     Lazy,
     FileType,
     -- FileEncoding,
