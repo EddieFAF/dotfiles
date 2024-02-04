@@ -281,19 +281,13 @@ local LspDiagnostics = {
     },
   },
 }
+--     return "  [" .. table.concat(names, ",") .. "]"
+
 local LSPActive = {
-  condition = conditions.lsp_attached,
-  update = { "LspAttach", "LspDetach" },
-
-  provider = function()
-    local names = {}
-    for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
-      table.insert(names, server.name)
-    end
-    return "  [" .. table.concat(names, ",") .. "]"
+  condition = function()
+    return conditions.lsp_attached()
   end,
-  hl = { fg = "green" },
-
+  update = { "LspAttach", "LspDetach" },
   on_click = {
     callback = function()
       vim.defer_fn(function()
@@ -302,7 +296,21 @@ local LSPActive = {
     end,
     name = "heirline_LSP",
   },
+  provider = function()
+    local names = {}
+    for _, server in pairs(vim.lsp.get_clients()) do
+      table.insert(names, server.name)
+    end
+
+    if #names == 0 then
+      return ""
+    end
+
+    return ("  %s "):format(table.concat(names, " "))
+  end,
+  hl = { bg = colors.crust, fg = colors.subtext1, bold = true, italic = false },
 }
+
 
 -- local LspAttached = {
 --   condition = conditions.lsp_attached,
@@ -416,7 +424,8 @@ local FileIcon = {
   init = function(self)
     local filename = self.filename
     local extension = vim.fn.fnamemodify(filename, ":e")
-    self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+    self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension,
+      { default = true })
   end,
   provider = function(self)
     return self.icon and (" " .. self.icon .. " ")
@@ -427,7 +436,7 @@ local FileIcon = {
     end,
     name = "sl_fileicon_click",
   },
-  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg="#2e323b" },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "#2e323b" },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
@@ -441,7 +450,7 @@ local FileType = {
     end,
     name = "sl_filetype_click",
   },
-  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg="#2e323b" },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "#2e323b" },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
