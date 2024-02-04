@@ -2,8 +2,8 @@ local utils = require("heirline.utils")
 local conditions = require("heirline.conditions")
 
 local colors = {
-  bg = '#111111',
-  fg = '#eeeeee',
+  --bg = '#111111',
+  --fg = '#eeeeee',
   green = utils.get_highlight("String").fg,
   blue = utils.get_highlight("Function").fg,
   gray = utils.get_highlight("NonText").fg,
@@ -87,12 +87,6 @@ local VimMode = {
       return { fg = "bg", bg = self.mode_color }
     end,
   },
-  -- {
-  --   provider = "",
-  --   hl = function(self)
-  --     return { fg = self.mode_color, bg = "bg" }
-  --   end,
-  -- },
 }
 
 local GitBranch = {
@@ -106,7 +100,6 @@ local GitBranch = {
         filetype = self.filetypes,
       })
     end,
-    -- LeftSlantStart,
     {
       provider = function(self)
         return "  " .. (self.status_dict.head == "" and "main" or self.status_dict.head) .. " "
@@ -164,7 +157,6 @@ local GitBranch = {
         },
       },
     },
-    -- LeftSlantEnd,
   },
 }
 
@@ -237,20 +229,13 @@ local LspDiagnostics = {
     condition = function(self)
       return self.errors > 0
     end,
-    hl = { fg = "bg", bg = "red" },
+    hl = { fg = "red" },
     {
-      -- {
-      --   provider = "",
-      -- },
       {
         provider = function(self)
           return vim.fn.sign_getdefined("DiagnosticSignError")[1].text .. self.errors
         end,
       },
-      -- {
-      --   provider = "",
-      --   hl = { bg = "bg", fg = "red" },
-      -- },
     },
   },
   -- Warnings
@@ -258,20 +243,13 @@ local LspDiagnostics = {
     condition = function(self)
       return self.warnings > 0
     end,
-    hl = { fg = "yellow", bg = "bg" },
+    hl = { fg = "yellow" },
     {
-      -- {
-      --   provider = "",
-      -- },
       {
         provider = function(self)
           return vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text .. self.warnings
         end,
       },
-      -- {
-      --   provider = "",
-      --   hl = { bg = "bg", fg = "yellow" },
-      -- },
     },
   },
   -- Hints
@@ -279,7 +257,7 @@ local LspDiagnostics = {
     condition = function(self)
       return self.hints > 0
     end,
-    hl = { fg = "gray", bg = "bg" },
+    hl = { fg = "gray" },
     {
       {
         provider = function(self)
@@ -293,7 +271,7 @@ local LspDiagnostics = {
     condition = function(self)
       return self.info > 0
     end,
-    hl = { fg = "gray", bg = "bg" },
+    hl = { fg = "gray" },
     {
       {
         provider = function(self)
@@ -303,45 +281,65 @@ local LspDiagnostics = {
     },
   },
 }
-
-local LspAttached = {
+local LSPActive = {
   condition = conditions.lsp_attached,
-  static = {
-    lsp_attached = false,
-    show_lsps = {
-      copilot = false,
-      efm = false,
-    },
-  },
-  init = function(self)
-    for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
-      if self.show_lsps[server.name] ~= false then
-        self.lsp_attached = true
-        return
-      end
-    end
-  end,
   update = { "LspAttach", "LspDetach" },
+
+  provider = function()
+    local names = {}
+    for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+      table.insert(names, server.name)
+    end
+    return "  [" .. table.concat(names, ",") .. "]"
+  end,
+  hl = { fg = "green" },
+
   on_click = {
     callback = function()
       vim.defer_fn(function()
-        vim.cmd("LspInfo")
+        require("lspconfig.ui.lspinfo")()
       end, 100)
     end,
-    name = "sl_lsp_click",
-  },
-  {
-    condition = function(self)
-      return self.lsp_attached
-    end,
-    -- LeftSlantStart,
-    {
-      provider = "  ",
-      hl = { fg = "gray", bg = "#2e323b" },
-    },
-    -- LeftSlantEnd,
+    name = "heirline_LSP",
   },
 }
+
+-- local LspAttached = {
+--   condition = conditions.lsp_attached,
+--   static = {
+--     lsp_attached = false,
+--     show_lsps = {
+--       copilot = false,
+--       efm = false,
+--     },
+--   },
+--   init = function(self)
+--     for i, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+--       if self.show_lsps[server.name] ~= false then
+--         self.lsp_attached = true
+--         return
+--       end
+--     end
+--   end,
+--   update = { "LspAttach", "LspDetach" },
+--   on_click = {
+--     callback = function()
+--       vim.defer_fn(function()
+--         vim.cmd("LspInfo")
+--       end, 100)
+--     end,
+--     name = "sl_lsp_click",
+--   },
+--   {
+--     condition = function(self)
+--       return self.lsp_attached
+--     end,
+--     {
+--       provider = "  ",
+--       hl = { fg = "gray", bg = "#2e323b" },
+--     },
+--   },
+-- }
 
 ---Return the current line number as a % of total lines and the total lines in the file
 local Ruler = {
@@ -350,10 +348,6 @@ local Ruler = {
       filetype = self.filetypes,
     })
   end,
-  -- {
-  --   provider = "",
-  --   hl = { fg = "gray", bg = "bg" },
-  -- },
   {
     -- %L = number of lines in the buffer
     -- %P = percentage through file of displayed window
@@ -385,12 +379,6 @@ local SearchResults = {
       self.search = search
     end
   end,
-  -- {
-  --   provider = "",
-  --   hl = function()
-  --     return { fg = utils.get_highlight("Substitute").bg, bg = "bg" }
-  --   end,
-  -- },
   {
     provider = function(self)
       local search = self.search
@@ -401,12 +389,6 @@ local SearchResults = {
       return { bg = utils.get_highlight("Substitute").bg, fg = "bg" }
     end,
   },
-  -- {
-  --   provider = "",
-  --   hl = function()
-  --     return { bg = utils.get_highlight("Substitute").bg, fg = "bg" }
-  --   end,
-  -- },
 }
 
 -- Show plugin updates available from lazy.nvim
@@ -418,7 +400,7 @@ local Lazy = {
   end,
   -- update = { "User", pattern = "LazyUpdate" },
   provider = function()
-    return "" .. require("lazy.status").updates() .. " "
+    return " " .. require("lazy.status").updates() .. " "
   end,
   on_click = {
     callback = function()
@@ -426,7 +408,7 @@ local Lazy = {
     end,
     name = "sl_plugins_click",
   },
-  hl = { fg = "gray" },
+  hl = { fg = utils.get_highlight("Special").fg },
 }
 
 --- Return information on the current buffers filetype
@@ -445,7 +427,7 @@ local FileIcon = {
     end,
     name = "sl_fileicon_click",
   },
-  hl = { fg = utils.get_highlight("Type").fg, bold = true },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg="#2e323b" },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
@@ -459,11 +441,11 @@ local FileType = {
     end,
     name = "sl_filetype_click",
   },
-  hl = { fg = utils.get_highlight("Type").fg, bold = true },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg="#2e323b" },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
-local FileType = utils.insert(FileBlock, FileIcon, FileType)
+local FileTypeN = utils.insert(FileBlock, FileIcon, FileType)
 
 --- Return information on the current file's encoding
 local FileEncoding = {
@@ -472,7 +454,6 @@ local FileEncoding = {
       filetype = self.filetypes,
     })
   end,
-  -- RightSlantStart,
   {
     provider = function()
       local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc -- :h 'enc'
@@ -483,7 +464,6 @@ local FileEncoding = {
       bg = "#2e323b",
     },
   },
-  -- RightSlantEnd,
 }
 
 return {
@@ -522,10 +502,10 @@ return {
     GitBranch,
     -- FileNameBlock,
     { provider = "%=" },
-    LspAttached,
+    LSPActive,
     LspDiagnostics,
     Lazy,
-    FileType,
+    FileTypeN,
     -- FileEncoding,
     SearchResults,
     Ruler,
