@@ -30,7 +30,7 @@ vim.opt.softtabstop   = 2
 vim.opt.expandtab     = true
 --vim.opt.foldmethod = "syntax"
 vim.opt.termguicolors = true
-vim.opt.showmode      = true
+vim.opt.showmode      = false
 vim.opt.laststatus    = 3
 
 vim.o.autoindent      = true     -- Use auto indent

@@ -63,6 +63,7 @@ return {
 
       -- This function gets run when an LSP connects to a particular buffer.
       local on_attach = function(client, bufnr)
+        local methods = vim.lsp.protocol.Methods
         local nmap = function(keys, func, desc, mode)
           mode = mode or 'n'
           if desc then
@@ -90,9 +91,32 @@ return {
 
         nmap("<leader>lf", "<cmd>Format<cr>", "Format")
 
+        -- See `:help K` for why this keymap
+        nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+        nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Documentation")
+
+        -- only if capeable
+        if client.supports_method(methods.textDocument_rename) then
+          nmap('<leader>lr', vim.lsp.buf.rename, 'Rename')
+        end
+
         -- if client.server_capabilities.documentSymbolProvider then
         --   navic.attach(client, bufnr)
         -- end
+
+        if client.supports_method(methods.textDocument_codeAction) then
+          nmap('<leader>ca', function()
+            require('fzf-lua').lsp_code_actions {
+              winopts = {
+                relative = 'cursor',
+                width = 0.6,
+                height = 0.6,
+                row = 1,
+                preview = { vertical = 'up:70%' },
+              },
+            }
+          end, 'Code actions', { 'n', 'v' })
+        end
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
