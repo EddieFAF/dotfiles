@@ -157,44 +157,44 @@ return {
       require("mini.comment").setup()
 
       -- [[ Completion ]] ----------------------------------------------------------
-      require("mini.completion").setup({
-        lsp_completion = {
-          source_func = 'omnifunc',
-          auto_setup = false,
-          process_items = function(items, base)
-            -- Don't show 'Text' and 'Snippet' suggestions
-            items = vim.tbl_filter(function(x) return x.kind ~= 1 and x.kind ~= 15 end, items)
-            return MiniCompletion.default_process_items(items, base)
-          end,
-        },
-        window = {
-          info = { height = 25, width = 80, border = "rounded" },
-          signature = { height = 25, width = 80, border = "rounded" },
-        },
-      })
-
-      vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
-      vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
-      local keys = {
-        ["cr"] = vim.api.nvim_replace_termcodes("<CR>", true, true, true),
-        ["ctrl-y"] = vim.api.nvim_replace_termcodes("<C-y>", true, true, true),
-        ["ctrl-y_cr"] = vim.api.nvim_replace_termcodes("<C-y><CR>", true, true, true),
-      }
-
-      _G.cr_action = function()
-        if vim.fn.pumvisible() ~= 0 then
-          -- If popup is visible, confirm selected item or add new line otherwise
-          local item_selected = vim.fn.complete_info()["selected"] ~= -1
-          return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
-        else
-          -- If popup is not visible, use plain `<CR>`. You might want to customize
-          -- according to other plugins. For example, to use 'mini.pairs', replace
-          -- next line with `return require('mini.pairs').cr()`
-          return keys["cr"]
-        end
-      end
-
-      vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
+      -- require("mini.completion").setup({
+      --   lsp_completion = {
+      --     source_func = 'omnifunc',
+      --     auto_setup = false,
+      --     process_items = function(items, base)
+      --       -- Don't show 'Text' and 'Snippet' suggestions
+      --       items = vim.tbl_filter(function(x) return x.kind ~= 1 and x.kind ~= 15 end, items)
+      --       return MiniCompletion.default_process_items(items, base)
+      --     end,
+      --   },
+      --   window = {
+      --     info = { height = 25, width = 80, border = "rounded" },
+      --     signature = { height = 25, width = 80, border = "rounded" },
+      --   },
+      -- })
+      --
+      -- vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
+      -- vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
+      -- local keys = {
+      --   ["cr"] = vim.api.nvim_replace_termcodes("<CR>", true, true, true),
+      --   ["ctrl-y"] = vim.api.nvim_replace_termcodes("<C-y>", true, true, true),
+      --   ["ctrl-y_cr"] = vim.api.nvim_replace_termcodes("<C-y><CR>", true, true, true),
+      -- }
+      --
+      -- _G.cr_action = function()
+      --   if vim.fn.pumvisible() ~= 0 then
+      --     -- If popup is visible, confirm selected item or add new line otherwise
+      --     local item_selected = vim.fn.complete_info()["selected"] ~= -1
+      --     return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
+      --   else
+      --     -- If popup is not visible, use plain `<CR>`. You might want to customize
+      --     -- according to other plugins. For example, to use 'mini.pairs', replace
+      --     -- next line with `return require('mini.pairs').cr()`
+      --     return keys["cr"]
+      --   end
+      -- end
+      --
+      -- vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 
       -- [[ Mini Cursorword ]] -----------------------------------------------------
       require("mini.cursorword").setup()
