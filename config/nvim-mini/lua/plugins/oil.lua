@@ -30,7 +30,7 @@ return {
       },
     },
     keys = {
-      { "<Leader>o", ":lua require('oil').open_float()<CR>" },
+      { "<Leader>o", ":lua require('oil').open_float()<CR>", {desc = "Oil" } },
     },
   },
 }
