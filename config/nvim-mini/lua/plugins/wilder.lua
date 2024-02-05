@@ -1,6 +1,7 @@
 return {
 
     { "gelguy/wilder.nvim", build = ":UpdateRemotePlugins",
+    enabled = true,
   config = function()
 -- [[ Setup Wilder Menu ]] ---------------------------------------------------
 local wilder = require("wilder")

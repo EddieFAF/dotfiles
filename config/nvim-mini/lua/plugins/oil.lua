@@ -17,8 +17,16 @@ return {
       view_options = {
         show_hidden = true,
       },
+      -- Configuration for the floating window in oil.open_float
       float = {
+        -- Padding around the floating window
         padding = 5,
+        max_width = 0,
+        max_height = 0,
+        border = "single",
+        win_options = {
+          winblend = 0,
+        },
       },
     },
     keys = {
