@@ -62,4 +62,6 @@ vim.keymap.set("n", "<Leader>p", function()
   end)
 end, { desc = "Pick something" })
 
+ vim.keymap.set("n", "<Leader>o", ":lua require('oil').open_float()<CR>", {desc = "Oil" })
+
 -- vim: ts=2 sts=2 sw=2 et
