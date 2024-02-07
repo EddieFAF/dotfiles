@@ -912,11 +912,11 @@ require("mini.statusline").setup({
       local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
       local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
       local git           = MiniStatusline.section_git({ trunc_width = 75 })
-      local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+      --local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
       local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
       local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
       local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
-      local navic         = require 'nvim-navic'.get_location()
+      --local navic         = require 'nvim-navic'.get_location()
       -- local location      = MiniStatusline.section_location({ trunc_width = 75 })
       local location2     = "%7(%l/%3L%):%2c %P"
       local lazy_updates  = require("lazy.status").updates
@@ -932,7 +932,7 @@ require("mini.statusline").setup({
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         -- { hl = 'MiniStatuslineFilename', strings = { navic } },
         '%=',
-        { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics } },
+        { hl = 'MiniStatuslineFilename', strings = { lsp_client() } },
         { hl = 'Special',                strings = { lazy_updates() } },
         { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
         { hl = 'MoreMsg',                strings = { searchcount } },
