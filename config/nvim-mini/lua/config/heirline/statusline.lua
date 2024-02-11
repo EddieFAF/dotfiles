@@ -549,12 +549,6 @@ local FileIcon = {
   provider = function(self)
     return self.icon and (" " .. self.icon .. " ")
   end,
-  on_click = {
-    callback = function()
-      om.ChangeFiletype()
-    end,
-    name = "sl_fileicon_click",
-  },
   hl = { fg = utils.get_highlight("Type").fg, bold = true },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
@@ -563,12 +557,6 @@ local FileType = {
   provider = function()
     return string.lower(vim.bo.filetype) .. " "
   end,
-  on_click = {
-    callback = function()
-      om.ChangeFiletype()
-    end,
-    name = "sl_filetype_click",
-  },
   hl = { fg = utils.get_highlight("Type").fg, bold = true },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
