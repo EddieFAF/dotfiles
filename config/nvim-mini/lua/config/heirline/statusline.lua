@@ -19,7 +19,7 @@ local purple = "#800080"
 local magenta = "#FF00FF"
 
 local colors = {
-  --bg = '#111111',
+  bg = '#111111',
   --fg = '#eeeeee',
   green = utils.get_highlight("String").fg,
   blue = utils.get_highlight("Function").fg,
@@ -160,6 +160,7 @@ local GitBranch = {
   condition = conditions.is_git_repo,
   init = function(self)
     self.status_dict = vim.b.gitsigns_status_dict
+    self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
   end,
   {
     condition = function(self)
@@ -171,58 +172,41 @@ local GitBranch = {
       provider = function(self)
         return "  " .. (self.status_dict.head == "" and "main" or self.status_dict.head) .. " "
       end,
-      on_click = {
-        callback = function()
-          om.ListBranches()
-        end,
-        name = "sl_git_click",
-      },
-      hl = { fg = "gray", bg = "#2e323b" },
+      hl = { bold = true },
+    },
+    -- You could handle delimiters, icons and counts similar to Diagnostics
+    {
+      condition = function(self)
+        return self.has_changes
+      end,
+      provider = "("
     },
     {
-      condition = function()
-        return (_G.GitStatus ~= nil and (_G.GitStatus.ahead ~= 0 or _G.GitStatus.behind ~= 0))
+      provider = function(self)
+        local count = self.status_dict.added or 0
+        return count > 0 and ("+" .. count)
       end,
-      update = { "User", pattern = "GitStatusChanged" },
-      {
-        condition = function()
-          return _G.GitStatus.status == "pending"
-        end,
-        provider = " ",
-        hl = { fg = "gray", bg = "#2e323b" },
-      },
-      {
-        provider = function()
-          return _G.GitStatus.behind .. " "
-        end,
-        hl = function()
-          return { fg = _G.GitStatus.behind == 0 and "gray" or "red", bg = "#2e323b" }
-        end,
-        on_click = {
-          callback = function()
-            if _G.GitStatus.behind > 0 then
-              om.GitPull()
-            end
-          end,
-          name = "sl_gitpull_click",
-        },
-      },
-      {
-        provider = function()
-          return _G.GitStatus.ahead .. " "
-        end,
-        hl = function()
-          return { fg = _G.GitStatus.ahead == 0 and "gray" or "green", bg = "#2e323b" }
-        end,
-        on_click = {
-          callback = function()
-            if _G.GitStatus.ahead > 0 then
-              om.GitPush()
-            end
-          end,
-          name = "sl_gitpush_click",
-        },
-      },
+      hl = { fg = "git_add" },
+    },
+    {
+      provider = function(self)
+        local count = self.status_dict.removed or 0
+        return count > 0 and ("-" .. count)
+      end,
+      hl = { fg = "git_delete" },
+    },
+    {
+      provider = function(self)
+        local count = self.status_dict.changed or 0
+        return count > 0 and ("~" .. count)
+      end,
+      hl = { fg = "git_change" },
+    },
+    {
+      condition = function(self)
+        return self.has_changes
+      end,
+      provider = ")",
     },
   },
 }
@@ -273,62 +257,62 @@ local FileFlags = {
 local FileNameBlock = utils.insert(FileBlock, utils.insert(FileName, FileFlags))
 
 local DiagnosticSigns = {
-    constants.diagnostic.sign.error,
-    constants.diagnostic.sign.warning,
-    constants.diagnostic.sign.info,
-    constants.diagnostic.sign.hint,
+  constants.diagnostic.sign.error,
+  constants.diagnostic.sign.warning,
+  constants.diagnostic.sign.info,
+  constants.diagnostic.sign.hint,
 }
 local DiagnosticColors = {
-    "diagnostic_error",
-    "diagnostic_warn",
-    "diagnostic_info",
-    "diagnostic_hint",
+  "diagnostic_error",
+  "diagnostic_warn",
+  "diagnostic_info",
+  "diagnostic_hint",
 }
 local DiagnosticSeverity = { "ERROR", "WARN", "INFO", "HINT" }
 
 local function GetDiagnosticText(level)
-    local value = #vim.diagnostic.get(
-        0,
-        { severity = vim.diagnostic.severity[DiagnosticSeverity[level]] }
-    )
-    if value <= 0 then
-        return ""
-    end
-    return string.format("%s %d ", DiagnosticSigns[level], value)
+  local value = #vim.diagnostic.get(
+    0,
+    { severity = vim.diagnostic.severity[DiagnosticSeverity[level]] }
+  )
+  if value <= 0 then
+    return ""
+  end
+  return string.format("%s %d ", DiagnosticSigns[level], value)
 end
 
 local function GetDiagnosticHighlight(level)
-    return { fg = DiagnosticColors[level], bg = "normal_bg4" }
+  return { fg = DiagnosticColors[level], bg = "normal_bg4" }
 end
 
 local Diagnostic = {
-    hl = { fg = "normal_fg4", bg = "normal_bg4" },
-    update = { "DiagnosticChanged" },
+  hl = { fg = "normal_fg4", bg = "normal_bg4" },
+  update = { "DiagnosticChanged" },
 
-    {
-        provider = function(self)
-            return GetDiagnosticText(1)
-        end,
-        hl = GetDiagnosticHighlight(1),
-    },
-    {
-        provider = function(self)
-            return GetDiagnosticText(2)
-        end,
-        hl = GetDiagnosticHighlight(2),
-    },
-    {
-        provider = function(self)
-            return GetDiagnosticText(3)
-        end,
-        hl = GetDiagnosticHighlight(3),
-    },
-    {
-        provider = function(self)
-            return GetDiagnosticText(4)
-        end,
-        hl = GetDiagnosticHighlight(4),
-    },
+  {
+    provider = function(self)
+      return GetDiagnosticText(1)
+    end,
+    hl = GetDiagnosticHighlight(1),
+  },
+  {
+    provider = function(self)
+      return GetDiagnosticText(2)
+    end,
+    hl = GetDiagnosticHighlight(2),
+  },
+  {
+    provider = function(self)
+      return GetDiagnosticText(3)
+    end,
+    hl = GetDiagnosticHighlight(3),
+  },
+  {
+    provider = function(self)
+      return GetDiagnosticText(4)
+    end,
+    hl = GetDiagnosticHighlight(4),
+  },
 }
 
 ---Return the LspDiagnostics from the LSP servers
@@ -551,7 +535,7 @@ local Lazy = {
     end,
     name = "sl_plugins_click",
   },
-  hl = { fg = utils.get_highlight("Special").fg, bg="normal_bg4" },
+  hl = { fg = utils.get_highlight("Special").fg, bg = "normal_bg4" },
 }
 
 --- Return information on the current buffers filetype
@@ -571,7 +555,7 @@ local FileIcon = {
     end,
     name = "sl_fileicon_click",
   },
-  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "#2e323b" },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
@@ -585,7 +569,7 @@ local FileType = {
     end,
     name = "sl_filetype_click",
   },
-  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "#2e323b" },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
@@ -609,6 +593,7 @@ local FileEncoding = {
     },
   },
 }
+
 local LspStatus = {
   hl = { fg = "normal_fg4", bg = "normal_bg4" },
   provider = function()
@@ -1234,6 +1219,7 @@ return {
     })
   end,
   {
+    hl = { fg ="fg", bg = "normal_bg4" },
     Mode,
     GitBranch,
     LspStatus,
