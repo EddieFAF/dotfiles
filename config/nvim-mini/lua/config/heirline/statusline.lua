@@ -162,6 +162,7 @@ local GitBranch = {
     self.status_dict = vim.b.gitsigns_status_dict
     self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
   end,
+  hl = { bg = "normal_bg2" },
   {
     condition = function(self)
       return not conditions.buffer_matches({
@@ -288,6 +289,12 @@ end
 local Diagnostic = {
   hl = { fg = "normal_fg4", bg = "normal_bg4" },
   update = { "DiagnosticChanged" },
+  on_click = {
+    callback = function()
+      require("trouble").toggle({ mode = "document_diagnostics" })
+    end,
+    name = "sl_diagnostics_click",
+  },
 
   {
     provider = function(self)
@@ -472,7 +479,7 @@ local Ruler = {
   {
     -- %L = number of lines in the buffer
     -- %P = percentage through file of displayed window
-    provider = "%7(%l/%3L%):%2c %P",
+    provider = "%7(%l/%3L%):%-2c %P",
     hl = function(self)
       local mode_name = GetModeName(self.mode)
       local mode_hl = ModeHighlights[mode_name] or ModeHighlights.NORMAL
@@ -549,7 +556,7 @@ local FileIcon = {
   provider = function(self)
     return self.icon and (" " .. self.icon .. " ")
   end,
-  hl = { fg = utils.get_highlight("Type").fg, bold = true },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "normal_bg2" },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
@@ -557,7 +564,7 @@ local FileType = {
   provider = function()
     return string.lower(vim.bo.filetype) .. " "
   end,
-  hl = { fg = utils.get_highlight("Type").fg, bold = true },
+  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "normal_bg2" },
   --hl = { fg = "gray", bg = "#2e323b" },
 }
 
