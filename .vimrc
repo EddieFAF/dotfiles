@@ -30,7 +30,6 @@ call plug#begin()
 Plug 'https://github.com/morhetz/gruvbox.git'
 Plug 'dracula/vim', { 'name': 'dracula' }
 Plug 'joshdick/onedark.vim' " OneDark Theme
-Plug 'romgrk/doom-one.vim'
 
 """""""""""""""""""
 "Completion plugin"
@@ -223,10 +222,9 @@ if &term =~ '256color'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     set termguicolors
   endif
-  colorscheme dracula
+  colorscheme onedark
 endif
-
-let g:doom_one_terminal_colors = v:true
+  colorscheme onedark
 
 set background=dark
 "Indentline follow theme change to 1 if colors are fucked
