@@ -3,6 +3,7 @@ local M = {
   dependencies = {
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-nvim-lua' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
     { 'hrsh7th/cmp-cmdline' },
@@ -45,6 +46,13 @@ function M.config()
   local luasnip = require 'luasnip'
   local lspkind = require 'lspkind'
   require('luasnip/loaders/from_vscode').lazy_load()
+
+  local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0
+        and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s')
+        == nil
+  end
 
   local check_backspace = function()
     local col = vim.fn.col '.' - 1
@@ -90,6 +98,8 @@ function M.config()
           luasnip.expand_or_jump()
         elseif check_backspace() then
           fallback()
+        elseif has_words_before() then
+          cmp.complete()
         else
           fallback()
         end
@@ -128,8 +138,9 @@ function M.config()
     },
     sources = {
       { name = 'nvim_lsp' },
-      { name = 'nvim_lua' },
+      { name = 'nvim_lsp_signature_help' },
       { name = 'luasnip' },
+      { name = 'nvim_lua' },
       { name = 'path' },
       { name = 'buffer' },
     },
@@ -142,24 +153,32 @@ function M.config()
       documentation = cmp.config.window.bordered(),
     },
     experimental = {
-      ghost_text = true,
+      ghost_text = false,
     },
   }
 
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'cmdline' },
-    },
-    window = {
-      completion = cmp.config.window.bordered {
-        border = 'rounded',
-        winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:Search',
-        col_offset = -3,
-        side_padding = 1,
-      },
-    },
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      {
+        name = 'cmdline',
+        option = {
+          ignore_cmds = { 'Man', '!' }
+        }
+      }
+    }),
+    -- window = {
+    --   completion = cmp.config.window.bordered {
+    --     border = 'rounded',
+    --     winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:Search',
+    --     col_offset = -3,
+    --     side_padding = 1,
+    --   },
+    -- },
   })
+
   cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {

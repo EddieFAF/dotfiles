@@ -5,7 +5,7 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
---      { "j-hui/fidget.nvim" },
+      --      { "j-hui/fidget.nvim" },
       "folke/neodev.nvim",
     },
     lazy = false,
@@ -119,7 +119,8 @@ return {
         end
       end
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      --      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       -- Lua
       require("lspconfig")["lua_ls"].setup({
