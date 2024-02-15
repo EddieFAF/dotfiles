@@ -254,6 +254,39 @@ local FileFlags = {
     hl = { fg = "gray" },
   },
 }
+local FileSize = {
+  init = function(self)
+    self.filename = vim.api.nvim_buf_get_name(0)
+  end,
+  {
+    provider = function(self)
+      if strings.empty(self.filename) then
+        return ""
+      end
+      local fstat = uv.fs_stat(self.filename)
+      local filesize = tables.tbl_get(fstat, "size")
+      if type(filesize) ~= "number" or filesize <= 0 then
+        return ""
+      end
+      local suffixes = { "b", "k", "m", "g" }
+      local i = 1
+      while filesize > 1024 and i < #suffixes do
+        filesize = filesize / 1024
+        i = i + 1
+      end
+
+      local fsize_fmt = i == 1 and "[%d%s] " or "[%.1f%s] "
+      local fsize_value = string.format(fsize_fmt, filesize, suffixes[i])
+      return fsize_value
+    end,
+    update = {
+      "BufWritePost",
+      "BufEnter",
+      "WinEnter",
+    },
+    hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "normal_bg2" },
+  },
+}
 
 local FileNameBlock = utils.insert(FileBlock, utils.insert(FileName, FileFlags))
 
@@ -557,7 +590,6 @@ local FileIcon = {
     return self.icon and (" " .. self.icon .. " ")
   end,
   hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "normal_bg2" },
-  --hl = { fg = "gray", bg = "#2e323b" },
 }
 
 local FileType = {
@@ -565,7 +597,6 @@ local FileType = {
     return string.lower(vim.bo.filetype) .. " "
   end,
   hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "normal_bg2" },
-  --hl = { fg = "gray", bg = "#2e323b" },
 }
 
 local FileTypeN = utils.insert(FileBlock, FileIcon, FileType)
@@ -869,7 +900,6 @@ local function setup_colors(colorname)
   )
 
   local text_bg, text_fg
-  local statusline_bg, statusline_fg
   local normal_bg, normal_fg
   local normal_bg1, normal_fg1
   local normal_bg2, normal_fg2
@@ -1214,7 +1244,7 @@ return {
     })
   end,
   {
-    hl = { fg ="fg", bg = "normal_bg4" },
+    hl = { fg = "fg", bg = "normal_bg4" },
     Mode,
     GitBranch,
     LspStatus,
@@ -1225,6 +1255,7 @@ return {
     Diagnostic,
     Lazy,
     FileTypeN,
+    FileSize,
     -- FileEncoding,
     SearchResults,
     Ruler,

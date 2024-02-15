@@ -1,10 +1,4 @@
 
-dot_config/awesome/lain
-dot_config/awesome/freedesktop
-dot_config/awesome/cyclefocus
-dot_config/awesome/bling
-dot_config/awesome/backup
-dot_config/awesome/picom.bak
 config/vifm/vifminfo.json
 config/nvim-eddie/lazy-lock.json
 config/nvim-eddie/lazy-lock.json

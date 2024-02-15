@@ -14,7 +14,7 @@ local VimLogo = {
 local Filepath = {
   static = {
     modifiers = {
-      dirname = ":s?/Users/Oli/.dotfiles?dotfiles?:s?.config/nvim/lua/Oli?Neovim?:s?/Users/Oli/Code?Code?",
+      dirname = ":s?/home/eddie?~?:s?.config/nvim-mini/lua?Neovim?:s?/home/eddie/coding?Code?",
     },
   },
   init = function(self)
