@@ -936,7 +936,7 @@ require("mini.statusline").setup({
       local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
       --local navic         = require 'nvim-navic'.get_location()
       -- local location      = MiniStatusline.section_location({ trunc_width = 75 })
-      local location2     = "%7(%l/%3L%):%2c %P"
+      local location2     = "%7(%l/%3L%):%-2c %P"
       local lazy_updates  = require("lazy.status").updates
       local spaces        = function()
         local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
