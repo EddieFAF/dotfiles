@@ -40,7 +40,6 @@ require("lazy").setup({
         "lewis6991/gitsigns.nvim",
       },
     },
-    { "gelguy/wilder.nvim", build = ":UpdateRemotePlugins" }, -- : autocomplete
     {
       'ibhagwan/fzf-lua',
       event = 'VeryLazy',
@@ -173,48 +172,22 @@ require("lazy").setup({
         --      vim.cmd 'colorscheme tokyonight'
       end,
     },
-  {
-    'olimorris/onedarkpro.nvim',
-    enabled = true,
-    lazy = false,
-    priority = 1000, -- Ensure it loads first
-    config = function()
-      require('onedarkpro').setup {
-        styles = {
-          comment = 'bold,italic',
-        },
-        options = {
-          cursorline = true,
-          highlight_inactive_windows = true,
-        },
-      }
-      vim.cmd 'colorscheme onedark'
-    end,
-  },
     {
-      'navarasu/onedark.nvim',
-      enabled = false,
+      'olimorris/onedarkpro.nvim',
+      enabled = true,
       lazy = false,
       priority = 1000, -- Ensure it loads first
       config = function()
-        require('onedark').setup {
-          transparent = true,
-          term_colors = true,
-          ending_tildes = false,
-          code_style = {
-            comments = 'italic',
-            keywords = 'bold',
-            functions = 'bold',
-            strings = 'none',
-            variables = 'italic',
+        require('onedarkpro').setup {
+          styles = {
+            comment = 'bold,italic',
           },
-          diagnostics = {
-            darker = true,
-            undercurl = true,
-            background = true,
+          options = {
+            cursorline = true,
+            highlight_inactive_windows = true,
           },
         }
-              vim.cmd 'colorscheme onedark'
+        vim.cmd 'colorscheme onedark'
       end,
     },
     {
@@ -420,48 +393,9 @@ vim.o.virtualedit     = 'block'  -- Allow going past the end of line in visual b
 
 
 -- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeoutlen = 300
-vim.opt.wildmode = "list:longest,list:full"
-
--- [[ Setup Wilder Menu ]] ---------------------------------------------------
-local wilder = require("wilder")
-wilder.setup({ modes = { ":", "/", "?" } })
-
-local popupmenu_renderer = wilder.popupmenu_renderer(
-  wilder.popupmenu_border_theme({
-    border = 'rounded',
-    highlighter = wilder.basic_highlighter(),
-    highlights = { default = "WilderMenu", accent = "WilderAccent" },
-    left = {
-      ' ',
-      wilder.popupmenu_devicons(),
-      wilder.popupmenu_buffer_flags({
-        flags = ' a + ',
-        icons = { ['+'] = '', a = '', h = '' },
-      }),
-    },
-    right = {
-      ' ',
-      wilder.popupmenu_scrollbar({ thumb_char = ' ' }),
-    },
-  })
-)
-
-local wildmenu_renderer = wilder.wildmenu_renderer({
-  highlighter = wilder.basic_highlighter(),
-  highlights = { default = "WilderMenu", accent = "WilderAccent" },
-  separator = ' · ',
-  left = { ' ', wilder.wildmenu_spinner(), ' ' },
-  right = { ' ', wilder.wildmenu_index() },
-})
-
-wilder.set_option('renderer', wilder.renderer_mux({
-  [':'] = popupmenu_renderer,
-  ['/'] = wildmenu_renderer,
-}))
-
-
+vim.o.updatetime  = 250
+vim.o.timeoutlen  = 300
+vim.opt.wildmode  = "list:longest,list:full"
 
 -- Global
 vim.opt.fillchars = {
@@ -985,9 +919,7 @@ vim.defer_fn(function()
       "lua",
       "python",
       "rust",
-      "tsx",
       "javascript",
-      "typescript",
       "vimdoc",
       "vim",
       "bash",
