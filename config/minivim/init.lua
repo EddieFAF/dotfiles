@@ -144,7 +144,7 @@ require("lazy").setup({
     },
     {
       'folke/tokyonight.nvim',
-      enabled = true,
+      enabled = false,
       lazy = false,
       config = function()
         require('tokyonight').setup {
@@ -174,7 +174,7 @@ require("lazy").setup({
     },
     {
       'olimorris/onedarkpro.nvim',
-      enabled = true,
+      enabled = false,
       lazy = false,
       priority = 1000, -- Ensure it loads first
       config = function()
@@ -391,6 +391,7 @@ vim.o.smartcase       = true     -- Don't ignore case when searching if pattern 
 vim.o.smartindent     = true     -- Make indenting smart
 vim.o.virtualedit     = 'block'  -- Allow going past the end of line in visual block mode
 
+vim.opt.cmdheight     = 0
 
 -- Decrease update time
 vim.o.updatetime  = 250
@@ -689,7 +690,7 @@ hi.setup({
 --   --  vim.cmd [[colorscheme tokyonight]]
 -- end
 
---require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
+require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
 
 -- [[ Animated indentation guide ]] ------------------------------------------
 require("mini.indentscope").setup({
@@ -864,7 +865,7 @@ require("mini.statusline").setup({
       local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
       local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
       local git           = MiniStatusline.section_git({ trunc_width = 75 })
-      --local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+      local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
       local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
       local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
       local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
@@ -884,7 +885,7 @@ require("mini.statusline").setup({
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         -- { hl = 'MiniStatuslineFilename', strings = { navic } },
         '%=',
-        { hl = 'MiniStatuslineFilename', strings = { lsp_client() } },
+        { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics } },
         { hl = 'Special',                strings = { lazy_updates() } },
         { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
         { hl = 'MoreMsg',                strings = { searchcount } },
