@@ -5,7 +5,7 @@
 * Neovim config mostly based on mini.nvim from echasnovski                   *
 * written by EddieFAF                                                        *
 *                                                                            *
-* version 0.1                                                                *
+* version 0.2                                                                *
 * initial release                                                            *
 ******************************************************************************
 
@@ -15,7 +15,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Install package manager
+-- -- Install package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -31,241 +31,239 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Starting setup of plugins
 require("lazy").setup({
-    -- The star of the show
-    {
-      "echasnovski/mini.nvim",
-      version = false,
-      dependencies = {
-        "nvim-tree/nvim-web-devicons",
-        "lewis6991/gitsigns.nvim",
-      },
-    },
-    {
-      'ibhagwan/fzf-lua',
-      event = 'VeryLazy',
-      dependencies = { 'nvim-tree/nvim-web-devicons' },
-      -- stylua: ignore
-      keys = {
-        { '<leader>/c',  function() require('fzf-lua').commands() end,        desc = 'Search commands', },
-        { '<leader>/C',  function() require('fzf-lua').command_history() end, desc = 'Search command history', },
-        { '<leader>/b',  function() require('fzf-lua').buffers() end,         desc = 'Find buffers', },
-        { '<leader>/f',  function() require('fzf-lua').files() end,           desc = 'Find files', },
-        { '<leader>/o',  function() require('fzf-lua').oldfiles() end,        desc = 'Find recent files', },
-        { '<leader>/h',  function() require('fzf-lua').highlights() end,      desc = 'Search highlights', },
-        { '<leader>/M',  function() require('fzf-lua').marks() end,           desc = 'Search marks', },
-        { '<leader>/k',  function() require('fzf-lua').keymaps() end,         desc = 'Search keymaps', },
-        { '<leader>/gf', function() require('fzf-lua').git_files() end,       desc = 'Find git files', },
-        { '<leader>/gb', function() require('fzf-lua').git_branches() end,    desc = 'Search git branches', },
-        { '<leader>/gc', function() require('fzf-lua').git_commits() end,     desc = 'Search git commits', },
-        { '<leader>/gC', function() require('fzf-lua').git_bcommits() end,    desc = 'Search git buffer commits', },
-        { '<leader>//',  function() require('fzf-lua').resume() end,          desc = 'Resume FZF', },
-      },
-      config = function()
-        local fzf = require 'fzf-lua'
-        local actions = require 'fzf-lua.actions'
-        fzf.setup {
-          keymap = {
-            builtin = {
-              ['<C-/>'] = 'toggle-help',
-              ['<C-a>'] = 'toggle-fullscreen',
-              ['<C-i>'] = 'toggle-preview',
-              ['<C-f>'] = 'preview-page-down',
-              ['<C-b>'] = 'preview-page-up',
-            },
-            fzf = {
-              ['CTRL-Q'] = 'select-all+accept',
-            },
-          },
-          fzf_colors = {
-            bg = { 'bg', 'Normal' },
-            gutter = { 'bg', 'Normal' },
-            info = { 'fg', 'Conditional' },
-            scrollbar = { 'bg', 'Normal' },
-            separator = { 'fg', 'Comment' },
-          },
-          winopts = {
-            height = 0.7,
-            width = 0.55,
-            preview = {
-              scrollbar = false,
-              layout = 'vertical',
-              vertical = 'up:40%',
-            },
-          },
-          files = {
-            winopts = {
-              preview = { hidden = 'hidden' },
-            },
-            actions = {
-              ['ctrl-g'] = actions.toggle_ignore,
-            },
-          },
-        }
-        fzf.register_ui_select()
-      end,
-    },
-    {
-      "utilyre/barbecue.nvim",
-      name = "barbecue",
-      version = "*",
-      dependencies = {
-        "SmiteshP/nvim-navic",
-        "nvim-tree/nvim-web-devicons", -- optional dependency
-      },
-      keys = {
-        {
-          '<Leader>ub',
-          function()
-            local off = vim.b['barbecue_entries'] == nil
-            require('barbecue.ui').toggle(off and true or nil)
-          end,
-          desc = 'Breadcrumbs toggle',
-        },
-      },
-      opts = {
-        -- configurations go here
-        show_dirname = false,
-        show_modified = true,
-        show_basename = false,
-        theme = 'tokyonight',
-      },
-    },
-    {
-      -- LSP Configuration & Plugins
-      "neovim/nvim-lspconfig",
-      dependencies = {
-        -- Automatically install LSPs to stdpath for neovim
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-
-        -- Additional lua configuration, makes nvim stuff amazing!
-        --"folke/neodev.nvim",
-      },
-    },
-    {
-      'folke/tokyonight.nvim',
-      enabled = false,
-      lazy = false,
-      config = function()
-        require('tokyonight').setup {
-          style = 'night',
-          light_style = 'day',
-          transparent = true,
-          styles = {
-            comments = { italic = true },
-            keywords = { italic = true },
-            functions = {},
-            variables = {},
-            sidebars = 'dark',
-            floats = 'dark',
-          },
-          hide_inactive_statusline = false,
-          dim_inactive = true,
-          lualine_bold = true,
-          ---@param colors ColorScheme
-          on_colors = function(colors) end,
-
-          ---@param highlights Highlights
-          ---@param colors ColorScheme
-          on_highlights = function(highlights, colors) end,
-        }
-        --      vim.cmd 'colorscheme tokyonight'
-      end,
-    },
-    {
-      'olimorris/onedarkpro.nvim',
-      enabled = false,
-      lazy = false,
-      priority = 1000, -- Ensure it loads first
-      config = function()
-        require('onedarkpro').setup {
-          styles = {
-            comment = 'bold,italic',
-          },
-          options = {
-            cursorline = true,
-            highlight_inactive_windows = true,
-          },
-        }
-        vim.cmd 'colorscheme onedark'
-      end,
-    },
-    {
-      -- show gitstatus in statuscolumn and more
+  -- The star of the show
+  {
+    "echasnovski/mini.nvim",
+    version = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
       "lewis6991/gitsigns.nvim",
-      event = { "BufReadPre", "BufNewFile" },
-      opts = {
-        signs = {
-          add = { text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-          change = { text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-          delete = { text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-          topdelete = { text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-          changedelete = { text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-          untracked = { text = "│" },
-        },
-        signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-        numhl = false,
-        linehl = false,
-        watch_gitdir = {
-          interval = 1000,
-          follow_files = true,
-        },
-        attach_to_untracked = true,
-        current_line_blame = true,
-        current_line_blame_opts = {
-          virt_text = true,
-          virt_text_pos = "right_align", -- 'eol' | 'overlay' | 'right_align'
-          delay = 1000,
-        },
-        sign_priority = 6,
-        update_debounce = 100,
-        status_formatter = nil, -- Use default
-        preview_config = {
-          -- Options passed to nvim_open_win
-          border = "single",
-          style = "minimal",
-          relative = "cursor",
-          row = 0,
-          col = 1,
-        },
-
-        on_attach = function(buffer)
-          local gs = package.loaded.gitsigns
-
-          local function map(mode, l, r, desc)
-            vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-          end
-
-          -- stylua: ignore start
-          map("n", "]h", gs.next_hunk, "Next Hunk")
-          map("n", "[h", gs.prev_hunk, "Prev Hunk")
-          map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-          map({ "n", "v" }, "<leader>gx", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-          map("n", "<leader>gA", gs.stage_buffer, "Stage Buffer")
-          map("n", "<leader>gu", gs.undo_stage_hunk, "Undo Stage Hunk")
-          map("n", "<leader>gX", gs.reset_buffer, "Reset Buffer")
-          map("n", "<leader>gp", gs.preview_hunk, "Preview Hunk")
-          map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, "Blame Line")
-          map("n", "<leader>gd", gs.diffthis, "Diff This")
-          map("n", "<leader>gD", function() gs.diffthis("~") end, "Diff This ~")
-          map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-        end,
-      },
     },
-
-    {
-      -- Highlight, edit, and navigate code
-      "nvim-treesitter/nvim-treesitter",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-      },
-      build = ":TSUpdate",
-    },
-
   },
   {
-    checker = { enabled = true },
-  })
+    "ibhagwan/fzf-lua",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- stylua: ignore
+    keys = {
+      { '<leader>/c',  function() require('fzf-lua').commands() end,        desc = 'Search commands', },
+      { '<leader>/C',  function() require('fzf-lua').command_history() end, desc = 'Search command history', },
+      { '<leader>/b',  function() require('fzf-lua').buffers() end,         desc = 'Find buffers', },
+      { '<leader>/f',  function() require('fzf-lua').files() end,           desc = 'Find files', },
+      { '<leader>/o',  function() require('fzf-lua').oldfiles() end,        desc = 'Find recent files', },
+      { '<leader>/h',  function() require('fzf-lua').highlights() end,      desc = 'Search highlights', },
+      { '<leader>/M',  function() require('fzf-lua').marks() end,           desc = 'Search marks', },
+      { '<leader>/k',  function() require('fzf-lua').keymaps() end,         desc = 'Search keymaps', },
+      { '<leader>/gf', function() require('fzf-lua').git_files() end,       desc = 'Find git files', },
+      { '<leader>/gb', function() require('fzf-lua').git_branches() end,    desc = 'Search git branches', },
+      { '<leader>/gc', function() require('fzf-lua').git_commits() end,     desc = 'Search git commits', },
+      { '<leader>/gC', function() require('fzf-lua').git_bcommits() end,    desc = 'Search git buffer commits', },
+      { '<leader>//',  function() require('fzf-lua').resume() end,          desc = 'Resume FZF', },
+    },
+    config = function()
+      local fzf = require("fzf-lua")
+      local actions = require("fzf-lua.actions")
+      fzf.setup({
+        keymap = {
+          builtin = {
+            ["<C-/>"] = "toggle-help",
+            ["<C-a>"] = "toggle-fullscreen",
+            ["<C-i>"] = "toggle-preview",
+            ["<C-f>"] = "preview-page-down",
+            ["<C-b>"] = "preview-page-up",
+          },
+          fzf = {
+            ["CTRL-Q"] = "select-all+accept",
+          },
+        },
+        fzf_colors = {
+          bg = { "bg", "Normal" },
+          gutter = { "bg", "Normal" },
+          info = { "fg", "Conditional" },
+          scrollbar = { "bg", "Normal" },
+          separator = { "fg", "Comment" },
+        },
+        winopts = {
+          height = 0.7,
+          width = 0.55,
+          preview = {
+            scrollbar = false,
+            layout = "vertical",
+            vertical = "up:40%",
+          },
+        },
+        files = {
+          winopts = {
+            preview = { hidden = "hidden" },
+          },
+          actions = {
+            ["ctrl-g"] = actions.toggle_ignore,
+          },
+        },
+      })
+      fzf.register_ui_select()
+    end,
+  },
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    keys = {
+      {
+        "<Leader>ub",
+        function()
+          local off = vim.b["barbecue_entries"] == nil
+          require("barbecue.ui").toggle(off and true or nil)
+        end,
+        desc = "Breadcrumbs toggle",
+      },
+    },
+    opts = {
+      -- configurations go here
+      show_dirname = false,
+      show_modified = true,
+      show_basename = false,
+      theme = "tokyonight",
+    },
+  },
+  {
+    -- LSP Configuration & Plugins
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      -- Automatically install LSPs to stdpath for neovim
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+
+      -- Additional lua configuration, makes nvim stuff amazing!
+      --"folke/neodev.nvim",
+    },
+  },
+  {
+    "folke/tokyonight.nvim",
+    enabled = false,
+    lazy = false,
+    config = function()
+      require("tokyonight").setup({
+        style = "night",
+        light_style = "day",
+        transparent = true,
+        styles = {
+          comments = { italic = true },
+          keywords = { italic = true },
+          functions = {},
+          variables = {},
+          sidebars = "dark",
+          floats = "dark",
+        },
+        hide_inactive_statusline = false,
+        dim_inactive = true,
+        lualine_bold = true,
+        ---@param colors ColorScheme
+        on_colors = function(colors) end,
+
+        ---@param highlights Highlights
+        ---@param colors ColorScheme
+        on_highlights = function(highlights, colors) end,
+      })
+      --      vim.cmd 'colorscheme tokyonight'
+    end,
+  },
+  {
+    "olimorris/onedarkpro.nvim",
+    enabled = false,
+    lazy = false,
+    priority = 1000, -- Ensure it loads first
+    config = function()
+      require("onedarkpro").setup({
+        styles = {
+          comment = "bold,italic",
+        },
+        options = {
+          cursorline = true,
+          highlight_inactive_windows = true,
+        },
+      })
+      vim.cmd("colorscheme onedark")
+    end,
+  },
+  {
+    -- show gitstatus in statuscolumn and more
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      signs = {
+        add = { text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+        change = { text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+        delete = { text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+        topdelete = { text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+        changedelete = { text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+        untracked = { text = "│" },
+      },
+      signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+      numhl = false,
+      linehl = false,
+      watch_gitdir = {
+        interval = 1000,
+        follow_files = true,
+      },
+      attach_to_untracked = true,
+      current_line_blame = true,
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = "right_align", -- 'eol' | 'overlay' | 'right_align'
+        delay = 1000,
+      },
+      sign_priority = 6,
+      update_debounce = 100,
+      status_formatter = nil, -- Use default
+      preview_config = {
+        -- Options passed to nvim_open_win
+        border = "single",
+        style = "minimal",
+        relative = "cursor",
+        row = 0,
+        col = 1,
+      },
+
+      on_attach = function(buffer)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+        end
+
+        -- stylua: ignore start
+        map("n", "]h", gs.next_hunk, "Next Hunk")
+        map("n", "[h", gs.prev_hunk, "Prev Hunk")
+        map({ "n", "v" }, "<leader>ga", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+        map({ "n", "v" }, "<leader>gx", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        map("n", "<leader>gA", gs.stage_buffer, "Stage Buffer")
+        map("n", "<leader>gu", gs.undo_stage_hunk, "Undo Stage Hunk")
+        map("n", "<leader>gX", gs.reset_buffer, "Reset Buffer")
+        map("n", "<leader>gp", gs.preview_hunk, "Preview Hunk")
+        map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, "Blame Line")
+        map("n", "<leader>gd", gs.diffthis, "Diff This")
+        map("n", "<leader>gD", function() gs.diffthis("~") end, "Diff This ~")
+        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+      end,
+    },
+  },
+
+  {
+    -- Highlight, edit, and navigate code
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    build = ":TSUpdate",
+  },
+}, {
+  checker = { enabled = true },
+})
 
 -- [[ Keymappings ]] ---------------------------------------------------------
 vim.keymap.set("n", "<esc>", ":noh<cr><esc>", { desc = "Remove Search Highlight" })
@@ -366,37 +364,37 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 -- [[ Settings options ]] ----------------------------------------------------
-vim.opt.scrolloff     = 5
-vim.opt.title         = true
-vim.opt.titlelen      = 0
-vim.opt.titlestring   = '%{expand("%:p")} [%{mode()}]'
-vim.opt.completeopt   = 'menuone,noinsert,noselect'
+vim.opt.scrolloff = 5
+vim.opt.title = true
+vim.opt.titlelen = 0
+vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
+vim.opt.completeopt = "menuone,noinsert,noselect"
 --vim.opt.completeopt = { "menu", "menuone", "noselect" }
-vim.opt.splitright    = true
-vim.opt.splitbelow    = true
-vim.opt.shiftwidth    = 2
-vim.opt.tabstop       = 2
-vim.opt.softtabstop   = 2
-vim.opt.expandtab     = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
 --vim.opt.foldmethod = "syntax"
 vim.opt.termguicolors = true
 
-vim.o.autoindent      = true     -- Use auto indent
-vim.o.expandtab       = true     -- Convert tabs to spaces
-vim.o.formatoptions   = 'rqnl1j' -- Improve comment editing
-vim.o.ignorecase      = true     -- Ignore case when searching (use `\C` to force not doing that)
-vim.o.incsearch       = true     -- Show search results while typing
-vim.o.infercase       = true     -- Infer letter cases for a richer built-in keyword completion
-vim.o.smartcase       = true     -- Don't ignore case when searching if pattern has upper case
-vim.o.smartindent     = true     -- Make indenting smart
-vim.o.virtualedit     = 'block'  -- Allow going past the end of line in visual block mode
+vim.o.autoindent = true        -- Use auto indent
+vim.o.expandtab = true         -- Convert tabs to spaces
+vim.o.formatoptions = "rqnl1j" -- Improve comment editing
+vim.o.ignorecase = true        -- Ignore case when searching (use `\C` to force not doing that)
+vim.o.incsearch = true         -- Show search results while typing
+vim.o.infercase = true         -- Infer letter cases for a richer built-in keyword completion
+vim.o.smartcase = true         -- Don't ignore case when searching if pattern has upper case
+vim.o.smartindent = true       -- Make indenting smart
+vim.o.virtualedit = "block"    -- Allow going past the end of line in visual block mode
 
-vim.opt.cmdheight     = 0
+vim.opt.cmdheight = 0
 
 -- Decrease update time
-vim.o.updatetime  = 250
-vim.o.timeoutlen  = 300
-vim.opt.wildmode  = "list:longest,list:full"
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+vim.opt.wildmode = "list:longest,list:full"
 
 -- Global
 vim.opt.fillchars = {
@@ -407,7 +405,7 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.list      = true
+vim.opt.list = true
 
 vim.opt.listchars = {
   -- tab = ">>>",
@@ -483,13 +481,13 @@ miniclue.setup({
     { mode = "x", keys = "<Leader>" },
 
     -- mini.basics
-    { mode = 'n', keys = [[\]] },
+    { mode = "n", keys = [[\]] },
 
     -- mini.bracketed
-    { mode = 'n', keys = '[' },
-    { mode = 'n', keys = ']' },
-    { mode = 'x', keys = '[' },
-    { mode = 'x', keys = ']' },
+    { mode = "n", keys = "[" },
+    { mode = "n", keys = "]" },
+    { mode = "x", keys = "[" },
+    { mode = "x", keys = "]" },
 
     -- Built-in completion
     { mode = "i", keys = "<C-x>" },
@@ -566,11 +564,13 @@ require("mini.comment").setup()
 -- [[ Completion ]] ----------------------------------------------------------
 require("mini.completion").setup({
   lsp_completion = {
-    source_func = 'omnifunc',
+    source_func = "omnifunc",
     auto_setup = false,
     process_items = function(items, base)
       -- Don't show 'Text' and 'Snippet' suggestions
-      items = vim.tbl_filter(function(x) return x.kind ~= 1 and x.kind ~= 15 end, items)
+      items = vim.tbl_filter(function(x)
+        return x.kind ~= 1 and x.kind ~= 15
+      end, items)
       return MiniCompletion.default_process_items(items, base)
     end,
   },
@@ -622,7 +622,11 @@ require("mini.files").setup({
 
   -- Only automated preview is possible
   windows = {
-    preview = true, width_focus = 30, width_preview = 40, height_focus = 20, max_number = math.huge
+    preview = true,
+    width_focus = 30,
+    width_preview = 40,
+    height_focus = 20,
+    max_number = math.huge,
   },
 })
 
@@ -657,9 +661,13 @@ require("mini.files").setup({
 --   end,
 -- })
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
-vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
-  { desc = 'File directory' })
-vim.keymap.set('n', '<leader>em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = 'Mini.nvim directory' })
+vim.keymap.set(
+  "n",
+  "<leader>ef",
+  [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
+  { desc = "File directory" }
+)
+vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
 require("mini.fuzzy").setup()
@@ -690,7 +698,7 @@ hi.setup({
 --   --  vim.cmd [[colorscheme tokyonight]]
 -- end
 
-require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
+require("mini.hues").setup({ background = "#282c34", foreground = "#c8ccd4" }) -- blue
 
 -- [[ Animated indentation guide ]] ------------------------------------------
 require("mini.indentscope").setup({
@@ -709,10 +717,18 @@ require("mini.jump2d").setup({
     dim = true,
   },
 })
-vim.keymap.set("n", "gl", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
-  { desc = "Jump2d Line Start" })
-vim.keymap.set("n", "gm", "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
-  { desc = "Jump2d Word Start" })
+vim.keymap.set(
+  "n",
+  "gl",
+  "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
+  { desc = "Jump2d Line Start" }
+)
+vim.keymap.set(
+  "n",
+  "gm",
+  "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
+  { desc = "Jump2d Word Start" }
+)
 vim.keymap.set("n", "g!", function()
   MiniJump2d.start({
     spotter = MiniJump2d.gen_pattern_spotter("['\"`]"),
@@ -758,7 +774,7 @@ require("mini.notify").setup({
     duration_last = 1000,
   },
 })
-vim.notify = require('mini.notify').make_notify()
+vim.notify = require("mini.notify").make_notify()
 
 -- [[ Pairs ]] ---------------------------------------------------------------
 require("mini.pairs").setup()
@@ -776,26 +792,31 @@ vim.keymap.set("n", "<leader>fr", MiniPick.builtin.resume, { desc = "Resume" })
 vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer" })
 vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps" })
 --vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files" })
-vim.keymap.set('n', '<leader>f/', [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
-vim.keymap.set('n', '<leader>f:', [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
-vim.keymap.set('n', '<leader>fa', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
-vim.keymap.set('n', '<leader>fA', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = 'Added hunks (current)' })
-vim.keymap.set('n', '<leader>fb', [[<Cmd>Pick buffers<CR>]], { desc = 'Buffers' })
-vim.keymap.set('n', '<leader>fc', [[<Cmd>Pick git_commits<CR>]], { desc = 'Commits (all)' })
-vim.keymap.set('n', '<leader>fC', [[<Cmd>Pick git_commits path='%'<CR>]], { desc = 'Commits (current)' })
-vim.keymap.set('n', '<leader>fd', [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = 'Diagnostic workspace' })
-vim.keymap.set('n', '<leader>fD', [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = 'Diagnostic buffer' })
-vim.keymap.set('n', '<leader>fG', [[<Cmd>Pick grep pattern='<cword>'<CR>]], { desc = 'Grep current word' })
-vim.keymap.set('n', '<leader>fH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
-vim.keymap.set('n', '<leader>fl', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
-vim.keymap.set('n', '<leader>fL', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
-vim.keymap.set('n', '<leader>fm', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
-vim.keymap.set('n', '<leader>fM', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
-vim.keymap.set('n', '<leader>fR', [[<Cmd>Pick lsp scope='references'<CR>]], { desc = 'References (LSP)' })
-vim.keymap.set('n', '<leader>fs', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = 'Symbols workspace (LSP)' })
-vim.keymap.set('n', '<leader>fS', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
-vim.keymap.set('n', '<leader>fv', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
-vim.keymap.set('n', '<leader>fV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
+vim.keymap.set("n", "<leader>f/", [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
+vim.keymap.set("n", "<leader>f:", [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
+vim.keymap.set("n", "<leader>fa", [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = "Added hunks (all)" })
+vim.keymap.set(
+  "n",
+  "<leader>fA",
+  [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
+  { desc = "Added hunks (current)" }
+)
+vim.keymap.set("n", "<leader>fb", [[<Cmd>Pick buffers<CR>]], { desc = "Buffers" })
+vim.keymap.set("n", "<leader>fc", [[<Cmd>Pick git_commits<CR>]], { desc = "Commits (all)" })
+vim.keymap.set("n", "<leader>fC", [[<Cmd>Pick git_commits path='%'<CR>]], { desc = "Commits (current)" })
+vim.keymap.set("n", "<leader>fd", [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = "Diagnostic workspace" })
+vim.keymap.set("n", "<leader>fD", [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = "Diagnostic buffer" })
+vim.keymap.set("n", "<leader>fG", [[<Cmd>Pick grep pattern='<cword>'<CR>]], { desc = "Grep current word" })
+vim.keymap.set("n", "<leader>fH", [[<Cmd>Pick hl_groups<CR>]], { desc = "Highlight groups" })
+vim.keymap.set("n", "<leader>fl", [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = "Lines (all)" })
+vim.keymap.set("n", "<leader>fL", [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = "Lines (current)" })
+vim.keymap.set("n", "<leader>fm", [[<Cmd>Pick git_hunks<CR>]], { desc = "Modified hunks (all)" })
+vim.keymap.set("n", "<leader>fM", [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = "Modified hunks (current)" })
+vim.keymap.set("n", "<leader>fR", [[<Cmd>Pick lsp scope='references'<CR>]], { desc = "References (LSP)" })
+vim.keymap.set("n", "<leader>fs", [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = "Symbols workspace (LSP)" })
+vim.keymap.set("n", "<leader>fS", [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = "Symbols buffer (LSP)" })
+vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = "Visit paths (all)" })
+vim.keymap.set("n", "<leader>fV", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
 
 -- [[ Starter ]] -------------------------------------------------------------
 local logo = table.concat({
@@ -806,7 +827,7 @@ local logo = table.concat({
   "  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ",
   "          \\/        \\/                       \\/  ",
 }, "\n")
-local plugin_count = #require('lazy').plugins()
+local plugin_count = #require("lazy").plugins()
 require("mini.starter").setup({
   autoopen = true,
   evaluate_single = true,
@@ -815,8 +836,8 @@ require("mini.starter").setup({
     require("mini.starter").sections.builtin_actions(),
     require("mini.starter").sections.pick(),
     require("mini.starter").sections.recent_files(10, false),
-    { action = "Lazy",  name = "Lazy",  section = "Plugin Actions", },
-    { action = "Mason", name = "Mason", section = "Plugin Actions", },
+    { action = "Lazy",  name = "Lazy",  section = "Plugin Actions" },
+    { action = "Mason", name = "Mason", section = "Plugin Actions" },
   },
   footer = table.concat({
     " " .. plugin_count .. " plugins installed",
@@ -992,14 +1013,17 @@ end, 0)
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set('n', '<leader>lj', [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], { desc = 'Next diagnostic' })
-vim.keymap.set('n', '<leader>lk', [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], { desc = 'Prev diagnostic' })
+vim.keymap.set("n", "<leader>lj", [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], { desc = "Next diagnostic" })
+vim.keymap.set("n", "<leader>lk", [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], { desc = "Prev diagnostic" })
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 vim.keymap.set("n", "<leader>fD", ":Pick diagnostic scope='current'<CR>", { desc = "Diagnostic buffer" })
-vim.keymap.set('n', '<leader>ds', function() require('fzf-lua').lsp_document_symbols() end, { desc = 'Document Symbols' })
-vim.keymap.set('n', '<leader>dd', function() require('fzf-lua').lsp_document_diagnostics() end,
-  { desc = 'Document Diagnostics' })
+vim.keymap.set("n", "<leader>ds", function()
+  require("fzf-lua").lsp_document_symbols()
+end, { desc = "Document Symbols" })
+vim.keymap.set("n", "<leader>dd", function()
+  require("fzf-lua").lsp_document_diagnostics()
+end, { desc = "Document Diagnostics" })
 
 vim.diagnostic.config({ update_in_insert = true })
 
@@ -1015,7 +1039,7 @@ local on_attach = function(client, bufnr)
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc, mode)
-    mode = mode or 'n'
+    mode = mode or "n"
     if desc then
       desc = "LSP: " .. desc
     end
@@ -1027,14 +1051,14 @@ local on_attach = function(client, bufnr)
   nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
   nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
   --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
-  nmap('<leader>la', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], 'Arguments popup')
-  nmap('<leader>ld', [[<Cmd>lua vim.diagnostic.open_float()<CR>]], 'Diagnostics popup')
-  nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
-  nmap('<leader>li', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], 'Information')
-  nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
-  nmap('<leader>ls', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], 'Source definition')
+  nmap("<leader>la", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], "Arguments popup")
+  nmap("<leader>ld", [[<Cmd>lua vim.diagnostic.open_float()<CR>]], "Diagnostics popup")
+  nmap("<leader>lf", [[<Cmd>:Format<cr>]], "Format")
+  nmap("<leader>li", [[<Cmd>lua vim.lsp.buf.hover()<CR>]], "Information")
+  nmap("<leader>lR", [[<Cmd>lua vim.lsp.buf.references()<CR>]], "References")
+  nmap("<leader>ls", [[<Cmd>lua vim.lsp.buf.definition()<CR>]], "Source definition")
 
-  client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
+  client.server_capabilities.completionProvider.triggerCharacters = { ".", ":" }
 
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
@@ -1052,7 +1076,8 @@ local on_attach = function(client, bufnr)
       end
 
       local cursor_pos = vim.api.nvim_win_get_cursor(0)
-      if (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
+      if
+          (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
           and #vim.diagnostic.get() > 0
       then
         vim.diagnostic.open_float(nil, float_opts)
@@ -1064,7 +1089,7 @@ local on_attach = function(client, bufnr)
 
   -- only if capeable
   if client.supports_method(methods.textDocument_rename) then
-    nmap('<leader>lr', vim.lsp.buf.rename, 'Rename')
+    nmap("<leader>lr", vim.lsp.buf.rename, "Rename")
   end
 
   if client.server_capabilities.documentSymbolProvider then
@@ -1072,17 +1097,17 @@ local on_attach = function(client, bufnr)
   end
 
   if client.supports_method(methods.textDocument_codeAction) then
-    nmap('<leader>ca', function()
-      require('fzf-lua').lsp_code_actions {
+    nmap("<leader>ca", function()
+      require("fzf-lua").lsp_code_actions({
         winopts = {
-          relative = 'cursor',
+          relative = "cursor",
           width = 0.6,
           height = 0.6,
           row = 1,
-          preview = { vertical = 'up:70%' },
+          preview = { vertical = "up:70%" },
         },
-      }
-    end, 'Code actions', { 'n', 'v' })
+      })
+    end, "Code actions", { "n", "v" })
   end
 
   -- See `:help K` for why this keymap
@@ -1122,16 +1147,16 @@ local servers = {
     Lua = {
       runtime = {
         version = "LuaJIT",
-        path = vim.split(package.path, ';'),
+        path = vim.split(package.path, ";"),
       },
       diagnostics = {
-        globals = { 'vim' },
-        disable = { 'need-check-nil' },
+        globals = { "vim" },
+        disable = { "need-check-nil" },
         workspaceDelay = -1,
       },
       workspace = {
         checkThirdParty = false,
-        library = vim.api.nvim_get_runtime_file('', true),
+        library = vim.api.nvim_get_runtime_file("", true),
         --library = { vim.env.VIMRUNTIME },
       },
       telemetry = { enable = false },

@@ -343,7 +343,7 @@ nnoremap ,v :write | edit $MYVIFMRC | restart<cr>
 "
 " let $VIFM_SERVER_NAME = v:servername
 
-"source /home/eddie/.config/vifm/favicons.vifm
+"source /usr/share/vifm-devicons/favicons.vifm
 
 set dotfiles
 

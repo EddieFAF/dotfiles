@@ -29,7 +29,8 @@ import XMonad.Actions.WindowGo (runOrRaise)
 
 --- Hooks
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.DynamicProperty
+--import XMonad.Hooks.DynamicProperty
+import XMonad.Hooks.OnPropertyChange
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeWindows
 import XMonad.Hooks.FloatNext
@@ -86,7 +87,8 @@ import qualified XMonad.Util.ExtensibleState as XS
 import XMonad.Util.Loggers
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
-import XMonad.Util.Ungrab
+--import XMonad.Util.Ungrab
+import XMonad.Operations
 import XMonad.Util.NamedWindows
 
 --import Colors.OneDark
