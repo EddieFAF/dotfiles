@@ -41,7 +41,8 @@ return {
 
       -- Diagnostic config
       local config = {
-        virtual_text = true,
+        virtual_text = {
+          format = function(d) return "" end},
         signs = {
           active = signs,
         },
@@ -83,6 +84,9 @@ return {
         nmap('<leader>li', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], 'Information')
         nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
         nmap('<leader>ls', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], 'Source definition')
+
+        nmap('<c-j>', '<cmd>lua vim.diagnostic.goto_next({float={source=true}})<cr>')
+        nmap('<c-k>', '<cmd>lua vim.diagnostic.goto_prev({float={source=true}})<cr>')
 
         -- Create a command `:Format` local to the LSP buffer
         vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
