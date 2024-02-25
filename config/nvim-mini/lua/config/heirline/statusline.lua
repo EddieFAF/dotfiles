@@ -641,9 +641,9 @@ local LspStatus = {
           for i, client in ipairs(active_clients) do
             if client and client.name ~= "" then
               table.insert(client_names, "[" .. client.name .. "]")
-              print(
-                "client[" .. i .. "]:" .. vim.inspect(client.name)
-              )
+              -- print(
+              --   "client[" .. i .. "]:" .. vim.inspect(client.name)
+              -- )
             end
           end
           return " LSP:"

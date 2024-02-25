@@ -72,6 +72,7 @@ vim.opt.listchars = {
   eol = "↲",
   nbsp = "␣",
 }
+vim.opt.cmdheight = 0
 
 vim.cmd 'colorscheme onedark'
 

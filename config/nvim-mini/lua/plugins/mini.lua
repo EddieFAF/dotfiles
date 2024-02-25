@@ -139,6 +139,7 @@ return {
           --{ mode = "n", keys = "<Leader>m", desc = "+Minimap" },
           { mode = "n", keys = "<Leader>s", desc = "+Windows" },
           --{ mode = "n", keys = "<Leader>u", desc = "+UI" },
+          { mode = "n", keys = "<Leader>x", desc = "+Trouble" },
           { mode = "n", keys = "<Leader>/", desc = "+FZF" },
         },
         window = {
@@ -330,7 +331,7 @@ return {
 
 
       -- [[ Starter ]] -------------------------------------------------------------
-      require("mini.starter").setup()
+      --      require("mini.starter").setup()
 
       -- [[ Tabline ]] -------------------------------------------------------------
       require("mini.tabline").setup()
