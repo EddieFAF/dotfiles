@@ -263,6 +263,7 @@ require("lazy").setup({
   },
 }, {
   checker = { enabled = true },
+  ui = { border = 'single' },
 })
 
 -- [[ Keymappings ]] ---------------------------------------------------------

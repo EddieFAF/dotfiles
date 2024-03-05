@@ -2,10 +2,10 @@ local utils = require("heirline.utils")
 local conditions = require("heirline.conditions")
 
 local uv = require("commons.uv")
-local strings = require("commons.strings")
-local tables = require("commons.tables")
-local colors_hl = require("commons.colors.hl")
-local colors_hsl = require("commons.colors.hsl")
+local strings = require("commons.str")
+local tables = require("commons.tbl")
+local colors_hl = require("commons.color.hl")
+local colors_hsl = require("commons.color.hsl")
 local black = "#000000"
 local white = "#ffffff"
 local red = "#FF0000"
@@ -45,27 +45,6 @@ local function shade_rgb(rgb, value)
     return rgb_to_hsl(rgb):tint(value):to_rgb()
   end
   return rgb_to_hsl(rgb):shade(value):to_rgb()
-end
-
-local OS_UNAME = uv.os_uname()
-
-local function GetOsIcon()
-  local uname = OS_UNAME.sysname
-  if uname:match("Darwin") then
-    return ""
-  elseif uname:match("Windows") then
-    return ""
-  elseif uname:match("Linux") then
-    if
-        type(OS_UNAME.release) == "string"
-        and OS_UNAME.release:find("arch")
-    then
-      return ""
-    end
-    return ""
-  else
-    return "󱚟"
-  end
 end
 
 local ModeNames = {
@@ -142,16 +121,10 @@ local Mode = {
   end,
   update = { "ModeChanged" },
 
-  -- os icon
-  {
-    provider = function(self)
-      return " " .. GetOsIcon() .. " "
-    end,
-  },
   -- mode
   {
     provider = function(self)
-      return GetModeName(self.mode) .. " "
+      return " " .. GetModeName(self.mode) .. " "
     end,
   },
 }
