@@ -297,7 +297,8 @@ local Diagnostic = {
   update = { "DiagnosticChanged" },
   on_click = {
     callback = function()
-      require("trouble").toggle({ mode = "document_diagnostics" })
+     -- require("trouble").toggle({ mode = "document_diagnostics" })
+       require("fzf-lua").diagnostics_document()
     end,
     name = "sl_diagnostics_click",
   },
@@ -631,6 +632,7 @@ local LspStatus = {
     end
     return ""
   end,
+  padding = { right = 1 },
   update = {
     "User",
     pattern = "LspProgressStatusUpdated",
@@ -1220,9 +1222,9 @@ return {
     hl = { fg = "fg", bg = "normal_bg4" },
     Mode,
     GitBranch,
-    LspStatus,
     -- FileNameBlock,
     { provider = "%=" },
+    LspStatus,
     --LSPActive,
     --LspDiagnostics,
     Diagnostic,
