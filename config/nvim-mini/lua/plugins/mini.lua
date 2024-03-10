@@ -308,26 +308,26 @@ return {
       --vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files" })
       vim.keymap.set('n', '<leader>f/', [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
       vim.keymap.set('n', '<leader>f:', [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
-      vim.keymap.set('n', '<leader>fa', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
-      vim.keymap.set('n', '<leader>fA', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
+      vim.keymap.set('n', '<leader>fA', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
+      vim.keymap.set('n', '<leader>fa', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
         { desc = 'Added hunks (current)' })
       vim.keymap.set('n', '<leader>fb', [[<Cmd>Pick buffers<CR>]], { desc = 'Buffers' })
-      vim.keymap.set('n', '<leader>fc', [[<Cmd>Pick git_commits<CR>]], { desc = 'Commits (all)' })
-      vim.keymap.set('n', '<leader>fC', [[<Cmd>Pick git_commits path='%'<CR>]], { desc = 'Commits (current)' })
-      vim.keymap.set('n', '<leader>fd', [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = 'Diagnostic workspace' })
-      vim.keymap.set('n', '<leader>fD', [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = 'Diagnostic buffer' })
+      vim.keymap.set('n', '<leader>fC', [[<Cmd>Pick git_commits<CR>]], { desc = 'Commits (all)' })
+      vim.keymap.set('n', '<leader>fc', [[<Cmd>Pick git_commits path='%'<CR>]], { desc = 'Commits (current)' })
+      vim.keymap.set('n', '<leader>fD', [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = 'Diagnostic workspace' })
+      vim.keymap.set('n', '<leader>fd', [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = 'Diagnostic buffer' })
       vim.keymap.set('n', '<leader>fG', [[<Cmd>Pick grep pattern='<cword>'<CR>]], { desc = 'Grep current word' })
       vim.keymap.set('n', '<leader>fH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
-      vim.keymap.set('n', '<leader>fl', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
-      vim.keymap.set('n', '<leader>fL', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
-      vim.keymap.set('n', '<leader>fm', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
-      vim.keymap.set('n', '<leader>fM', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
+      vim.keymap.set('n', '<leader>fL', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
+      vim.keymap.set('n', '<leader>fl', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
+      vim.keymap.set('n', '<leader>fM', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
+      vim.keymap.set('n', '<leader>fm', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
       vim.keymap.set('n', '<leader>fR', [[<Cmd>Pick lsp scope='references'<CR>]], { desc = 'References (LSP)' })
-      vim.keymap.set('n', '<leader>fs', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]],
+      vim.keymap.set('n', '<leader>fS', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]],
         { desc = 'Symbols workspace (LSP)' })
-      vim.keymap.set('n', '<leader>fS', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
-      vim.keymap.set('n', '<leader>fv', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
-      vim.keymap.set('n', '<leader>fV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
+      vim.keymap.set('n', '<leader>fs', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
+      vim.keymap.set('n', '<leader>fV', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
+      vim.keymap.set('n', '<leader>fv', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
 
 
       -- [[ Starter ]] -------------------------------------------------------------

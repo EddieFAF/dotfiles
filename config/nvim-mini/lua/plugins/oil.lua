@@ -1,6 +1,7 @@
 return {
   {
     "stevearc/oil.nvim",
+    lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       columns = {
@@ -28,9 +29,6 @@ return {
           winblend = 0,
         },
       },
-    },
-    keys = {
-      { "<Leader>o", ":lua require('oil').open_float()<CR>", {desc = "Oil" } },
     },
   },
 }
