@@ -15,7 +15,7 @@ return {
       require("mini.starter").setup({
         autoopen = true,
         evaluate_single = true,
-        header = logo,
+        -- header = logo,
         items = {
           require("mini.starter").sections.builtin_actions(),
           require("mini.starter").sections.pick(),
