@@ -65,4 +65,5 @@ end, { desc = "Pick something" })
  vim.keymap.set("n", "<Leader>o", ":lua require('oil').open()<CR>", {desc = "Open parent directory" })
  vim.keymap.set("n", "<Leader>O", ":lua require('oil').open_float()<CR>", {desc = "Oil" })
 
+
 -- vim: ts=2 sts=2 sw=2 et

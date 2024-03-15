@@ -1,6 +1,6 @@
 local bit = require("bit")
 
-local sep = "  "
+local sep = " > "
 
 local Spacer = {
   provider = " ",
@@ -14,7 +14,7 @@ local VimLogo = {
 local Filepath = {
   static = {
     modifiers = {
-      dirname = ":s?/home/eddie?~?:s?.config/nvim-mini/lua?Neovim?:s?/home/eddie/coding?Code?",
+      dirname = ":s?/home/eddie?~?",
     },
   },
   init = function(self)
