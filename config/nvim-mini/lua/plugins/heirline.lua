@@ -7,7 +7,7 @@ return {
     },
     config = function()
       require("heirline").setup({
-        winbar = require("config.heirline.winbar"),
+      --  winbar = require("config.heirline.winbar"),
         statusline = require("config.heirline.statusline"),
         statuscolumn = require("config.heirline.statuscolumn"),
         opts = {

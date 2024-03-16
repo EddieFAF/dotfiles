@@ -204,21 +204,34 @@ local FileName = {
     end
     return " " .. filename .. " "
   end,
-  on_click = {
-    callback = function()
-      vim.cmd("Telescope find_files")
-    end,
-    name = "sl_filename_click",
-  },
-  hl = { fg = "gray", bg = "#2e323b" },
+  -- on_click = {
+  --   callback = function()
+  --     vim.cmd("FzfLua files")
+  --   end,
+  --   name = "sl_filename_click",
+  -- },
+  hl = { fg = "gray" },
+}
+
+local FileIcon = {
+  init = function(self)
+    local filename = self.filename
+    local extension = vim.fn.fnamemodify(filename, ":e")
+    self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension,
+      { default = true })
+  end,
+  provider = function(self)
+    return self.icon and (" " .. self.icon)
+  end,
+ -- hl = { fg = utils.get_highlight("Type").fg, bold = true },
 }
 
 local FileFlags = {
-  -- {
-  --   condition = function() return vim.bo.modified end,
-  --   provider = " ",
-  --   hl = { fg = "gray" },
-  -- },
+  {
+    condition = function() return vim.bo.modified end,
+    provider = " ",
+    hl = { fg = "gray" },
+  },
   {
     condition = function()
       return not vim.bo.modifiable or vim.bo.readonly
@@ -257,17 +270,18 @@ local FileSize = {
       "BufEnter",
       "WinEnter",
     },
-    hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "normal_bg2" },
+    hl = { fg = utils.get_highlight("Type").fg, bold = true },
   },
 }
 
-local FileNameBlock = utils.insert(FileBlock, utils.insert(FileName, FileFlags))
+local FileNameBlock = utils.insert(FileBlock, FileIcon, utils.insert(FileName, FileFlags))
 
 local DiagnosticSigns = {
-  constants.diagnostic.sign.error,
-  constants.diagnostic.sign.warning,
-  constants.diagnostic.sign.info,
-  constants.diagnostic.sign.hint,
+  -- constants.diagnostic.sign.error,
+  -- constants.diagnostic.sign.warning,
+  -- constants.diagnostic.sign.info,
+  -- constants.diagnostic.sign.hint,
+  'E', 'W', 'I', 'H'
 }
 local DiagnosticColors = {
   "diagnostic_error",
@@ -285,7 +299,7 @@ local function GetDiagnosticText(level)
   if value <= 0 then
     return ""
   end
-  return string.format("%s %d ", DiagnosticSigns[level], value)
+  return string.format("%s%d ", DiagnosticSigns[level], value)
 end
 
 local function GetDiagnosticHighlight(level)
@@ -340,10 +354,11 @@ local LspDiagnostics = {
   end,
   on_click = {
     callback = function()
-      require("telescope.builtin").diagnostics({
-        layout_strategy = "center",
-        bufnr = 0,
-      })
+      -- require("telescope.builtin").diagnostics({
+      --   layout_strategy = "center",
+      --   bufnr = 0,
+      -- })
+       require("fzf-lua").diagnostics_document()
     end,
     name = "sl_diagnostics_click",
   },
@@ -436,42 +451,42 @@ local LSPActive = {
 }
 
 
--- local LspAttached = {
---   condition = conditions.lsp_attached,
---   static = {
---     lsp_attached = false,
---     show_lsps = {
---       copilot = false,
---       efm = false,
---     },
---   },
---   init = function(self)
---     for i, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
---       if self.show_lsps[server.name] ~= false then
---         self.lsp_attached = true
---         return
---       end
---     end
---   end,
---   update = { "LspAttach", "LspDetach" },
---   on_click = {
---     callback = function()
---       vim.defer_fn(function()
---         vim.cmd("LspInfo")
---       end, 100)
---     end,
---     name = "sl_lsp_click",
---   },
---   {
---     condition = function(self)
---       return self.lsp_attached
---     end,
---     {
---       provider = "  ",
---       hl = { fg = "gray", bg = "#2e323b" },
---     },
---   },
--- }
+local LspAttached = {
+  condition = conditions.lsp_attached,
+  static = {
+    lsp_attached = false,
+    show_lsps = {
+      copilot = false,
+      efm = false,
+    },
+  },
+  init = function(self)
+    for i, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+      if self.show_lsps[server.name] ~= false then
+        self.lsp_attached = true
+        return
+      end
+    end
+  end,
+  update = { "LspAttach", "LspDetach" },
+  on_click = {
+    callback = function()
+      vim.defer_fn(function()
+        vim.cmd("LspInfo")
+      end, 100)
+    end,
+    name = "sl_lsp_click",
+  },
+  {
+    condition = function(self)
+      return self.lsp_attached
+    end,
+    {
+      provider = "  ",
+      hl = { fg = "gray", bg = "#2e323b" },
+    },
+  },
+}
 
 ---Return the current line number as a % of total lines and the total lines in the file
 local Ruler = {
@@ -553,18 +568,6 @@ local Lazy = {
 }
 
 --- Return information on the current buffers filetype
-local FileIcon = {
-  init = function(self)
-    local filename = self.filename
-    local extension = vim.fn.fnamemodify(filename, ":e")
-    self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension,
-      { default = true })
-  end,
-  provider = function(self)
-    return self.icon and (" " .. self.icon .. " ")
-  end,
-  hl = { fg = utils.get_highlight("Type").fg, bold = true, bg = "normal_bg2" },
-}
 
 local FileType = {
   provider = function()
@@ -603,13 +606,13 @@ local LspStatus = {
         local active_clients = vim.lsp.get_clients()
         local client_count = #active_clients
         if #messages > 0 then
-          return " LSP:"
+          return " :"
               .. client_count
               .. " "
               .. table.concat(messages, " ")
         end
         if #active_clients <= 0 then
-          return " LSP:" .. client_count
+          return " :" .. client_count
         else
           local client_names = {}
           for i, client in ipairs(active_clients) do
@@ -620,10 +623,11 @@ local LspStatus = {
               -- )
             end
           end
-          return " LSP:"
+          return " :"
               .. client_count
               .. " "
               .. table.concat(client_names, " ")
+              .. " "
         end
       end,
     })
@@ -1222,15 +1226,16 @@ return {
     hl = { fg = "fg", bg = "normal_bg4" },
     Mode,
     GitBranch,
-    -- FileNameBlock,
+    FileNameBlock,
+    FileSize,
     { provider = "%=" },
+    --LspAttached,
     LspStatus,
     --LSPActive,
     --LspDiagnostics,
     Diagnostic,
     Lazy,
-    FileTypeN,
-    FileSize,
+    --FileTypeN,
     -- FileEncoding,
     SearchResults,
     Ruler,
