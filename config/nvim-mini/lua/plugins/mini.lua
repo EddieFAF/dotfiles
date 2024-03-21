@@ -216,9 +216,21 @@ return {
 
         -- Only automated preview is possible
         windows = {
-          preview = true, width_focus = 30, width_preview = 40, height_focus = 20, max_number = math.huge
+          preview = true, width_focus = 30, width_preview = 60, height_focus = 20, max_number = math.huge
         },
       })
+
+
+      vim.keymap.set("n", "<leader>.", function()
+          local bufname = vim.api.nvim_buf_get_name(0)
+          local path = vim.fn.fnamemodify(bufname, ':p')
+
+          if path and vim.uv.fs_stat(path) then
+            require('mini.files').open(bufname, false)
+          end
+        end,
+        { desc = 'File Explorer' })
+
       vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
       vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
         { desc = 'File directory' })
