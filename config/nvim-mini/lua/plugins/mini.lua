@@ -1,8 +1,8 @@
 --[[
 
 ******************************************************************************
-* init.lua                                                                   *
-* Neovim config mostly based on mini.nvim from echasnovski                   *
+* mini.lua                                                                   *
+* mini.nvim configuration based on plugin from echasnovski                   *
 * written by EddieFAF                                                        *
 *                                                                            *
 * version 0.1                                                                *

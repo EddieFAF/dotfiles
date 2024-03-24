@@ -948,7 +948,7 @@ require("mini.statusline").setup({
         { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics } },
         { hl = 'Special',                strings = { lazy_updates() } },
         { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
-        { hl = 'MoreMsg',                strings = { searchcount } },
+        { hl = mode_hl,                  strings = { searchcount } },
         { hl = mode_hl,                  strings = { location2 } },
       })
     end,
@@ -956,7 +956,7 @@ require("mini.statusline").setup({
   use_icons = true,
   set_vim_settings = true,
 })
-
+ 
 -- [[ Tabline ]] -------------------------------------------------------------
 require("mini.tabline").setup()
 
