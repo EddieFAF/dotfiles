@@ -281,7 +281,7 @@ local DiagnosticSigns = {
   -- constants.diagnostic.sign.warning,
   -- constants.diagnostic.sign.info,
   -- constants.diagnostic.sign.hint,
-  'E', 'W', 'I', 'H'
+  'E:', 'W:', 'I:', 'H:'
 }
 local DiagnosticColors = {
   "diagnostic_error",
