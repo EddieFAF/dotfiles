@@ -144,7 +144,7 @@ require("lazy").setup({
   },
   {
     "folke/tokyonight.nvim",
-    enabled = false,
+    enabled = true,
     lazy = false,
     config = function()
       require("tokyonight").setup({
@@ -631,43 +631,8 @@ require("mini.files").setup({
   },
 })
 
--- local go_in_plus = function()
---   for _ = 1, vim.v.count1 - 1 do
---     MiniFiles.go_in()
---   end
---   local fs_entry = MiniFiles.get_fs_entry()
---   local is_at_file = fs_entry ~= nil and fs_entry.fs_type == "file"
---   MiniFiles.go_in()
---   if is_at_file then
---     MiniFiles.close()
---   end
--- end
-
--- vim.api.nvim_create_autocmd("User", {
---   pattern = "MiniFilesBufferCreate",
---   callback = function(args)
---     local map_buf = function(lhs, rhs)
---       vim.keymap.set("n", lhs, rhs, { buffer = args.data.buf_id })
---     end
---
---     map_buf("<CR>", go_in_plus)
---     map_buf("<Right>", go_in_plus)
---
---     map_buf("<BS>", MiniFiles.go_out)
---     map_buf("<Left>", MiniFiles.go_out)
---
---     map_buf("<Esc>", MiniFiles.close)
---
---     -- Add extra mappings from *MiniFiles-examples*
---   end,
--- })
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
-vim.keymap.set(
-  "n",
-  "<leader>ef",
-  [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
-  { desc = "File directory" }
-)
+vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], { desc = "File directory" })
 vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
@@ -834,12 +799,7 @@ vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Rec
 vim.keymap.set("n", "<leader>f/", [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
 vim.keymap.set("n", "<leader>f:", [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
 vim.keymap.set("n", "<leader>fa", [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = "Added hunks (all)" })
-vim.keymap.set(
-  "n",
-  "<leader>fA",
-  [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
-  { desc = "Added hunks (current)" }
-)
+vim.keymap.set("n", "<leader>fA", [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = "Added hunks (current)" })
 vim.keymap.set("n", "<leader>fb", [[<Cmd>Pick buffers<CR>]], { desc = "Buffers" })
 vim.keymap.set("n", "<leader>fC", [[<Cmd>Pick git_commits<CR>]], { desc = "Commits (all)" })
 vim.keymap.set("n", "<leader>fc", [[<Cmd>Pick git_commits path='%'<CR>]], { desc = "Commits (current)" })
@@ -1079,15 +1039,15 @@ local on_attach = function(client, bufnr)
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc, mode)
     mode = mode or "n"
-    if desc then
-      desc = "LSP: " .. desc
-    end
+    -- if desc then
+    --   desc = "LSP: " .. desc
+    -- end
     vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
+  nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "Goto Definition")
   nmap("<leader>fR", "<cmd>:Pick lsp scope='references'<cr>", "References")
-  nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
+  nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "Goto Implementation")
   nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
   --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
   nmap("<leader>la", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], "Arguments popup")
