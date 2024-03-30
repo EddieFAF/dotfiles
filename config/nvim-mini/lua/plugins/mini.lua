@@ -306,7 +306,19 @@ return {
       require("mini.pairs").setup()
 
       -- [[ Configure Mini.pick ]] -------------------------------------------------
-      require("mini.pick").setup()
+      require("mini.pick").setup({
+        mappings = {
+          choose_in_vsplit = '<C-CR>',
+        },
+        options = {
+          use_cache = true,
+        },
+        window = {
+          config = {
+            border = 'rounded',
+          },
+        },
+      })
       vim.ui.select = MiniPick.ui_select
 
       vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
