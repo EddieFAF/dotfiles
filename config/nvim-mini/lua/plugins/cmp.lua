@@ -134,7 +134,7 @@ function M.config()
           emoji = '',
         },
       },
-      expandable_indicator = false,
+      expandable_indicator = true,
     },
     sources = {
       { name = 'nvim_lsp' },
@@ -153,8 +153,13 @@ function M.config()
       documentation = cmp.config.window.bordered(),
     },
     experimental = {
-      ghost_text = false,
+      ghost_text = true,
     },
+    -- view = {
+    --   entries = {
+    --     follow_cursor = true,
+    --   }
+    -- }
   }
 
   cmp.setup.cmdline(':', {
