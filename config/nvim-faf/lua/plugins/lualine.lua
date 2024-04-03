@@ -181,7 +181,7 @@ return {
   'nvim-lualine/lualine.nvim',
   event = 'VeryLazy',
   dependencies = { 'MunifTanjim/nui.nvim' },
-  enabled = false,
+  enabled = true,
   config = function()
     require('lualine').setup {
       options = {
