@@ -1,6 +1,7 @@
 return {
   {
     'folke/trouble.nvim',
+    enabled = false,
     cmd = { 'Trouble', 'TroubleToggle' },
     opts = { use_diagnostic_signs = true },
     -- stylua: ignore

@@ -295,7 +295,7 @@ return {
         -- Notifications about LSP progress
         lsp_progress = {
           -- Whether to enable showing
-          enable = false,
+          enable = true,
           -- Duration (in ms) of how long last message should be shown
           duration_last = 1000,
         },

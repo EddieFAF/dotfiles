@@ -98,7 +98,7 @@ local M = {
       })
     end,
   },
-  use_icons = true,
+  use_icons = false,
   set_vim_settings = true,
       }
     end,
