@@ -1016,7 +1016,6 @@ vim.keymap.set("n", "<leader>lj", [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], {
 vim.keymap.set("n", "<leader>lk", [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], { desc = "Prev diagnostic" })
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
-vim.keymap.set("n", "<leader>fD", ":Pick diagnostic scope='current'<CR>", { desc = "Diagnostic buffer" })
 vim.keymap.set("n", "<leader>ds", function()
   require("fzf-lua").lsp_document_symbols()
 end, { desc = "Document Symbols" })
