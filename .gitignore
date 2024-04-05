@@ -6,3 +6,5 @@ dot_config/awesome/bling
 dot_config/awesome/backup
 dot_config/awesome/picom.bak
 config/ranger/__pycache__
+config/nvim-mini/lazy-lock.json
+config/vifm/vifminfo.json

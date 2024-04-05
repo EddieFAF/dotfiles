@@ -61,8 +61,8 @@ vim.opt.fillchars = {
 vim.opt.list      = true
 
 vim.opt.listchars = {
-  -- tab = ">>>",
-  -- space = '⋅',
+  tab = ">>>",
+  space = '⋅',
   tab = "▸ ",
   trail = "·",
   --  precedes = "←",
@@ -73,6 +73,9 @@ vim.opt.listchars = {
   nbsp = "␣",
 }
 vim.opt.cmdheight = 0
+
+vim.opt.spell = false
+vim.opt.spelllang=de
 
 --vim.cmd 'colorscheme onedark'
 

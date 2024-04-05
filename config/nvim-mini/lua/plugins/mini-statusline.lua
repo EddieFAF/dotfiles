@@ -53,14 +53,14 @@ local function FileSize2()
     return string.format(format, size, suffixes[i])
 end
 
--- Miscelaneous fun stuff
+-- Miscellaneous fun stuff
 local M = {
 
   {
     'echasnovski/mini.statusline',
     version = false,
     lazy = false,
-    enabled = true,
+    enabled = false,
     config = function()
       require('mini.statusline').setup {
   content = {
@@ -80,7 +80,7 @@ local M = {
       local lazy_updates  = require("lazy.status").updates
       local spaces        = function()
         local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
-        return "SPC:" .. shiftwidth
+        return "S:" .. shiftwidth
       end
 
       return MiniStatusline.combine_groups({
@@ -90,7 +90,7 @@ local M = {
         { hl = 'MiniStatuslineFilename', strings = { filename, FileSize2() } },
         -- { hl = 'MiniStatuslineFilename', strings = { navic } },
         '%=',
-        { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics } },
+        { hl = 'MiniStatuslineDevinfo', strings = { lsp_client(), diagnostics } },
         { hl = 'Special',                strings = { lazy_updates() } },
         { hl = 'MiniStatuslineFileinfo', strings = { spaces() } },
         { hl = 'MoreMsg',                strings = { searchcount } },
@@ -98,7 +98,7 @@ local M = {
       })
     end,
   },
-  use_icons = false,
+  use_icons = true,
   set_vim_settings = true,
       }
     end,
