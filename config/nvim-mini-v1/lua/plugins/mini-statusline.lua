@@ -31,29 +31,8 @@ local lsp_client = function(msg)
   return "LSP:" .. table.concat(client_names, ", ")
 end
 
-local function FileSize2()
-    local file = vim.fn.expand('%:p')
-    if file == nil or #file == 0 then
-      return ''
-      end
-    local size = vim.fn.getfsize(file)
-  if size <= 0 then
-    return ''
-      end
 
-    local suffixes = { 'b', 'k', 'm', 'g' }
-
-    local i = 1
-    while size > 1024 and i < #suffixes do
-      size = size / 1024
-      i = i + 1
-    end
-
-    local format = i == 1 and '[%d%s]' or '[%.1f%s]'
-    return string.format(format, size, suffixes[i])
-end
-
--- Miscellaneous fun stuff
+-- Miscelaneous fun stuff
 local M = {
 
   {
@@ -80,19 +59,19 @@ local M = {
       local lazy_updates  = require("lazy.status").updates
       local spaces        = function()
         local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
-        return "S:" .. shiftwidth
+        return "SPC:" .. shiftwidth
       end
 
       return MiniStatusline.combine_groups({
         { hl = mode_hl,                 strings = { mode, spell, wrap } },
         { hl = 'MiniStatuslineDevinfo', strings = { git } },
         '%<',
-        { hl = 'MiniStatuslineFilename', strings = { filename, FileSize2() } },
+        { hl = 'MiniStatuslineFilename', strings = { filename } },
         -- { hl = 'MiniStatuslineFilename', strings = { navic } },
         '%=',
-        { hl = 'MiniStatuslineDevinfo', strings = { lsp_client(), diagnostics } },
+        { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics } },
         { hl = 'Special',                strings = { lazy_updates() } },
-        { hl = 'MiniStatuslineFileinfo', strings = { spaces() } },
+        { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
         { hl = 'MoreMsg',                strings = { searchcount } },
         { hl = mode_hl,                  strings = { location2 } },
       })

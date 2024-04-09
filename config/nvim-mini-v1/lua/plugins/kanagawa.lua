@@ -1,25 +1,37 @@
 return {
   'rebelot/kanagawa.nvim',
   lazy = false,
-  enabled = true,
+  priority = 1000,
   config = function()
     local transparent = true
 
-    -- Default options:
-    require('kanagawa').setup({
-      compile = false,  -- enable compiling the colorscheme
-      undercurl = true, -- enable undercurls
+    require('kanagawa').setup {
+      compile = true,
+      undercurl = true,
       commentStyle = { italic = true },
       functionStyle = {},
       keywordStyle = { italic = true },
       statementStyle = { bold = true },
       typeStyle = {},
-      transparent = transparent,    -- do not set background color
-      dimInactive = true,    -- dim inactive window `:h hl-NormalNC`
-      terminalColors = true, -- define vim.g.terminal_color_{0,17}
-      colors = {             -- add/modify theme and palette colors
+      transparent = transparent,
+      dimInactive = true,
+      terminalColors = true,
+      colors = {
         palette = {},
-        theme = { wave = {}, lotus = {}, dragon = {}, all = { ui = { bg_gutter = 'none' } } },
+        theme = {
+          wave = {},
+          lotus = {},
+          dragon = {
+            -- ui = {
+            --     bg = '#0a0a0a',
+            -- },
+          },
+          all = {
+            ui = {
+              bg_gutter = 'none',
+            },
+          },
+        },
       },
       overrides = function(colors)
         local theme = colors.theme
@@ -146,15 +158,6 @@ return {
           AlphaHeader = { fg = theme.syn.special2 },
           AlphaShorcut = { fg = theme.syn.comment },
 
-          -- nvim-tree
-          NvimTreeNormal = {
-            bg = transparent and 'none' or theme.ui.bg_m3,
-          },
-          NvimTreeWinSeparator = {
-            bg = transparent and 'none' or theme.ui.bg,
-            fg = transparent and 'none' or theme.ui.bg,
-          },
-
           -- lsp diagnostics
           DiagnosticFloatingError = { link = 'DiagnosticError' },
           DiagnosticFloatingWarn = { link = 'DiagnosticWarn' },
@@ -168,15 +171,13 @@ return {
           ['@lsp.type.keyword'] = { link = 'Keyword' },
         }
       end,
-
-      theme = "wave",  -- Load "wave" theme when 'background' option is not set
-      background = {   -- map the value of 'background' option to a theme
-        dark = "wave", -- try "dragon" !
-        light = "lotus"
+      theme = 'wave',
+      background = {
+        dark = 'wave',
+        light = 'lotus',
       },
-    })
+    }
 
-    -- setup must be called before loading
-    vim.cmd("colorscheme kanagawa")
-  end
+    vim.cmd.colorscheme 'kanagawa'
+  end,
 }

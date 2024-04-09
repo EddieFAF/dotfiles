@@ -255,7 +255,7 @@ return {
       })
 
       -- [[ Color Palette ]] -------------------------------------------------------
-      --require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
+      --      require('mini.hues').setup({ background = '#282c34', foreground = '#c8ccd4' }) -- blue
 
       -- [[ Animated indentation guide ]] ------------------------------------------
       require("mini.indentscope").setup({
@@ -295,7 +295,7 @@ return {
         -- Notifications about LSP progress
         lsp_progress = {
           -- Whether to enable showing
-          enable = true,
+          enable = false,
           -- Duration (in ms) of how long last message should be shown
           duration_last = 1000,
         },
@@ -358,7 +358,7 @@ return {
       --      require("mini.starter").setup()
 
       -- [[ Tabline ]] -------------------------------------------------------------
-      --require("mini.tabline").setup()
+      require("mini.tabline").setup()
 
       -- [[ Trailspace ]] ----------------------------------------------------------
       require("mini.trailspace").setup()
