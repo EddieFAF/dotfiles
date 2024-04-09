@@ -74,6 +74,6 @@ vim.opt.listchars = {
 }
 vim.opt.cmdheight = 0
 
-vim.cmd 'colorscheme onedark'
+-- vim.cmd 'colorscheme onedark'
 
 -- vim: ts=2 sts=2 sw=2 et
