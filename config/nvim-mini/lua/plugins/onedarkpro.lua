@@ -2,7 +2,7 @@ return {
   -- Lazy
   {
     'olimorris/onedarkpro.nvim',
-    enabled = false,
+    enabled = true,
     lazy = false,
     priority = 1000, -- Ensure it loads first
     config = function()
