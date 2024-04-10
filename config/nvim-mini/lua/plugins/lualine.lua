@@ -206,8 +206,8 @@ return {
             diff_source = diff_source,
             -- Is it me or the symbol for modified us really weird
             --            symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-            symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
-            -- symbols = { added = '+', modified = '~', removed = '-' }, -- changes diff symbols
+            -- symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
+            symbols = { added = '+', modified = '~', removed = '-' }, -- changes diff symbols
           },
         },
         lualine_c = {
@@ -292,7 +292,7 @@ return {
         lualine_a = {
           {
             'buffers',
-            mode = 4,
+            mode = 0,
             show_filename_only = true,
             show_modified_status = true,
             filetype_names = {
@@ -302,6 +302,7 @@ return {
               alpha = 'Alpha',
               ['dap-repl'] = 'DAP REPL',
             },
+            use_mode_colors = true,
           },
           {
             'tabs',
