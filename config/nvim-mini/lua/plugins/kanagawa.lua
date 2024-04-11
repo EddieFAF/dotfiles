@@ -19,7 +19,8 @@ return {
       terminalColors = true, -- define vim.g.terminal_color_{0,17}
       colors = {             -- add/modify theme and palette colors
         palette = {},
-        theme = { wave = {}, lotus = {}, dragon = {}, all = { ui = { bg_gutter = 'none' } } },
+        theme = { wave = {}, lotus = {}, dragon = {},-- all = { ui = { bg_gutter = 'none' } }
+        },
       },
       overrides = function(colors)
         local theme = colors.theme
@@ -28,6 +29,11 @@ return {
           -- editor
           NormalFloat = { bg = 'none' },
           FloatBorder = { bg = 'none' },
+          FloatTitle = { bg = "none" },
+
+          LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+          MasonNormal = {bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+
           StatusLine = { fg = theme.ui.special },
           CursorLine = { bg = theme.ui.bg_p1 },
           CursorLineNr = { bg = theme.ui.bg_p1 },
