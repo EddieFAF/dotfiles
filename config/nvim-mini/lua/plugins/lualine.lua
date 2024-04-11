@@ -49,6 +49,7 @@ local function diff_source()
   end
 end
 
+
 -----------------------------------------------------------
 local function selectionCount()
   local isVisualMode = vim.fn.mode():find '[Vv]'
@@ -243,7 +244,8 @@ return {
           -- },
           {
             'diagnostics',
-            symbols = { error = " ", warn = " ", info = " ", hint = " " },
+            symbols = { error = "E", warn="W", info="I", hint="H"}
+            --symbols = { error = " ", warn = " ", info = " ", hint = " " },
           },
         },
         lualine_y = {

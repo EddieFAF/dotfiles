@@ -153,7 +153,7 @@ function M.config()
       documentation = cmp.config.window.bordered(),
     },
     experimental = {
-      ghost_text = true,
+      ghost_text = false,
     },
     -- view = {
     --   entries = {
