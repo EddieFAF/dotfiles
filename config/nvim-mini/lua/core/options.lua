@@ -79,6 +79,6 @@ vim.opt.spelllang=de
 
 vim.g.icons_enabled = true
 
---vim.cmd 'colorscheme onedark'
+vim.cmd.colorscheme "catppuccin"
 
 -- vim: ts=2 sts=2 sw=2 et

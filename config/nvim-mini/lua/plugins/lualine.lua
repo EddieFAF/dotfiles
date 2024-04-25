@@ -187,7 +187,7 @@ return {
       options = {
         icons_enabled = true,
         disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'lazy', 'mason', 'neo-tree', 'starter' } },
-        theme = 'auto',
+        theme = 'catppuccin',
         component_separators = '|',
         section_separators = '',
         globalstatus = true,

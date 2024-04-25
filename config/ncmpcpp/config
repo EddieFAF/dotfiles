@@ -21,6 +21,7 @@ execute_on_song_change = songinfo
 browser_display_mode = columns
 autocenter_mode = yes
 centered_cursor = yes
+show_duplicate_tags = no
 
 [visualizer]
 visualizer_data_source = /tmp/mpd.fifo
@@ -47,7 +48,7 @@ progressbar_elapsed_color = 7
 [UI Appearance]
 song_list_format = "{{$3{%d}%n $9%a - }{%b - }{%t}|{%f}}{$R%l}"
 song_status_format = "{{%a{ $2//$9 %b{ (%y)}} $2//$9 }{%t$/b}}|{$b%f$/b}"
-song_library_format = {{%a - %t}}{$R%l}|{%f}
+song_library_format = {{{%d}%n - }{%a - %t}}{$R%l}|{%f}
 selected_item_prefix = $2
 selected_item_suffix = $9
 song_columns_list_format = "(20)[magenta]{a} (3f)[green]{d}(3f)[green]{n:#} (50)[cyan]{t|f:Title} (20)[yellow]{b} (7f)[blue]{l}"
