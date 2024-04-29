@@ -56,6 +56,8 @@ alias v='nvim'
 alias ra='ranger'
 alias racd=ranger-cd
 
+alias kickass='java -jar /mnt/nasgard/download/coding/c64/tools/KickAssembler/KickAss.jar'
+alias boozify='docker run -it --rm -v "$(pwd)":/src jackasser/boozify'
 ### set common functions
 #############
 
