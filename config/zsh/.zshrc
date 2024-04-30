@@ -504,6 +504,17 @@ if [ -f ~/.zshrc_local_after ]; then
     source ~/.zshrc_local_after
 fi
 
+function nvims() {
+  items=("default" "nvim-mini" "nvim-faf" "nvim-fafm" "nvim-kickstart" "mvim" "nvim-eddie" "nvim-maria" "nvim-cyber")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
 source ~/.cache/zsh-shortcuts
 
 export EDITOR='nvim'
@@ -518,9 +529,6 @@ zi ice depth=1; zi light romkatv/powerlevel10k
 
 #Starship prompt
 #eval "$(starship init zsh)"
-
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
