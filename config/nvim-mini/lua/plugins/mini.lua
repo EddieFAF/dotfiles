@@ -130,16 +130,15 @@ return {
 
           { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
           { mode = "n", keys = "<Leader>c", desc = "+Code" },
-          { mode = "n", keys = "<Leader>d", desc = "+Document" },
+--          { mode = "n", keys = "<Leader>d", desc = "+Document" },
           { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
           --{ mode = "n", keys = "<Leader>w", desc = "+Workspace" },
           { mode = "n", keys = "<Leader>f", desc = "+Find" },
           { mode = "n", keys = "<Leader>g", desc = "+Git" },
           { mode = "n", keys = "<Leader>l", desc = "+LSP" },
           --{ mode = "n", keys = "<Leader>m", desc = "+Minimap" },
-          { mode = "n", keys = "<Leader>s", desc = "+Windows" },
+          { mode = "n", keys = "<Leader>w", desc = "+Windows" },
           --{ mode = "n", keys = "<Leader>u", desc = "+UI" },
-          { mode = "n", keys = "<Leader>x", desc = "+Trouble" },
           { mode = "n", keys = "<Leader>/", desc = "+FZF" },
         },
         window = {

@@ -21,13 +21,13 @@ vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
 vim.keymap.set("n", "-", "<C-x>", { desc = "decrement" })
 vim.keymap.set("n", "+", "<C-a>", { desc = "increment" })
 -- Split window
-vim.keymap.set("n", "<leader>ss", ":split<CR>", { desc = "Split horizontal" })
-vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertical" })
+vim.keymap.set("n", "<leader>ws", ":split<CR>", { desc = "Split horizontal" })
+vim.keymap.set("n", "<leader>wv", ":vsplit<CR>", { desc = "Split vertical" })
 -- Move window
-vim.keymap.set("n", "<leader>sh", "<C-w>h", { desc = "Window left" })
-vim.keymap.set("n", "<leader>sk", "<C-w>k", { desc = "Window up" })
-vim.keymap.set("n", "<leader>sj", "<C-w>j", { desc = "Window down" })
-vim.keymap.set("n", "<leader>sl", "<C-w>l", { desc = "Window right" })
+vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "Window left" })
+vim.keymap.set("n", "<leader>wk", "<C-w>k", { desc = "Window up" })
+vim.keymap.set("n", "<leader>wj", "<C-w>j", { desc = "Window down" })
+vim.keymap.set("n", "<leader>wl", "<C-w>l", { desc = "Window right" })
 vim.keymap.set("n", "<Leader>p", function()
   vim.ui.select({
     "buf_lines",

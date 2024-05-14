@@ -61,13 +61,14 @@ vim.opt.fillchars = {
 vim.opt.list      = true
 
 vim.opt.listchars = {
-  tab = ">>>",
+  -- tab = ">>>",
   space = '⋅',
   tab = "▸ ",
   trail = "·",
   --  precedes = "←",
   --  extends = "→",
-  extends = "›",
+  extends = "…",
+  --extends = "›",
   precedes = "‹",
   eol = "↲",
   nbsp = "␣",
@@ -75,7 +76,7 @@ vim.opt.listchars = {
 vim.opt.cmdheight = 0
 
 vim.opt.spell = false
-vim.opt.spelllang=de
+vim.opt.spelllang = 'de'
 
 vim.g.icons_enabled = false
 
