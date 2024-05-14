@@ -158,6 +158,7 @@ return {
       require("mini.comment").setup()
 
       -- [[ Completion ]] ----------------------------------------------------------
+
       -- require("mini.completion").setup({
       --   lsp_completion = {
       --     source_func = 'omnifunc',
@@ -266,6 +267,9 @@ return {
           border = "both",
           indent_at_cursor = true,
         },
+        draw = {
+          animation = function() return 1 end,
+        },
       })
 
       -- [[ Jump2d ]] --------------------------------------------------------------
@@ -306,6 +310,18 @@ return {
       require("mini.pairs").setup()
 
       -- [[ Configure Mini.pick ]] -------------------------------------------------
+      local win_config = function()
+        height = math.floor(0.618 * vim.o.lines)
+        width = math.floor(0.618 * vim.o.columns)
+        return {
+          anchor = 'NW',
+          height = height,
+          width = width,
+          border = 'rounded',
+          row = math.floor(0.5 * (vim.o.lines - height)),
+          col = math.floor(0.5 * (vim.o.columns - width)),
+        }
+      end
       require("mini.pick").setup({
         mappings = {
           choose_in_vsplit = '<C-CR>',
@@ -314,9 +330,7 @@ return {
           use_cache = true,
         },
         window = {
-          config = {
-            border = 'rounded',
-          },
+          config = win_config,
         },
       })
       vim.ui.select = MiniPick.ui_select

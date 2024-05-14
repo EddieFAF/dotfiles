@@ -505,7 +505,7 @@ if [ -f ~/.zshrc_local_after ]; then
 fi
 
 function nvims() {
-  items=("default" "nvim-mini" "nvim-faf" "nvim-fafm" "nvim-kickstart" "mvim" "nvim-eddie" "nvim-maria" "nvim-cyber")
+  items=("default" "nvim-mini" "nvim-faf" "nvim-fafm" "nvim-kickstart" "mvim" "nvim-eddie" "nvim-maria" "nvim-cyber" "nvim-basic-ide")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
   if [[ -z $config ]]; then
     echo "Nothing selected"
