@@ -2,6 +2,7 @@ return {
   {
     'echasnovski/mini.starter',
     event = 'VimEnter',
+    enabled = true,
     config = function()
       local logo = table.concat({
         "     _____  .__       .______   ____.__             ",
@@ -20,6 +21,7 @@ return {
           require("mini.starter").sections.builtin_actions(),
           require("mini.starter").sections.pick(),
           require("mini.starter").sections.recent_files(5, false),
+          require("mini.starter").sections.sessions(5, true),
           { action = "Lazy",  name = "Lazy",  section = "Plugin Actions" },
           { action = "Mason", name = "Mason", section = "Plugin Actions" },
         },

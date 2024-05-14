@@ -366,9 +366,8 @@ return {
       vim.keymap.set('n', '<leader>fV', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
       vim.keymap.set('n', '<leader>fv', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
 
-
       -- [[ Starter ]] -------------------------------------------------------------
-      --      require("mini.starter").setup()
+--      require("mini.starter").setup()
 
       -- [[ Tabline ]] -------------------------------------------------------------
       --require("mini.tabline").setup()
