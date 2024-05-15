@@ -136,6 +136,7 @@ return {
           { mode = "n", keys = "<Leader>f", desc = "+Find" },
           { mode = "n", keys = "<Leader>g", desc = "+Git" },
           { mode = "n", keys = "<Leader>l", desc = "+LSP" },
+          { mode = "n", keys = "<Leader>s", desc = "+Session" },
           --{ mode = "n", keys = "<Leader>m", desc = "+Minimap" },
           { mode = "n", keys = "<Leader>w", desc = "+Windows" },
           --{ mode = "n", keys = "<Leader>u", desc = "+UI" },
