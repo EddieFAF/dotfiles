@@ -276,13 +276,13 @@ vim.keymap.set("n", "<leader>M", ":Mason<cr>", { desc = "Mason" })
 vim.keymap.set("n", "-", "<C-x>", { desc = "decrement" })
 vim.keymap.set("n", "+", "<C-a>", { desc = "increment" })
 -- Split window
-vim.keymap.set("n", "<leader>ss", ":split<CR>", { desc = "Split horizontal" })
-vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertical" })
+vim.keymap.set("n", "<leader>ws", ":split<CR>", { desc = "Split horizontal" })
+vim.keymap.set("n", "<leader>wv", ":vsplit<CR>", { desc = "Split vertical" })
 -- Move window
-vim.keymap.set("n", "<leader>sh", "<C-w>h", { desc = "Window left" })
-vim.keymap.set("n", "<leader>sk", "<C-w>k", { desc = "Window up" })
-vim.keymap.set("n", "<leader>sj", "<C-w>j", { desc = "Window down" })
-vim.keymap.set("n", "<leader>sl", "<C-w>l", { desc = "Window right" })
+vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "Window left" })
+vim.keymap.set("n", "<leader>wk", "<C-w>k", { desc = "Window up" })
+vim.keymap.set("n", "<leader>wj", "<C-w>j", { desc = "Window down" })
+vim.keymap.set("n", "<leader>wl", "<C-w>l", { desc = "Window right" })
 vim.keymap.set("n", "<Leader>p", function()
   vim.ui.select({
     "buf_lines",
@@ -428,6 +428,9 @@ vim.opt.listchars = {
 -- [[ AI ]] ------------------------------------------------------------------
 require("mini.ai").setup()
 
+-- [[ Align ]] ---------------------------------------------------------------
+require("mini.align").setup()
+
 -- [[ Animate ]] -------------------------------------------------------------
 require("mini.animate").setup({
   scroll = { enable = false },
@@ -534,16 +537,17 @@ miniclue.setup({
       submode_resize = true,
     }),
 
-    { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
+    { mode = "n", keys = "<Leader>b", desc = " Buffer" },
     { mode = "n", keys = "<Leader>c", desc = "+Code" },
     { mode = "n", keys = "<Leader>d", desc = "+Document" },
     { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
-    { mode = "n", keys = "<Leader>w", desc = "+Workspace" },
+    { mode = "n", keys = "<Leader>v", desc = "+Workspace" },
     { mode = "n", keys = "<Leader>f", desc = "+Find" },
     { mode = "n", keys = "<Leader>g", desc = "+Git" },
     { mode = "n", keys = "<Leader>l", desc = "+LSP" },
     { mode = "n", keys = "<Leader>m", desc = "+Minimap" },
-    { mode = "n", keys = "<Leader>s", desc = "+Windows" },
+    { mode = "n", keys = "<Leader>w", desc = "+Windows" },
+    { mode = "n", keys = "<Leader>s", desc = "+Session" },
     { mode = "n", keys = "<Leader>u", desc = "+UI" },
     { mode = "n", keys = "<Leader>/", desc = "+FZF" },
   },
@@ -632,7 +636,8 @@ require("mini.files").setup({
 })
 
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
-vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], { desc = "File directory" })
+vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
+  { desc = "File directory" })
 vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
@@ -664,48 +669,51 @@ hi.setup({
 --   --  vim.cmd [[colorscheme tokyonight]]
 -- end
 
-      require('mini.base16').setup({
-        palette = {
-          base00 = "#1A1B26",
-          base01 = "#16161E",
-          base02 = "#2F3549",
-          base03 = "#444B6A",
-          base04 = "#787C99",
-          base05 = "#A9B1D6",
-          base06 = "#CBCCD1",
-          base07 = "#D5D6DB",
-          base08 = "#C0CAF5",
-          base09 = "#A9B1D6",
-          base0A = "#0DB9D7",
-          base0B = "#9ECE6A",
-          base0C = "#B4F9F8",
-          base0D = "#2AC3DE",
-          base0E = "#BB9AF7",
-          base0F = "#F7768E",
-        }
-        -- palette = {
-        --     base00 = '#1d2021',
-        --     base01 = '#3c3836',
-        --     base02 = '#504945',
-        --     base03 = '#665c54',
-        --     base04 = '#bdae93',
-        --     base05 = '#d5c4a1',
-        --     base06 = '#ebdbb2',
-        --     base07 = '#fbf1c7',
-        --     base08 = '#fb4934',
-        --     base09 = '#fe8019',
-        --     base0A = '#fabd2f',
-        --     base0B = '#b8bb26',
-        --     base0C = '#8ec07c',
-        --     base0D = '#83a598',
-        --     base0E = '#d3869b',
-        --     base0F = '#d65d0e',
-        -- }
-      })
+require('mini.base16').setup({
+  palette = {
+    base00 = "#1A1B26",
+    base01 = "#16161E",
+    base02 = "#2F3549",
+    base03 = "#444B6A",
+    base04 = "#787C99",
+    base05 = "#A9B1D6",
+    base06 = "#CBCCD1",
+    base07 = "#D5D6DB",
+    base08 = "#C0CAF5",
+    base09 = "#A9B1D6",
+    base0A = "#0DB9D7",
+    base0B = "#9ECE6A",
+    base0C = "#B4F9F8",
+    base0D = "#2AC3DE",
+    base0E = "#BB9AF7",
+    base0F = "#F7768E",
+  }
+  -- palette = {
+  --     base00 = '#1d2021',
+  --     base01 = '#3c3836',
+  --     base02 = '#504945',
+  --     base03 = '#665c54',
+  --     base04 = '#bdae93',
+  --     base05 = '#d5c4a1',
+  --     base06 = '#ebdbb2',
+  --     base07 = '#fbf1c7',
+  --     base08 = '#fb4934',
+  --     base09 = '#fe8019',
+  --     base0A = '#fabd2f',
+  --     base0B = '#b8bb26',
+  --     base0C = '#8ec07c',
+  --     base0D = '#83a598',
+  --     base0E = '#d3869b',
+  --     base0F = '#d65d0e',
+  -- }
+})
 --require("mini.hues").setup({ background = "#282c34", foreground = "#c8ccd4" }) -- blue
 
 -- [[ Animated indentation guide ]] ------------------------------------------
 require("mini.indentscope").setup({
+  draw = {
+    animation = function() return 1 end,
+  },
   symbol = "│",
   --symbol = "▏",
   options = {
@@ -765,6 +773,9 @@ vim.keymap.set("n", "<Leader>ms", MiniMap.toggle_side, { desc = "Minimap Swap Si
 vim.keymap.set("n", "<Leader>mt", MiniMap.toggle, { desc = "Minimap Toggle" })
 vim.keymap.set("n", "<F5>", MiniMap.toggle, { desc = "Minimap Toggle" })
 
+-- [[ Misc ]] ----------------------------------------------------------------
+require("mini.misc").setup()
+
 -- [[ Move ]] ----------------------------------------------------------------
 require("mini.move").setup()
 
@@ -780,11 +791,37 @@ require("mini.notify").setup({
 })
 vim.notify = require("mini.notify").make_notify()
 
+-- [[ Operators ]] -----------------------------------------------------------
+require("mini.operators").setup()
+
 -- [[ Pairs ]] ---------------------------------------------------------------
 require("mini.pairs").setup()
 
 -- [[ Configure Mini.pick ]] -------------------------------------------------
-require("mini.pick").setup()
+local win_config = function()
+  height = math.floor(0.618 * vim.o.lines)
+  width = math.floor(0.618 * vim.o.columns)
+  return {
+    anchor = 'NW',
+    height = height,
+    width = width,
+    border = 'rounded',
+    row = math.floor(0.5 * (vim.o.lines - height)),
+    col = math.floor(0.5 * (vim.o.columns - width)),
+  }
+end
+require('mini.pick').setup({
+  mappings = {
+    choose_in_vsplit = '<C-CR>',
+  },
+  options = {
+    use_cache = true
+  },
+  window = {
+    config = win_config
+  }
+})
+
 vim.ui.select = MiniPick.ui_select
 
 vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
@@ -816,6 +853,19 @@ vim.keymap.set("n", "<leader>fS", [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]]
 vim.keymap.set("n", "<leader>fs", [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = "Symbols buffer (LSP)" })
 vim.keymap.set("n", "<leader>fV", [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = "Visit paths (all)" })
 vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
+
+-- [[ Session ]] -------------------------------------------------------------
+require('mini.sessions').setup({ autowrite = true })
+-- Session Related Keymaps
+vim.keymap.set("n", "<leader>ss", function()
+  vim.cmd('wa')
+  MiniSessions.write()
+  MiniSessions.select()
+end, { noremap = true, silent = true, desc = 'Switch Session' })
+vim.keymap.set("n", "<leader>sw", function() MiniSessions.write() end,
+  { noremap = true, silent = true, desc = 'Save Session' })
+vim.keymap.set("n", "<leader>sf", function() MiniSessions.select() end,
+  { noremap = true, silent = true, desc = 'Load Session' })
 
 -- [[ Starter ]] -------------------------------------------------------------
 local logo = table.concat({
@@ -916,9 +966,15 @@ require("mini.statusline").setup({
   use_icons = true,
   set_vim_settings = true,
 })
- 
+
+-- [[ Surround ]] ------------------------------------------------------------
+require("mini.surround").setup()
+
 -- [[ Tabline ]] -------------------------------------------------------------
 require("mini.tabline").setup()
+
+-- [[ Trailspace ]] ----------------------------------------------------------
+require("mini.trailspace").setup()
 
 -- [[ Visits ]] --------------------------------------------------------------
 require("mini.visits").setup()
@@ -1115,9 +1171,9 @@ local on_attach = function(client, bufnr)
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
   --nmap("<leader>ws", "<cmd>:Pick lsp scope='workspace_symbol'<cr>", "[W]orkspace [S]ymbols")
-  nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-  nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-  nmap("<leader>wl", function()
+  nmap("<leader>va", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+  nmap("<leader>vr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+  nmap("<leader>vl", function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, "[W]orkspace [L]ist Folders")
 
