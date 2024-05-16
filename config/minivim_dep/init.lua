@@ -144,6 +144,18 @@ now(function()
     end)
   end, { desc = "Pick something" })
 end)
+-- Numbers on the left
+map("n", ",n", toggle("number"), "Toggle line number")
+map("n", ",r", toggle("relativenumber"), "Toggle relative line number")
+
+map("n", ",c", toggle("cursorline"), "Toggle cursorline")
+map("n", ",l", toggle("list"), "Toggle list chararcters")
+
+-- Wrap lines that are longer than 'textwidth'
+map("n", ",w", toggle("wrap"), "Toggle line wrapping")
+
+-- Spelling errors and suggestions
+map("n", ",s", toggle("spell"), "Toggle spell checking")
 
 -- [[ Autocommands ]] --------------------------------------------------------
 now(function()
@@ -346,7 +358,7 @@ later(function()
       -- Prefix for mappings that toggle common options ('wrap', 'spell', ...).
       -- Supply empty string to not create these mappings.
       --option_toggle_prefix = [[\]],
-      option_toggle_prefix = ",",
+      option_toggle_prefix = "",
       -- Window navigation with <C-hjkl>, resize with <C-arrow>
       windows = true,
       -- Move cursor in Insert, Command, and Terminal mode with <M-hjkl>
@@ -441,14 +453,15 @@ miniclue.setup({
     { mode = "n", keys = "<Leader>c", desc = "+Code" },
     { mode = "n", keys = "<Leader>d", desc = "+Document" },
     { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
-    { mode = "n", keys = "<Leader>v", desc = "+Workspace" },
     { mode = "n", keys = "<Leader>f", desc = "+Find" },
     { mode = "n", keys = "<Leader>g", desc = "+Git" },
     { mode = "n", keys = "<Leader>l", desc = "+LSP" },
     { mode = "n", keys = "<Leader>m", desc = "+Minimap" },
-    { mode = "n", keys = "<Leader>w", desc = "+Windows" },
     { mode = "n", keys = "<Leader>s", desc = "+Session" },
+    { mode = "n", keys = "<Leader>t", desc = "+TrailSpace" },
     { mode = "n", keys = "<Leader>u", desc = "+UI" },
+    { mode = "n", keys = "<Leader>v", desc = "+Workspace" },
+    { mode = "n", keys = "<Leader>w", desc = "+Windows" },
     { mode = "n", keys = "<Leader>/", desc = "+FZF" },
   },
   window = {
@@ -610,15 +623,15 @@ later(function() require("mini.jump").setup({}) end)
 
 -- [[ MiniMap ]] -------------------------------------------------------------
 later(function()
-  local map = require("mini.map")
-  map.setup({
+  local minimap = require("mini.map")
+  minimap.setup({
     symbols = {
       encode = require("mini.map").gen_encode_symbols.dot("4x2"),
     },
     integrations = {
-      map.gen_integration.builtin_search(),
-      map.gen_integration.gitsigns(),
-      map.gen_integration.diagnostic(),
+      minimap.gen_integration.builtin_search(),
+      minimap.gen_integration.gitsigns(),
+      minimap.gen_integration.diagnostic(),
     },
     window = {
       width = 20,
@@ -724,16 +737,26 @@ end)
 -- [[ Session ]] -------------------------------------------------------------
 now(function()
   require('mini.sessions').setup({ autowrite = true })
-  -- Session Related Keymaps
-  vim.keymap.set("n", "<leader>ss", function()
-    vim.cmd('wa')
-    MiniSessions.write()
-    MiniSessions.select()
-  end, { noremap = true, silent = true, desc = 'Switch Session' })
-  vim.keymap.set("n", "<leader>sw", function() MiniSessions.write() end,
-    { noremap = true, silent = true, desc = 'Save Session' })
-  vim.keymap.set("n", "<leader>sf", function() MiniSessions.select() end,
-    { noremap = true, silent = true, desc = 'Load Session' })
+  --- Wrapper around mini.sessions functions. Returns a function that
+  --- behaves differently based on the given scope.
+  ---
+  ---@param scope "local"|"write"|"read"|"delete"
+  ---@return function
+  local function session(scope)
+    return function()
+      if scope == "local" then
+        MiniSessions.write("Session.vim")
+      else
+        MiniSessions.select(scope)
+      end
+    end
+  end
+
+  -- Mappings
+  map("n", "<Leader>sl", session("local"), "Write a local session")
+  map("n", "<Leader>sw", session("write"), "Write a session")
+  map("n", "<Leader>sr", session("read"), "Read a session")
+  map("n", "<Leader>sd", session("delete"), "Delete a session")
 end)
 
 -- [[ Starter ]] -------------------------------------------------------------
@@ -840,7 +863,10 @@ later(function() require("mini.surround").setup() end)
 later(function() require("mini.tabline").setup() end)
 
 -- [[ Trailspace ]] ----------------------------------------------------------
-later(function() require("mini.trailspace").setup() end)
+now(function() require("mini.trailspace").setup() end)
+map('n', '<leader>ts', MiniTrailspace.trim, 'trim space')
+map('n', '<leader>te', MiniTrailspace.trim_last_lines, 'trim end-line')
+
 
 -- [[ Visits ]] --------------------------------------------------------------
 later(function() require("mini.visits").setup() end)
@@ -849,122 +875,7 @@ later(function() require("mini.visits").setup() end)
 -- [[ END OF MINI CONFIG ]] --------------------------------------------------
 ------------------------------------------------------------------------------
 
--- [[ Mason Setup ]] ---------------------------------------------------------
--- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-})
-
-vim.diagnostic.config({
-  float = { border = "rounded" },
-  update_in_insert = true,
-  -- virtual_text = false,
-})
-
---
--- Mason
---
-add({
-  source = "williamboman/mason-lspconfig.nvim",
-  depends = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
-})
-
---
--- Add documentation for nvim-lua api and plugins
---
-add("folke/neodev.nvim")
-require("neodev").setup()
-
---
--- Mason
---
-require("mason").setup()
-
-require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "pyright", "tsserver" },
-})
-
-require("mason-lspconfig").setup_handlers({
-  function(server_name)
-    require("lspconfig")[server_name].setup({})
-  end,
-
-  ["lua_ls"] = function()
-    require("lspconfig").lua_ls.setup({
-      settings = {
-        Lua = {
-          diagnostics = {
-            disable = { "lowercase-global", "undefined-global" },
-            globals = { "vim" },
-            workspace = {
-              checkThirdParty = false,
-              library = vim.api.nvim_get_runtime_file("", true),
-              --library = { vim.env.VIMRUNTIME },
-            },
-          },
-
-          hint = { enable = true },
-        },
-      },
-    })
-  end,
-})
-
-local function lsp(scope)
-  return function()
-    MiniExtra.pickers.lsp({ scope = scope })
-  end
-end
-
-local function diagnostic(scope)
-  return function()
-    MiniExtra.pickers.diagnostic({ scope = scope })
-  end
-end
-
-event.autocmd("LspAttach", {
-  group = event.augroup("LspConfig"),
-  callback = function(args)
-    local buffer = args.buf
-
-    -- Diagnostic keymaps
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-    vim.keymap.set("n", "<leader>lj", [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], { desc = "Next diagnostic" })
-    vim.keymap.set("n", "<leader>lk", [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], { desc = "Prev diagnostic" })
-    --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
-    vim.keymap.set("n", "<leader>ds", function()
-      require("fzf-lua").lsp_document_symbols()
-    end, { desc = "Document Symbols" })
-    vim.keymap.set("n", "<leader>dd", function()
-      require("fzf-lua").lsp_document_diagnostics()
-    end, { desc = "Document Diagnostics" })
-
-    --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
-    --nmap("<leader>la", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], "Arguments popup")
-    map("n", "<leader>lf", [[<Cmd>lua vim.lsp.buf.format()<cr>]], "Format")
-    --nmap("<leader>li", [[<Cmd>lua vim.lsp.buf.hover()<CR>]], "Information")
-    --nmap("<leader>lR", [[<Cmd>lua vim.lsp.buf.references()<CR>]], "References")
-    --nmap("<leader>ls", [[<Cmd>lua vim.lsp.buf.definition()<CR>]], "Source definition")
-
-    maplocal("n", "<Leader>lD", lsp("definition"), "Go to definitions", buffer)
-    maplocal("n", "<Leader>fR", lsp("references"), "Go to references", buffer)
-    maplocal("n", "<Leader>lt", lsp("type_definition"), "Go to type definitions", buffer)
-
-    --    maplocal("n", "<Leader>w", diagnostic("all"), "Find diagnostic (all)", buffer)
-    --    maplocal("n", "<Leader>d", diagnostic("current"), "Find diagnostic (current)", buffer)
-
-    maplocal("n", "<Leader>lr", vim.cmd.LspRestart, "Restart Lsp client", buffer)
-
-    maplocal("n", "ld", function()
-      vim.diagnostic.open_float(nil, { focus = false })
-    end, "Open diagnostics popup", buffer)
-  end,
-})
-
-map("n", "<Leader>li", "<cmd>LspInfo<cr>", "Show LSP info")
-
+-- [[ Configure Treesitter ]] ------------------------------------------------
 later(function()
   add({
     source = 'nvim-treesitter/nvim-treesitter',
@@ -974,10 +885,268 @@ later(function()
     -- Perform action after every checkout
     hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
   })
-  require('nvim-treesitter.configs').setup({
-    ensure_installed = { 'lua', 'vimdoc' },
+  require("nvim-treesitter.configs").setup({
+    -- Add languages to be installed here that you want installed for treesitter
+    ensure_installed = {
+      "c",
+      "cpp",
+      "go",
+      "lua",
+      "python",
+      "rust",
+      "javascript",
+      "vimdoc",
+      "vim",
+      "bash",
+    },
+    sync_install = false,
+    ignore_install = {},
+
+    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+    auto_install = false,
+
     highlight = { enable = true },
+    indent = { enable = true },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<c-space>",
+        node_incremental = "<c-space>",
+        scope_incremental = "<c-s>",
+        node_decremental = "<M-space>",
+      },
+    },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+        keymaps = {
+          -- You can use the capture groups defined in textobjects.scm
+          ["aa"] = "@parameter.outer",
+          ["ia"] = "@parameter.inner",
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+        },
+      },
+      move = {
+        enable = true,
+        set_jumps = true, -- whether to set jumps in the jumplist
+        goto_next_start = {
+          ["]m"] = "@function.outer",
+          ["]]"] = "@class.outer",
+        },
+        goto_next_end = {
+          ["]M"] = "@function.outer",
+          ["]["] = "@class.outer",
+        },
+        goto_previous_start = {
+          ["[m"] = "@function.outer",
+          ["[["] = "@class.outer",
+        },
+        goto_previous_end = {
+          ["[M"] = "@function.outer",
+          ["[]"] = "@class.outer",
+        },
+      },
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<leader>a"] = "@parameter.inner",
+        },
+        swap_previous = {
+          ["<leader>A"] = "@parameter.inner",
+        },
+      },
+    },
   })
 end)
+
+-- Diagnostic keymaps
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>lj", [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], { desc = "Next diagnostic" })
+vim.keymap.set("n", "<leader>lk", [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], { desc = "Prev diagnostic" })
+vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+--vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "<leader>ds", function()
+  require("fzf-lua").lsp_document_symbols()
+end, { desc = "Document Symbols" })
+vim.keymap.set("n", "<leader>dd", function()
+  require("fzf-lua").lsp_document_diagnostics()
+end, { desc = "Document Diagnostics" })
+
+vim.diagnostic.config({ update_in_insert = true })
+
+
+-- [[ Configure LSP ]] -------------------------------------------------------
+--  This function gets run when an LSP connects to a particular buffer.
+local on_attach = function(client, bufnr)
+  -- NOTE: Remember that lua is a real programming language, and as such it is possible
+  -- to define small helper and utility functions so you don't have to repeat yourself
+  -- many times.
+  local methods = vim.lsp.protocol.Methods
+  --
+  -- In this case, we create a function that lets us more easily define mappings specific
+  -- for LSP related items. It sets the mode, buffer and description for us each time.
+  local nmap = function(keys, func, desc, mode)
+    mode = mode or "n"
+    -- if desc then
+    --   desc = "LSP: " .. desc
+    -- end
+    vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
+  end
+
+  nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "Goto Definition")
+  nmap("<leader>fR", "<cmd>:Pick lsp scope='references'<cr>", "References")
+  nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "Goto Implementation")
+  nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
+  --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
+  nmap("<leader>la", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], "Arguments popup")
+  nmap("<leader>ld", [[<Cmd>lua vim.diagnostic.open_float()<CR>]], "Diagnostics popup")
+  nmap("<leader>lf", [[<Cmd>:Format<cr>]], "Format")
+  nmap("<leader>li", [[<Cmd>lua vim.lsp.buf.hover()<CR>]], "Information")
+  nmap("<leader>lR", [[<Cmd>lua vim.lsp.buf.references()<CR>]], "References")
+  nmap("<leader>ls", [[<Cmd>lua vim.lsp.buf.definition()<CR>]], "Source definition")
+
+  client.server_capabilities.completionProvider.triggerCharacters = { ".", ":" }
+
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+      local float_opts = {
+        focusable = false,
+        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        border = "rounded",
+        source = "always", -- show source in diagnostic popup window
+        prefix = " ",
+      }
+
+      if not vim.b.diagnostics_pos then
+        vim.b.diagnostics_pos = { nil, nil }
+      end
+
+      local cursor_pos = vim.api.nvim_win_get_cursor(0)
+      if
+          (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
+          and #vim.diagnostic.get() > 0
+      then
+        vim.diagnostic.open_float(nil, float_opts)
+      end
+
+      vim.b.diagnostics_pos = cursor_pos
+    end,
+  })
+
+  -- only if capeable
+  if client.supports_method(methods.textDocument_rename) then
+    nmap("<leader>lr", vim.lsp.buf.rename, "Rename")
+  end
+
+  if client.supports_method(methods.textDocument_codeAction) then
+    nmap("<leader>ca", function()
+      require("fzf-lua").lsp_code_actions({
+        winopts = {
+          relative = "cursor",
+          width = 0.6,
+          height = 0.6,
+          row = 1,
+          preview = { vertical = "up:70%" },
+        },
+      })
+    end, "Code actions", { "n", "v" })
+  end
+
+  -- See `:help K` for why this keymap
+  nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+  nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Documentation")
+
+  -- Lesser used LSP functionality
+  nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+  --nmap("<leader>ws", "<cmd>:Pick lsp scope='workspace_symbol'<cr>", "[W]orkspace [S]ymbols")
+  nmap("<leader>va", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+  nmap("<leader>vr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+  nmap("<leader>vl", function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, "[W]orkspace [L]ist Folders")
+
+  -- Create a command `:Format` local to the LSP buffer
+  vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+    vim.lsp.buf.format()
+  end, { desc = "Format current buffer with LSP" })
+end
+map("n", "<Leader>li", "<cmd>LspInfo<cr>", "Show LSP info")
+
+
+-- [[ Mason Setup ]] ---------------------------------------------------------
+-- mason-lspconfig requires that these setup functions are called in this order
+-- before setting up the servers.
+
+now(function()
+  add({
+    source = "williamboman/mason-lspconfig.nvim",
+    depends = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
+  })
+
+  add("folke/neodev.nvim")
+  require("neodev").setup()
+end)
+
+require("mason").setup()
+require("mason-lspconfig").setup()
+
+local servers = {
+  -- clangd = {},
+  -- gopls = {},
+  -- pyright = {},
+  -- rust_analyzer = {},
+  -- tsserver = {},
+  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+
+  lua_ls = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+        path = vim.split(package.path, ";"),
+      },
+      diagnostics = {
+        globals = { "vim" },
+        disable = { "need-check-nil" },
+        workspaceDelay = -1,
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = vim.api.nvim_get_runtime_file("", true),
+        --library = { vim.env.VIMRUNTIME },
+      },
+      telemetry = { enable = false },
+    },
+  },
+}
+
+-- Setup neovim lua configuration
+--require("neodev").setup()
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require("mason-lspconfig")
+
+mason_lspconfig.setup({
+  ensure_installed = vim.tbl_keys(servers),
+})
+
+mason_lspconfig.setup_handlers({
+  function(server_name)
+    require("lspconfig")[server_name].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name],
+      filetypes = (servers[server_name] or {}).filetypes,
+    })
+  end,
+})
+
 
 -- vim: ts=2 sts=2 sw=2 et
