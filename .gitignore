@@ -8,3 +8,4 @@ dot_config/awesome/picom.bak
 config/ranger/__pycache__
 config/nvim-mini/lazy-lock.json
 config/vifm/vifminfo.json
+config/nvim-mini/lua/plugins/Session.vim
