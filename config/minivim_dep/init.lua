@@ -459,7 +459,7 @@ miniclue.setup({
     { mode = "n", keys = "<Leader>m", desc = "+Minimap" },
     { mode = "n", keys = "<Leader>s", desc = "+Session" },
     { mode = "n", keys = "<Leader>t", desc = "+TrailSpace" },
-    { mode = "n", keys = "<Leader>u", desc = "+UI" },
+    --    { mode = "n", keys = "<Leader>u", desc = "+UI" },
     { mode = "n", keys = "<Leader>v", desc = "+Workspace" },
     { mode = "n", keys = "<Leader>w", desc = "+Windows" },
     { mode = "n", keys = "<Leader>/", desc = "+FZF" },
@@ -980,173 +980,215 @@ end, { desc = "Document Diagnostics" })
 vim.diagnostic.config({ update_in_insert = true })
 
 
--- [[ Configure LSP ]] -------------------------------------------------------
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(client, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  local methods = vim.lsp.protocol.Methods
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
-  local nmap = function(keys, func, desc, mode)
-    mode = mode or "n"
-    -- if desc then
-    --   desc = "LSP: " .. desc
-    -- end
-    vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
-  end
-
-  nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "Goto Definition")
-  nmap("<leader>fR", "<cmd>:Pick lsp scope='references'<cr>", "References")
-  nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "Goto Implementation")
-  nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
-  --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
-  nmap("<leader>la", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], "Arguments popup")
-  nmap("<leader>ld", [[<Cmd>lua vim.diagnostic.open_float()<CR>]], "Diagnostics popup")
-  nmap("<leader>lf", [[<Cmd>:Format<cr>]], "Format")
-  nmap("<leader>li", [[<Cmd>lua vim.lsp.buf.hover()<CR>]], "Information")
-  nmap("<leader>lR", [[<Cmd>lua vim.lsp.buf.references()<CR>]], "References")
-  nmap("<leader>ls", [[<Cmd>lua vim.lsp.buf.definition()<CR>]], "Source definition")
-
-  client.server_capabilities.completionProvider.triggerCharacters = { ".", ":" }
-
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    callback = function()
-      local float_opts = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = "rounded",
-        source = "always", -- show source in diagnostic popup window
-        prefix = " ",
-      }
-
-      if not vim.b.diagnostics_pos then
-        vim.b.diagnostics_pos = { nil, nil }
-      end
-
-      local cursor_pos = vim.api.nvim_win_get_cursor(0)
-      if
-          (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
-          and #vim.diagnostic.get() > 0
-      then
-        vim.diagnostic.open_float(nil, float_opts)
-      end
-
-      vim.b.diagnostics_pos = cursor_pos
-    end,
-  })
-
-  -- only if capeable
-  if client.supports_method(methods.textDocument_rename) then
-    nmap("<leader>lr", vim.lsp.buf.rename, "Rename")
-  end
-
-  if client.supports_method(methods.textDocument_codeAction) then
-    nmap("<leader>ca", function()
-      require("fzf-lua").lsp_code_actions({
-        winopts = {
-          relative = "cursor",
-          width = 0.6,
-          height = 0.6,
-          row = 1,
-          preview = { vertical = "up:70%" },
-        },
-      })
-    end, "Code actions", { "n", "v" })
-  end
-
-  -- See `:help K` for why this keymap
-  nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-  nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Documentation")
-
-  -- Lesser used LSP functionality
-  nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-  --nmap("<leader>ws", "<cmd>:Pick lsp scope='workspace_symbol'<cr>", "[W]orkspace [S]ymbols")
-  nmap("<leader>va", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-  nmap("<leader>vr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-  nmap("<leader>vl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, "[W]orkspace [L]ist Folders")
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-    vim.lsp.buf.format()
-  end, { desc = "Format current buffer with LSP" })
-end
-map("n", "<Leader>li", "<cmd>LspInfo<cr>", "Show LSP info")
-
-
--- [[ Mason Setup ]] ---------------------------------------------------------
--- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
-
+-- LSP Configuration & Plugins
 now(function()
   add({
-    source = "williamboman/mason-lspconfig.nvim",
-    depends = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
-  })
+    source = 'neovim/nvim-lspconfig',
+    depends = {
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      --      { "j-hui/fidget.nvim" },
+      'folke/neodev.nvim',
+    }
+  }
+  )
 
-  add("folke/neodev.nvim")
-  require("neodev").setup()
-end)
-
-require("mason").setup()
-require("mason-lspconfig").setup()
-
-local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
-  lua_ls = {
-    Lua = {
-      runtime = {
-        version = "LuaJIT",
-        path = vim.split(package.path, ";"),
-      },
-      diagnostics = {
-        globals = { "vim" },
-        disable = { "need-check-nil" },
-        workspaceDelay = -1,
-      },
-      workspace = {
-        checkThirdParty = false,
-        library = vim.api.nvim_get_runtime_file("", true),
-        --library = { vim.env.VIMRUNTIME },
-      },
-      telemetry = { enable = false },
+  -- Set up Mason before anything else
+  require("mason").setup()
+  require("mason-lspconfig").setup({
+    ensure_installed = {
+      "lua_ls",
     },
-  },
-}
+    automatic_installation = true,
+  })
+  -- Quick access via keymap
+  vim.keymap.set("n", "<leader>M", "<cmd>Mason<cr>", { desc = "Show Mason" })
 
--- Setup neovim lua configuration
---require("neodev").setup()
+  -- Neodev setup before LSP config
+  require("neodev").setup()
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- Set up cool signs for diagnostics
+  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+  for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  end
 
--- Ensure the servers above are installed
-local mason_lspconfig = require("mason-lspconfig")
+  -- Diagnostic config
+  local config = {
+    virtual_text = {
+      spacing = 4,
+      source = 'if_many',
+      prefix = '●',
+      --  format = function(d) return "" end
+    },
+    signs = {
+      active = signs,
+    },
+    update_in_insert = true,
+    underline = true,
+    severity_sort = true,
+    float = {
+      focusable = true,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      header = "",
+      prefix = "",
+    },
+  }
+  vim.diagnostic.config(config)
 
-mason_lspconfig.setup({
-  ensure_installed = vim.tbl_keys(servers),
-})
+  -- This function gets run when an LSP connects to a particular buffer.
+  local on_attach = function(client, bufnr)
+    local methods = vim.lsp.protocol.Methods
+    local nmap = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      if desc then
+        desc = "LSP: " .. desc
+      end
+      vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
+    end
 
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    require("lspconfig")[server_name].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
+    nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
+    nmap("<leader>fR", "<cmd>:Pick lsp scope='references'<cr>", "References")
+    nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
+    nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
+    --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
+    nmap('<leader>la', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], 'Arguments popup')
+    nmap('<leader>ld', [[<Cmd>lua vim.diagnostic.open_float()<CR>]], 'Diagnostics popup')
+    nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
+    nmap('<leader>li', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], 'Information')
+    nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
+    nmap('<leader>ls', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], 'Source definition')
+
+    nmap('<c-j>', '<cmd>lua vim.diagnostic.goto_next({float={source=true}})<cr>')
+    nmap('<c-k>', '<cmd>lua vim.diagnostic.goto_prev({float={source=true}})<cr>')
+
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+      vim.lsp.buf.format()
+    end, { desc = "Format current buffer with LSP" })
+
+    nmap("<leader>lf", "<cmd>Format<cr>", "Format")
+
+    -- See `:help K` for why this keymap
+    nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+    nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Documentation")
+
+    -- only if capeable
+    if client.supports_method(methods.textDocument_rename) then
+      nmap('<leader>lr', vim.lsp.buf.rename, 'Rename')
+    end
+
+    -- if client.server_capabilities.documentSymbolProvider then
+    --   navic.attach(client, bufnr)
+    -- end
+
+    if client.supports_method(methods.textDocument_codeAction) then
+      nmap('<leader>ca', function()
+        require('fzf-lua').lsp_code_actions {
+          winopts = {
+            relative = 'cursor',
+            width = 0.6,
+            height = 0.6,
+            row = 1,
+            preview = { vertical = 'up:70%' },
+          },
+        }
+      end, 'Code actions', { 'n', 'v' })
+    end
+
+    local status_ok, highlight_supported = pcall(function()
+      return client.supports_method('textDocument/documentHighlight')
+    end)
+    if not status_ok or not highlight_supported then
+      return
+    end
+
+    local group_name = 'lsp_document_highlight'
+    local ok, hl_autocmds = pcall(vim.api.nvim_get_autocmds, {
+      group = group_name,
+      buffer = bufnr,
+      event = 'CursorHold',
     })
-  end,
-})
+
+    if ok and #hl_autocmds > 0 then
+      return
+    end
+
+    vim.api.nvim_create_augroup(group_name, { clear = false })
+    vim.api.nvim_create_autocmd('CursorHold', {
+      group = group_name,
+      buffer = bufnr,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd('CursorMoved', {
+      group = group_name,
+      buffer = bufnr,
+      callback = vim.lsp.buf.clear_references,
+    })
+  end
 
 
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  --local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+  -- Lua
+  require("lspconfig")["lua_ls"].setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      Lua = {
+        completion = {
+          callSnippet = "Replace",
+        },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = {
+            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+            [vim.fn.stdpath("config") .. "/lua"] = true,
+          },
+          checkThirdParty = false,
+        },
+      },
+    },
+  })
+end)
+--
+--       -- Python
+--       require("lspconfig")["pylsp"].setup({
+--         on_attach = on_attach,
+--         capabilities = capabilities,
+--         settings = {
+--           pylsp = {
+--             plugins = {
+--               flake8 = {
+--                 enabled = true,
+--                 maxLineLength = 88, -- Black's line length
+--               },
+--               -- Disable plugins overlapping with flake8
+--               pycodestyle = {
+--                 enabled = false,
+--               },
+--               mccabe = {
+--                 enabled = false,
+--               },
+--               pyflakes = {
+--                 enabled = false,
+--               },
+--               -- Use Black as the formatter
+--               autopep8 = {
+--                 enabled = false,
+--               },
+--             },
+--           },
+--         },
+--       })
+--
+-- end)
+--
+--
 -- vim: ts=2 sts=2 sw=2 et
