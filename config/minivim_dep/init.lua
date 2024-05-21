@@ -340,9 +340,18 @@ later(function() require("mini.align").setup() end)
 
 -- [[ Animate ]] -------------------------------------------------------------
 later(function()
-  require("mini.animate").setup({
-    scroll = { enable = false },
-  })
+  -- This is needed for mini.animate to work with mouse scrolling
+  vim.opt.mousescroll = 'ver:1,hor:1'
+  local animate = require('mini.animate')
+  animate.setup {
+    scroll = {
+      -- Disable Scroll Animations, as the can interfer with mouse Scrolling
+      enable = true,
+    },
+    cursor = {
+      timing = animate.gen_timing.cubic({ duration = 50, unit = 'total' })
+    },
+  }
 end)
 
 -- [[ Collection of basic options ]] -----------------------------------------
@@ -526,6 +535,9 @@ vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 -- [[ Mini Cursorword ]] -----------------------------------------------------
 later(function() require("mini.cursorword").setup() end)
 
+-- [[ Mini Diff ]] -----------------------------------------------------------
+later(function() require('mini.diff').setup() end)
+
 -- [[ Mini.Extras ]] ---------------------------------------------------------
 later(function() require("mini.extra").setup() end)
 
@@ -651,6 +663,9 @@ now(function() require("mini.misc").setup() end)
 MiniMisc.setup_restore_cursor({
   ignore_filetype = { "gitcommit", "gitrebase", "SFTerm", "fzf" }
 })
+MiniMisc.setup_auto_root({ '.git', 'Makefile', ".forceignore", "sfdx-project.json" },
+  function() vim.notify('Mini find_root failed.', vim.log.levels.WARN) end)
+
 -- [[ Move ]] ----------------------------------------------------------------
 later(function() require("mini.move").setup() end)
 
@@ -836,6 +851,7 @@ later(function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
           return "SPC:" .. shiftwidth
         end
+        local diff          = MiniStatusline.section_diff({ trunc_width = 140 })
 
         return MiniStatusline.combine_groups({
           { hl = mode_hl,                 strings = { mode, spell, wrap } },
@@ -844,7 +860,7 @@ later(function()
           { hl = 'MiniStatuslineFilename', strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
-          { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics } },
+          { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics, diff } },
           { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
           { hl = mode_hl,                  strings = { searchcount } },
           { hl = mode_hl,                  strings = { location2 } },
