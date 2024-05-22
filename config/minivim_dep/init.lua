@@ -156,6 +156,7 @@ map("n", ",w", toggle("wrap"), "Toggle line wrapping")
 
 -- Spelling errors and suggestions
 map("n", ",s", toggle("spell"), "Toggle spell checking")
+map("n", "<leader>uu", ":lua MiniDeps.update()<CR>", "MiniDeps Update")
 
 -- [[ Autocommands ]] --------------------------------------------------------
 now(function()
@@ -572,6 +573,9 @@ vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR
 -- [[ Fuzzy ]] ---------------------------------------------------------------
 later(function() require("mini.fuzzy").setup() end)
 
+-- [[ Git ]] -----------------------------------------------------------------
+later(function() require("mini.git").setup() end)
+
 -- [[ HiPatterns ]] ----------------------------------------------------------
 now(function()
   local hi = require("mini.hipatterns")
@@ -839,7 +843,8 @@ later(function()
         local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
         local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
         local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
-        local git           = MiniStatusline.section_git({ trunc_width = 75 })
+        local git           = MiniStatusline.section_git({ trunc_width = 40 })
+        local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
         local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
         local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
         local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
@@ -851,16 +856,15 @@ later(function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
           return "SPC:" .. shiftwidth
         end
-        local diff          = MiniStatusline.section_diff({ trunc_width = 140 })
 
         return MiniStatusline.combine_groups({
           { hl = mode_hl,                 strings = { mode, spell, wrap } },
-          { hl = 'MiniStatuslineDevinfo', strings = { git } },
+          { hl = 'MiniStatuslineDevinfo', strings = { git, diff } },
           '%<',
           { hl = 'MiniStatuslineFilename', strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
-          { hl = 'MiniStatuslineFilename', strings = { lsp_client(), diagnostics, diff } },
+          { hl = 'MiniStatuslineDevinfo', strings = { lsp_client(), diagnostics } },
           { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
           { hl = mode_hl,                  strings = { searchcount } },
           { hl = mode_hl,                  strings = { location2 } },
@@ -1172,39 +1176,38 @@ now(function()
       },
     },
   })
+
+  -- Python
+  require("lspconfig")["pylsp"].setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      pylsp = {
+        plugins = {
+          flake8 = {
+            enabled = true,
+            maxLineLength = 88,      -- Black's line length
+          },
+          -- Disable plugins overlapping with flake8
+          pycodestyle = {
+            enabled = false,
+          },
+          mccabe = {
+            enabled = false,
+          },
+          pyflakes = {
+            enabled = false,
+          },
+          -- Use Black as the formatter
+          autopep8 = {
+            enabled = false,
+          },
+        },
+      },
+    },
+  })
+  --
 end)
---
---       -- Python
---       require("lspconfig")["pylsp"].setup({
---         on_attach = on_attach,
---         capabilities = capabilities,
---         settings = {
---           pylsp = {
---             plugins = {
---               flake8 = {
---                 enabled = true,
---                 maxLineLength = 88, -- Black's line length
---               },
---               -- Disable plugins overlapping with flake8
---               pycodestyle = {
---                 enabled = false,
---               },
---               mccabe = {
---                 enabled = false,
---               },
---               pyflakes = {
---                 enabled = false,
---               },
---               -- Use Black as the formatter
---               autopep8 = {
---                 enabled = false,
---               },
---             },
---           },
---         },
---       })
---
--- end)
---
---
+
+
 -- vim: ts=2 sts=2 sw=2 et
