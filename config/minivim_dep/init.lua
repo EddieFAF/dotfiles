@@ -469,7 +469,7 @@ miniclue.setup({
     { mode = "n", keys = "<Leader>m", desc = "+Minimap" },
     { mode = "n", keys = "<Leader>s", desc = "+Session" },
     { mode = "n", keys = "<Leader>t", desc = "+TrailSpace" },
-    --    { mode = "n", keys = "<Leader>u", desc = "+UI" },
+    { mode = "n", keys = "<Leader>u", desc = "+UI" },
     { mode = "n", keys = "<Leader>v", desc = "+Workspace" },
     { mode = "n", keys = "<Leader>w", desc = "+Windows" },
     { mode = "n", keys = "<Leader>/", desc = "+FZF" },
@@ -537,7 +537,12 @@ vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 later(function() require("mini.cursorword").setup() end)
 
 -- [[ Mini Diff ]] -----------------------------------------------------------
-later(function() require('mini.diff').setup() end)
+later(function() require('mini.diff').setup({
+  view = {
+    style = 'sign',
+    signs = { add = '+', change = '~', delete = '-' },
+  }
+}) end)
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
 later(function() require("mini.extra").setup() end)
@@ -575,6 +580,8 @@ later(function() require("mini.fuzzy").setup() end)
 
 -- [[ Git ]] -----------------------------------------------------------------
 later(function() require("mini.git").setup() end)
+local rhs = '<Cmd>lua MiniGit.show_at_cursor()<CR>'
+vim.keymap.set({ 'n', 'x' }, '<Leader>gs', rhs, { desc = 'Show at cursor' })
 
 -- [[ HiPatterns ]] ----------------------------------------------------------
 now(function()
@@ -864,7 +871,7 @@ later(function()
           { hl = 'MiniStatuslineFilename', strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
-          { hl = 'MiniStatuslineDevinfo', strings = { lsp_client(), diagnostics } },
+          { hl = 'MiniStatuslineDevinfo',  strings = { lsp_client(), diagnostics } },
           { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
           { hl = mode_hl,                  strings = { searchcount } },
           { hl = mode_hl,                  strings = { location2 } },
@@ -1186,7 +1193,7 @@ now(function()
         plugins = {
           flake8 = {
             enabled = true,
-            maxLineLength = 88,      -- Black's line length
+            maxLineLength = 88, -- Black's line length
           },
           -- Disable plugins overlapping with flake8
           pycodestyle = {
