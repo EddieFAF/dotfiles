@@ -537,12 +537,14 @@ vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 later(function() require("mini.cursorword").setup() end)
 
 -- [[ Mini Diff ]] -----------------------------------------------------------
-later(function() require('mini.diff').setup({
-  view = {
-    style = 'sign',
-    signs = { add = '+', change = '~', delete = '-' },
-  }
-}) end)
+later(function()
+  require('mini.diff').setup({
+    view = {
+      style = 'sign',
+      signs = { add = '+', change = '~', delete = '-' },
+    }
+  })
+end)
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
 later(function() require("mini.extra").setup() end)
@@ -901,6 +903,15 @@ later(function() require("mini.visits").setup() end)
 ------------------------------------------------------------------------------
 -- [[ END OF MINI CONFIG ]] --------------------------------------------------
 ------------------------------------------------------------------------------
+later(function()
+  add('kevinhwang91/promise-async')
+  add('kevinhwang91/nvim-ufo')
+  vim.o.foldcolumn = '1'
+  vim.o.foldlevel = 99
+  vim.o.foldlevelstart = 99
+  vim.o.foldenable = true
+  require('ufo').setup()
+end)
 
 -- [[ Configure Treesitter ]] ------------------------------------------------
 later(function()

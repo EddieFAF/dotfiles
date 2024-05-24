@@ -402,7 +402,7 @@ export FZF_CTRL_R_OPTS="
 #--color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
 #--color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 function ranger-cd() {
     tempfile=$(mktemp /tmp/${tempfoo}.XXXXXX)
@@ -463,3 +463,5 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh

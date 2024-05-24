@@ -19,6 +19,16 @@ export KUBECACHEDIR="$XDG_RUNTIME_DIR"/kube
 export STARSHIP_CACHE="$XDG_CACHE_HOME"/starship
 export TFENV="$XDG_DATA_HOME"/terraform
 
+export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
+export XCOMPOSEFILE="$XDG_CONFIG_HOME"/X11/xcompose
+export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
+export MPLAYER_HOME="$XDG_CONFIG_HOME"/mplayer
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export GHCUP_USE_XDG_DIRS=true
+export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
+export W3M_DIR="$XDG_DATA_HOME"/w3m
+export FZF_PATH="$XDG_DATA_HOME"/fzf
+
 #export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 #export HISTSIZE=290000                   # Maximum events for internal history
 #export SAVEHIST=290000                   # Maximum events in history file

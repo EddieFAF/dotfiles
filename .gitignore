@@ -8,3 +8,11 @@ config/minivim/lazy-lock.json
 config/nvim-mini/lazy-lock.json
 config/minivim_v1/lazy-lock.json
 config/minivim_dep/Session.vim
+config/ranger/colorschemes/__pycache__/__init__.cpython-310.opt-1.pyc
+config/ranger/colorschemes/__pycache__/__init__.cpython-311.pyc
+config/ranger/colorschemes/__pycache__/dracula.cpython-310.opt-1.pyc
+config/ranger/colorschemes/__pycache__/dracula.cpython-311.pyc
+config/ranger/colorschemes/__pycache__/onedark.cpython-310.opt-1.pyc
+config/ranger/plugins/__pycache__/__init__.cpython-310.opt-1.pyc
+config/ranger/plugins/__pycache__/__init__.cpython-311.pyc
+config/ranger/plugins/__pycache__/__init__.cpython-39.opt-1.pyc
