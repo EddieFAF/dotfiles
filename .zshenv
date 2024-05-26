@@ -28,6 +28,10 @@ export GHCUP_USE_XDG_DIRS=true
 export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
 export W3M_DIR="$XDG_DATA_HOME"/w3m
 export FZF_PATH="$XDG_DATA_HOME"/fzf
+export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
+export STACK_ROOT="$XDG_DATA_HOME"/stack
+export STACK_XDG=1
+export _Z_DATA="$XDG_DATA_HOME/z"
 
 #export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 #export HISTSIZE=290000                   # Maximum events for internal history

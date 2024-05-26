@@ -539,10 +539,10 @@ later(function() require("mini.cursorword").setup() end)
 -- [[ Mini Diff ]] -----------------------------------------------------------
 later(function()
   require('mini.diff').setup({
-    view = {
-      style = 'sign',
-      signs = { add = '+', change = '~', delete = '-' },
-    }
+    -- view = {
+    --   style = 'sign',
+    --   signs = { add = '+', change = '~', delete = '-' },
+    -- }
   })
 end)
 
@@ -683,16 +683,29 @@ MiniMisc.setup_auto_root({ '.git', 'Makefile', ".forceignore", "sfdx-project.jso
 later(function() require("mini.move").setup() end)
 
 -- [[ Notify ]] --------------------------------------------------------------
-later(function()
+now(function()
+  local filterout_lua_diagnosing = function(notif_arr)
+    local not_diagnosing = function(notif)
+      return not vim.startswith(notif.msg, "lua_ls: Diagnosing")
+    end
+    notif_arr = vim.tbl_filter(not_diagnosing, notif_arr)
+    return MiniNotify.default_sort(notif_arr)
+  end
   require("mini.notify").setup({
-    -- Notifications about LSP progress
-    lsp_progress = {
-      -- Whether to enable showing
-      enable = true,
-      -- Duration (in ms) of how long last message should be shown
-      duration_last = 1000,
-    },
+    content = { sort = filterout_lua_diagnosing },
+    window = { config = { border = "single" } },
   })
+
+  -- later(function()
+  --   require("mini.notify").setup({
+  --     -- Notifications about LSP progress
+  --     lsp_progress = {
+  --       -- Whether to enable showing
+  --       enable = true,
+  --       -- Duration (in ms) of how long last message should be shown
+  --       duration_last = 1000,
+  --     },
+  --   })
   vim.notify = require("mini.notify").make_notify()
 end)
 
@@ -854,6 +867,7 @@ later(function()
         local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
         local git           = MiniStatusline.section_git({ trunc_width = 40 })
         local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
+        local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
         local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
         local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
         local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
@@ -873,7 +887,7 @@ later(function()
           { hl = 'MiniStatuslineFilename', strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
-          { hl = 'MiniStatuslineDevinfo',  strings = { lsp_client(), diagnostics } },
+          { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
           { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
           { hl = mode_hl,                  strings = { searchcount } },
           { hl = mode_hl,                  strings = { location2 } },
