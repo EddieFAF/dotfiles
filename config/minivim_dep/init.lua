@@ -927,6 +927,36 @@ later(function()
   require('ufo').setup()
 end)
 
+now(function()
+  add("rmagatti/alternate-toggler")
+
+  require("alternate-toggler").setup({
+    alternates = {
+      ["true"] = "false",
+      ["top"] = "bottom",
+      ["left"] = "right",
+      ["True"] = "False",
+      ["TRUE"] = "FALSE",
+      ["Yes"] = "No",
+      ["YES"] = "NO",
+      ["1"] = "0",
+      ["<"] = ">",
+      ["("] = ")",
+      ["["] = "]",
+      ["{"] = "}",
+      ['"'] = "'",
+      ['""'] = "''",
+      ["+"] = "-",
+      ["==="] = "!==",
+    },
+  })
+  vim.keymap.set(
+    "n",
+    "<leader>i",   -- <space><space>
+    "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", { desc = "Toggle value" }
+  )
+end)
+
 -- [[ Configure Treesitter ]] ------------------------------------------------
 later(function()
   add({
