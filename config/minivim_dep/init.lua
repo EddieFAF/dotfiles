@@ -448,7 +448,6 @@ miniclue.setup({
     miniclue.gen_clues.g(),
     miniclue.gen_clues.marks(),
     miniclue.gen_clues.registers(),
-    miniclue.gen_clues.windows(),
     miniclue.gen_clues.z(),
 
     hints,
@@ -510,28 +509,28 @@ later(function()
   })
 end)
 
-vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
-vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
-local keys = {
-  ["cr"] = vim.api.nvim_replace_termcodes("<CR>", true, true, true),
-  ["ctrl-y"] = vim.api.nvim_replace_termcodes("<C-y>", true, true, true),
-  ["ctrl-y_cr"] = vim.api.nvim_replace_termcodes("<C-y><CR>", true, true, true),
-}
-
-_G.cr_action = function()
-  if vim.fn.pumvisible() ~= 0 then
-    -- If popup is visible, confirm selected item or add new line otherwise
-    local item_selected = vim.fn.complete_info()["selected"] ~= -1
-    return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
-  else
-    -- If popup is not visible, use plain `<CR>`. You might want to customize
-    -- according to other plugins. For example, to use 'mini.pairs', replace
-    -- next line with `return require('mini.pairs').cr()`
-    return keys["cr"]
-  end
-end
-
-vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
+-- vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
+-- vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
+-- local keys = {
+--   ["cr"] = vim.api.nvim_replace_termcodes("<CR>", true, true, true),
+--   ["ctrl-y"] = vim.api.nvim_replace_termcodes("<C-y>", true, true, true),
+--   ["ctrl-y_cr"] = vim.api.nvim_replace_termcodes("<C-y><CR>", true, true, true),
+-- }
+--
+-- _G.cr_action = function()
+--   if vim.fn.pumvisible() ~= 0 then
+--     -- If popup is visible, confirm selected item or add new line otherwise
+--     local item_selected = vim.fn.complete_info()["selected"] ~= -1
+--     return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
+--   else
+--     -- If popup is not visible, use plain `<CR>`. You might want to customize
+--     -- according to other plugins. For example, to use 'mini.pairs', replace
+--     -- next line with `return require('mini.pairs').cr()`
+--     return keys["cr"]
+--   end
+-- end
+--
+-- vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 
 -- [[ Mini Cursorword ]] -----------------------------------------------------
 later(function() require("mini.cursorword").setup() end)
@@ -570,12 +569,18 @@ later(function()
       max_number = math.huge,
     },
   })
+  local minifiles_augroup = vim.api.nvim_create_augroup('ec-mini-files', {})
+  vim.api.nvim_create_autocmd('User', {
+    group = minifiles_augroup,
+    pattern = 'MiniFilesWindowOpen',
+    callback = function(args) vim.api.nvim_win_set_config(args.data.win_id, { border = 'double' }) end,
+  })
 end)
 
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
 vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
   { desc = "File directory" })
-vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = "Mini.nvim directory" })
+vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/minivim_dep')<CR>]], { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
 later(function() require("mini.fuzzy").setup() end)
@@ -586,7 +591,7 @@ local rhs = '<Cmd>lua MiniGit.show_at_cursor()<CR>'
 vim.keymap.set({ 'n', 'x' }, '<Leader>gs', rhs, { desc = 'Show at cursor' })
 
 -- [[ HiPatterns ]] ----------------------------------------------------------
-now(function()
+later(function()
   local hi = require("mini.hipatterns")
   hi.setup({
     highlighters = {
@@ -649,13 +654,14 @@ later(function() require("mini.jump").setup({}) end)
 -- [[ MiniMap ]] -------------------------------------------------------------
 later(function()
   local minimap = require("mini.map")
+  local encode_symbols = minimap.gen_encode_symbols.block('3x2')
+  -- Use dots in `st` terminal because it can render them as blocks
+  if vim.startswith(vim.fn.getenv('TERM'), 'st') then encode_symbols = minimap.gen_encode_symbols.dot('4x2') end
   minimap.setup({
-    symbols = {
-      encode = require("mini.map").gen_encode_symbols.dot("4x2"),
-    },
+    symbols = { encode = encode_symbols },
     integrations = {
       minimap.gen_integration.builtin_search(),
-      minimap.gen_integration.gitsigns(),
+      minimap.gen_integration.diff(),
       minimap.gen_integration.diagnostic(),
     },
     window = {
@@ -669,15 +675,21 @@ later(function()
   vim.keymap.set("n", "<Leader>ms", MiniMap.toggle_side, { desc = "Minimap Swap Side" })
   vim.keymap.set("n", "<Leader>mt", MiniMap.toggle, { desc = "Minimap Toggle" })
   vim.keymap.set("n", "<F5>", MiniMap.toggle, { desc = "Minimap Toggle" })
+  vim.keymap.set('n', [[\h]], ':let v:hlsearch = 1 - v:hlsearch<CR>', { desc = 'Toggle hlsearch' })
+  for _, key in ipairs({ 'n', 'N', '*' }) do
+    vim.keymap.set('n', key, key .. 'zv<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>')
+  end
 end)
 
 -- [[ Misc ]] ----------------------------------------------------------------
-now(function() require("mini.misc").setup() end)
-MiniMisc.setup_restore_cursor({
-  ignore_filetype = { "gitcommit", "gitrebase", "SFTerm", "fzf" }
-})
-MiniMisc.setup_auto_root({ '.git', 'Makefile', ".forceignore", "sfdx-project.json" },
-  function() vim.notify('Mini find_root failed.', vim.log.levels.WARN) end)
+now(function()
+  require('mini.misc').setup({ make_global = { 'put', 'put_text', 'stat_summary', 'bench_time' } })
+  MiniMisc.setup_auto_root({ '.git', 'Makefile', ".forceignore", "sfdx-project.json" },
+    function() vim.notify('Mini find_root failed.', vim.log.levels.WARN) end)
+  MiniMisc.setup_restore_cursor({
+    ignore_filetype = { "gitcommit", "gitrebase", "SFTerm", "fzf" }
+  })
+end)
 
 -- [[ Move ]] ----------------------------------------------------------------
 later(function() require("mini.move").setup() end)
@@ -825,38 +837,38 @@ now(function()
 end)
 
 -- [[ Statusline ]] ----------------------------------------------------------
-later(function()
-  local lsp_client = function(msg)
-    msg = msg or ""
-    local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
-
-    if next(buf_clients) == nil then
-      if type(msg) == "boolean" or #msg == 0 then
-        return ""
-      end
-      return msg
-    end
-
-    local buf_client_names = {}
-
-    -- add client
-    for _, client in pairs(buf_clients) do
-      if client.name ~= "null-ls" then
-        table.insert(buf_client_names, client.name)
-      end
-    end
-
-    local hash = {}
-    local client_names = {}
-    for _, v in ipairs(buf_client_names) do
-      if not hash[v] then
-        client_names[#client_names + 1] = v
-        hash[v] = true
-      end
-    end
-    table.sort(client_names)
-    return "LSP:" .. table.concat(client_names, ", ")
-  end
+now(function()
+  -- local lsp_client = function(msg)
+  --   msg = msg or ""
+  --   local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
+  --
+  --   if next(buf_clients) == nil then
+  --     if type(msg) == "boolean" or #msg == 0 then
+  --       return ""
+  --     end
+  --     return msg
+  --   end
+  --
+  --   local buf_client_names = {}
+  --
+  --   -- add client
+  --   for _, client in pairs(buf_clients) do
+  --     if client.name ~= "null-ls" then
+  --       table.insert(buf_client_names, client.name)
+  --     end
+  --   end
+  --
+  --   local hash = {}
+  --   local client_names = {}
+  --   for _, v in ipairs(buf_client_names) do
+  --     if not hash[v] then
+  --       client_names[#client_names + 1] = v
+  --       hash[v] = true
+  --     end
+  --   end
+  --   table.sort(client_names)
+  --   return "LSP:" .. table.concat(client_names, ", ")
+  -- end
 
   require("mini.statusline").setup({
     content = {
@@ -903,7 +915,7 @@ end)
 later(function() require("mini.surround").setup() end)
 
 -- [[ Tabline ]] -------------------------------------------------------------
-later(function() require("mini.tabline").setup() end)
+now(function() require("mini.tabline").setup() end)
 
 -- [[ Trailspace ]] ----------------------------------------------------------
 now(function() require("mini.trailspace").setup() end)
@@ -952,7 +964,7 @@ now(function()
   })
   vim.keymap.set(
     "n",
-    "<leader>i",   -- <space><space>
+    "<leader>i", -- <space><space>
     "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", { desc = "Toggle value" }
   )
 end)
