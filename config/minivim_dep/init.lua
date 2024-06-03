@@ -281,10 +281,10 @@ later(function()
   map('n', '<leader>/h', function() require('fzf-lua').highlights() end, 'Search highlights')
   map('n', '<leader>/M', function() require('fzf-lua').marks() end, 'Search marks')
   map('n', '<leader>/k', function() require('fzf-lua').keymaps() end, 'Search keymaps')
-  map('n', '<leader>/gf', function() require('fzf-lua').git_files() end, 'Find git files')
-  map('n', '<leader>/gb', function() require('fzf-lua').git_branches() end, 'Search git branches')
-  map('n', '<leader>/gc', function() require('fzf-lua').git_commits() end, 'Search git commits')
-  map('n', '<leader>/gC', function() require('fzf-lua').git_bcommits() end, 'Search git buffer commits')
+  map('n', '<leader>gf', function() require('fzf-lua').git_files() end, 'Find git files')
+  map('n', '<leader>gb', function() require('fzf-lua').git_branches() end, 'Search git branches')
+  map('n', '<leader>gc', function() require('fzf-lua').git_commits() end, 'Search git commits')
+  map('n', '<leader>gC', function() require('fzf-lua').git_bcommits() end, 'Search git buffer commits')
   map('n', '<leader>//', function() require('fzf-lua').resume() end, 'Resume FZF')
   --    },
   local fzf = require("fzf-lua")
@@ -479,7 +479,7 @@ miniclue.setup({
       row = "auto",
       col = "auto",
       width = "auto",
-      border = "single",
+      border = "rounded",
     },
     delay = 0,
   },
@@ -543,6 +543,7 @@ later(function()
     --   signs = { add = '+', change = '~', delete = '-' },
     -- }
   })
+  vim.keymap.set("n", "<leader>do", require('mini.diff').toggle_overlay, { desc = "[d]iff [o]verlay toggle" })
 end)
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
@@ -911,6 +912,18 @@ now(function()
     return hints_enabled
   end
 
+  local get_lsp_names = function()
+    local lsp_names_list = vim.tbl_map(function(lsp)
+      return lsp.config.name
+    end, vim.lsp.get_clients({ bufnr = 0 }))
+
+    if vim.tbl_isempty(lsp_names_list) then
+      return ""
+    end
+
+    return " " .. table.concat(lsp_names_list, ",")
+  end
+
   require("mini.statusline").setup({
     content = {
       active = function()
@@ -920,7 +933,7 @@ now(function()
         --        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
         local git           = MiniStatusline.section_git({ trunc_width = 40 })
         local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
-        local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
+        --        local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
         local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
         local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
         local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
@@ -932,6 +945,7 @@ now(function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
           return "SPC:" .. shiftwidth
         end
+        local lsp           = get_lsp_names()
         local recording     = isRecording()
         local wrapped       = isWrapped()
         local spell         = spellOn()
@@ -941,14 +955,14 @@ now(function()
           { hl = mode_hl,                 strings = { mode } },
           { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
           '%<',
-          { hl = 'MiniStatuslineFilename',                                  strings = { filename } },
+          { hl = 'MiniStatuslineFilename',                         strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
           { strings = { hints_enabled, recording, wrapped, spell } },
           --      { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
-          { hl = 'MiniStatuslineFileinfo',          strings = { spaces(), fileinfo } },
-          { hl = mode_hl,                           strings = { searchcount } },
-          { hl = mode_hl,                           strings = { location2 } },
+          { hl = 'MiniStatuslineFileinfo',                         strings = { spaces(), fileinfo } },
+          { hl = mode_hl,                                          strings = { searchcount } },
+          { hl = mode_hl,                                          strings = { location2 } },
         })
       end,
     },
@@ -1191,15 +1205,15 @@ now(function()
     end
 
     nmap("<leader>lD", "<cmd>:Pick lsp scope='definition'<cr>", "[G]oto [D]efinition")
-    nmap("<leader>fR", "<cmd>:Pick lsp scope='references'<cr>", "References")
+    nmap("<leader>lR", "<cmd>:Pick lsp scope='references'<cr>", "References")
     nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
     nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
     --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
     nmap('<leader>la', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], 'Arguments popup')
     nmap('<leader>ld', [[<Cmd>lua vim.diagnostic.open_float()<CR>]], 'Diagnostics popup')
-    nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
+--    nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
     nmap('<leader>li', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], 'Information')
-    nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
+--    nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
     nmap('<leader>ls', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], 'Source definition')
 
     nmap('<c-j>', '<cmd>lua vim.diagnostic.goto_next({float={source=true}})<cr>')
