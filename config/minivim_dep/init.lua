@@ -220,7 +220,7 @@ now(function()
   --vim.opt.foldmethod = "syntax"
   vim.opt.termguicolors = true
 
-  vim.opt.relativenumber = false
+  vim.opt.relativenumber = true
   vim.o.cursorline = true
   vim.o.autoindent = true        -- Use auto indent
   vim.o.expandtab = true         -- Convert tabs to spaces
@@ -361,7 +361,7 @@ later(function()
     options = {
       basic = true,
       extra_ui = true,
-      win_borders = "bold",
+      win_borders = "single",
     },
     mappings = {
       basic = true,
@@ -458,7 +458,7 @@ miniclue.setup({
       submode_resize = true,
     }),
 
-    { mode = "n", keys = "<Leader>b", desc = " Buffer" },
+    { mode = "n", keys = "<Leader>b", desc = "Buffer ->" },
     { mode = "n", keys = "<Leader>c", desc = "+Code" },
     { mode = "n", keys = "<Leader>d", desc = "+Document" },
     { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
@@ -538,20 +538,11 @@ later(function() require("mini.cursorword").setup() end)
 -- [[ Mini Diff ]] -----------------------------------------------------------
 later(function()
   require('mini.diff').setup({
-    view = {
-      style = "sign",
-      signs = {
-        add = "▎",
-        change = "▎",
-        delete = "",
-      },
-      --   signs = { add = '+', change = '~', delete = '-' },
-    },
+    -- view = {
+    --   style = 'sign',
+    --   signs = { add = '+', change = '~', delete = '-' },
+    -- }
   })
-
-  vim.keymap.set("n", "<Leader>ghp", function()
-    MiniDiff.toggle_overlay(0)
-  end, { desc = "Show Git differences" })
 end)
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
@@ -589,8 +580,7 @@ end)
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
 vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
   { desc = "File directory" })
-vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/minivim_dep')<CR>]],
-  { desc = "Mini.nvim directory" })
+vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/minivim_dep')<CR>]], { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
 later(function() require("mini.fuzzy").setup() end)
@@ -740,8 +730,8 @@ later(function() require("mini.pairs").setup() end)
 -- [[ Configure Mini.pick ]] -------------------------------------------------
 later(function()
   local win_config = function()
-    local height = math.floor(0.618 * vim.o.lines)
-    local width = math.floor(0.618 * vim.o.columns)
+    height = math.floor(0.618 * vim.o.lines)
+    width = math.floor(0.618 * vim.o.columns)
     return {
       anchor = 'NW',
       height = height,
@@ -879,39 +869,14 @@ now(function()
   --   table.sort(client_names)
   --   return "LSP:" .. table.concat(client_names, ", ")
   -- end
-  local function isRecording()
-    local reg = vim.fn.reg_recording()
-    if reg == "" then
-      return ""
-    end -- not recording
-    return " " .. reg
-  end
-
-  local function isWrapped()
-    local wrap = vim.wo.wrap and "󰖶 " or ""
-    return wrap
-  end
-
-  --- Esta función verifica si la corrección ortográfica está habilitada en la ventana actual de Neovim.
-  -- @return string El estado de la corrección ortográfica, ya sea una cadena vacía o una cadena con el icono de corrección ortográfica.
-  local function spellOn()
-    local spell = vim.wo.spell and "󰓆 " or ""
-    return spell
-  end
-
-  local function isLspHintsActive()
-    local hints_enabled = vim.lsp.inlay_hint.is_enabled() and " " or ""
-    return hints_enabled
-  end
-
 
   require("mini.statusline").setup({
     content = {
       active = function()
         -- stylua: ignore start
         local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-        --        local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
-        --        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
+        local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
+        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
         local git           = MiniStatusline.section_git({ trunc_width = 40 })
         local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
         local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
@@ -926,23 +891,18 @@ now(function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
           return "SPC:" .. shiftwidth
         end
-        local recording     = isRecording()
-        local wrapped       = isWrapped()
-        local spell         = spellOn()
-        local hints_enabled = isLspHintsActive()
 
         return MiniStatusline.combine_groups({
-          { hl = mode_hl,                 strings = { mode } },
-          { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
+          { hl = mode_hl,                 strings = { mode, spell, wrap } },
+          { hl = 'MiniStatuslineDevinfo', strings = { git, diff } },
           '%<',
-          { hl = 'MiniStatuslineFilename',                         strings = { filename } },
+          { hl = 'MiniStatuslineFilename', strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
-          { strings = { hints_enabled, recording, wrapped, spell } },
-          --          { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
-          { hl = 'MiniStatuslineFileinfo',                         strings = { spaces(), fileinfo } },
-          { hl = mode_hl,                                          strings = { searchcount } },
-          { hl = mode_hl,                                          strings = { location2 } },
+          { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
+          { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
+          { hl = mode_hl,                  strings = { searchcount } },
+          { hl = mode_hl,                  strings = { location2 } },
         })
       end,
     },
@@ -1287,7 +1247,6 @@ now(function()
           },
           checkThirdParty = false,
         },
-        hint = { enable = true },
       },
     },
   })
