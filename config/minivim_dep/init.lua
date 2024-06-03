@@ -1142,7 +1142,7 @@ now(function()
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       --      { "j-hui/fidget.nvim" },
-      'folke/neodev.nvim',
+      'folke/lazydev.nvim',
     }
   }
   )
@@ -1159,7 +1159,7 @@ now(function()
   vim.keymap.set("n", "<leader>M", "<cmd>Mason<cr>", { desc = "Show Mason" })
 
   -- Neodev setup before LSP config
-  require("neodev").setup()
+  require("lazydev").setup()
 
   -- Set up cool signs for diagnostics
   local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
