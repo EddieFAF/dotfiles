@@ -220,7 +220,7 @@ now(function()
   --vim.opt.foldmethod = "syntax"
   vim.opt.termguicolors = true
 
-  vim.opt.relativenumber = true
+  vim.opt.relativenumber = false
   vim.o.cursorline = true
   vim.o.autoindent = true        -- Use auto indent
   vim.o.expandtab = true         -- Convert tabs to spaces
@@ -459,9 +459,9 @@ miniclue.setup({
     }),
 
     { mode = "n", keys = "<Leader>b", desc = "Buffer ->" },
-    { mode = "n", keys = "<Leader>c", desc = "+Code" },
-    { mode = "n", keys = "<Leader>d", desc = "+Document" },
-    { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
+    { mode = "n", keys = "<Leader>c", desc = "Code ->" },
+    { mode = "n", keys = "<Leader>d", desc = "Document ->" },
+    { mode = "n", keys = "<Leader>e", desc = "Explorer ->" },
     { mode = "n", keys = "<Leader>f", desc = "+Find" },
     { mode = "n", keys = "<Leader>g", desc = "+Git" },
     { mode = "n", keys = "<Leader>l", desc = "+LSP" },
@@ -580,7 +580,8 @@ end)
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
 vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
   { desc = "File directory" })
-vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/minivim_dep')<CR>]], { desc = "Mini.nvim directory" })
+vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/minivim_dep')<CR>]],
+  { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
 later(function() require("mini.fuzzy").setup() end)
@@ -725,7 +726,18 @@ end)
 later(function() require("mini.operators").setup() end)
 
 -- [[ Pairs ]] ---------------------------------------------------------------
-later(function() require("mini.pairs").setup() end)
+later(function()
+  require("mini.pairs").setup({
+    mappings = {
+      ['('] = { neigh_pattern = '[^\\%w].' },
+      ['['] = { neigh_pattern = '[^\\%w].' },
+      ['{'] = { neigh_pattern = '[^\\%w].' },
+      ['"'] = { neigh_pattern = '[^\\%w].' },
+      ["'"] = { neigh_pattern = '[^\\%w].' },
+      ['`'] = { neigh_pattern = '[^\\%w].' },
+    }
+  })
+end)
 
 -- [[ Configure Mini.pick ]] -------------------------------------------------
 later(function()
@@ -870,13 +882,42 @@ now(function()
   --   return "LSP:" .. table.concat(client_names, ", ")
   -- end
 
+  --- Esta función verifica si el usuario está actualmente grabando una macro en Neovim.
+  -- @return string El estado de la grabación, ya sea una cadena vacía o una cadena con el icono de grabación y el nombre del registro.
+  local function isRecording()
+    local reg = vim.fn.reg_recording()
+    if reg == "" then
+      return ""
+    end -- not recording
+    return " " .. reg
+  end
+
+  --- Esta función verifica si el texto en la ventana actual de Neovim está ajustado.
+  -- @return string El estado del ajuste de texto, ya sea una cadena vacía o una cadena con el icono de ajuste.
+  local function isWrapped()
+    local wrap = vim.wo.wrap and "�� " or ""
+    return wrap
+  end
+
+  --- Esta función verifica si la corrección ortográfica está habilitada en la ventana actual de Neovim.
+  -- @return string El estado de la corrección ortográfica, ya sea una cadena vacía o una cadena con el icono de corrección ortográfica.
+  local function spellOn()
+    local spell = vim.wo.spell and "�� " or ""
+    return spell
+  end
+
+  local function isLspHintsActive()
+    local hints_enabled = vim.lsp.inlay_hint.is_enabled() and " " or ""
+    return hints_enabled
+  end
+
   require("mini.statusline").setup({
     content = {
       active = function()
         -- stylua: ignore start
         local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-        local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
-        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
+        --        local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
+        --        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
         local git           = MiniStatusline.section_git({ trunc_width = 40 })
         local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
         local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
@@ -891,18 +932,23 @@ now(function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
           return "SPC:" .. shiftwidth
         end
+        local recording     = isRecording()
+        local wrapped       = isWrapped()
+        local spell         = spellOn()
+        local hints_enabled = isLspHintsActive()
 
         return MiniStatusline.combine_groups({
-          { hl = mode_hl,                 strings = { mode, spell, wrap } },
-          { hl = 'MiniStatuslineDevinfo', strings = { git, diff } },
+          { hl = mode_hl,                 strings = { mode } },
+          { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
           '%<',
-          { hl = 'MiniStatuslineFilename', strings = { filename } },
+          { hl = 'MiniStatuslineFilename',                                  strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
-          { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
-          { hl = 'MiniStatuslineFileinfo', strings = { spaces(), fileinfo } },
-          { hl = mode_hl,                  strings = { searchcount } },
-          { hl = mode_hl,                  strings = { location2 } },
+          { strings = { hints_enabled, recording, wrapped, spell } },
+          --      { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
+          { hl = 'MiniStatuslineFileinfo',          strings = { spaces(), fileinfo } },
+          { hl = mode_hl,                           strings = { searchcount } },
+          { hl = mode_hl,                           strings = { location2 } },
         })
       end,
     },
