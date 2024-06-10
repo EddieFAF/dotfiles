@@ -116,6 +116,7 @@ now(function()
       "buffers",
       "cli",
       "commands",
+      "colorschemes",
       "diagnostic",
       "explorer",
       "files",
@@ -798,6 +799,70 @@ later(function()
   vim.keymap.set("n", "<leader>fs", [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = "Symbols buffer (LSP)" })
   vim.keymap.set("n", "<leader>fV", [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = "Visit paths (all)" })
   vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
+
+  pattern = "MiniPickStop",
+      vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
+
+  -- Picker pre- and post-hooks ===============================================
+
+  -- Keys should be a picker source.name. Value is a callback function that
+  -- accepts same arguments as User autocommand callback.
+  local hooks = {
+    pre_hooks = {},
+    post_hooks = {},
+  }
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "MiniPickStart",
+    group = vim.api.nvim_create_augroup("minipick-pre-hooks", { clear = true }),
+    desc = "Invoke pre_hook for specific picker based on source.name.",
+    callback = function(...)
+      local opts = MiniPick.get_picker_opts() or {}
+      local pre_hook = hooks.pre_hooks[opts.source.name] or function(...) end
+      pre_hook(...)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "MiniPickStop",
+    group = vim.api.nvim_create_augroup("minipick-post-hooks", { clear = true }),
+    desc = "Invoke post_hook for specific picker based on source.name.",
+    callback = function(...)
+      local opts = MiniPick.get_picker_opts() or {}
+      local post_hook = hooks.post_hooks[opts.source.name] or function(...) end
+      post_hook(...)
+    end,
+  })
+
+
+  -- Colorscheme picker =======================================================
+
+  local selected_colorscheme           -- Currently selected or original colorscheme
+
+  hooks.pre_hooks.colorschemes = function()
+    selected_colorscheme = vim.g.colors_name
+  end
+
+  hooks.post_hooks.colorschemes = function()
+    vim.cmd("colorscheme " .. selected_colorscheme)
+  end
+
+  MiniPick.registry.colorschemes = function()
+    local colorschemes = vim.fn.getcompletion("", "color")
+    return MiniPick.start({
+      source = {
+        name = "colorschemes",
+        items = colorschemes,
+        choose = function(item)
+          selected_colorscheme = item
+        end,
+        preview = function(buf_id, item)
+          vim.cmd("colorscheme " .. item)
+          vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, { item })
+        end,
+      },
+    })
+  end
 end)
 
 -- [[ Session ]] -------------------------------------------------------------
@@ -1211,9 +1276,9 @@ now(function()
     --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
     nmap('<leader>la', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], 'Arguments popup')
     nmap('<leader>ld', [[<Cmd>lua vim.diagnostic.open_float()<CR>]], 'Diagnostics popup')
---    nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
+    --    nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
     nmap('<leader>li', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], 'Information')
---    nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
+    --    nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
     nmap('<leader>ls', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], 'Source definition')
 
     nmap('<c-j>', '<cmd>lua vim.diagnostic.goto_next({float={source=true}})<cr>')
