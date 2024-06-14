@@ -80,6 +80,7 @@ vim.opt.spelllang = 'de'
 
 vim.g.icons_enabled = false
 
+vim.opt.statuscolumn = "%s%#AbsoluteColumn#%l%1*│%{v:lnum<line('.')?'-':''}%r "
 --vim.cmd 'colorscheme onedark'
 
 -- vim: ts=2 sts=2 sw=2 et
