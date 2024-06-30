@@ -266,7 +266,8 @@ now(function()
 end)
 
 
-vim.cmd('colorscheme randomhue')
+--vim.cmd('colorscheme randomhue')
+
 later(function()
   add({
     source = "ibhagwan/fzf-lua",
@@ -459,10 +460,10 @@ miniclue.setup({
       submode_resize = true,
     }),
 
-    { mode = "n", keys = "<Leader>b", desc = "Buffer ->" },
-    { mode = "n", keys = "<Leader>c", desc = "Code ->" },
-    { mode = "n", keys = "<Leader>d", desc = "Document ->" },
-    { mode = "n", keys = "<Leader>e", desc = "Explorer ->" },
+    { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
+    { mode = "n", keys = "<Leader>c", desc = "+Code" },
+    { mode = "n", keys = "<Leader>d", desc = "+Document" },
+    { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
     { mode = "n", keys = "<Leader>f", desc = "+Find" },
     { mode = "n", keys = "<Leader>g", desc = "+Git" },
     { mode = "n", keys = "<Leader>l", desc = "+LSP" },
@@ -837,7 +838,7 @@ later(function()
 
   -- Colorscheme picker =======================================================
 
-  local selected_colorscheme           -- Currently selected or original colorscheme
+  local selected_colorscheme -- Currently selected or original colorscheme
 
   hooks.pre_hooks.colorschemes = function()
     selected_colorscheme = vim.g.colors_name
@@ -1083,6 +1084,24 @@ now(function()
     "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", { desc = "Toggle value" }
   )
 end)
+
+now(function()
+  add("catppuccin/nvim")
+  require("catppuccin").setup({
+    integrations = {
+      cmp = false,
+      gitsigns = true,
+      nvimtree = false,
+      treesitter = true,
+      notify = false,
+      mini = {
+        enabled = true,
+        indentscope_color = "",
+      },
+    }
+  })
+end)
+vim.cmd.colorscheme "catppuccin-macchiato"
 
 -- [[ Configure Treesitter ]] ------------------------------------------------
 later(function()
