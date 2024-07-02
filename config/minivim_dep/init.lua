@@ -998,7 +998,8 @@ now(function()
         --        local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
         --        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
         local git           = MiniStatusline.section_git({ trunc_width = 40 })
-        local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
+        -- local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
+        local diff          = vim.b.minidiff_summary_string or ''
         --        local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
         local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
         local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
