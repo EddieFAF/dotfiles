@@ -5,7 +5,7 @@
 * Neovim config mostly based on mini.nvim from echasnovski                   *
 * written by EddieFAF                                                        *
 *                                                                            *
-* version 0.2                                                                *
+* version 0.3                                                                *
 * initial release                                                            *
 ******************************************************************************
 
@@ -271,7 +271,7 @@ end)
 later(function()
   add({
     source = "ibhagwan/fzf-lua",
-    depends = { "nvim-tree/nvim-web-devicons" }
+--    depends = { "nvim-tree/nvim-web-devicons" }
   })
   -- stylua: ignore
   --    keys = {
@@ -608,6 +608,14 @@ later(function()
       hex_color = hi.gen_highlighter.hex_color(),
     },
   })
+end)
+
+-- [[ Animated indentation guide ]] ------------------------------------------
+later(function()
+  require("mini.icons").setup({
+    style = 'glyph',
+  })
+  MiniIcons.mock_nvim_web_devicons()
 end)
 
 -- [[ Animated indentation guide ]] ------------------------------------------
@@ -962,14 +970,14 @@ now(function()
   --- Esta función verifica si el texto en la ventana actual de Neovim está ajustado.
   -- @return string El estado del ajuste de texto, ya sea una cadena vacía o una cadena con el icono de ajuste.
   local function isWrapped()
-    local wrap = vim.wo.wrap and "�� " or ""
+    local wrap = vim.wo.wrap and "WR" or ""
     return wrap
   end
 
   --- Esta función verifica si la corrección ortográfica está habilitada en la ventana actual de Neovim.
   -- @return string El estado de la corrección ortográfica, ya sea una cadena vacía o una cadena con el icono de corrección ortográfica.
   local function spellOn()
-    local spell = vim.wo.spell and "�� " or ""
+    local spell = vim.wo.spell and "SP" or ""
     return spell
   end
 

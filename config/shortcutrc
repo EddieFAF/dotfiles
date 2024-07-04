@@ -1,0 +1,32 @@
+#   _____ _                _             _
+#  / ____| |              | |           | |
+# | (___ | |__   ___  _ __| |_ ___ _   _| |_ _ __ ___
+#  \___ \| '_ \ / _ \| '__| __/ __| | | | __| '__/ __|
+#  ____) | | | | (_) | |  | || (__| |_| | |_| | | (__
+# |_____/|_| |_|\___/|_|   \__\___|\__,_|\__|_|  \___|
+#
+
+
+
+# #---Universal Shortcut Configuration File---# #
+# First column should have the directory's Label
+# Second column should contain the shortcut itself
+#   (without the modifier)
+# Third column should contain the directory itself
+#  (It can contain environmental variables)
+
+|----------------+-----+--------------------------------------------------|
+| Config         | cf  | $HOME/.config                                    |
+| Downloads      | dl  | $HOME/Downloads                                  |
+| Dropbox        | db  | $HOME/Dropbox                                    |
+| Music          | ms  | $HOME/Music                                      |
+| NASgard        | ng  | /mnt/nasgard                                     |
+| Vim            | vi  | $HOME/.vim                                       |
+| Scripts        | sc  | $HOME/.local/bin                                 |
+| Hotkeys        | sx  | $HOME/.config/sxhkd                              |
+| Images         | img | $HOME/Dropbox/A/Personnal/Photos/unsorted        |
+| Repositories   | rp  | $HOME/repositories                               |
+| DockerCompose  | dc  | /opt/docker                                      |
+| DockerDatas    | dd  | /opt/docker-data                                 |
+| CodingC64      | 64  | $HOME/coding/c64                                 |
+|----------------+-----+--------------------------------------------------|
