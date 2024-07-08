@@ -5,14 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#fi
-
-
 
 # PATH MODIFICATIONS
 
@@ -45,16 +37,6 @@ _append_to_path /usr/sbin
 #####################
 # ZINIT             #
 #####################
-### Added by Zinit's installer
-# if [[ ! -f $HOME/.config/zsh/.zinit/bin/zinit.zsh ]]; then
-#     print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
-#     command mkdir -p $HOME/.config/zsh/.zinit
-#     command git clone https://github.com/zdharma-continuum/zinit $HOME/.config/zsh/.zinit/bin && \
-#         print -P "%F{33}▓▒░ %F{34}Installation successful.%F" || \
-#         print -P "%F{160}▓▒░ The clone has failed.%F"
-# fi
-# source "$HOME/.config/zsh/.zinit/bin/zinit.zsh"
-
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
@@ -193,8 +175,8 @@ bindkey -M menuselect '^M' accept
 zinit light bobsoppe/zsh-ssh-agent
 
 # FZF BINARY AND TMUX HELPER SCRIPT
-#zinit ice lucid wait'0c' as"command" pick"bin/fzf-tmux"
-#zinit light junegunn/fzf
+zinit ice lucid wait'0c' as"command" pick"bin/fzf-tmux"
+zinit light junegunn/fzf
 
 # BIND MULTIPLE WIDGETS USING FZF
 zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
@@ -244,9 +226,6 @@ zinit load "unixorn/fzf-zsh-plugin"
 
 zinit ice as"program" pick"bin/git-dsf"
 zinit light zdharma-continuum/zsh-diff-so-fancy
-
-#Powerlevel10k Theme
-#zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 #####################
 # HISTORY           #
