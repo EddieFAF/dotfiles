@@ -2,7 +2,7 @@ module Custom.MyManagement where
 
 import Custom.MyScratchpads
 import XMonad
-import XMonad.Hooks.ManageHelpers (doCenterFloat)
+import XMonad.Hooks.ManageHelpers (doCenterFloat,isDialog)
 import XMonad.Util.NamedScratchpad
 
 myManagement =
@@ -12,7 +12,7 @@ myManagement =
       [title =? t --> doFloat | t <- myTFloats],
       [resource =? r --> doFloat | r <- myRFloats],
       [resource =? i --> doIgnore | i <- myIgnores],
-      [namedScratchpadManageHook myScratchPads],
+      [namedScratchpadManageHook myScratchpads],
       [role =? "TfrmFileOp" --> doCenterFloat]
     ]
   where

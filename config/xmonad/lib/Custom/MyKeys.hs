@@ -3,6 +3,7 @@
 module Custom.MyKeys where
 
 import Custom.MyDecorations
+import Custom.MyCatppuccin
 -- import Custom.MyMacAddresses
 import Custom.MyScratchpads
 import Custom.MyWorkspaces
@@ -41,6 +42,7 @@ myKeys =
     ("M-w", spawn myBrowser),
     -- Rofi
     ("M-p", spawn "~/.config/rofi/themes/randomiser.sh; rofi -show drun"),
+    ("M-d", spawn ("dmenu_run -p 'Run: ' -h 22 -nb '#282A36' -sb '" ++ catBlue ++ "' -sf '" ++ catBase ++ "'" ++ " -fn 'JetBrainsMono Nerd Font:pixelsize=12'")),
     ("M-y", spawn "~/.config/rofi/themes/randomiser.sh; rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"),
     ("M1-<Tab>", spawn "rofi -show window"),
     -- XPrompts
@@ -64,6 +66,7 @@ myKeys =
     -- Close window(s)
     ("M-q", kill),
     ("M-S-q", killAll),
+    ("M-x", spawn "archlinux-logout"),
     -- Layouts
     ("M-<Space>", sendMessage NextLayout),
     ("M-C-<Space>", spawn "polybar-msg cmd toggle" >> sendMessage ToggleStruts),
@@ -99,7 +102,7 @@ myKeys =
     ("M-,", sendMessage (IncMasterN 1)),
     ("M-.", sendMessage (IncMasterN (-1))),
     -- XMonad
-    ("M-q", spawn "xmonad --recompile && xmonad --restart"),
+    ("M-S-r", spawn "xmonad --recompile && xmonad --restart"),
     -- Volume
     ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -1%"),
     ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +1%"),
@@ -111,7 +114,7 @@ myKeys =
     ("M-C-S-h", decWindowSpacing 5),
     -- Easy Motion
     ("M-g", selectWindow emConf >>= (`whenJust` windows . W.focusWindow)),
-    ("M-x", selectWindow emConf >>= (`whenJust` killWindow)),
+    ("M-c", selectWindow emConf >>= (`whenJust` killWindow)),
     -- Sublayout Navigation
     ("M-C-h", sendMessage $ pullGroup WN.L),
     ("M-C-l", sendMessage $ pullGroup WN.R),

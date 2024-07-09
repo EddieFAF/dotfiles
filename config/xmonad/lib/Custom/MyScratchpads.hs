@@ -1,9 +1,12 @@
 module Custom.MyScratchpads where
 
 import Custom.MyManagementPositioning
+import qualified XMonad.StackSet as W
 import XMonad (appName,title)
 import XMonad.ManageHook ((=?))
 import XMonad.Util.NamedScratchpad
+
+myTerminal = "alacritty"
 
 myScratchpads :: [NamedScratchpad]
 myScratchpads =
