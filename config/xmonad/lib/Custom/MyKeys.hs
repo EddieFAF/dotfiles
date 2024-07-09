@@ -73,17 +73,7 @@ myKeys =
     ("M-C-b", sendMessage $ Toggle NOBORDERS),
     ("M-f", sendMessage $ JumpToLayout "Full"),
     -- Cycle workspaces
-    ("M-<Down>", nextWS),
-    ("M-<Up>", prevWS),
-    --("M-S-<Down>", shiftToNext),
-    --("M-S-<Up>", shiftToPrev),
-    ("M-<Right>", nextScreen),
-    ("M-<Left>", prevScreen),
-    ("M-S-<Right>", shiftNextScreen),
-    ("M-S-<Left>", shiftPrevScreen),
     ("M-S-z", toggleWS),
-    ("M-S-<Down>", shiftToNext >> nextWS),
-    ("M-S-<Up>", shiftToPrev >> prevWS),
     -- Focus
     ("M-<Tab>", windows W.focusDown),
     ("M-S-<Tab>", windows W.focusUp),
@@ -93,6 +83,15 @@ myKeys =
     ("M-S-<Return>", windows W.swapMaster),
     ("M-S-j", swapDown),
     ("M-S-k", swapUp),
+    -- Window Movement
+    ("M-<Right>", sendMessage $ Go WN.R),
+    ("M-<Left>", sendMessage $ Go WN.L),
+    ("M-<Up>", sendMessage $ Go U),
+    ("M-<Down>", sendMessage $ Go D),
+    ("M-S-<Right>", sendMessage $ WN.Swap WN.R),
+    ("M-S-<Left>", sendMessage $ WN.Swap WN.L),
+    ("M-S-<Up>", sendMessage $ WN.Swap U),
+    ("M-S-<Down>", sendMessage $ WN.Swap D),
     -- Resize
     ("M-h", sendMessage Shrink),
     ("M-l", sendMessage Expand),
@@ -113,8 +112,8 @@ myKeys =
     ("M-C-S-l", incWindowSpacing 5),
     ("M-C-S-h", decWindowSpacing 5),
     -- Easy Motion
-    ("M-g", selectWindow emConf >>= (`whenJust` windows . W.focusWindow)),
-    ("M-c", selectWindow emConf >>= (`whenJust` killWindow)),
+    ("M-g", selectWindow emConf{txtCol="Green"} >>= (`whenJust` windows . W.focusWindow)),
+    ("M-c", selectWindow emConf{txtCol="Red"} >>= (`whenJust` killWindow)),
     -- Sublayout Navigation
     ("M-C-h", sendMessage $ pullGroup WN.L),
     ("M-C-l", sendMessage $ pullGroup WN.R),
