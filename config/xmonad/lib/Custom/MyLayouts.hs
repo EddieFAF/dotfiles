@@ -9,6 +9,7 @@ import XMonad.Layout.Accordion
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Column
+import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
@@ -33,6 +34,7 @@ tabs =
 
 tall =
   renamed [XLR.Replace "Tall"] $
+    draggingVisualizer $
     avoidStruts $
       windowNavigation $
         addTabs shrinkText myTabConfig $

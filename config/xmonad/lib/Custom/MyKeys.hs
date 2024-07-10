@@ -57,16 +57,17 @@ myKeys =
     -- Search commands (wait for next keypress)
     ("M-s", SM.submap $ searchEngineMap $ S.promptSearchBrowser myPromptConfig myBrowser),
     -- NamedScratchpads
-    ("M-t", namedScratchpadAction myScratchpads "quick commands"),
+    ("M-C-t", namedScratchpadAction myScratchpads "quick commands"),
     ("M-C-g", namedScratchpadAction myScratchpads "glava"),
-    -- Bluetooth
-    {- ("<Page_Up>", spawn ("bluetoothctl connect " ++ mySpeakerMac)),
-    ("<Home>", spawn ("bluetoothctl connect " ++ myXMMac)),
-    ("<Page_Down>", spawn "bluetoothctl disconnect"), -}
     -- Close window(s)
     ("M-q", kill),
     ("M-S-q", killAll),
     ("M-x", spawn "archlinux-logout"),
+    -- Floating Windows
+    ("M-t", withFocused $ windows . W.sink), -- Push floating window back to tile
+    ("M-S-t", sinkAll), -- Push ALL floating windows back to tile
+    ("M-C-<Space>", withFocused toggleFloat),
+    ("M-S-e", toggleFloatNext),
     -- Layouts
     ("M-<Space>", sendMessage NextLayout),
     ("M-C-<Space>", spawn "polybar-msg cmd toggle" >> sendMessage ToggleStruts),
