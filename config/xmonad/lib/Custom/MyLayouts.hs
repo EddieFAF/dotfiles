@@ -21,6 +21,7 @@ import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
+import XMonad.Actions.TiledWindowDragging
 import XMonad.Layout.WindowNavigation
 
 mySpacing i = spacingRaw False (Border 10 10 30 30) True (Border i i i i) True
