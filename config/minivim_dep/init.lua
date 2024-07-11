@@ -206,52 +206,52 @@ end)
 
 now(function()
   -- [[ Settings options ]] ----------------------------------------------------
-  vim.opt.scrolloff = 5
-  vim.opt.title = true
-  vim.opt.titlelen = 0
-  vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
-  vim.opt.completeopt = "menuone,noinsert,noselect"
+  vim.opt.scrolloff      = 5
+  vim.opt.title          = true
+  vim.opt.titlelen       = 0
+  vim.opt.titlestring    = '%{expand("%:p")} [%{mode()}]'
+  vim.opt.completeopt    = "menuone,noinsert,noselect"
   --vim.opt.completeopt = { "menu", "menuone", "noselect" }
-  vim.opt.splitright = true
-  vim.opt.splitbelow = true
-  vim.opt.shiftwidth = 2
-  vim.opt.tabstop = 8
-  vim.opt.softtabstop = -1
-  vim.opt.expandtab = true
+  vim.opt.splitright     = true
+  vim.opt.splitbelow     = true
+  vim.opt.shiftwidth     = 2
+  vim.opt.tabstop        = 8
+  vim.opt.softtabstop    = -1
+  vim.opt.expandtab      = true
   --vim.opt.foldmethod = "syntax"
-  vim.opt.termguicolors = true
+  vim.opt.termguicolors  = true
 
   vim.opt.relativenumber = false
-  vim.o.cursorline = true
-  vim.o.autoindent = true        -- Use auto indent
-  vim.o.expandtab = true         -- Convert tabs to spaces
-  vim.o.formatoptions = "rqnl1j" -- Improve comment editing
-  vim.o.ignorecase = true        -- Ignore case when searching (use `\C` to force not doing that)
-  vim.o.incsearch = true         -- Show search results while typing
-  vim.o.infercase = true         -- Infer letter cases for a richer built-in keyword completion
-  vim.o.smartcase = true         -- Don't ignore case when searching if pattern has upper case
-  vim.o.smartindent = true       -- Make indenting smart
-  vim.o.virtualedit = "block"    -- Allow going past the end of line in visual block mode
+  vim.o.cursorline       = true
+  vim.o.autoindent       = true     -- Use auto indent
+  vim.o.expandtab        = true     -- Convert tabs to spaces
+  vim.o.formatoptions    = "rqnl1j" -- Improve comment editing
+  vim.o.ignorecase       = true     -- Ignore case when searching (use `\C` to force not doing that)
+  vim.o.incsearch        = true     -- Show search results while typing
+  vim.o.infercase        = true     -- Infer letter cases for a richer built-in keyword completion
+  vim.o.smartcase        = true     -- Don't ignore case when searching if pattern has upper case
+  vim.o.smartindent      = true     -- Make indenting smart
+  vim.o.virtualedit      = "block"  -- Allow going past the end of line in visual block mode
 
-  vim.opt.cmdheight = 0
+  vim.opt.cmdheight      = 0
 
   -- Decrease update time
-  vim.o.updatetime = 250
-  vim.o.timeoutlen = 300
-  vim.opt.wildmode = "list:longest,list:full"
+  vim.o.updatetime       = 250
+  vim.o.timeoutlen       = 300
+  vim.opt.wildmode       = "list:longest,list:full"
 
   -- Global
-  vim.opt.fillchars = {
-    fold = " ",
+  vim.opt.fillchars      = {
+    fold = "╌",
     foldopen = "",
     foldclose = "",
     foldsep = " ",
     diff = "╱",
     eob = " ",
   }
-  vim.opt.list = true
+  vim.opt.list           = true
 
-  vim.opt.listchars = {
+  vim.opt.listchars      = {
     -- tab = ">>>",
     -- space = '⋅',
     tab = "▸ ",
@@ -263,8 +263,16 @@ now(function()
     eol = "↲",
     nbsp = "␣",
   }
-end)
+  -- Folds ======================================================================
+  vim.o.foldmethod       = 'indent' -- Set 'indent' folding method
+  vim.o.foldlevel        = 1        -- Display all folds except top ones
+  vim.o.foldnestmax      = 10       -- Create folds only for some number of nested levels
+  vim.g.markdown_folding = 1        -- Use folding by heading in markdown files
 
+  if vim.fn.has('nvim-0.10') == 1 then
+    vim.o.foldtext = '' -- Use underlying text with its highlighting
+  end
+end)
 
 --vim.cmd('colorscheme randomhue')
 
@@ -545,7 +553,6 @@ later(function()
     --   signs = { add = '+', change = '~', delete = '-' },
     -- }
   })
-  vim.keymap.set("n", "<leader>do", require('mini.diff').toggle_overlay, { desc = "[d]iff [o]verlay toggle" })
 end)
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
@@ -593,6 +600,7 @@ later(function() require("mini.fuzzy").setup() end)
 later(function() require("mini.git").setup() end)
 local rhs = '<Cmd>lua MiniGit.show_at_cursor()<CR>'
 vim.keymap.set({ 'n', 'x' }, '<Leader>gs', rhs, { desc = 'Show at cursor' })
+vim.keymap.set('n', '<Leader>go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', { desc = 'toggle overlay' })
 
 -- [[ HiPatterns ]] ----------------------------------------------------------
 later(function()
@@ -965,7 +973,7 @@ now(function()
   --   return "LSP:" .. table.concat(client_names, ", ")
   -- end
 
-  --- Esta función verifica si el usuario está actualmente grabando una macro en Neovim.
+  --- This functions checks if a macro is being recorded in Neovim.
   -- @return string El estado de la grabación, ya sea una cadena vacía o una cadena con el icono de grabación y el nombre del registro.
   local function isRecording()
     local reg = vim.fn.reg_recording()
@@ -1265,12 +1273,17 @@ now(function()
       spacing = 4,
       source = 'if_many',
       prefix = '●',
+      severity = { min = 'ERROR', max = 'ERROR' },
       --  format = function(d) return "" end
     },
     signs = {
       active = signs,
+      -- With highest priority
+      priority = 9999,
+      -- Only for warnings and errors
+      severity = { min = 'WARN', max = 'ERROR' },
     },
-    update_in_insert = true,
+    update_in_insert = false,
     underline = true,
     severity_sort = true,
     float = {
@@ -1397,6 +1410,10 @@ now(function()
             [vim.fn.stdpath("config") .. "/lua"] = true,
           },
           checkThirdParty = false,
+        },
+        -- Do not send telemetry data containing a randomized but unique identifier
+        telemetry = {
+          enable = false,
         },
       },
     },
