@@ -271,7 +271,7 @@ end)
 later(function()
   add({
     source = "ibhagwan/fzf-lua",
---    depends = { "nvim-tree/nvim-web-devicons" }
+    --    depends = { "nvim-tree/nvim-web-devicons" }
   })
   -- stylua: ignore
   --    keys = {
@@ -637,8 +637,10 @@ end)
 -- [[ Jump2d ]] --------------------------------------------------------------
 later(function()
   require("mini.jump2d").setup({
+    labels = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
     view = {
       dim = true,
+      n_steps_ahead = 2,
     },
   })
   vim.keymap.set(
@@ -649,7 +651,7 @@ later(function()
   )
   vim.keymap.set(
     "n",
-    "gm",
+    "gz",
     "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
     { desc = "Jump2d Word Start" }
   )
@@ -658,6 +660,12 @@ later(function()
       spotter = MiniJump2d.gen_pattern_spotter("['\"`]"),
     })
   end, { desc = "Jump2d Quote" })
+  vim.keymap.set(
+    { "o", "x", "n" },
+    "<Cr>",
+    "<Cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<CR>",
+    { desc = "Jump anywhere" }
+  )
 end)
 
 -- [[ Jump ]] --------------------------------------------------------------
