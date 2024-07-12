@@ -8,6 +8,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Layout.Accordion
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.BoringWindows
+import XMonad.Layout.CenteredIfSingle
 import XMonad.Layout.Column
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.MultiToggle
@@ -76,7 +77,7 @@ full = renamed [XLR.Replace "Full"] $ noBorders Full
 
 sf = renamed [XLR.Replace "Float"] $ noBorders simplestFloat
 
-myLayout = boringWindows (ifWider 1080 (tall ||| bsp) (column ||| accordion) ||| sf ||| full)
+myLayout = boringWindows (ifWider 1080 (centeredIfSingle 0.7 0.8 tall ||| bsp) (column ||| accordion) ||| sf ||| full)
 
 myLayoutHook =
   showWName' myShowWNameConfig $

@@ -16,6 +16,7 @@ import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.Search qualified as S
 import XMonad.Actions.Submap qualified as SM
 import XMonad.Actions.WithAll
+import XMonad.Hooks.FloatNext
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.BinarySpacePartition as BSP
 import XMonad.Layout.BoringWindows
@@ -49,6 +50,8 @@ myKeys =
     ("M-S-m", manPrompt myPromptConfig),
     ("M-S-x", xmonadPrompt myPromptConfig),
     ("M-S-q", confirmPrompt myPromptConfig "exit" $ io exitSuccess),
+    -- F-Keys
+    ("M-<F3>", spawn "rofi -show ssh -theme ~/.config/rofi/ssh.rasi"),
     -- Flameshot
     ("<Print>", spawn "flameshot gui"),
     ("S-<Print>", spawn "flameshot full"),
@@ -66,7 +69,7 @@ myKeys =
     -- Floating Windows
     ("M-t", withFocused $ windows . W.sink), -- Push floating window back to tile
     ("M-S-t", sinkAll), -- Push ALL floating windows back to tile
-    ("M-C-<Space>", withFocused toggleFloat),
+--    ("M-C-<Space>", withFocused toggleFloat),
     ("M-S-e", toggleFloatNext),
     -- Layouts
     ("M-<Space>", sendMessage NextLayout),
