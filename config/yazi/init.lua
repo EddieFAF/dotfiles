@@ -60,3 +60,5 @@ function Header:render(area)
     ui.Paragraph(area, { right }):align(ui.Paragraph.RIGHT),
   }
 end
+
+require("full-border"):setup()
