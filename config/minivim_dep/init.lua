@@ -562,11 +562,12 @@ later(function() require("mini.extra").setup() end)
 later(function()
   require("mini.files").setup({
     mappings = {
+      close = "q",
       go_in = "L",
-      go_in_plus = "l",
+      go_in_plus = "<CR>",
       go_out = "H",
       go_out_plus = "h",
-      reset = "",
+      reset = ",",
       show_help = "?",
     },
 
@@ -590,7 +591,7 @@ end)
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
 vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
   { desc = "File directory" })
-vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/minivim_dep')<CR>]],
+vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]],
   { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
