@@ -61,4 +61,4 @@ function Linemode:custom()
   return ui.Line(string.format(" %s %s ", size and ya.readable_size(size):gsub(" ", "") or "-", time))
 end
 
--- require("full-border"):setup()
+require("full-border"):setup()
