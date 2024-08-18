@@ -15,4 +15,4 @@ myStartupHook = do
       picomCmd = "killall -9 picom; sleep 2 && picom -b &"
       easyeffectsCmd = "easyeffects --gapplication-service &"
       ewwCmd = "~/.config/eww/scripts/startup.sh"
-  sequence_ [spawn wallpaperCmd, spawnOnce autostartCmd, spawn trayerRestartCmd, spawn blurCmd, spawn picomCmd]
+  sequence_ [spawn wallpaperCmd, spawnOnce autostartCmd, spawn blurCmd, spawn picomCmd]
