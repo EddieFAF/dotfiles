@@ -265,7 +265,7 @@ now(function()
   }
   -- Folds ======================================================================
   vim.o.foldmethod       = 'indent' -- Set 'indent' folding method
-  vim.o.foldlevel        = 1        -- Display all folds except top ones
+  vim.o.foldlevel        = 10       -- Display all folds except top ones
   vim.o.foldnestmax      = 10       -- Create folds only for some number of nested levels
   vim.g.markdown_folding = 1        -- Use folding by heading in markdown files
 
@@ -619,7 +619,7 @@ later(function()
   })
 end)
 
--- [[ Animated indentation guide ]] ------------------------------------------
+-- [[ Icons ]] ---------------------------------------------------------------
 later(function()
   require("mini.icons").setup({
     style = 'glyph',
@@ -1020,13 +1020,13 @@ now(function()
       active = function()
         -- stylua: ignore start
         local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-        --        local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
-        --        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
+               local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
+               local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
         local git           = MiniStatusline.section_git({ trunc_width = 40 })
         -- local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
         local diff          = vim.b.minidiff_summary_string or ''
         --        local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
-        local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+        local diagnostics   = MiniStatusline.section_diagnostics({ signs = {ERROR = '!', WARN = '?', INFO = '@', HINT = '*'},trunc_width = 75 })
         local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
         local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
         local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
@@ -1040,7 +1040,7 @@ now(function()
         local lsp           = get_lsp_names()
         local recording     = isRecording()
         local wrapped       = isWrapped()
-        local spell         = spellOn()
+        -- local spell         = spellOn()
         local hints_enabled = isLspHintsActive()
 
         return MiniStatusline.combine_groups({
@@ -1050,7 +1050,7 @@ now(function()
           { hl = 'MiniStatuslineFilename',                         strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
-          { strings = { hints_enabled, recording, wrapped, spell } },
+          { strings = { hints_enabled, recording, wrap, spell } },
           --      { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
           { hl = 'MiniStatuslineFileinfo',                         strings = { spaces(), fileinfo } },
           { hl = mode_hl,                                          strings = { searchcount } },
@@ -1058,7 +1058,7 @@ now(function()
         })
       end,
     },
-    use_icons = true,
+    use_icons = false,
     set_vim_settings = true,
   })
 end)
