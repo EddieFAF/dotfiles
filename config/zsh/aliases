@@ -16,6 +16,7 @@ alias lS='exa -1'                              # one column, just names
 alias lt='exa --tree --level=2' # tree
 
 alias zshedit="$EDITOR ~/.config/zsh/.zshrc"
+alias aliasedit="$EDITOR ~/.config/zsh/aliases"
 
 alias calibre-update="sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin"
 
@@ -25,6 +26,7 @@ for c in cp rm chmod chown rename; do
   alias $c="$c -v"
 done
 
+alias v='nvim'
 alias vfm=vifmrun
 alias em="emacsclient -c -a 'emacs'"
 #alias lf=lf-uberzug

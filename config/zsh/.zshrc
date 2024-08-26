@@ -21,7 +21,7 @@ zinit light Aloxaf/fzf-tab
 # Add in snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::debian
+zinit snippet OMZP::archlinux
 zinit snippet OMZP::command-not-found
 
 zinit light junegunn/fzf
@@ -38,10 +38,10 @@ bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 
 # History
-HISTSIZE=5000
-HISTFILE=~/.zsh_history
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
+export HISTSIZE=5000
+export HISTFILE=~/.zsh_history
+export SAVEHIST=$HISTSIZE
+export HISTDUP=erase
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -50,6 +50,8 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 setopt autocd extendedglob nomatch menucomplete
+
+export EDITOR='nvim'
 
 set termguicolors
 
@@ -179,6 +181,8 @@ export FZF_DEFAULT_OPTS="
      (exa --tree --icons --color=always {} | less)) || echo {} 2> /dev/null | head -200'"
 #export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER="**"
+
+source ~/.cache/zsh-shortcuts
 
 # Aliases
 source $ZDOTDIR/aliases

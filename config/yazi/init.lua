@@ -1,3 +1,4 @@
+-- shoiw username and host in header
 Header:children_add(function()
   if ya.target_family() ~= "unix" then
     return ui.Line {}
@@ -5,6 +6,7 @@ Header:children_add(function()
   return ui.Span(ya.user_name() .. "@" .. ya.host_name() .. ":"):fg("blue")
 end, 500, Header.LEFT)
 
+-- show user and group in statusline
 Status:children_add(function()
   local h = cx.active.current.hovered
   if not h or not ya.user_name then
@@ -19,6 +21,7 @@ Status:children_add(function()
   }
 end, 500, Status.RIGHT)
 
+-- new custom linemode
 function Linemode:custom()
   local year = os.date("%Y")
   local time = (self._file.cha.modified or 0) // 1
