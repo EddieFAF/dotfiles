@@ -243,8 +243,8 @@ now(function()
   -- Global
   vim.opt.fillchars      = {
     fold = "╌",
-    foldopen = "",
-    foldclose = "",
+    foldopen = "▾",
+    foldclose = "▸",
     foldsep = " ",
     diff = "╱",
     eob = " ",
@@ -265,7 +265,7 @@ now(function()
   }
   -- Folds ======================================================================
   vim.o.foldmethod       = 'indent' -- Set 'indent' folding method
-  vim.o.foldlevel        = 99        -- Display all folds except top ones
+  vim.o.foldlevel        = 99       -- Display all folds except top ones
   vim.o.foldnestmax      = 10       -- Create folds only for some number of nested levels
   vim.g.markdown_folding = 1        -- Use folding by heading in markdown files
 
@@ -371,7 +371,7 @@ later(function()
     options = {
       basic = true,
       extra_ui = true,
-      win_borders = "single",
+      win_borders = "rounded",
     },
     mappings = {
       basic = true,
@@ -625,6 +625,7 @@ later(function()
     style = 'glyph',
   })
   MiniIcons.mock_nvim_web_devicons()
+  MiniIcons.tweak_lsp_kind()
 end)
 
 -- [[ Animated indentation guide ]] ------------------------------------------
@@ -734,7 +735,7 @@ now(function()
   end
   require("mini.notify").setup({
     content = { sort = filterout_lua_diagnosing },
-    window = { config = { border = "single" } },
+    window = { config = { row = 2, border = "rounded" } },
   })
 
   -- later(function()
@@ -925,6 +926,8 @@ now(function()
     "  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ",
     "  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ",
     "          \\/        \\/                       \\/  ",
+    "",
+    "Pwd: " .. vim.fn.getcwd(),
   }, "\n")
   require("mini.starter").setup({
     autoopen = true,
@@ -1028,6 +1031,9 @@ now(function()
         -- local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
         local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75, icon = "" })
         local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+        if filename:sub(1, 2) == "%F" or filename:sub(1, 2) == "%f" then
+          filename = filename:sub(1, 2) .. " " .. filename:sub(3, -1)
+        end
         local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
         local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
         --local navic         = require 'nvim-navic'.get_location()
@@ -1042,20 +1048,20 @@ now(function()
         --        local wrapped       = isWrapped()
         --        local spell         = spellOn()
         local hints_enabled = isLspHintsActive()
-        local git_and_diff = string.format("%s %s", git, diff and diff:sub(2) or "")
+        local git_and_diff  = string.format("%s %s", git, diff and diff:sub(2) or "")
 
         return MiniStatusline.combine_groups({
           { hl = mode_hl,                 strings = { mode } },
           { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
           '%<',
-          { hl = 'MiniStatuslineFilename',                         strings = { filename } },
+          { hl = 'MiniStatuslineFilename',                      strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
           '%=',
           { strings = { hints_enabled, recording, wrap, spell } },
           --      { hl = 'MiniStatuslineDevinfo',  strings = { diagnostics, lsp } },
-          { hl = 'MiniStatuslineFileinfo',                         strings = { spaces(), fileinfo } },
-          { hl = mode_hl,                                          strings = { searchcount } },
-          { hl = mode_hl,                                          strings = { location2 } },
+          { hl = 'MiniStatuslineFileinfo',                      strings = { spaces(), fileinfo } },
+          { hl = mode_hl,                                       strings = { searchcount } },
+          { hl = mode_hl,                                       strings = { location2 } },
         })
       end,
     },
