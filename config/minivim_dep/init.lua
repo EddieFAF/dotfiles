@@ -564,7 +564,7 @@ later(function()
     mappings = {
       close = "q",
       go_in = "L",
-      go_in_plus = "<CR>",
+      go_in_plus = "l",
       go_out = "H",
       go_out_plus = "h",
       reset = ",",
@@ -574,8 +574,8 @@ later(function()
     -- Only automated preview is possible
     windows = {
       preview = true,
-      width_focus = 30,
-      width_preview = 40,
+      width_focus = 40,
+      width_preview = 75,
       height_focus = 20,
       max_number = math.huge,
     },
@@ -584,7 +584,7 @@ later(function()
   vim.api.nvim_create_autocmd('User', {
     group = minifiles_augroup,
     pattern = 'MiniFilesWindowOpen',
-    callback = function(args) vim.api.nvim_win_set_config(args.data.win_id, { border = 'double' }) end,
+    callback = function(args) vim.api.nvim_win_set_config(args.data.win_id, { border = 'single' }) end,
   })
 end)
 
