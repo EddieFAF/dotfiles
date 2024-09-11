@@ -939,6 +939,7 @@ now(function()
       require("mini.starter").sections.recent_files(5, false),
       require('mini.starter').sections.sessions(5, true),
       { action = "Mason", name = "Mason", section = "Plugin Actions" },
+      { action = "DepsUpdate", name = "Update deps", section = "Plugin Actions" },
     },
   })
 end)
@@ -992,13 +993,6 @@ now(function()
   local function isWrapped()
     local wrap = vim.wo.wrap and "WR" or ""
     return wrap
-  end
-
-  --- Esta función verifica si la corrección ortográfica está habilitada en la ventana actual de Neovim.
-  -- @return string El estado de la corrección ortográfica, ya sea una cadena vacía o una cadena con el icono de corrección ortográfica.
-  local function spellOn()
-    local spell = vim.wo.spell and "SP" or ""
-    return spell
   end
 
   local function isLspHintsActive()
