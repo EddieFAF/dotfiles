@@ -193,7 +193,7 @@ alias c='clear'
 eval "$(zoxide init zsh)"
 
 function nvims() {
-  items=("default" "mvim" "nvim-231trOn")
+  items=("default" "mvim" "nvim-pkazmier" "nvim-231trOn")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
   if [[ -z $config ]]; then
     echo "Nothing selected"

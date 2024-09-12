@@ -692,7 +692,12 @@ later(function()
     integrations = {
       minimap.gen_integration.builtin_search(),
       minimap.gen_integration.diff(),
-      minimap.gen_integration.diagnostic(),
+      minimap.gen_integration.diagnostic({
+        error = "DiagnosticFloatingError",
+        warn  = "DiagnosticFloatingWarn",
+        info  = "DiagnosticFloatingInfo",
+        hint  = "DiagnosticFloatingHint",
+      }),
     },
     window = {
       width = 20,
@@ -938,7 +943,7 @@ now(function()
       require("mini.starter").sections.pick(),
       require("mini.starter").sections.recent_files(5, false),
       require('mini.starter').sections.sessions(5, true),
-      { action = "Mason", name = "Mason", section = "Plugin Actions" },
+      { action = "Mason",      name = "Mason",       section = "Plugin Actions" },
       { action = "DepsUpdate", name = "Update deps", section = "Plugin Actions" },
     },
   })
