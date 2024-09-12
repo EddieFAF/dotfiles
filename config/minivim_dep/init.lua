@@ -238,7 +238,8 @@ now(function()
   -- Decrease update time
   vim.o.updatetime       = 250
   vim.o.timeoutlen       = 300
-  vim.opt.wildmode       = "list:longest,list:full"
+  --vim.opt.wildmode       = "list:longest,list:full"
+  vim.opt.wildmode       = "longest:full,full"
 
   -- Global
   vim.opt.fillchars      = {
@@ -512,6 +513,8 @@ later(function()
         return MiniCompletion.default_process_items(items, base)
       end,
     },
+    fallback_action = function() end,
+    set_vim_settings = false,
     window = {
       info = { height = 25, width = 80, border = "rounded" },
       signature = { height = 25, width = 80, border = "rounded" },
