@@ -151,9 +151,9 @@
        Many programs reserve space automatically, but you can use this in other
        cases. -->
   <margins>
-    <top>0</top>
+    <top>44</top>
     <bottom>1</bottom>
-    <left>0</left>
+    <left>48</left>
     <right>0</right>
   </margins>
   <dock>

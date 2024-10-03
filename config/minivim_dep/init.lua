@@ -451,6 +451,9 @@ miniclue.setup({
     -- `z` key
     { mode = "n", keys = "z" },
     { mode = "x", keys = "z" },
+
+    { mode = "n", keys = "s" },
+    { mode = "x", keys = "s" },
   },
 
   clues = {
@@ -704,7 +707,7 @@ later(function()
     },
     window = {
       width = 20,
-    },
+    }
   })
   vim.keymap.set("n", "<Leader>mc", MiniMap.close, { desc = "Minimap Close" })
   vim.keymap.set("n", "<Leader>mf", MiniMap.toggle_focus, { desc = "Minimap Focus" })
@@ -1073,7 +1076,10 @@ now(function()
 end)
 
 -- [[ Surround ]] ------------------------------------------------------------
-later(function() require("mini.surround").setup() end)
+later(function() require("mini.surround").setup({
+}) end)
+vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
+vim.keymap.set({ 'n', 'x' }, 'S', '<Nop>')
 
 -- [[ Tabline ]] -------------------------------------------------------------
 now(function() require("mini.tabline").setup() end)
