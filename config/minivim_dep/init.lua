@@ -358,7 +358,7 @@ later(function()
   animate.setup {
     scroll = {
       -- Disable Scroll Animations, as the can interfer with mouse Scrolling
-      enable = true,
+      enable = false,
     },
     cursor = {
       timing = animate.gen_timing.cubic({ duration = 50, unit = 'total' })
@@ -763,7 +763,7 @@ now(function()
 end)
 
 -- [[ Operators ]] -----------------------------------------------------------
-later(function() require("mini.operators").setup() end)
+-- later(function() require("mini.operators").setup() end)
 
 -- [[ Pairs ]] ---------------------------------------------------------------
 later(function()
@@ -1076,6 +1076,7 @@ now(function()
 end)
 
 -- [[ Surround ]] ------------------------------------------------------------
+<<<<<<< HEAD
 later(function() require("mini.surround").setup({
 }) end)
 vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
