@@ -1076,7 +1076,6 @@ now(function()
 end)
 
 -- [[ Surround ]] ------------------------------------------------------------
-<<<<<<< HEAD
 later(function() require("mini.surround").setup({
 }) end)
 vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
