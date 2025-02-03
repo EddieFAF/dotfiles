@@ -277,6 +277,86 @@ end)
 
 --vim.cmd('colorscheme randomhue')
 
+now(function()
+  add({
+    source = "saghen/blink.cmp",
+    depends = {
+      -- Snippets
+      "rafamadriz/friendly-snippets",
+      -- Sources
+      "moyiz/blink-emoji.nvim",
+      "Saghen/blink.compat",
+    },
+    checkout = "v0.10.0", -- check releases for latest tag
+  })
+end)
+
+-- ╒═══════════════════╕
+-- │ `blink.cmp` Setup │
+-- ╘═══════════════════╛
+later(function()
+  require("blink.cmp").setup({
+    completion = {
+      menu = {
+        border = "rounded",
+      },
+      documentation = {
+        auto_show = true,
+        window = {
+          border = "rounded",
+        },
+      },
+      ghost_text = { enabled = true },
+    },
+    signature = {
+      enabled = true,
+      window = {
+        border = "rounded",
+      },
+    },
+    sources = {
+      default = {
+        "lazydev",
+        "lsp",
+        "path",
+        "snippets",
+        "crates",
+        "buffer",
+        "emoji",
+      },
+      providers = {
+        crates = {
+          name = "crates",
+          module = "blink.compat.source",
+        },
+        emoji = {
+          module = "blink-emoji",
+          name = "Emoji",
+          score_offset = 15,                                                     -- Tune by preference
+          opts = { insert = true },                                              -- Insert emoji (default) or complete its name
+        },
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          -- make lazydev completions top priority (see `:h blink.cmp`)
+          score_offset = 100,
+        },
+      },
+    },
+  })
+end)
+
+now(function()
+  add({
+    source = "stevearc/conform.nvim",
+    checkout = "v8.3.0",
+  })
+
+  -- Assign keymaps
+  map('n', '<leader>F', function() require("conform").format({ async = true, lsp_format = "fallback" }) end,
+    '[F]ormat Buffer')
+end)
+
 later(function()
   add({
     source = "ibhagwan/fzf-lua",
@@ -503,27 +583,27 @@ miniclue.setup({
 later(function() require("mini.comment").setup() end)
 
 -- [[ Completion ]] ----------------------------------------------------------
-later(function()
-  require("mini.completion").setup({
-    lsp_completion = {
-      source_func = "omnifunc",
-      auto_setup = false,
-      process_items = function(items, base)
-        -- Don't show 'Text' and 'Snippet' suggestions
-        items = vim.tbl_filter(function(x)
-          return x.kind ~= 1 and x.kind ~= 15
-        end, items)
-        return MiniCompletion.default_process_items(items, base)
-      end,
-    },
-    fallback_action = function() end,
-    set_vim_settings = false,
-    window = {
-      info = { height = 25, width = 80, border = "rounded" },
-      signature = { height = 25, width = 80, border = "rounded" },
-    },
-  })
-end)
+-- later(function()
+--   require("mini.completion").setup({
+--     lsp_completion = {
+--       source_func = "omnifunc",
+--       auto_setup = false,
+--       process_items = function(items, base)
+--         -- Don't show 'Text' and 'Snippet' suggestions
+--         items = vim.tbl_filter(function(x)
+--           return x.kind ~= 1 and x.kind ~= 15
+--         end, items)
+--         return MiniCompletion.default_process_items(items, base)
+--       end,
+--     },
+--     fallback_action = function() end,
+--     set_vim_settings = false,
+--     window = {
+--       info = { height = 25, width = 80, border = "rounded" },
+--       signature = { height = 25, width = 80, border = "rounded" },
+--     },
+--   })
+-- end)
 
 -- vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
 -- vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
@@ -1042,7 +1122,7 @@ now(function()
         local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
         local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
         --local navic         = require 'nvim-navic'.get_location()
-        -- local location      = MiniStatusline.section_location({ trunc_width = 75 })
+        local location      = MiniStatusline.section_location({ trunc_width = 75 })
         local location2     = "%7(%l/%3L%):%-2c %P"
         local spaces        = function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
@@ -1076,8 +1156,10 @@ now(function()
 end)
 
 -- [[ Surround ]] ------------------------------------------------------------
-later(function() require("mini.surround").setup({
-}) end)
+later(function()
+  require("mini.surround").setup({
+  })
+end)
 vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
 vim.keymap.set({ 'n', 'x' }, 'S', '<Nop>')
 
@@ -1405,8 +1487,9 @@ now(function()
   end
 
 
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  --local capabilities = vim.lsp.protocol.make_client_capabilities()
   --local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
 
   -- Lua
   require("lspconfig")["lua_ls"].setup({
