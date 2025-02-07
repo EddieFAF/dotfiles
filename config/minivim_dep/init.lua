@@ -13,22 +13,25 @@
 --
 --
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
-local path_package = vim.fn.stdpath('data') .. '/site/'
-local mini_path = path_package .. 'pack/deps/start/mini.nvim'
+local path_package = vim.fn.stdpath("data") .. "/site/"
+local mini_path = path_package .. "pack/deps/start/mini.nvim"
 if not vim.loop.fs_stat(mini_path) then
   vim.cmd('echo "Installing `mini.nvim`" | redraw')
   local clone_cmd = {
-    'git', 'clone', '--filter=blob:none',
-    'https://github.com/echasnovski/mini.nvim', mini_path
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/echasnovski/mini.nvim",
+    mini_path,
   }
   vim.fn.system(clone_cmd)
-  vim.cmd('packadd mini.nvim | helptags ALL')
+  vim.cmd("packadd mini.nvim | helptags ALL")
   vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 
 -- Set up 'mini.deps' (customize to your liking)
-require('mini.deps').setup({ path = { package = path_package } })
-local mini_deps = require "mini.deps"
+require("mini.deps").setup({ path = { package = path_package } })
+local mini_deps = require("mini.deps")
 
 local add, now, later = mini_deps.add, mini_deps.now, mini_deps.later
 
@@ -207,43 +210,42 @@ end)
 
 now(function()
   -- [[ Settings options ]] ----------------------------------------------------
-  vim.opt.scrolloff      = 5
-  vim.opt.title          = true
-  vim.opt.titlelen       = 0
-  vim.opt.titlestring    = '%{expand("%:p")} [%{mode()}]'
-  vim.opt.completeopt    = "menuone,noinsert,noselect"
+  vim.opt.scrolloff = 5
+  vim.opt.title = true
+  vim.opt.titlelen = 0
+  vim.opt.titlestring = '%{expand("%:p")} [%{mode()}]'
+  vim.opt.completeopt = "menuone,noinsert,noselect"
   --vim.opt.completeopt = { "menu", "menuone", "noselect" }
-  vim.opt.splitright     = true
-  vim.opt.splitbelow     = true
-  vim.opt.shiftwidth     = 2
-  vim.opt.tabstop        = 8
-  vim.opt.softtabstop    = -1
-  vim.opt.expandtab      = true
-  --vim.opt.foldmethod = "syntax"
-  vim.opt.termguicolors  = true
+  vim.opt.splitright = true
+  vim.opt.splitbelow = true
+  vim.opt.shiftwidth = 2
+  vim.opt.tabstop = 4
+  vim.opt.softtabstop = -1
+  vim.opt.expandtab = true
+  vim.opt.termguicolors = true
 
   vim.opt.relativenumber = false
-  vim.o.cursorline       = true
-  vim.o.autoindent       = true     -- Use auto indent
-  vim.o.expandtab        = true     -- Convert tabs to spaces
-  vim.o.formatoptions    = "rqnl1j" -- Improve comment editing
-  vim.o.ignorecase       = true     -- Ignore case when searching (use `\C` to force not doing that)
-  vim.o.incsearch        = true     -- Show search results while typing
-  vim.o.infercase        = true     -- Infer letter cases for a richer built-in keyword completion
-  vim.o.smartcase        = true     -- Don't ignore case when searching if pattern has upper case
-  vim.o.smartindent      = true     -- Make indenting smart
-  vim.o.virtualedit      = "block"  -- Allow going past the end of line in visual block mode
+  vim.o.cursorline = true
+  vim.o.autoindent = true -- Use auto indent
+  vim.o.expandtab = true -- Convert tabs to spaces
+  vim.o.formatoptions = "rqnl1j" -- Improve comment editing
+  vim.o.ignorecase = true -- Ignore case when searching (use `\C` to force not doing that)
+  vim.o.incsearch = true -- Show search results while typing
+  vim.o.infercase = true -- Infer letter cases for a richer built-in keyword completion
+  vim.o.smartcase = true -- Don't ignore case when searching if pattern has upper case
+  vim.o.smartindent = true -- Make indenting smart
+  vim.o.virtualedit = "block" -- Allow going past the end of line in visual block mode
 
-  vim.opt.cmdheight      = 0
+  vim.opt.cmdheight = 0
 
   -- Decrease update time
-  vim.o.updatetime       = 250
-  vim.o.timeoutlen       = 300
+  vim.o.updatetime = 250
+  vim.o.timeoutlen = 300
   --vim.opt.wildmode       = "list:longest,list:full"
-  vim.opt.wildmode       = "longest:full,full"
+  vim.opt.wildmode = "longest:full,full"
 
   -- Global
-  vim.opt.fillchars      = {
+  vim.opt.fillchars = {
     fold = "╌",
     foldopen = "▾",
     foldclose = "▸",
@@ -251,9 +253,9 @@ now(function()
     diff = "╱",
     eob = " ",
   }
-  vim.opt.list           = true
+  vim.opt.list = true
 
-  vim.opt.listchars      = {
+  vim.opt.listchars = {
     -- tab = ">>>",
     -- space = '⋅',
     tab = "▸ ",
@@ -266,13 +268,15 @@ now(function()
     nbsp = "␣",
   }
   -- Folds ======================================================================
-  vim.o.foldmethod       = 'indent' -- Set 'indent' folding method
-  vim.o.foldlevel        = 99       -- Display all folds except top ones
-  vim.o.foldnestmax      = 10       -- Create folds only for some number of nested levels
-  vim.g.markdown_folding = 1        -- Use folding by heading in markdown files
+  -- vim.o.foldmethod = "indent" -- Set 'indent' folding method
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+  vim.opt.foldlevel = 1 -- Display all folds except top ones
+  vim.opt.foldnestmax = 10 -- Create folds only for some number of nested levels
+  vim.g.markdown_folding = 1 -- Use folding by heading in markdown files
 
-  if vim.fn.has('nvim-0.10') == 1 then
-    vim.o.foldtext = '' -- Use underlying text with its highlighting
+  if vim.fn.has("nvim-0.10") == 1 then
+    vim.opt.foldtext = "" -- Use underlying text with its highlighting
   end
 end)
 
@@ -333,8 +337,8 @@ later(function()
         emoji = {
           module = "blink-emoji",
           name = "Emoji",
-          score_offset = 15,                                                     -- Tune by preference
-          opts = { insert = true },                                              -- Insert emoji (default) or complete its name
+          score_offset = 15, -- Tune by preference
+          opts = { insert = true }, -- Insert emoji (default) or complete its name
         },
         lazydev = {
           name = "LazyDev",
@@ -354,8 +358,9 @@ now(function()
   })
 
   -- Assign keymaps
-  map('n', '<leader>F', function() require("conform").format({ async = true, lsp_format = "fallback" }) end,
-    '[F]ormat Buffer')
+  map("n", "<leader>F", function()
+    require("conform").format({ async = true, lsp_format = "fallback" })
+  end, "[F]ormat Buffer")
 end)
 
 later(function()
@@ -366,18 +371,42 @@ later(function()
   -- stylua: ignore
   --    keys = {
   map('n', '<leader>/c', function() require('fzf-lua').commands() end, 'Search commands')
-  map('n', '<leader>/C', function() require('fzf-lua').command_history() end, 'Search command history')
-  map('n', '<leader>/b', function() require('fzf-lua').buffers() end, 'Find buffers')
-  map('n', '<leader>/f', function() require('fzf-lua').files() end, 'Find files')
-  map('n', '<leader>/o', function() require('fzf-lua').oldfiles() end, 'Find recent files')
-  map('n', '<leader>/h', function() require('fzf-lua').highlights() end, 'Search highlights')
-  map('n', '<leader>/M', function() require('fzf-lua').marks() end, 'Search marks')
-  map('n', '<leader>/k', function() require('fzf-lua').keymaps() end, 'Search keymaps')
-  map('n', '<leader>gf', function() require('fzf-lua').git_files() end, 'Find git files')
-  map('n', '<leader>gb', function() require('fzf-lua').git_branches() end, 'Search git branches')
-  map('n', '<leader>gc', function() require('fzf-lua').git_commits() end, 'Search git commits')
-  map('n', '<leader>gC', function() require('fzf-lua').git_bcommits() end, 'Search git buffer commits')
-  map('n', '<leader>//', function() require('fzf-lua').resume() end, 'Resume FZF')
+  map("n", "<leader>/C", function()
+    require("fzf-lua").command_history()
+  end, "Search command history")
+  map("n", "<leader>/b", function()
+    require("fzf-lua").buffers()
+  end, "Find buffers")
+  map("n", "<leader>/f", function()
+    require("fzf-lua").files()
+  end, "Find files")
+  map("n", "<leader>/o", function()
+    require("fzf-lua").oldfiles()
+  end, "Find recent files")
+  map("n", "<leader>/h", function()
+    require("fzf-lua").highlights()
+  end, "Search highlights")
+  map("n", "<leader>/M", function()
+    require("fzf-lua").marks()
+  end, "Search marks")
+  map("n", "<leader>/k", function()
+    require("fzf-lua").keymaps()
+  end, "Search keymaps")
+  map("n", "<leader>gf", function()
+    require("fzf-lua").git_files()
+  end, "Find git files")
+  map("n", "<leader>gb", function()
+    require("fzf-lua").git_branches()
+  end, "Search git branches")
+  map("n", "<leader>gc", function()
+    require("fzf-lua").git_commits()
+  end, "Search git commits")
+  map("n", "<leader>gC", function()
+    require("fzf-lua").git_bcommits()
+  end, "Search git buffer commits")
+  map("n", "<leader>//", function()
+    require("fzf-lua").resume()
+  end, "Resume FZF")
   --    },
   local fzf = require("fzf-lua")
   local actions = require("fzf-lua.actions")
@@ -426,25 +455,29 @@ end)
 ------------------------------------------------------------------------------
 
 -- [[ AI ]] ------------------------------------------------------------------
-later(function() require("mini.ai").setup() end)
+later(function()
+  require("mini.ai").setup()
+end)
 
 -- [[ Align ]] ---------------------------------------------------------------
-later(function() require("mini.align").setup() end)
+later(function()
+  require("mini.align").setup()
+end)
 
 -- [[ Animate ]] -------------------------------------------------------------
 later(function()
   -- This is needed for mini.animate to work with mouse scrolling
-  vim.opt.mousescroll = 'ver:1,hor:1'
-  local animate = require('mini.animate')
-  animate.setup {
+  vim.opt.mousescroll = "ver:1,hor:1"
+  local animate = require("mini.animate")
+  animate.setup({
     scroll = {
       -- Disable Scroll Animations, as the can interfere with mouse Scrolling
       enable = false,
     },
     cursor = {
-      timing = animate.gen_timing.cubic({ duration = 50, unit = 'total' })
+      timing = animate.gen_timing.cubic({ duration = 50, unit = "total" }),
     },
-  }
+  })
 end)
 
 -- [[ Collection of basic options ]] -----------------------------------------
@@ -478,7 +511,9 @@ later(function()
 end)
 
 -- [[ Bracketed ]] -----------------------------------------------------------
-later(function() require("mini.bracketed").setup() end)
+later(function()
+  require("mini.bracketed").setup()
+end)
 
 -- [[ Bufremove ]] -----------------------------------------------------------
 later(function()
@@ -581,7 +616,9 @@ miniclue.setup({
 })
 
 -- [[ 'gc' to toggle comment ]] ----------------------------------------------
-later(function() require("mini.comment").setup() end)
+later(function()
+  require("mini.comment").setup()
+end)
 
 -- [[ Completion ]] ----------------------------------------------------------
 -- later(function()
@@ -630,11 +667,13 @@ later(function() require("mini.comment").setup() end)
 -- vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 
 -- [[ Mini Cursorword ]] -----------------------------------------------------
-later(function() require("mini.cursorword").setup() end)
+later(function()
+  require("mini.cursorword").setup()
+end)
 
 -- [[ Mini Diff ]] -----------------------------------------------------------
 later(function()
-  require('mini.diff').setup({
+  require("mini.diff").setup({
     -- view = {
     --   style = 'sign',
     --   signs = { add = '+', change = '~', delete = '-' },
@@ -643,7 +682,9 @@ later(function()
 end)
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
-later(function() require("mini.extra").setup() end)
+later(function()
+  require("mini.extra").setup()
+end)
 
 -- [[ Files ]] ---------------------------------------------------------------
 later(function()
@@ -667,28 +708,37 @@ later(function()
       max_number = math.huge,
     },
   })
-  local minifiles_augroup = vim.api.nvim_create_augroup('ec-mini-files', {})
-  vim.api.nvim_create_autocmd('User', {
+  local minifiles_augroup = vim.api.nvim_create_augroup("ec-mini-files", {})
+  vim.api.nvim_create_autocmd("User", {
     group = minifiles_augroup,
-    pattern = 'MiniFilesWindowOpen',
-    callback = function(args) vim.api.nvim_win_set_config(args.data.win_id, { border = 'single' }) end,
+    pattern = "MiniFilesWindowOpen",
+    callback = function(args)
+      vim.api.nvim_win_set_config(args.data.win_id, { border = "single" })
+    end,
   })
 end)
 
 vim.keymap.set("n", "<leader>ed", "<cmd>lua MiniFiles.open()<cr>", { desc = "Find Manual" })
-vim.keymap.set("n", "<leader>ef", [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
-  { desc = "File directory" })
-vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]],
-  { desc = "Mini.nvim directory" })
+vim.keymap.set(
+  "n",
+  "<leader>ef",
+  [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
+  { desc = "File directory" }
+)
+vim.keymap.set("n", "<leader>em", [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = "Mini.nvim directory" })
 
 -- [[ Fuzzy ]] ---------------------------------------------------------------
-later(function() require("mini.fuzzy").setup() end)
+later(function()
+  require("mini.fuzzy").setup()
+end)
 
 -- [[ Git ]] -----------------------------------------------------------------
-later(function() require("mini.git").setup() end)
-local rhs = '<Cmd>lua MiniGit.show_at_cursor()<CR>'
-vim.keymap.set({ 'n', 'x' }, '<Leader>gs', rhs, { desc = 'Show at cursor' })
-vim.keymap.set('n', '<Leader>go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', { desc = 'toggle overlay' })
+later(function()
+  require("mini.git").setup()
+end)
+local rhs = "<Cmd>lua MiniGit.show_at_cursor()<CR>"
+vim.keymap.set({ "n", "x" }, "<Leader>gs", rhs, { desc = "Show at cursor" })
+vim.keymap.set("n", "<Leader>go", "<Cmd>lua MiniDiff.toggle_overlay()<CR>", { desc = "toggle overlay" })
 
 -- [[ HiPatterns ]] ----------------------------------------------------------
 later(function()
@@ -710,7 +760,7 @@ end)
 later(function()
   local miniicons = require("mini.icons")
   miniicons.setup({
-    style = 'glyph',
+    style = "glyph",
   })
   miniicons.mock_nvim_web_devicons()
   miniicons.tweak_lsp_kind()
@@ -720,7 +770,9 @@ end)
 later(function()
   require("mini.indentscope").setup({
     draw = {
-      animation = function() return 1 end,
+      animation = function()
+        return 1
+      end,
     },
     symbol = "│",
     --symbol = "▏",
@@ -768,14 +820,18 @@ later(function()
 end)
 
 -- [[ Jump ]] --------------------------------------------------------------
-later(function() require("mini.jump").setup({}) end)
+later(function()
+  require("mini.jump").setup({})
+end)
 
 -- [[ MiniMap ]] -------------------------------------------------------------
 later(function()
   local minimap = require("mini.map")
-  local encode_symbols = minimap.gen_encode_symbols.block('3x2')
+  local encode_symbols = minimap.gen_encode_symbols.block("3x2")
   -- Use dots in `st` terminal because it can render them as blocks
-  if vim.startswith(vim.fn.getenv('TERM'), 'st') then encode_symbols = minimap.gen_encode_symbols.dot('4x2') end
+  if vim.startswith(vim.fn.getenv("TERM"), "st") then
+    encode_symbols = minimap.gen_encode_symbols.dot("4x2")
+  end
   minimap.setup({
     symbols = { encode = encode_symbols },
     integrations = {
@@ -783,14 +839,14 @@ later(function()
       minimap.gen_integration.diff(),
       minimap.gen_integration.diagnostic({
         error = "DiagnosticFloatingError",
-        warn  = "DiagnosticFloatingWarn",
-        info  = "DiagnosticFloatingInfo",
-        hint  = "DiagnosticFloatingHint",
+        warn = "DiagnosticFloatingWarn",
+        info = "DiagnosticFloatingInfo",
+        hint = "DiagnosticFloatingHint",
       }),
     },
     window = {
       width = 20,
-    }
+    },
   })
   vim.keymap.set("n", "<Leader>mc", minimap.close, { desc = "Minimap Close" })
   vim.keymap.set("n", "<Leader>mf", minimap.toggle_focus, { desc = "Minimap Focus" })
@@ -799,29 +855,32 @@ later(function()
   vim.keymap.set("n", "<Leader>ms", minimap.toggle_side, { desc = "Minimap Swap Side" })
   vim.keymap.set("n", "<Leader>mt", minimap.toggle, { desc = "Minimap Toggle" })
   vim.keymap.set("n", "<F5>", minimap.toggle, { desc = "Minimap Toggle" })
-  vim.keymap.set('n', [[\h]], ':let v:hlsearch = 1 - v:hlsearch<CR>', { desc = 'Toggle hlsearch' })
-  for _, key in ipairs({ 'n', 'N', '*' }) do
-    vim.keymap.set('n', key, key .. 'zv<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>')
+  vim.keymap.set("n", [[\h]], ":let v:hlsearch = 1 - v:hlsearch<CR>", { desc = "Toggle hlsearch" })
+  for _, key in ipairs({ "n", "N", "*" }) do
+    vim.keymap.set("n", key, key .. "zv<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>")
   end
 end)
 
 -- [[ Misc ]] ----------------------------------------------------------------
 now(function()
   local minimisc = require("mini.misc")
-  minimisc.setup({ make_global = { 'put', 'put_text', 'stat_summary', 'bench_time' } })
-  minimisc.setup_auto_root({ '.git', 'Makefile', ".forceignore", "sfdx-project.json" },
-    function() vim.notify('Mini find_root failed.', vim.log.levels.WARN) end)
+  minimisc.setup({ make_global = { "put", "put_text", "stat_summary", "bench_time" } })
+  minimisc.setup_auto_root({ ".git", "Makefile", ".forceignore", "sfdx-project.json" }, function()
+    vim.notify("Mini find_root failed.", vim.log.levels.WARN)
+  end)
   minimisc.setup_restore_cursor({
-    ignore_filetype = { "gitcommit", "gitrebase", "SFTerm", "fzf" }
+    ignore_filetype = { "gitcommit", "gitrebase", "SFTerm", "fzf" },
   })
 end)
 
 -- [[ Move ]] ----------------------------------------------------------------
-later(function() require("mini.move").setup() end)
+later(function()
+  require("mini.move").setup()
+end)
 
 -- [[ Notify ]] --------------------------------------------------------------
 now(function()
-  local mininotify=require("mini.notify")
+  local mininotify = require("mini.notify")
   local filterout_lua_diagnosing = function(notif_arr)
     local not_diagnosing = function(notif)
       return not vim.startswith(notif.msg, "lua_ls: Diagnosing")
@@ -854,13 +913,13 @@ end)
 later(function()
   require("mini.pairs").setup({
     mappings = {
-      ['('] = { neigh_pattern = '[^\\%w].' },
-      ['['] = { neigh_pattern = '[^\\%w].' },
-      ['{'] = { neigh_pattern = '[^\\%w].' },
-      ['"'] = { neigh_pattern = '[^\\%w].' },
-      ["'"] = { neigh_pattern = '[^\\%w].' },
-      ['`'] = { neigh_pattern = '[^\\%w].' },
-    }
+      ["("] = { neigh_pattern = "[^\\%w]." },
+      ["["] = { neigh_pattern = "[^\\%w]." },
+      ["{"] = { neigh_pattern = "[^\\%w]." },
+      ['"'] = { neigh_pattern = "[^\\%w]." },
+      ["'"] = { neigh_pattern = "[^\\%w]." },
+      ["`"] = { neigh_pattern = "[^\\%w]." },
+    },
   })
 end)
 
@@ -872,24 +931,24 @@ later(function()
     height = math.floor(0.618 * vim.o.lines)
     width = math.floor(0.618 * vim.o.columns)
     return {
-      anchor = 'NW',
+      anchor = "NW",
       height = height,
       width = width,
-      border = 'rounded',
+      border = "rounded",
       row = math.floor(0.5 * (vim.o.lines - height)),
       col = math.floor(0.5 * (vim.o.columns - width)),
     }
   end
   minipick.setup({
     mappings = {
-      choose_in_vsplit = '<C-CR>',
+      choose_in_vsplit = "<C-CR>",
     },
     options = {
-      use_cache = true
+      use_cache = true,
     },
     window = {
-      config = win_config
-    }
+      config = win_config,
+    },
   })
 
   vim.ui.select = minipick.ui_select
@@ -906,8 +965,12 @@ later(function()
   vim.keymap.set("n", "<leader>f/", [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
   vim.keymap.set("n", "<leader>f:", [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
   vim.keymap.set("n", "<leader>fa", [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = "Added hunks (all)" })
-  vim.keymap.set("n", "<leader>fA", [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
-    { desc = "Added hunks (current)" })
+  vim.keymap.set(
+    "n",
+    "<leader>fA",
+    [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
+    { desc = "Added hunks (current)" }
+  )
   vim.keymap.set("n", "<leader>fb", [[<Cmd>Pick buffers<CR>]], { desc = "Buffers" })
   vim.keymap.set("n", "<leader>fC", [[<Cmd>Pick git_commits<CR>]], { desc = "Commits (all)" })
   vim.keymap.set("n", "<leader>fc", [[<Cmd>Pick git_commits path='%'<CR>]], { desc = "Commits (current)" })
@@ -920,13 +983,18 @@ later(function()
   vim.keymap.set("n", "<leader>fM", [[<Cmd>Pick git_hunks<CR>]], { desc = "Modified hunks (all)" })
   vim.keymap.set("n", "<leader>fm", [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = "Modified hunks (current)" })
   vim.keymap.set("n", "<leader>fR", [[<Cmd>Pick lsp scope='references'<CR>]], { desc = "References (LSP)" })
-  vim.keymap.set("n", "<leader>fS", [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = "Symbols workspace (LSP)" })
+  vim.keymap.set(
+    "n",
+    "<leader>fS",
+    [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]],
+    { desc = "Symbols workspace (LSP)" }
+  )
   vim.keymap.set("n", "<leader>fs", [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = "Symbols buffer (LSP)" })
   vim.keymap.set("n", "<leader>fV", [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = "Visit paths (all)" })
   vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
 
-  pattern = "MiniPickStop",
-      vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
+  pattern =
+    "MiniPickStop", vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
 
   -- Picker pre- and post-hooks ===============================================
 
@@ -958,7 +1026,6 @@ later(function()
       post_hook(...)
     end,
   })
-
 
   -- Colorscheme picker =======================================================
 
@@ -992,7 +1059,7 @@ end)
 
 -- [[ Session ]] -------------------------------------------------------------
 now(function()
-  local minisessions=require("mini.sessions")
+  local minisessions = require("mini.sessions")
   minisessions.setup({ autowrite = true })
   --- Wrapper around mini.sessions functions. Returns a function that
   --- behaves differently based on the given scope.
@@ -1036,8 +1103,8 @@ now(function()
       require("mini.starter").sections.builtin_actions(),
       require("mini.starter").sections.pick(),
       require("mini.starter").sections.recent_files(5, false),
-      require('mini.starter').sections.sessions(5, true),
-      { action = "Mason",      name = "Mason",       section = "Plugin Actions" },
+      require("mini.starter").sections.sessions(5, true),
+      { action = "Mason", name = "Mason", section = "Plugin Actions" },
       { action = "DepsUpdate", name = "Update deps", section = "Plugin Actions" },
     },
   })
@@ -1110,8 +1177,8 @@ now(function()
 
     return " " .. table.concat(lsp_names_list, ",")
   end
-  
-  local ministatusline=require("mini.statusline")
+
+  local ministatusline = require("mini.statusline")
   ministatusline.setup({
     content = {
       active = function()
@@ -1166,25 +1233,28 @@ end)
 
 -- [[ Surround ]] ------------------------------------------------------------
 later(function()
-  require("mini.surround").setup({
-  })
+  require("mini.surround").setup({})
 end)
-vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
-vim.keymap.set({ 'n', 'x' }, 'S', '<Nop>')
+vim.keymap.set({ "n", "x" }, "s", "<Nop>")
+vim.keymap.set({ "n", "x" }, "S", "<Nop>")
 
 -- [[ Tabline ]] -------------------------------------------------------------
-now(function() require("mini.tabline").setup() end)
+now(function()
+  require("mini.tabline").setup()
+end)
 
 -- [[ Trailspace ]] ----------------------------------------------------------
-now(function() 
-  local minitrailspace=require("mini.trailspace")
+now(function()
+  local minitrailspace = require("mini.trailspace")
   minitrailspace.setup()
-map('n', '<leader>ts', minitrailspace.trim, 'trim space')
-map('n', '<leader>te', minitrailspace.trim_last_lines, 'trim end-line')
+  map("n", "<leader>ts", minitrailspace.trim, "trim space")
+  map("n", "<leader>te", minitrailspace.trim_last_lines, "trim end-line")
 end)
 
 -- [[ Visits ]] --------------------------------------------------------------
-later(function() require("mini.visits").setup() end)
+later(function()
+  require("mini.visits").setup()
+end)
 
 ------------------------------------------------------------------------------
 -- [[ END OF MINI CONFIG ]] --------------------------------------------------
@@ -1215,7 +1285,8 @@ now(function()
   vim.keymap.set(
     "n",
     "<leader>i", -- <space><space>
-    "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", { desc = "Toggle value" }
+    "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>",
+    { desc = "Toggle value" }
   )
 end)
 
@@ -1232,20 +1303,24 @@ now(function()
         enabled = true,
         indentscope_color = "",
       },
-    }
+    },
   })
 end)
-vim.cmd.colorscheme "catppuccin-macchiato"
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 -- [[ Configure Treesitter ]] ------------------------------------------------
 later(function()
   add({
-    source = 'nvim-treesitter/nvim-treesitter',
+    source = "nvim-treesitter/nvim-treesitter",
     -- Use 'master' while monitoring updates in 'main'
-    checkout = 'master',
-    monitor = 'main',
+    checkout = "master",
+    monitor = "main",
     -- Perform action after every checkout
-    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+    hooks = {
+      post_checkout = function()
+        vim.cmd("TSUpdate")
+      end,
+    },
   })
   require("nvim-treesitter.configs").setup({
     -- Add languages to be installed here that you want installed for treesitter
@@ -1341,19 +1416,17 @@ end, { desc = "Document Diagnostics" })
 
 vim.diagnostic.config({ update_in_insert = true })
 
-
 -- LSP Configuration & Plugins
 now(function()
   add({
-    source = 'neovim/nvim-lspconfig',
+    source = "neovim/nvim-lspconfig",
     depends = {
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
       --      { "j-hui/fidget.nvim" },
-      'folke/lazydev.nvim',
-    }
-  }
-  )
+      "folke/lazydev.nvim",
+    },
+  })
 
   -- Set up Mason before anything else
   require("mason").setup()
@@ -1380,9 +1453,9 @@ now(function()
   local config = {
     virtual_text = {
       spacing = 4,
-      source = 'if_many',
-      prefix = '●',
-      severity = { min = 'ERROR', max = 'ERROR' },
+      source = "if_many",
+      prefix = "●",
+      severity = { min = "ERROR", max = "ERROR" },
       --  format = function(d) return "" end
     },
     signs = {
@@ -1390,7 +1463,7 @@ now(function()
       -- With highest priority
       priority = 9999,
       -- Only for warnings and errors
-      severity = { min = 'WARN', max = 'ERROR' },
+      severity = { min = "WARN", max = "ERROR" },
     },
     update_in_insert = false,
     underline = true,
@@ -1410,7 +1483,7 @@ now(function()
   local on_attach = function(client, bufnr)
     local methods = vim.lsp.protocol.Methods
     local nmap = function(keys, func, desc, mode)
-      mode = mode or 'n'
+      mode = mode or "n"
       if desc then
         desc = "LSP: " .. desc
       end
@@ -1422,15 +1495,15 @@ now(function()
     nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
     nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
     --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "Document Symbols")
-    nmap('<leader>la', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], 'Arguments popup')
-    nmap('<leader>ld', [[<Cmd>lua vim.diagnostic.open_float()<CR>]], 'Diagnostics popup')
+    nmap("<leader>la", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], "Arguments popup")
+    nmap("<leader>ld", [[<Cmd>lua vim.diagnostic.open_float()<CR>]], "Diagnostics popup")
     --    nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
-    nmap('<leader>li', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], 'Information')
+    nmap("<leader>li", [[<Cmd>lua vim.lsp.buf.hover()<CR>]], "Information")
     --    nmap('<leader>lR', [[<Cmd>lua vim.lsp.buf.references()<CR>]], 'References')
-    nmap('<leader>ls', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], 'Source definition')
+    nmap("<leader>ls", [[<Cmd>lua vim.lsp.buf.definition()<CR>]], "Source definition")
 
-    nmap('<c-j>', '<cmd>lua vim.diagnostic.goto_next({float={source=true}})<cr>')
-    nmap('<c-k>', '<cmd>lua vim.diagnostic.goto_prev({float={source=true}})<cr>')
+    nmap("<c-j>", "<cmd>lua vim.diagnostic.goto_next({float={source=true}})<cr>")
+    nmap("<c-k>", "<cmd>lua vim.diagnostic.goto_prev({float={source=true}})<cr>")
 
     -- Create a command `:Format` local to the LSP buffer
     vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
@@ -1445,7 +1518,7 @@ now(function()
 
     -- only if capeable
     if client.supports_method(methods.textDocument_rename) then
-      nmap('<leader>lr', vim.lsp.buf.rename, 'Rename')
+      nmap("<leader>lr", vim.lsp.buf.rename, "Rename")
     end
 
     -- if client.server_capabilities.documentSymbolProvider then
@@ -1453,31 +1526,31 @@ now(function()
     -- end
 
     if client.supports_method(methods.textDocument_codeAction) then
-      nmap('<leader>ca', function()
-        require('fzf-lua').lsp_code_actions {
+      nmap("<leader>ca", function()
+        require("fzf-lua").lsp_code_actions({
           winopts = {
-            relative = 'cursor',
+            relative = "cursor",
             width = 0.6,
             height = 0.6,
             row = 1,
-            preview = { vertical = 'up:70%' },
+            preview = { vertical = "up:70%" },
           },
-        }
-      end, 'Code actions', { 'n', 'v' })
+        })
+      end, "Code actions", { "n", "v" })
     end
 
     local status_ok, highlight_supported = pcall(function()
-      return client.supports_method('textDocument/documentHighlight')
+      return client.supports_method("textDocument/documentHighlight")
     end)
     if not status_ok or not highlight_supported then
       return
     end
 
-    local group_name = 'lsp_document_highlight'
+    local group_name = "lsp_document_highlight"
     local ok, hl_autocmds = pcall(vim.api.nvim_get_autocmds, {
       group = group_name,
       buffer = bufnr,
-      event = 'CursorHold',
+      event = "CursorHold",
     })
 
     if ok and #hl_autocmds > 0 then
@@ -1485,22 +1558,21 @@ now(function()
     end
 
     vim.api.nvim_create_augroup(group_name, { clear = false })
-    vim.api.nvim_create_autocmd('CursorHold', {
+    vim.api.nvim_create_autocmd("CursorHold", {
       group = group_name,
       buffer = bufnr,
       callback = vim.lsp.buf.document_highlight,
     })
-    vim.api.nvim_create_autocmd('CursorMoved', {
+    vim.api.nvim_create_autocmd("CursorMoved", {
       group = group_name,
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
     })
   end
 
-
   --local capabilities = vim.lsp.protocol.make_client_capabilities()
   --local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  local capabilities = require('blink.cmp').get_lsp_capabilities()
+  local capabilities = require("blink.cmp").get_lsp_capabilities()
 
   -- Lua
   require("lspconfig")["lua_ls"].setup({
@@ -1560,6 +1632,5 @@ now(function()
   })
   --
 end)
-
 
 -- vim: ts=2 sts=2 sw=2 et
