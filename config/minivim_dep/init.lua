@@ -28,8 +28,9 @@ end
 
 -- Set up 'mini.deps' (customize to your liking)
 require('mini.deps').setup({ path = { package = path_package } })
+local mini_deps = require "mini.deps"
 
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+local add, now, later = mini_deps.add, mini_deps.now, mini_deps.later
 
 -- Options
 local function set(name, value)
@@ -133,7 +134,7 @@ now(function()
       "keymaps",
       "list",
       "lsp",
-      "makrs",
+      "markers",
       "oldfiles",
       "options",
       "registers",
@@ -150,7 +151,7 @@ map("n", ",n", toggle("number"), "Toggle line number")
 map("n", ",r", toggle("relativenumber"), "Toggle relative line number")
 
 map("n", ",c", toggle("cursorline"), "Toggle cursorline")
-map("n", ",l", toggle("list"), "Toggle list chararcters")
+map("n", ",l", toggle("list"), "Toggle list characters")
 
 -- Wrap lines that are longer than 'textwidth'
 map("n", ",w", toggle("wrap"), "Toggle line wrapping")
@@ -437,7 +438,7 @@ later(function()
   local animate = require('mini.animate')
   animate.setup {
     scroll = {
-      -- Disable Scroll Animations, as the can interfer with mouse Scrolling
+      -- Disable Scroll Animations, as the can interfere with mouse Scrolling
       enable = false,
     },
     cursor = {
@@ -707,11 +708,12 @@ end)
 
 -- [[ Icons ]] ---------------------------------------------------------------
 later(function()
-  require("mini.icons").setup({
+  local miniicons = require("mini.icons")
+  miniicons.setup({
     style = 'glyph',
   })
-  MiniIcons.mock_nvim_web_devicons()
-  MiniIcons.tweak_lsp_kind()
+  miniicons.mock_nvim_web_devicons()
+  miniicons.tweak_lsp_kind()
 end)
 
 -- [[ Animated indentation guide ]] ------------------------------------------
@@ -732,7 +734,8 @@ end)
 
 -- [[ Jump2d ]] --------------------------------------------------------------
 later(function()
-  require("mini.jump2d").setup({
+  local minijump2d = require("mini.jump2d")
+  minijump2d.setup({
     labels = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
     view = {
       dim = true,
@@ -752,8 +755,8 @@ later(function()
     { desc = "Jump2d Word Start" }
   )
   vim.keymap.set("n", "g!", function()
-    MiniJump2d.start({
-      spotter = MiniJump2d.gen_pattern_spotter("['\"`]"),
+    minijump2d.start({
+      spotter = minijump2d.gen_pattern_spotter("['\"`]"),
     })
   end, { desc = "Jump2d Quote" })
   vim.keymap.set(
@@ -789,13 +792,13 @@ later(function()
       width = 20,
     }
   })
-  vim.keymap.set("n", "<Leader>mc", MiniMap.close, { desc = "Minimap Close" })
-  vim.keymap.set("n", "<Leader>mf", MiniMap.toggle_focus, { desc = "Minimap Focus" })
-  vim.keymap.set("n", "<Leader>mo", MiniMap.open, { desc = "Minimap Open" })
-  vim.keymap.set("n", "<Leader>mr", MiniMap.refresh, { desc = "Minimap Refresh" })
-  vim.keymap.set("n", "<Leader>ms", MiniMap.toggle_side, { desc = "Minimap Swap Side" })
-  vim.keymap.set("n", "<Leader>mt", MiniMap.toggle, { desc = "Minimap Toggle" })
-  vim.keymap.set("n", "<F5>", MiniMap.toggle, { desc = "Minimap Toggle" })
+  vim.keymap.set("n", "<Leader>mc", minimap.close, { desc = "Minimap Close" })
+  vim.keymap.set("n", "<Leader>mf", minimap.toggle_focus, { desc = "Minimap Focus" })
+  vim.keymap.set("n", "<Leader>mo", minimap.open, { desc = "Minimap Open" })
+  vim.keymap.set("n", "<Leader>mr", minimap.refresh, { desc = "Minimap Refresh" })
+  vim.keymap.set("n", "<Leader>ms", minimap.toggle_side, { desc = "Minimap Swap Side" })
+  vim.keymap.set("n", "<Leader>mt", minimap.toggle, { desc = "Minimap Toggle" })
+  vim.keymap.set("n", "<F5>", minimap.toggle, { desc = "Minimap Toggle" })
   vim.keymap.set('n', [[\h]], ':let v:hlsearch = 1 - v:hlsearch<CR>', { desc = 'Toggle hlsearch' })
   for _, key in ipairs({ 'n', 'N', '*' }) do
     vim.keymap.set('n', key, key .. 'zv<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>')
@@ -804,10 +807,11 @@ end)
 
 -- [[ Misc ]] ----------------------------------------------------------------
 now(function()
-  require('mini.misc').setup({ make_global = { 'put', 'put_text', 'stat_summary', 'bench_time' } })
-  MiniMisc.setup_auto_root({ '.git', 'Makefile', ".forceignore", "sfdx-project.json" },
+  local minimisc = require("mini.misc")
+  minimisc.setup({ make_global = { 'put', 'put_text', 'stat_summary', 'bench_time' } })
+  minimisc.setup_auto_root({ '.git', 'Makefile', ".forceignore", "sfdx-project.json" },
     function() vim.notify('Mini find_root failed.', vim.log.levels.WARN) end)
-  MiniMisc.setup_restore_cursor({
+  minimisc.setup_restore_cursor({
     ignore_filetype = { "gitcommit", "gitrebase", "SFTerm", "fzf" }
   })
 end)
@@ -817,6 +821,7 @@ later(function() require("mini.move").setup() end)
 
 -- [[ Notify ]] --------------------------------------------------------------
 now(function()
+  local mininotify=require("mini.notify")
   local filterout_lua_diagnosing = function(notif_arr)
     local not_diagnosing = function(notif)
       return not vim.startswith(notif.msg, "lua_ls: Diagnosing")
@@ -824,7 +829,7 @@ now(function()
     notif_arr = vim.tbl_filter(not_diagnosing, notif_arr)
     return MiniNotify.default_sort(notif_arr)
   end
-  require("mini.notify").setup({
+  mininotify.setup({
     content = { sort = filterout_lua_diagnosing },
     window = { config = { row = 2, border = "rounded" } },
   })
@@ -861,6 +866,8 @@ end)
 
 -- [[ Configure Mini.pick ]] -------------------------------------------------
 later(function()
+  local minipick = require("mini.pick")
+  local miniextra = require("mini.extra")
   local win_config = function()
     height = math.floor(0.618 * vim.o.lines)
     width = math.floor(0.618 * vim.o.columns)
@@ -873,7 +880,7 @@ later(function()
       col = math.floor(0.5 * (vim.o.columns - width)),
     }
   end
-  require('mini.pick').setup({
+  minipick.setup({
     mappings = {
       choose_in_vsplit = '<C-CR>',
     },
@@ -885,17 +892,17 @@ later(function()
     }
   })
 
-  vim.ui.select = MiniPick.ui_select
+  vim.ui.select = minipick.ui_select
 
-  vim.keymap.set("n", "<leader><space>", MiniPick.builtin.buffers, { desc = "Find existing buffers" })
+  vim.keymap.set("n", "<leader><space>", minipick.builtin.buffers, { desc = "Find existing buffers" })
 
-  vim.keymap.set("n", "<leader>ff", MiniPick.builtin.files, { desc = "Find Files" })
-  vim.keymap.set("n", "<leader>fh", MiniPick.builtin.help, { desc = "Find Help" })
-  vim.keymap.set("n", "<leader>fg", MiniPick.builtin.grep_live, { desc = "Find by Grep" })
+  vim.keymap.set("n", "<leader>ff", minipick.builtin.files, { desc = "Find Files" })
+  vim.keymap.set("n", "<leader>fh", minipick.builtin.help, { desc = "Find Help" })
+  vim.keymap.set("n", "<leader>fg", minipick.builtin.grep_live, { desc = "Find by Grep" })
   --vim.keymap.set("n", "<leader>fr", MiniPick.builtin.resume, { desc = "Resume" })
-  vim.keymap.set("n", "<leader>fe", MiniExtra.pickers.explorer, { desc = "Explorer" })
-  vim.keymap.set("n", "<leader>fk", MiniExtra.pickers.keymaps, { desc = "Keymaps" })
-  vim.keymap.set("n", "<leader>fr", MiniExtra.pickers.oldfiles, { desc = "Find Recent Files" })
+  vim.keymap.set("n", "<leader>fe", miniextra.pickers.explorer, { desc = "Explorer" })
+  vim.keymap.set("n", "<leader>fk", miniextra.pickers.keymaps, { desc = "Keymaps" })
+  vim.keymap.set("n", "<leader>fr", miniextra.pickers.oldfiles, { desc = "Find Recent Files" })
   vim.keymap.set("n", "<leader>f/", [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
   vim.keymap.set("n", "<leader>f:", [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
   vim.keymap.set("n", "<leader>fa", [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = "Added hunks (all)" })
@@ -935,7 +942,7 @@ later(function()
     group = vim.api.nvim_create_augroup("minipick-pre-hooks", { clear = true }),
     desc = "Invoke pre_hook for specific picker based on source.name.",
     callback = function(...)
-      local opts = MiniPick.get_picker_opts() or {}
+      local opts = minipick.get_picker_opts() or {}
       local pre_hook = hooks.pre_hooks[opts.source.name] or function(...) end
       pre_hook(...)
     end,
@@ -946,7 +953,7 @@ later(function()
     group = vim.api.nvim_create_augroup("minipick-post-hooks", { clear = true }),
     desc = "Invoke post_hook for specific picker based on source.name.",
     callback = function(...)
-      local opts = MiniPick.get_picker_opts() or {}
+      local opts = minipick.get_picker_opts() or {}
       local post_hook = hooks.post_hooks[opts.source.name] or function(...) end
       post_hook(...)
     end,
@@ -965,9 +972,9 @@ later(function()
     vim.cmd("colorscheme " .. selected_colorscheme)
   end
 
-  MiniPick.registry.colorschemes = function()
+  minipick.registry.colorschemes = function()
     local colorschemes = vim.fn.getcompletion("", "color")
-    return MiniPick.start({
+    return minipick.start({
       source = {
         name = "colorschemes",
         items = colorschemes,
@@ -985,7 +992,8 @@ end)
 
 -- [[ Session ]] -------------------------------------------------------------
 now(function()
-  require('mini.sessions').setup({ autowrite = true })
+  local minisessions=require("mini.sessions")
+  minisessions.setup({ autowrite = true })
   --- Wrapper around mini.sessions functions. Returns a function that
   --- behaves differently based on the given scope.
   ---
@@ -994,9 +1002,9 @@ now(function()
   local function session(scope)
     return function()
       if scope == "local" then
-        MiniSessions.write("Session.vim")
+        minisessions.write("Session.vim")
       else
-        MiniSessions.select(scope)
+        minisessions.select(scope)
       end
     end
   end
@@ -1102,27 +1110,28 @@ now(function()
 
     return " " .. table.concat(lsp_names_list, ",")
   end
-
-  require("mini.statusline").setup({
+  
+  local ministatusline=require("mini.statusline")
+  ministatusline.setup({
     content = {
       active = function()
         -- stylua: ignore start
-        local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-        local spell         = vim.wo.spell and (MiniStatusline.is_truncated(120) and 'S' or 'SPELL') or ''
-        local wrap          = vim.wo.wrap and (MiniStatusline.is_truncated(120) and 'W' or 'WRAP') or ''
-        local git           = MiniStatusline.section_git({ trunc_width = 40 })
-        local diff          = MiniStatusline.section_diff({ trunc_width = 75, icon = "" })
+        local mode, mode_hl = ministatusline.section_mode({ trunc_width = 120 })
+        local spell         = vim.wo.spell and (ministatusline.is_truncated(120) and 'S' or 'SPELL') or ''
+        local wrap          = vim.wo.wrap and (ministatusline.is_truncated(120) and 'W' or 'WRAP') or ''
+        local git           = ministatusline.section_git({ trunc_width = 40 })
+        local diff          = ministatusline.section_diff({ trunc_width = 75, icon = "" })
         -- local diff          = vim.b.minidiff_summary_string or ''
         -- local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
-        local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75, icon = "" })
-        local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+        local diagnostics   = ministatusline.section_diagnostics({ trunc_width = 75, icon = "" })
+        local filename      = ministatusline.section_filename({ trunc_width = 140 })
         if filename:sub(1, 2) == "%F" or filename:sub(1, 2) == "%f" then
           filename = filename:sub(1, 2) .. " " .. filename:sub(3, -1)
         end
-        local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
-        local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
+        local fileinfo      = ministatusline.section_fileinfo({ trunc_width = 120 })
+        local searchcount   = ministatusline.section_searchcount({ trunc_width = 75 })
         --local navic         = require 'nvim-navic'.get_location()
-        local location      = MiniStatusline.section_location({ trunc_width = 75 })
+        local location      = ministatusline.section_location({ trunc_width = 75 })
         local location2     = "%7(%l/%3L%):%-2c %P"
         local spaces        = function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
@@ -1135,7 +1144,7 @@ now(function()
         local hints_enabled = isLspHintsActive()
         local git_and_diff  = string.format("%s %s", git, diff and diff:sub(2) or "")
 
-        return MiniStatusline.combine_groups({
+        return ministatusline.combine_groups({
           { hl = mode_hl,                 strings = { mode } },
           { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
           '%<',
@@ -1167,10 +1176,12 @@ vim.keymap.set({ 'n', 'x' }, 'S', '<Nop>')
 now(function() require("mini.tabline").setup() end)
 
 -- [[ Trailspace ]] ----------------------------------------------------------
-now(function() require("mini.trailspace").setup() end)
-map('n', '<leader>ts', MiniTrailspace.trim, 'trim space')
-map('n', '<leader>te', MiniTrailspace.trim_last_lines, 'trim end-line')
-
+now(function() 
+  local minitrailspace=require("mini.trailspace")
+  minitrailspace.setup()
+map('n', '<leader>ts', minitrailspace.trim, 'trim space')
+map('n', '<leader>te', minitrailspace.trim_last_lines, 'trim end-line')
+end)
 
 -- [[ Visits ]] --------------------------------------------------------------
 later(function() require("mini.visits").setup() end)
@@ -1410,7 +1421,7 @@ now(function()
     nmap("<leader>lR", "<cmd>:Pick lsp scope='references'<cr>", "References")
     nmap("<leader>lI", "<cmd>:Pick lsp scope='implementation'<cr>", "[G]oto [I]mplementation")
     nmap("<leader>lt", "<cmd>:Pick lsp scope='type_definition'<cr>", "Type Definition")
-    --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "[D]ocument [S]ymbols")
+    --nmap("<leader>ds", "<cmd>:Pick lsp scope='document_symbol'<cr>", "Document Symbols")
     nmap('<leader>la', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], 'Arguments popup')
     nmap('<leader>ld', [[<Cmd>lua vim.diagnostic.open_float()<CR>]], 'Diagnostics popup')
     --    nmap('<leader>lf', [[<Cmd>:Format<cr>]], 'Format')
