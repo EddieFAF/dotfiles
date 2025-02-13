@@ -399,93 +399,93 @@ later(function()
   -- end, "[F]ormat Buffer")
 end)
 
-later(function()
-  add({
-    source = "ibhagwan/fzf-lua",
-    --    depends = { "nvim-tree/nvim-web-devicons" }
-  })
-  -- stylua: ignore
-  --    keys = {
-  map('n', '<leader>/c', function() require('fzf-lua').commands() end, 'Search commands')
-  map("n", "<leader>/C", function()
-    require("fzf-lua").command_history()
-  end, "Search command history")
-  map("n", "<leader>/b", function()
-    require("fzf-lua").buffers()
-  end, "Find buffers")
-  map("n", "<leader>/f", function()
-    require("fzf-lua").files()
-  end, "Find files")
-  map("n", "<leader>/o", function()
-    require("fzf-lua").oldfiles()
-  end, "Find recent files")
-  map("n", "<leader>/h", function()
-    require("fzf-lua").highlights()
-  end, "Search highlights")
-  map("n", "<leader>/M", function()
-    require("fzf-lua").marks()
-  end, "Search marks")
-  map("n", "<leader>/k", function()
-    require("fzf-lua").keymaps()
-  end, "Search keymaps")
-  map("n", "<leader>gf", function()
-    require("fzf-lua").git_files()
-  end, "Find git files")
-  map("n", "<leader>gb", function()
-    require("fzf-lua").git_branches()
-  end, "Search git branches")
-  map("n", "<leader>gc", function()
-    require("fzf-lua").git_commits()
-  end, "Search git commits")
-  map("n", "<leader>gC", function()
-    require("fzf-lua").git_bcommits()
-  end, "Search git buffer commits")
-  map("n", "<leader>//", function()
-    require("fzf-lua").resume()
-  end, "Resume FZF")
-  --    },
-  local fzf = require("fzf-lua")
-  local actions = require("fzf-lua.actions")
-  fzf.setup({
-    keymap = {
-      builtin = {
-        ["<C-/>"] = "toggle-help",
-        ["<C-a>"] = "toggle-fullscreen",
-        ["<C-i>"] = "toggle-preview",
-        ["<C-f>"] = "preview-page-down",
-        ["<C-b>"] = "preview-page-up",
-      },
-      fzf = {
-        ["CTRL-Q"] = "select-all+accept",
-      },
-    },
-    fzf_colors = {
-      bg = { "bg", "Normal" },
-      gutter = { "bg", "Normal" },
-      info = { "fg", "Conditional" },
-      scrollbar = { "bg", "Normal" },
-      separator = { "fg", "Comment" },
-    },
-    winopts = {
-      height = 0.7,
-      width = 0.55,
-      preview = {
-        scrollbar = false,
-        layout = "vertical",
-        vertical = "up:40%",
-      },
-    },
-    files = {
-      winopts = {
-        preview = { hidden = "hidden" },
-      },
-      actions = {
-        ["ctrl-g"] = actions.toggle_ignore,
-      },
-    },
-  })
-  fzf.register_ui_select()
-end)
+-- later(function()
+--   add({
+--     source = "ibhagwan/fzf-lua",
+--     --    depends = { "nvim-tree/nvim-web-devicons" }
+--   })
+--   -- stylua: ignore
+--   --    keys = {
+--   map('n', '<leader>/c', function() require('fzf-lua').commands() end, 'Search commands')
+--   map("n", "<leader>/C", function()
+--     require("fzf-lua").command_history()
+--   end, "Search command history")
+--   map("n", "<leader>/b", function()
+--     require("fzf-lua").buffers()
+--   end, "Find buffers")
+--   map("n", "<leader>/f", function()
+--     require("fzf-lua").files()
+--   end, "Find files")
+--   map("n", "<leader>/o", function()
+--     require("fzf-lua").oldfiles()
+--   end, "Find recent files")
+--   map("n", "<leader>/h", function()
+--     require("fzf-lua").highlights()
+--   end, "Search highlights")
+--   map("n", "<leader>/M", function()
+--     require("fzf-lua").marks()
+--   end, "Search marks")
+--   map("n", "<leader>/k", function()
+--     require("fzf-lua").keymaps()
+--   end, "Search keymaps")
+--   map("n", "<leader>gf", function()
+--     require("fzf-lua").git_files()
+--   end, "Find git files")
+--   map("n", "<leader>gb", function()
+--     require("fzf-lua").git_branches()
+--   end, "Search git branches")
+--   map("n", "<leader>gc", function()
+--     require("fzf-lua").git_commits()
+--   end, "Search git commits")
+--   map("n", "<leader>gC", function()
+--     require("fzf-lua").git_bcommits()
+--   end, "Search git buffer commits")
+--   map("n", "<leader>//", function()
+--     require("fzf-lua").resume()
+--   end, "Resume FZF")
+--   --    },
+--   local fzf = require("fzf-lua")
+--   local actions = require("fzf-lua.actions")
+--   fzf.setup({
+--     keymap = {
+--       builtin = {
+--         ["<C-/>"] = "toggle-help",
+--         ["<C-a>"] = "toggle-fullscreen",
+--         ["<C-i>"] = "toggle-preview",
+--         ["<C-f>"] = "preview-page-down",
+--         ["<C-b>"] = "preview-page-up",
+--       },
+--       fzf = {
+--         ["CTRL-Q"] = "select-all+accept",
+--       },
+--     },
+--     fzf_colors = {
+--       bg = { "bg", "Normal" },
+--       gutter = { "bg", "Normal" },
+--       info = { "fg", "Conditional" },
+--       scrollbar = { "bg", "Normal" },
+--       separator = { "fg", "Comment" },
+--     },
+--     winopts = {
+--       height = 0.7,
+--       width = 0.55,
+--       preview = {
+--         scrollbar = false,
+--         layout = "vertical",
+--         vertical = "up:40%",
+--       },
+--     },
+--     files = {
+--       winopts = {
+--         preview = { hidden = "hidden" },
+--       },
+--       actions = {
+--         ["ctrl-g"] = actions.toggle_ignore,
+--       },
+--     },
+--   })
+--   fzf.register_ui_select()
+-- end)
 ------------------------------------------------------------------------------
 -- Configuration of all parts of mini.nvim                                  --
 ------------------------------------------------------------------------------
@@ -626,7 +626,7 @@ miniclue.setup({
 
     { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
     { mode = "n", keys = "<Leader>c", desc = "+Code" },
-    { mode = "n", keys = "<Leader>d", desc = "+Document" },
+    -- { mode = "n", keys = "<Leader>d", desc = "+Document" },
     { mode = "n", keys = "<Leader>e", desc = "+Explorer" },
     { mode = "n", keys = "<Leader>f", desc = "+Find" },
     { mode = "n", keys = "<Leader>g", desc = "+Git" },
@@ -637,7 +637,7 @@ miniclue.setup({
     { mode = "n", keys = "<Leader>u", desc = "+UI" },
     { mode = "n", keys = "<Leader>v", desc = "+Workspace" },
     { mode = "n", keys = "<Leader>w", desc = "+Windows" },
-    { mode = "n", keys = "<Leader>/", desc = "+FZF" },
+    -- { mode = "n", keys = "<Leader>/", desc = "+FZF" },
   },
   window = {
     config = {
@@ -998,7 +998,15 @@ later(function()
   })
 
   vim.ui.select = minipick.ui_select
-
+      MiniPick.registry.buffers = function(local_opts)
+            local wipeout_buffer = function()
+              MiniBufremove.delete(MiniPick.get_picker_matches().current.bufnr, false)
+            end
+            MiniPick.builtin.buffers(local_opts, { mappings = { wipeout = { char = '<C-d>', func = wipeout_buffer } } })
+          end
+  vim.keymap.set('n', '<leader>fb', function()
+        MiniPick.registry.buffers { include_current = false }
+      end, { desc = 'Find Buffers' })
   vim.keymap.set("n", "<leader><space>", minipick.builtin.buffers, { desc = "Find existing buffers" })
 
   vim.keymap.set("n", "<leader>ff", minipick.builtin.files, { desc = "Find Files" })
@@ -1010,31 +1018,26 @@ later(function()
   vim.keymap.set("n", "<leader>fr", miniextra.pickers.oldfiles, { desc = "Find Recent Files" })
   vim.keymap.set("n", "<leader>f/", [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
   vim.keymap.set("n", "<leader>f:", [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
-  vim.keymap.set("n", "<leader>fa", [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = "Added hunks (all)" })
-  vim.keymap.set(
-    "n",
-    "<leader>fA",
-    [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
-    { desc = "Added hunks (current)" }
-  )
-  vim.keymap.set("n", "<leader>fb", [[<Cmd>Pick buffers<CR>]], { desc = "Buffers" })
-  vim.keymap.set("n", "<leader>fC", [[<Cmd>Pick git_commits<CR>]], { desc = "Commits (all)" })
-  vim.keymap.set("n", "<leader>fc", [[<Cmd>Pick git_commits path='%'<CR>]], { desc = "Commits (current)" })
+  vim.keymap.set('n', '<leader>gg', function()
+        MiniExtra.pickers.git_files()
+      end, { desc = 'Search Git files' })
+  vim.keymap.set("n", "<leader>ga", [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = "Added hunks (all)" })
+  vim.keymap.set("n", "<leader>gA", [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = "Added hunks (current)" })
+  -- vim.keymap.set("n", "<leader>fb", [[<Cmd>Pick buffers<CR>]], { desc = "Buffers" })
+  vim.keymap.set("n", "<leader>gC", [[<Cmd>Pick git_commits<CR>]], { desc = "Commits (all)" })
+  vim.keymap.set("n", "<leader>gc", [[<Cmd>Pick git_commits path='%'<CR>]], { desc = "Commits (current)" })
   vim.keymap.set("n", "<leader>fD", [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = "Diagnostic workspace" })
   vim.keymap.set("n", "<leader>fd", [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = "Diagnostic buffer" })
-  vim.keymap.set("n", "<leader>fG", [[<Cmd>Pick grep pattern='<cword>'<CR>]], { desc = "Grep current word" })
+  vim.keymap.set('n', '<leader>fG', function()
+        MiniPick.builtin.grep { pattern = vim.fn.expand '<cword>' }
+      end, { desc = 'Grep Current Word' })
   vim.keymap.set("n", "<leader>fH", [[<Cmd>Pick hl_groups<CR>]], { desc = "Highlight groups" })
   vim.keymap.set("n", "<leader>fL", [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = "Lines (all)" })
   vim.keymap.set("n", "<leader>fl", [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = "Lines (current)" })
-  vim.keymap.set("n", "<leader>fM", [[<Cmd>Pick git_hunks<CR>]], { desc = "Modified hunks (all)" })
-  vim.keymap.set("n", "<leader>fm", [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = "Modified hunks (current)" })
+  vim.keymap.set("n", "<leader>gM", [[<Cmd>Pick git_hunks<CR>]], { desc = "Modified hunks (all)" })
+  vim.keymap.set("n", "<leader>gm", [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = "Modified hunks (current)" })
   vim.keymap.set("n", "<leader>fR", [[<Cmd>Pick lsp scope='references'<CR>]], { desc = "References (LSP)" })
-  vim.keymap.set(
-    "n",
-    "<leader>fS",
-    [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]],
-    { desc = "Symbols workspace (LSP)" }
-  )
+  vim.keymap.set("n", "<leader>fS", [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = "Symbols workspace (LSP)" })
   vim.keymap.set("n", "<leader>fs", [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = "Symbols buffer (LSP)" })
   vim.keymap.set("n", "<leader>fV", [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = "Visit paths (all)" })
   vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
@@ -1456,12 +1459,13 @@ vim.keymap.set("n", "<leader>lj", [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], {
 vim.keymap.set("n", "<leader>lk", [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], { desc = "Prev diagnostic" })
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 --vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
-vim.keymap.set("n", "<leader>ds", function()
-  require("fzf-lua").lsp_document_symbols()
-end, { desc = "Document Symbols" })
-vim.keymap.set("n", "<leader>dd", function()
-  require("fzf-lua").lsp_document_diagnostics()
-end, { desc = "Document Diagnostics" })
+-- vim.keymap.set("n", "<leader>ds", function()
+--   require("fzf-lua").lsp_document_symbols()
+-- end, { desc = "Document Symbols" })
+-- vim.keymap.set("n", "<leader>dd", function()
+--   require("fzf-lua").lsp_document_diagnostics()
+-- end, { desc = "Document Diagnostics" })
+
 
 vim.diagnostic.config({ update_in_insert = true })
 
