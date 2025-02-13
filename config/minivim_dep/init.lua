@@ -226,15 +226,15 @@ now(function()
 
   vim.opt.relativenumber = false
   vim.o.cursorline = true
-  vim.o.autoindent = true -- Use auto indent
-  vim.o.expandtab = true -- Convert tabs to spaces
+  vim.o.autoindent = true        -- Use auto indent
+  vim.o.expandtab = true         -- Convert tabs to spaces
   vim.o.formatoptions = "rqnl1j" -- Improve comment editing
-  vim.o.ignorecase = true -- Ignore case when searching (use `\C` to force not doing that)
-  vim.o.incsearch = true -- Show search results while typing
-  vim.o.infercase = true -- Infer letter cases for a richer built-in keyword completion
-  vim.o.smartcase = true -- Don't ignore case when searching if pattern has upper case
-  vim.o.smartindent = true -- Make indenting smart
-  vim.o.virtualedit = "block" -- Allow going past the end of line in visual block mode
+  vim.o.ignorecase = true        -- Ignore case when searching (use `\C` to force not doing that)
+  vim.o.incsearch = true         -- Show search results while typing
+  vim.o.infercase = true         -- Infer letter cases for a richer built-in keyword completion
+  vim.o.smartcase = true         -- Don't ignore case when searching if pattern has upper case
+  vim.o.smartindent = true       -- Make indenting smart
+  vim.o.virtualedit = "block"    -- Allow going past the end of line in visual block mode
 
   vim.opt.cmdheight = 0
 
@@ -271,16 +271,14 @@ now(function()
   -- vim.o.foldmethod = "indent" -- Set 'indent' folding method
   vim.opt.foldmethod = "expr"
   vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-  vim.opt.foldlevel = 1 -- Display all folds except top ones
-  vim.opt.foldnestmax = 10 -- Create folds only for some number of nested levels
+  vim.opt.foldlevel = 1      -- Display all folds except top ones
+  vim.opt.foldnestmax = 10   -- Create folds only for some number of nested levels
   vim.g.markdown_folding = 1 -- Use folding by heading in markdown files
 
   if vim.fn.has("nvim-0.10") == 1 then
     vim.opt.foldtext = "" -- Use underlying text with its highlighting
   end
 end)
-
---vim.cmd('colorscheme randomhue')
 
 now(function()
   add({
@@ -305,6 +303,13 @@ later(function()
       menu = {
         border = "rounded",
       },
+      list = {
+        -- Controls how the completion items are selected
+        -- 'preselect' will automatically select the first item in the completion list
+        -- 'manual' will not select any item by default
+        -- 'auto_insert' will not select any item by default, and insert the completion items automatically when selecting them
+        selection = { preselect = false, auto_insert = true },
+      },
       documentation = {
         auto_show = true,
         window = {
@@ -312,6 +317,20 @@ later(function()
         },
       },
       ghost_text = { enabled = true },
+    },
+    keymap = {
+      preset = "default",
+      ["<C-c>"] = { "cancel" },
+      ["<C-y>"] = { "select_and_accept", "fallback" },
+      ["<Down>"] = { "select_next", "fallback" },
+      ["<Up>"] = { "select_prev", "fallback" },
+      ["<PageDown>"] = { "scroll_documentation_down" },
+      ["<PageUp>"] = { "scroll_documentation_up" },
+      ["<C-d>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-e>"] = { "hide", "fallback" },
+      ["<A-k>"] = { "select_prev", "fallback" },
+      ["<A-j>"] = { "select_next", "fallback" },
+      ["<Tab>"] = { "accept", "fallback" },
     },
     signature = {
       enabled = true,
@@ -337,7 +356,7 @@ later(function()
         emoji = {
           module = "blink-emoji",
           name = "Emoji",
-          score_offset = 15, -- Tune by preference
+          score_offset = 15,        -- Tune by preference
           opts = { insert = true }, -- Insert emoji (default) or complete its name
         },
         lazydev = {
@@ -351,16 +370,33 @@ later(function()
   })
 end)
 
-now(function()
+later(function()
   add({
     source = "stevearc/conform.nvim",
     checkout = "v8.3.0",
   })
+  local conform = require("conform")
+  conform.setup({
+    formatters_by_ft = {
+      css = { "biome" },
+      html = { "djlint" },
+      javascript = { "biome" },
+      json = { "biome" },
+      lua = { "stylua" },
+      markdown = { "prettier" },
+      python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
+      toml = { "taplo" },
+    },
+  })
+  vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+  vim.keymap.set("n", "<leader>F", function()
+    conform.format()
+  end, { desc = "conform format" })
 
-  -- Assign keymaps
-  map("n", "<leader>F", function()
-    require("conform").format({ async = true, lsp_format = "fallback" })
-  end, "[F]ormat Buffer")
+  -- -- Assign keymaps
+  -- map("n", "<leader>F", function()
+  --   require("conform").format({ async = true, lsp_format = "fallback" })
+  -- end, "[F]ormat Buffer")
 end)
 
 later(function()
@@ -680,6 +716,7 @@ later(function()
     -- }
   })
 end)
+vim.keymap.set("n", "<Leader>go", "<Cmd>lua MiniDiff.toggle_overlay()<CR>", { desc = "toggle overlay" })
 
 -- [[ Mini.Extras ]] ---------------------------------------------------------
 later(function()
@@ -738,7 +775,6 @@ later(function()
 end)
 local rhs = "<Cmd>lua MiniGit.show_at_cursor()<CR>"
 vim.keymap.set({ "n", "x" }, "<Leader>gs", rhs, { desc = "Show at cursor" })
-vim.keymap.set("n", "<Leader>go", "<Cmd>lua MiniDiff.toggle_overlay()<CR>", { desc = "toggle overlay" })
 
 -- [[ HiPatterns ]] ----------------------------------------------------------
 later(function()
@@ -796,13 +832,13 @@ later(function()
   })
   vim.keymap.set(
     "n",
-    "gl",
+    "sl",
     "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.line_start)<cr>",
     { desc = "Jump2d Line Start" }
   )
   vim.keymap.set(
     "n",
-    "gz",
+    "sw",
     "<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.word_start)<cr>",
     { desc = "Jump2d Word Start" }
   )
@@ -813,10 +849,20 @@ later(function()
   end, { desc = "Jump2d Quote" })
   vim.keymap.set(
     { "o", "x", "n" },
-    "<Cr>",
+    "ss",
     "<Cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<CR>",
     { desc = "Jump anywhere" }
   )
+  vim.keymap.set("n", "sp", function()
+    ---@diagnostic disable-next-line: undefined-global
+    minijump2d.start({
+      ---@diagnostic disable-next-line: undefined-global
+      spotter = minijump2d.gen_pattern_spotter("%p+"),
+      allowed_lines = { cursor_before = false, cursor_after = false },
+      allowed_windows = { not_current = false },
+      hl_group = "Search",
+    })
+  end, { desc = "Search" })
 end)
 
 -- [[ Jump ]] --------------------------------------------------------------
@@ -886,7 +932,7 @@ now(function()
       return not vim.startswith(notif.msg, "lua_ls: Diagnosing")
     end
     notif_arr = vim.tbl_filter(not_diagnosing, notif_arr)
-    return MiniNotify.default_sort(notif_arr)
+    return mininotify.default_sort(notif_arr)
   end
   mininotify.setup({
     content = { sort = filterout_lua_diagnosing },
@@ -994,7 +1040,7 @@ later(function()
   vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
 
   pattern =
-    "MiniPickStop", vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
+      "MiniPickStop", vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
 
   -- Picker pre- and post-hooks ===============================================
 
@@ -1104,7 +1150,7 @@ now(function()
       require("mini.starter").sections.pick(),
       require("mini.starter").sections.recent_files(5, false),
       require("mini.starter").sections.sessions(5, true),
-      { action = "Mason", name = "Mason", section = "Plugin Actions" },
+      { action = "Mason",      name = "Mason",       section = "Plugin Actions" },
       { action = "DepsUpdate", name = "Update deps", section = "Plugin Actions" },
     },
   })
@@ -1189,7 +1235,7 @@ now(function()
         local git           = ministatusline.section_git({ trunc_width = 40 })
         local diff          = ministatusline.section_diff({ trunc_width = 75, icon = "" })
         -- local diff          = vim.b.minidiff_summary_string or ''
-        -- local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
+        local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
         local diagnostics   = ministatusline.section_diagnostics({ trunc_width = 75, icon = "" })
         local filename      = ministatusline.section_filename({ trunc_width = 140 })
         if filename:sub(1, 2) == "%F" or filename:sub(1, 2) == "%f" then
@@ -1204,7 +1250,7 @@ now(function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
           return "SPC:" .. shiftwidth
         end
-        local lsp           = get_lsp_names()
+        --        local lsp           = get_lsp_names()
         local recording     = isRecording()
         --        local wrapped       = isWrapped()
         --        local spell         = spellOn()
@@ -1213,7 +1259,7 @@ now(function()
 
         return ministatusline.combine_groups({
           { hl = mode_hl,                 strings = { mode } },
-          { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
+          { hl = 'MiniStatuslineDevinfo', strings = { git_and_diff, diagnostics, lsp } },
           '%<',
           { hl = 'MiniStatuslineFilename',                      strings = { filename } },
           -- { hl = 'MiniStatuslineFilename', strings = { navic } },
@@ -1255,6 +1301,8 @@ end)
 later(function()
   require("mini.visits").setup()
 end)
+map("n", "-", "<cmd>lua MiniVisits.add_label()<cr>", "Add label")
+map("n", "<leader>-", "<cmd>lua MiniVisits.remove_label()<cr>", "Remove label")
 
 ------------------------------------------------------------------------------
 -- [[ END OF MINI CONFIG ]] --------------------------------------------------
@@ -1306,7 +1354,8 @@ now(function()
     },
   })
 end)
-vim.cmd.colorscheme("catppuccin-macchiato")
+-- vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("randomhue")
 
 -- [[ Configure Treesitter ]] ------------------------------------------------
 later(function()
