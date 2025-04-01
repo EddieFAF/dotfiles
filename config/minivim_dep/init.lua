@@ -1252,7 +1252,7 @@ now(function()
         local location2     = "%7(%l/%3L%):%-2c %P"
         local spaces        = function()
           local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
-          return "SPC:" .. shiftwidth
+          return "S:" .. shiftwidth
         end
         --        local lsp           = get_lsp_names()
         local recording     = isRecording()
@@ -1358,8 +1358,8 @@ now(function()
     },
   })
 end)
--- vim.cmd.colorscheme("catppuccin-macchiato")
-vim.cmd.colorscheme("randomhue")
+
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 -- [[ Configure Treesitter ]] ------------------------------------------------
 later(function()
