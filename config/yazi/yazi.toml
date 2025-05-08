@@ -1,5 +1,5 @@
 [manager]
 show_hidden = true
-ratio = [1,4,3]
-linemode = "custom"
+ratio = [1,2,5]
+linemode = "file_info"
 

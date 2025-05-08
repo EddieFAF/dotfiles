@@ -46,8 +46,9 @@ map zp toggle_preview
 
 # set terminal title to current working directory
 cmd on-cd &{{
-  printf "\033]0; $PWD\007" > /dev/tty
+  printf '\033]0;%s\007' "$PWD"
 }}
+on-cd
 
 cmd open ${{
     case $(file --mime-type "$(readlink -f $f)" -b) in
@@ -207,7 +208,7 @@ cmd YankClipboard &{{
 }}
 map ,y YankClipboard
 
-# Select the file path currentlyn the clipboard
+# Select the file path currently in the clipboard
 cmd GoClipboard &{{
     file=`xsel --clipboard`
     lf -remote "send $id select \"$file\""
