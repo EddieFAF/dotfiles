@@ -74,7 +74,7 @@ style_a = {
     },
     right = {
       section_a = {
-        {type = "string", custom = false, name = "date", params = {"%A, %d %B %Y"}},
+        {type = "string", custom = false, name = "date", params = {"%A, %d. %B %Y"}},
       },
       section_b = {
         {type = "string", custom = false, name = "date", params = {"%X"}},
@@ -94,6 +94,7 @@ style_a = {
       },
       section_c = {
         {type = "string", custom = false, name = "hovered_path"},
+        {type = "coloreds", custom = false, name = "githead"},
         {type = "coloreds", custom = false, name = "count"},
       }
     },
@@ -111,3 +112,5 @@ style_a = {
     }
   },
 })
+
+require("yatline-githead"):setup()

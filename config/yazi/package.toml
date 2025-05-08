@@ -19,11 +19,6 @@ rev = "864a021"
 hash = "f3853bbdd1da2fad09d059ab5464abfd"
 
 [[plugin.deps]]
-use = "llanosrocas/yaziline"
-rev = "1342efe"
-hash = "a84a339953a568fee1d8beb63e6dca73"
-
-[[plugin.deps]]
 use = "yazi-rs/plugins:smart-enter"
 rev = "864a021"
 hash = "7918aab6a71caf31b58411f789195677"
@@ -32,6 +27,11 @@ hash = "7918aab6a71caf31b58411f789195677"
 use = "imsi32/yatline"
 rev = "2ecf715"
 hash = "38e2ea4703ea606d4eef574e8e8b8fd7"
+
+[[plugin.deps]]
+use = "imsi32/yatline-githead"
+rev = "3b0eb7c"
+hash = "bfd30c396bbe2af526cb949d97ce3dcf"
 
 [flavor]
 deps = []
