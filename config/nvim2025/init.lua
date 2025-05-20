@@ -179,6 +179,13 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
+-- Show errors and warnings in a floating window
+vim.api.nvim_create_autocmd('CursorHold', {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false, source = 'if_many' })
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'

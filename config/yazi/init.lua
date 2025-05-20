@@ -20,8 +20,10 @@ end
 --require("full-border"):setup()
 
 require("yatline"):setup({
---theme = my_theme,
-section_separator = { open = "", close = "" },
+  theme = require("yatline-catppuccin"):setup("macchiato"),
+  --theme = my_theme,
+
+  section_separator = { open = "", close = "" },
 part_separator = { open = "", close = "" },
 inverse_separator = { open = "", close = "" },
 
@@ -80,6 +82,7 @@ style_a = {
         {type = "string", custom = false, name = "date", params = {"%X"}},
       },
       section_c = {
+        {type = "coloreds", custom = false, name = "githead"},
       }
     }
   },
@@ -94,7 +97,6 @@ style_a = {
       },
       section_c = {
         {type = "string", custom = false, name = "hovered_path"},
-        {type = "coloreds", custom = false, name = "githead"},
         {type = "coloreds", custom = false, name = "count"},
       }
     },
@@ -113,5 +115,10 @@ style_a = {
     }
   },
 })
+require("yatline-githead"):setup({
+    theme = require("yatline-catppuccin"):setup("macchiato"),
 
-require("yatline-githead"):setup()
+    branch_prefix = "",
+    branch_borders = "[]",
+})
+
