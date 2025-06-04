@@ -168,18 +168,15 @@ end
 --   end,
 -- })
 
-vim.api.nvim_create_autocmd(
-    "BufEnter",
-    {
-        pattern = "*.asm,*.s",
-        callback = function()
-            if vim.fn.search("{{.\\+}}", "nw") ~= 0 then
-                local buf = vim.api.nvim_get_current_buf()
-                vim.api.nvim_buf_set_option(buf, "filetype", "kickass")
-            end
-        end
-    }
-)
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*.asm,*.s',
+  callback = function()
+    if vim.fn.search('{{.\\+}}', 'nw') ~= 0 then
+      local buf = vim.api.nvim_get_current_buf()
+      vim.api.nvim_buf_set_option(buf, 'filetype', 'kickass')
+    end
+  end,
+})
 
 vim.api.nvim_create_autocmd('BufReadPost', {
   group = augroup 'last_loc',
@@ -271,7 +268,7 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
-      preset = 'modern',
+      preset = 'classic',
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.opt.timeoutlen
       delay = 500,
