@@ -82,7 +82,6 @@ style_a = {
         {type = "string", custom = false, name = "date", params = {"%X"}},
       },
       section_c = {
-        {type = "coloreds", custom = false, name = "githead"},
       }
     }
   },
