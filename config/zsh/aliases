@@ -1,5 +1,5 @@
 
-
+alias exa=eza
 # Aliases for EXA
 # general use
 alias ls='exa -alg --icons --color=always --group-directories-first'  # ls
@@ -8,41 +8,14 @@ alias l='exa -lbF --git'                       # list, size, type, git
 alias ll='exa -lbGF --git'                     # long list
 alias llm='exa -lbGF --git --sort=modified'    # long list, modified date sort
 alias la='exa -a --color=always --group-directories-first --time-style=long-iso --git --color-scale'  # all list
-alias las='find . -maxdepth 1 -type l -printf "%p -> %l\n" | sort'
 alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
 
 # speciality views
 alias lS='exa -1'                              # one column, just names
 alias lt='exa --tree --level=2' # tree
 
-alias zshedit="$EDITOR ~/.config/zsh/.zshrc"
-alias aliasedit="$EDITOR ~/.config/zsh/aliases"
-
-alias calibre-update="sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin"
-
-# Interactive/verbose commands.
-alias mv='mv -i'
-for c in cp rm chmod chown rename; do
-  alias $c="$c -v"
-done
-
-alias v='nvim'
-alias vfm=vifmrun
-alias em="emacsclient -c -a 'emacs'"
-#alias lf=lf-uberzug
-alias lf=lfrun
-alias ra='ranger'
-alias racd=ranger-cd
-alias lg="lazygit"
-alias disks='echo "╓───── m o u n t . p o i n t s"; echo "╙────────────────────────────────────── ─ ─ "; lsblk -a; echo ""; echo "╓───── d i s k . u s a g e";echo "╙────────────────────────────────────── ─ ─ "; df -h;echo "╓───── s w a p s "; echo "╙────────────────────────────────────── ─ ─ "; swapon --show'
-
-# fzf aliases
-# use fp to do a fzf search and preview the files
-alias fp="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
-# search for a file with fzf and open it in vim
-alias vf='v $(fp)'
-
-alias tt='taskwarrior-tui'
+alias zshedit='$EDITOR ~/.config/zsh/.zshrc'
+alias aliasedit='$EDITOR ~/.config/zsh/aliases'
 
 ### Set alias
 #############
@@ -54,9 +27,7 @@ alias ....='cd ../../..'
 #alias ll="ls -lisa --color=auto"
 alias home="cd ~"
 #alias df="df -ahiT --total"
-
-# Humanize disk space if possible
-alias df='df -H'
+alias df="df -H"
 alias mkdir="mkdir -pv"
 alias mkfile="touch"
 #alias rm="rm -rfi"
@@ -79,16 +50,20 @@ for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
 alias duck='du -cksh *(D) | sort -hr | head -n 15'
 
-#alias v='nvim'
+alias v='nvim'
 
-alias kick="java -jar /mnt/nasgard/download/coding/c64/tools/KickAssembler/KickAss.jar"
+alias kickass='java -jar /mnt/nasgard/download/coding/c64/tools/KickAssembler/KickAss.jar'
+alias boozify='docker run -it --rm -v "$(pwd)":/src jackasser/boozify'
 
-alias display='xrandr --output DisplayPort-0 --mode 1920x1200 --output DVI-1 --mode 1680x1050 --primary --right-of DisplayPort-0'
-
-alias batsign='curl https://batsign.me/at/eddie.faf@googlemail.com/cc06576fee'
+alias lg='lazygit'
 
 ### set common functions
 #############
+
+function my_ip() # Get IP adress.
+{
+   curl ifconfig.co
+}
 
 # Find a file with a pattern in name:
 function ff()
@@ -123,3 +98,73 @@ mcd () {
     cd $1
 }
 
+# support Compose v2 as docker CLI plugin
+#(( ${+commands[docker-compose]} )) && dccmd='docker-compose' || dccmd='docker compose'
+dccmd='docker compose'
+alias dco="$dccmd"
+alias dcb="$dccmd build"
+alias dce="$dccmd exec"
+alias dcps="$dccmd ps"
+alias dcrestart="$dccmd restart"
+alias dcrm="$dccmd rm"
+alias dcr="$dccmd run"
+alias dcstop="$dccmd stop"
+alias dcup="$dccmd up"
+alias dcupb="$dccmd up --build"
+alias dcupd="$dccmd up -d"
+alias dcupdb="$dccmd up -d --build"
+alias dcdn="$dccmd down"
+alias dcl="$dccmd logs"
+alias dclf="$dccmd logs -f"
+alias dclF="$dccmd logs -f --tail 0"
+alias dcpull="$dccmd pull"
+alias dcstart="$dccmd start"
+alias dck="$dccmd kill"
+alias dlogs="docker logs"
+
+unset dccmd
+
+# Select a docker container to start and attach to
+function da() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
+}
+
+# Select a running docker container to stop
+function ds() {
+  local cid
+  cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker stop "$cid"
+}
+
+# Select a docker container to remove
+function drm() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker rm "$cid"
+}
+
+# Same as above, but allows multi selection:
+# function drm() {
+#   docker ps -a | sed 1d | fzf -q "$1" --no-sort -m --tac | awk '{ print $1 }' | xargs -r docker rm
+# }
+
+# Select a docker image or images to remove
+function drmi() {
+  docker images | sed 1d | fzf -q "$1" --no-sort -m --tac | awk '{ print $3 }' | xargs -r docker rmi
+}
+
+#unalias z 2> /dev/null
+
+#function z() {
+#  [ $# -gt 0 ] && _z "$*" && return
+#  cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+#}
+
+
+
+#bindkey -s ^a "nvims\n"
