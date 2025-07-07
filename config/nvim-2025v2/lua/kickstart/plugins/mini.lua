@@ -120,8 +120,8 @@ return {
       -- [[ Trailspace ]] ----------------------------------------------------------
       local minitrailspace = require 'mini.trailspace'
       minitrailspace.setup()
-      vim.keymap('n', '<leader>ts', minitrailspace.trim, { desc = 'trim space' })
-      vim.keymap('n', '<leader>te', minitrailspace.trim_last_lines, { desc = 'trim end-line' })
+      vim.keymap.set('n', '<leader>ts', minitrailspace.trim, { desc = 'trim space' })
+      vim.keymap.set('n', '<leader>te', minitrailspace.trim_last_lines, { desc = 'trim end-line' })
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
