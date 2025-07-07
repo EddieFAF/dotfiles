@@ -182,7 +182,7 @@ export FZF_DEFAULT_OPTS="
 #export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER="**"
 
-source ~/.cache/zsh-shortcuts
+#source ~/.cache/zsh-shortcuts
 
 # Aliases
 source $ZDOTDIR/aliases
