@@ -1054,6 +1054,11 @@ require('lazy').setup({
         },
       }
 
+      require('mini.pick').setup {
+        window = {
+          prompt_prefix = '󰛿 ',
+        },
+      }
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
