@@ -116,6 +116,13 @@ return {
       vim.notify = require('mini.notify').make_notify()
 
       require('mini.tabline').setup()
+
+      -- [[ Trailspace ]] ----------------------------------------------------------
+      local minitrailspace = require 'mini.trailspace'
+      minitrailspace.setup()
+      vim.keymap('n', '<leader>ts', minitrailspace.trim, { desc = 'trim space' })
+      vim.keymap('n', '<leader>te', minitrailspace.trim_last_lines, { desc = 'trim end-line' })
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,

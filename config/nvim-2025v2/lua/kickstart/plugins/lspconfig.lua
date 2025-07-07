@@ -24,7 +24,7 @@ return {
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -189,6 +189,14 @@ return {
             }
             return diagnostic_message[diagnostic.severity]
           end,
+          severity = {
+            max = vim.diagnostic.severity.WARN,
+          },
+        },
+        virtual_lines = {
+          severity = {
+            min = vim.diagnostic.severity.ERROR,
+          },
         },
       }
 
