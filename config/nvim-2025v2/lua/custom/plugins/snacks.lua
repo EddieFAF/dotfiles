@@ -46,7 +46,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         only_current = true,
       },
       chunk = {
-        enabled = true,
+        enabled = false,
         only_current = true,
       },
     },
@@ -228,4 +228,5 @@ return { -- Fuzzy Finder (files, lsp, etc)
     })
   end,
 }
+
 -- vim: ts=2 sts=2 sw=2 et
