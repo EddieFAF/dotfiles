@@ -60,20 +60,37 @@ return {
       }
 
       -- Indentscope Plugin
-      require('mini.indentscope').setup {
-        draw = {
-          animation = function()
-            return 1
-          end,
-        },
-        symbol = '│',
-        --symbol = "▏",
-        options = {
-          try_as_border = true,
-          border = 'both',
-          indent_at_cursor = true,
-        },
+      -- require('mini.indentscope').setup {
+      --   draw = {
+      --     animation = function()
+      --       return 1
+      --     end,
+      --   },
+      --   symbol = '│',
+      --   --symbol = "▏",
+      --   options = {
+      --     try_as_border = true,
+      --     border = 'both',
+      --     indent_at_cursor = true,
+      --   },
+      -- }
+
+      require('mini.move').setup()
+
+      local mininotify = require 'mini.notify'
+      local filterout_lua_diagnosing = function(notif_arr)
+        local not_diagnosing = function(notif)
+          return not vim.startswith(notif.msg, 'lua_ls: Diagnosing')
+        end
+        notif_arr = vim.tbl_filter(not_diagnosing, notif_arr)
+        return mininotify.default_sort(notif_arr)
+      end
+      mininotify.setup {
+        content = { sort = filterout_lua_diagnosing },
+        window = { config = { row = 2, border = 'rounded' } },
       }
+
+      vim.notify = require('mini.notify').make_notify()
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
@@ -97,23 +114,6 @@ return {
         --return '%2l:%-2v'
         return '%7(%l/%3L%):%2c %P'
       end
-
-      require('mini.move').setup()
-
-      local mininotify = require 'mini.notify'
-      local filterout_lua_diagnosing = function(notif_arr)
-        local not_diagnosing = function(notif)
-          return not vim.startswith(notif.msg, 'lua_ls: Diagnosing')
-        end
-        notif_arr = vim.tbl_filter(not_diagnosing, notif_arr)
-        return mininotify.default_sort(notif_arr)
-      end
-      mininotify.setup {
-        content = { sort = filterout_lua_diagnosing },
-        window = { config = { row = 2, border = 'rounded' } },
-      }
-
-      vim.notify = require('mini.notify').make_notify()
 
       require('mini.tabline').setup()
 
