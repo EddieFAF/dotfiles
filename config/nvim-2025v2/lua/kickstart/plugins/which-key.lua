@@ -17,7 +17,7 @@ return {
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
-      preset = 'classic',
+      preset = 'helix',
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
       delay = 500,
@@ -65,6 +65,7 @@ return {
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>b', group = '[B]uffer' },
         { '<leader>t', group = '[T]oggle' },
+        { '<leader>u', group = '[U]i' },
         { 'gr', group = 'LSP' },
       },
     },

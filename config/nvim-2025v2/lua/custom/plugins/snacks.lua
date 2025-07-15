@@ -37,19 +37,19 @@ return { -- Fuzzy Finder (files, lsp, etc)
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
-    indent = {
-      animate = {
-        enabled = true,
-      },
-      scope = {
-        enabled = true,
-        only_current = true,
-      },
-      chunk = {
-        enabled = false,
-        only_current = true,
-      },
-    },
+    -- indent = {
+    --   animate = {
+    --     enabled = true,
+    --   },
+    --   scope = {
+    --     enabled = true,
+    --     only_current = true,
+    --   },
+    --   chunk = {
+    --     enabled = false,
+    --     only_current = true,
+    --   },
+    -- },
     picker = {
       sources = {
         explorer = {
@@ -184,13 +184,13 @@ return { -- Fuzzy Finder (files, lsp, etc)
       end,
       desc = '[S]earch [N]eovim files',
     },
-    {
-      '<leader>e',
-      function()
-        Snacks.picker.explorer()
-      end,
-      desc = '[E]xplorer',
-    },
+    -- {
+    --   '<leader>e',
+    --   function()
+    --     Snacks.picker.explorer()
+    --   end,
+    --   desc = '[E]xplorer',
+    -- },
     {
       '<leader>lg',
       function()
