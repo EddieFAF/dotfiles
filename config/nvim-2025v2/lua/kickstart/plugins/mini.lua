@@ -116,6 +116,7 @@ return {
           { mode = 'n', keys = '<Leader>h', desc = '+Git' },
           { mode = 'v', keys = '<Leader>h', desc = '+Git' },
           { mode = 'n', keys = '<Leader>t', desc = '+Toggle' },
+          { mode = 'n', keys = '<Leader>e', desc = '+Explorer' },
           { mode = 'n', keys = '<Leader>u', desc = '+UI' },
           -- { mode = "n", keys = "<Leader>/", desc = "+FZF" },
           { mode = 'n', keys = 'gr', desc = '+LSP' },
@@ -145,17 +146,67 @@ return {
           go_out_plus = 'h',
           reset = ',',
           show_help = '?',
+          synchronize = 'w',
         },
 
         -- Only automated preview is possible
         windows = {
-          preview = true,
+          --          preview = true,
           width_focus = 40,
           width_preview = 75,
           height_focus = 20,
           max_number = math.huge,
         },
       }
+      local show_dotfiles = true
+
+      local filter_show = function(fs_entry)
+        return true
+      end
+
+      local filter_hide = function(fs_entry)
+        return not vim.startswith(fs_entry.name, '.')
+      end
+
+      local gio_open = function()
+        local fs_entry = require('mini.files').get_fs_entry()
+        vim.notify(vim.inspect(fs_entry))
+        vim.fn.system(string.format("gio open '%s'", fs_entry.path))
+      end
+
+      local toggle_dotfiles = function()
+        show_dotfiles = not show_dotfiles
+        local new_filter = show_dotfiles and filter_show or filter_hide
+        require('mini.files').refresh { content = { filter = new_filter } }
+      end
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesBufferCreate',
+        callback = function(args)
+          local buf_id = args.data.buf_id
+          -- Tweak left-hand side of mapping to your liking
+          vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id })
+          vim.keymap.set('n', '-', require('mini.files').close, { buffer = buf_id })
+          vim.keymap.set('n', 'o', gio_open, { buffer = buf_id })
+        end,
+      })
+
+      -- Preview toggle
+      local show_preview = false
+
+      local toggle_preview = function()
+        show_preview = not show_preview
+        require('mini.files').refresh { windows = { preview = show_preview } }
+      end
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesBufferCreate',
+        callback = function(args)
+          local buf_id = args.data.buf_id
+          vim.keymap.set('n', '<M-p>', toggle_preview, { buffer = buf_id })
+        end,
+      })
+
       local minifiles_augroup = vim.api.nvim_create_augroup('ec-mini-files', {})
       vim.api.nvim_create_autocmd('User', {
         group = minifiles_augroup,
@@ -231,6 +282,35 @@ return {
       -- [[ Pairs ]] ----------------------------------------------------------
       require('mini.pairs').setup()
 
+      -- [[ Picker ]] ----------------------------------------------------------
+      -- local minipick = require 'mini.pick'
+      -- local miniextra = require 'mini.extra'
+      -- local win_config = function()
+      --   height = math.floor(0.618 * vim.o.lines)
+      --   width = math.floor(0.618 * vim.o.columns)
+      --   return {
+      --     anchor = 'NW',
+      --     height = height,
+      --     width = width,
+      --     border = 'rounded',
+      --     row = math.floor(0.5 * (vim.o.lines - height)),
+      --     col = math.floor(0.5 * (vim.o.columns - width)),
+      --   }
+      -- end
+      -- minipick.setup {
+      --   mappings = {
+      --     choose_in_vsplit = '<C-CR>',
+      --   },
+      --   options = {
+      --     use_cache = true,
+      --   },
+      --   window = {
+      --     config = win_config,
+      --   },
+      -- }
+      --
+      -- vim.ui.select = minipick.ui_select
+      --
       -- [[ Surround ]] ----------------------------------------------------------
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
@@ -238,6 +318,32 @@ return {
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+
+      -- [[ Starter ]] -------------------------------------------------------------
+      local logo = table.concat({
+        '     _____  .__       .______   ____.__             ',
+        '    /     \\ |__| ____ |__\\   \\ /   /|__| _____   ',
+        '   /  \\ /  \\|  |/    \\|  |\\   Y   / |  |/     \\  ',
+        '  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ',
+        '  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ',
+        '          \\/        \\/                       \\/  ',
+        '',
+        'Pwd: ' .. vim.fn.getcwd(),
+      }, '\n')
+      require('mini.starter').setup {
+        autoopen = true,
+        evaluate_single = true,
+        header = logo,
+        footer = 'config powered by kickstart.nvim and mini.nvim',
+        items = {
+          require('mini.starter').sections.recent_files(5, false),
+          -- require('mini.starter').sections.pick(),
+          require('mini.starter').sections.builtin_actions(),
+          -- require('mini.starter').sections.sessions(5, true),
+          -- { action = 'Mason', name = 'Mason', section = 'Plugin Actions' },
+          -- { action = 'DepsUpdate', name = 'Update deps', section = 'Plugin Actions' },
+        },
+      }
 
       -- [[ Statusline ]] ----------------------------------------------------------
       -- Simple and easy statusline.
