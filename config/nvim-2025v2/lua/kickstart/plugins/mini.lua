@@ -260,7 +260,16 @@ return {
         },
       }
 
-      -- [[ Move ]] ----------------------------------------------------------
+      -- [[ Jump2d ]] ----------------------------------------------------------
+      require('mini.jump2d').setup {
+        labels = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        view = {
+          dim = true,
+          n_steps_ahead = 2,
+        },
+      }
+
+      -- [[ Move ]] ------------------------------------------------------------
       require('mini.move').setup()
 
       -- [[ Notify ]] ----------------------------------------------------------
