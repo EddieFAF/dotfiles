@@ -226,15 +226,15 @@ now(function()
 
   vim.opt.relativenumber = false
   vim.o.cursorline = true
-  vim.o.autoindent = true        -- Use auto indent
-  vim.o.expandtab = true         -- Convert tabs to spaces
+  vim.o.autoindent = true -- Use auto indent
+  vim.o.expandtab = true -- Convert tabs to spaces
   vim.o.formatoptions = "rqnl1j" -- Improve comment editing
-  vim.o.ignorecase = true        -- Ignore case when searching (use `\C` to force not doing that)
-  vim.o.incsearch = true         -- Show search results while typing
-  vim.o.infercase = true         -- Infer letter cases for a richer built-in keyword completion
-  vim.o.smartcase = true         -- Don't ignore case when searching if pattern has upper case
-  vim.o.smartindent = true       -- Make indenting smart
-  vim.o.virtualedit = "block"    -- Allow going past the end of line in visual block mode
+  vim.o.ignorecase = true -- Ignore case when searching (use `\C` to force not doing that)
+  vim.o.incsearch = true -- Show search results while typing
+  vim.o.infercase = true -- Infer letter cases for a richer built-in keyword completion
+  vim.o.smartcase = true -- Don't ignore case when searching if pattern has upper case
+  vim.o.smartindent = true -- Make indenting smart
+  vim.o.virtualedit = "block" -- Allow going past the end of line in visual block mode
 
   vim.opt.cmdheight = 0
 
@@ -271,8 +271,8 @@ now(function()
   -- vim.o.foldmethod = "indent" -- Set 'indent' folding method
   vim.opt.foldmethod = "expr"
   vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-  vim.opt.foldlevel = 1      -- Display all folds except top ones
-  vim.opt.foldnestmax = 10   -- Create folds only for some number of nested levels
+  vim.opt.foldlevel = 1 -- Display all folds except top ones
+  vim.opt.foldnestmax = 10 -- Create folds only for some number of nested levels
   vim.g.markdown_folding = 1 -- Use folding by heading in markdown files
 
   if vim.fn.has("nvim-0.10") == 1 then
@@ -356,7 +356,7 @@ later(function()
         emoji = {
           module = "blink-emoji",
           name = "Emoji",
-          score_offset = 15,        -- Tune by preference
+          score_offset = 15, -- Tune by preference
           opts = { insert = true }, -- Insert emoji (default) or complete its name
         },
         lazydev = {
@@ -998,15 +998,15 @@ later(function()
   })
 
   vim.ui.select = minipick.ui_select
-      MiniPick.registry.buffers = function(local_opts)
-            local wipeout_buffer = function()
-              MiniBufremove.delete(MiniPick.get_picker_matches().current.bufnr, false)
-            end
-            MiniPick.builtin.buffers(local_opts, { mappings = { wipeout = { char = '<C-d>', func = wipeout_buffer } } })
-          end
-  vim.keymap.set('n', '<leader>fb', function()
-        MiniPick.registry.buffers { include_current = false }
-      end, { desc = 'Find Buffers' })
+  MiniPick.registry.buffers = function(local_opts)
+    local wipeout_buffer = function()
+      MiniBufremove.delete(MiniPick.get_picker_matches().current.bufnr, false)
+    end
+    MiniPick.builtin.buffers(local_opts, { mappings = { wipeout = { char = "<C-d>", func = wipeout_buffer } } })
+  end
+  vim.keymap.set("n", "<leader>fb", function()
+    MiniPick.registry.buffers({ include_current = false })
+  end, { desc = "Find Buffers" })
   vim.keymap.set("n", "<leader><space>", minipick.builtin.buffers, { desc = "Find existing buffers" })
 
   -- vim.keymap.set("n", "<leader>fb", [[<Cmd>Pick buffers<CR>]], { desc = "Buffers" })
@@ -1019,32 +1019,44 @@ later(function()
   vim.keymap.set("n", "<leader>fr", miniextra.pickers.oldfiles, { desc = "Find Recent Files" })
   vim.keymap.set("n", "<leader>f/", [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
   vim.keymap.set("n", "<leader>f:", [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
-  vim.keymap.set('n', '<leader>gg', function()
+  -- Git related
+  vim.keymap.set("n", "<leader>gg", function()
     MiniExtra.pickers.git_files()
-  end, { desc = 'Search Git files' })
+  end, { desc = "Search Git files" })
   vim.keymap.set("n", "<leader>ga", [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = "Added hunks (all)" })
-  vim.keymap.set("n", "<leader>gA", [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = "Added hunks (current)" })
-  vim.keymap.set("n", "<leader>gb", miniextra.pickers.git_branches, { desc = "Git branches"})
+  vim.keymap.set(
+    "n",
+    "<leader>gA",
+    [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]],
+    { desc = "Added hunks (current)" }
+  )
+  vim.keymap.set("n", "<leader>gb", miniextra.pickers.git_branches, { desc = "Git branches" })
   vim.keymap.set("n", "<leader>gC", [[<Cmd>Pick git_commits<CR>]], { desc = "Commits (all)" })
   vim.keymap.set("n", "<leader>gc", [[<Cmd>Pick git_commits path='%'<CR>]], { desc = "Commits (current)" })
+  vim.keymap.set("n", "<leader>gM", [[<Cmd>Pick git_hunks<CR>]], { desc = "Modified hunks (all)" })
+  vim.keymap.set("n", "<leader>gm", [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = "Modified hunks (current)" })
+  -- LSP related
   vim.keymap.set("n", "<leader>fD", [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = "Diagnostic workspace" })
   vim.keymap.set("n", "<leader>fd", [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = "Diagnostic buffer" })
-  vim.keymap.set('n', '<leader>fG', function()
-        MiniPick.builtin.grep { pattern = vim.fn.expand '<cword>' }
-      end, { desc = 'Grep Current Word' })
+  vim.keymap.set("n", "<leader>fR", [[<Cmd>Pick lsp scope='references'<CR>]], { desc = "References (LSP)" })
+  vim.keymap.set(
+    "n",
+    "<leader>fS",
+    [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]],
+    { desc = "Symbols workspace (LSP)" }
+  )
+  vim.keymap.set("n", "<leader>fs", [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = "Symbols buffer (LSP)" })
+  -- Search related
+  vim.keymap.set("n", "<leader>fG", function()
+    MiniPick.builtin.grep({ pattern = vim.fn.expand("<cword>") })
+  end, { desc = "Grep Current Word" })
   vim.keymap.set("n", "<leader>fH", [[<Cmd>Pick hl_groups<CR>]], { desc = "Highlight groups" })
   vim.keymap.set("n", "<leader>fL", [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = "Lines (all)" })
   vim.keymap.set("n", "<leader>fl", [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = "Lines (current)" })
-  vim.keymap.set("n", "<leader>gM", [[<Cmd>Pick git_hunks<CR>]], { desc = "Modified hunks (all)" })
-  vim.keymap.set("n", "<leader>gm", [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = "Modified hunks (current)" })
-  vim.keymap.set("n", "<leader>fR", [[<Cmd>Pick lsp scope='references'<CR>]], { desc = "References (LSP)" })
-  vim.keymap.set("n", "<leader>fS", [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = "Symbols workspace (LSP)" })
-  vim.keymap.set("n", "<leader>fs", [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = "Symbols buffer (LSP)" })
   vim.keymap.set("n", "<leader>fV", [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = "Visit paths (all)" })
   vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
-
   pattern =
-      "MiniPickStop", vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
+    "MiniPickStop", vim.keymap.set("n", "<leader>fv", [[<Cmd>Pick visit_paths<CR>]], { desc = "Visit paths (cwd)" })
 
   -- Picker pre- and post-hooks ===============================================
 
@@ -1154,7 +1166,7 @@ now(function()
       require("mini.starter").sections.pick(),
       require("mini.starter").sections.recent_files(5, false),
       require("mini.starter").sections.sessions(5, true),
-      { action = "Mason",      name = "Mason",       section = "Plugin Actions" },
+      { action = "Mason", name = "Mason", section = "Plugin Actions" },
       { action = "DepsUpdate", name = "Update deps", section = "Plugin Actions" },
     },
   })
@@ -1466,7 +1478,6 @@ vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open floa
 -- vim.keymap.set("n", "<leader>dd", function()
 --   require("fzf-lua").lsp_document_diagnostics()
 -- end, { desc = "Document Diagnostics" })
-
 
 vim.diagnostic.config({ update_in_insert = true })
 
