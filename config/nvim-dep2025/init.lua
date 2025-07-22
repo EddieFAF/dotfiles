@@ -60,7 +60,7 @@ _G.event = {
   autocmd = autocmd,
 }
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 vim.o.number = true
@@ -276,8 +276,6 @@ require('lazy').setup({
 
           { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
           { mode = 'n', keys = '<Leader>s', desc = '+Search' },
-          { mode = 'n', keys = '<Leader>h', desc = '+Git' },
-          { mode = 'v', keys = '<Leader>h', desc = '+Git' },
           { mode = 'n', keys = '<Leader>t', desc = '+Toggle' },
           { mode = 'n', keys = '<Leader>e', desc = '+Explorer' },
           { mode = 'n', keys = '<Leader>u', desc = '+UI' },
@@ -298,7 +296,14 @@ require('lazy').setup({
       -- [[ Cursorword ]] ----------------------------------------------------------
       require('mini.cursorword').setup()
 
+      -- [[ Diff ]] ----------------------------------------------------------------
+      require('mini.diff').setup()
+
+      vim.keymap.set('n', '<Leader>go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', { desc = 'toggle overlay' })
+
+      -- [[ Extras ]] --------------------------------------------------------------
       require('mini.extra').setup()
+
       -- [[ Files ]] ---------------------------------------------------------------
       require('mini.files').setup {
         mappings = {
@@ -385,6 +390,11 @@ require('lazy').setup({
       -- [[ Fuzzy ]] ---------------------------------------------------------------
       require('mini.fuzzy').setup()
 
+      -- [[ Git ]] -----------------------------------------------------------------
+      require('mini.git').setup()
+      local rhs = '<Cmd>lua MiniGit.show_at_cursor()<CR>'
+      vim.keymap.set({ 'n', 'x' }, '<Leader>gs', rhs, { desc = 'Show at cursor' })
+
       -- [[ Hipatterns ]] ----------------------------------------------------------
       local hi = require 'mini.hipatterns'
       hi.setup {
@@ -399,6 +409,7 @@ require('lazy').setup({
         },
       }
 
+      -- [[ Icons ]] --------------------------------------------------------------
       local miniicons = require 'mini.icons'
       miniicons.setup {
         style = 'glyph',
@@ -454,34 +465,139 @@ require('lazy').setup({
       require('mini.pairs').setup()
 
       -- [[ Picker ]] ----------------------------------------------------------
-      -- local minipick = require 'mini.pick'
-      -- local miniextra = require 'mini.extra'
-      -- local win_config = function()
-      --   height = math.floor(0.618 * vim.o.lines)
-      --   width = math.floor(0.618 * vim.o.columns)
-      --   return {
-      --     anchor = 'NW',
-      --     height = height,
-      --     width = width,
-      --     border = 'rounded',
-      --     row = math.floor(0.5 * (vim.o.lines - height)),
-      --     col = math.floor(0.5 * (vim.o.columns - width)),
-      --   }
-      -- end
-      -- minipick.setup {
-      --   mappings = {
-      --     choose_in_vsplit = '<C-CR>',
-      --   },
-      --   options = {
-      --     use_cache = true,
-      --   },
-      --   window = {
-      --     config = win_config,
-      --   },
-      -- }
-      --
-      -- vim.ui.select = minipick.ui_select
-      --
+      local minipick = require 'mini.pick'
+      local miniextra = require 'mini.extra'
+      local win_config = function()
+        height = math.floor(0.618 * vim.o.lines)
+        width = math.floor(0.618 * vim.o.columns)
+        return {
+          anchor = 'NW',
+          height = height,
+          width = width,
+          border = 'rounded',
+          row = math.floor(0.5 * (vim.o.lines - height)),
+          col = math.floor(0.5 * (vim.o.columns - width)),
+        }
+      end
+      minipick.setup {
+        mappings = {
+          choose_in_vsplit = '<C-CR>',
+        },
+        options = {
+          use_cache = true,
+        },
+        window = {
+          config = win_config,
+        },
+      }
+
+      vim.ui.select = minipick.ui_select
+
+      MiniPick.registry.buffers = function(local_opts)
+        local wipeout_buffer = function()
+          MiniBufremove.delete(MiniPick.get_picker_matches().current.bufnr, false)
+        end
+        MiniPick.builtin.buffers(local_opts, { mappings = { wipeout = { char = '<C-d>', func = wipeout_buffer } } })
+      end
+      vim.keymap.set('n', '<leader>fb', function()
+        MiniPick.registry.buffers { include_current = false }
+      end, { desc = 'Find Buffers' })
+      vim.keymap.set('n', '<leader><space>', minipick.builtin.buffers, { desc = 'Find existing buffers' })
+
+      -- vim.keymap.set("n", "<leader>fb", [[<Cmd>Pick buffers<CR>]], { desc = "Buffers" })
+      vim.keymap.set('n', '<leader>ff', minipick.builtin.files, { desc = 'Find Files' })
+      vim.keymap.set('n', '<leader>fh', minipick.builtin.help, { desc = 'Find Help' })
+      vim.keymap.set('n', '<leader>fg', minipick.builtin.grep_live, { desc = 'Find by Grep' })
+      --vim.keymap.set("n", "<leader>fr", MiniPick.builtin.resume, { desc = "Resume" })
+      vim.keymap.set('n', '<leader>fe', miniextra.pickers.explorer, { desc = 'Explorer' })
+      vim.keymap.set('n', '<leader>fk', miniextra.pickers.keymaps, { desc = 'Keymaps' })
+      vim.keymap.set('n', '<leader>fr', miniextra.pickers.oldfiles, { desc = 'Find Recent Files' })
+      vim.keymap.set('n', '<leader>f/', [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
+      vim.keymap.set('n', '<leader>f:', [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
+      vim.keymap.set('n', '<leader>gg', function()
+        MiniExtra.pickers.git_files()
+      end, { desc = 'Search Git files' })
+      vim.keymap.set('n', '<leader>ga', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
+      vim.keymap.set('n', '<leader>gA', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = 'Added hunks (current)' })
+      vim.keymap.set('n', '<leader>gb', miniextra.pickers.git_branches, { desc = 'Git branches' })
+      vim.keymap.set('n', '<leader>gC', [[<Cmd>Pick git_commits<CR>]], { desc = 'Commits (all)' })
+      vim.keymap.set('n', '<leader>gc', [[<Cmd>Pick git_commits path='%'<CR>]], { desc = 'Commits (current)' })
+      vim.keymap.set('n', '<leader>fD', [[<Cmd>Pick diagnostic scope='all'<CR>]], { desc = 'Diagnostic workspace' })
+      vim.keymap.set('n', '<leader>fd', [[<Cmd>Pick diagnostic scope='current'<CR>]], { desc = 'Diagnostic buffer' })
+      vim.keymap.set('n', '<leader>fG', function()
+        MiniPick.builtin.grep { pattern = vim.fn.expand '<cword>' }
+      end, { desc = 'Grep Current Word' })
+      vim.keymap.set('n', '<leader>fH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
+      vim.keymap.set('n', '<leader>fL', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
+      vim.keymap.set('n', '<leader>fl', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
+      vim.keymap.set('n', '<leader>gM', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
+      vim.keymap.set('n', '<leader>gm', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
+      vim.keymap.set('n', '<leader>fR', [[<Cmd>Pick lsp scope='references'<CR>]], { desc = 'References (LSP)' })
+      vim.keymap.set('n', '<leader>fS', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], { desc = 'Symbols workspace (LSP)' })
+      vim.keymap.set('n', '<leader>fs', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
+      vim.keymap.set('n', '<leader>fV', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
+      vim.keymap.set('n', '<leader>fv', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
+
+      -- Picker pre- and post-hooks ===============================================
+
+      -- Keys should be a picker source.name. Value is a callback function that
+      -- accepts same arguments as User autocommand callback.
+      local hooks = {
+        pre_hooks = {},
+        post_hooks = {},
+      }
+
+      vim.api.nvim_create_autocmd({ 'User' }, {
+        pattern = 'MiniPickStart',
+        group = vim.api.nvim_create_augroup('minipick-pre-hooks', { clear = true }),
+        desc = 'Invoke pre_hook for specific picker based on source.name.',
+        callback = function(...)
+          local opts = minipick.get_picker_opts() or {}
+          local pre_hook = hooks.pre_hooks[opts.source.name] or function(...) end
+          pre_hook(...)
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ 'User' }, {
+        pattern = 'MiniPickStop',
+        group = vim.api.nvim_create_augroup('minipick-post-hooks', { clear = true }),
+        desc = 'Invoke post_hook for specific picker based on source.name.',
+        callback = function(...)
+          local opts = minipick.get_picker_opts() or {}
+          local post_hook = hooks.post_hooks[opts.source.name] or function(...) end
+          post_hook(...)
+        end,
+      })
+
+      -- Colorscheme picker =======================================================
+
+      local selected_colorscheme -- Currently selected or original colorscheme
+
+      hooks.pre_hooks.colorschemes = function()
+        selected_colorscheme = vim.g.colors_name
+      end
+
+      hooks.post_hooks.colorschemes = function()
+        vim.cmd('colorscheme ' .. selected_colorscheme)
+      end
+
+      minipick.registry.colorschemes = function()
+        local colorschemes = vim.fn.getcompletion('', 'color')
+        return minipick.start {
+          source = {
+            name = 'colorschemes',
+            items = colorschemes,
+            choose = function(item)
+              selected_colorscheme = item
+            end,
+            preview = function(buf_id, item)
+              vim.cmd('colorscheme ' .. item)
+              vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, { item })
+            end,
+          },
+        }
+      end
+
       -- [[ Surround ]] ----------------------------------------------------------
       require('mini.surround').setup()
 
@@ -503,7 +619,7 @@ require('lazy').setup({
         footer = 'config powered by kickstart.nvim and mini.nvim',
         items = {
           require('mini.starter').sections.recent_files(5, false),
-          -- require('mini.starter').sections.pick(),
+          require('mini.starter').sections.pick(),
           require('mini.starter').sections.builtin_actions(),
           -- require('mini.starter').sections.sessions(5, true),
           -- { action = 'Mason', name = 'Mason', section = 'Plugin Actions' },
@@ -532,61 +648,61 @@ require('lazy').setup({
   },
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`.
-  {
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      on_attach = function(bufnr)
-        local gitsigns = require 'gitsigns'
-
-        local function map(mode, l, r, opts)
-          opts = opts or {}
-          opts.buffer = bufnr
-          vim.keymap.set(mode, l, r, opts)
-        end
-
-        -- Navigation
-        map('n', ']c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { ']c', bang = true }
-          else
-            gitsigns.nav_hunk 'next'
-          end
-        end, { desc = 'Jump to next git [c]hange' })
-
-        map('n', '[c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { '[c', bang = true }
-          else
-            gitsigns.nav_hunk 'prev'
-          end
-        end, { desc = 'Jump to previous git [c]hange' })
-
-        -- Actions
-        -- visual mode
-        map('v', '<leader>hs', function()
-          gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'git [s]tage hunk' })
-        map('v', '<leader>hr', function()
-          gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'git [r]eset hunk' })
-        -- normal mode
-        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
-        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
-        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
-        map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git [u]ndo stage hunk' })
-        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
-        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
-        map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
-        map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
-        map('n', '<leader>hD', function()
-          gitsigns.diffthis '@'
-        end, { desc = 'git [D]iff against last commit' })
-        -- Toggles
-        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-        map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
-      end,
-    },
-  },
+  -- {
+  --   'lewis6991/gitsigns.nvim',
+  --   opts = {
+  --     on_attach = function(bufnr)
+  --       local gitsigns = require 'gitsigns'
+  --
+  --       local function map(mode, l, r, opts)
+  --         opts = opts or {}
+  --         opts.buffer = bufnr
+  --         vim.keymap.set(mode, l, r, opts)
+  --       end
+  --
+  --       -- Navigation
+  --       map('n', ']c', function()
+  --         if vim.wo.diff then
+  --           vim.cmd.normal { ']c', bang = true }
+  --         else
+  --           gitsigns.nav_hunk 'next'
+  --         end
+  --       end, { desc = 'Jump to next git [c]hange' })
+  --
+  --       map('n', '[c', function()
+  --         if vim.wo.diff then
+  --           vim.cmd.normal { '[c', bang = true }
+  --         else
+  --           gitsigns.nav_hunk 'prev'
+  --         end
+  --       end, { desc = 'Jump to previous git [c]hange' })
+  --
+  --       -- Actions
+  --       -- visual mode
+  --       map('v', '<leader>hs', function()
+  --         gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+  --       end, { desc = 'git [s]tage hunk' })
+  --       map('v', '<leader>hr', function()
+  --         gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+  --       end, { desc = 'git [r]eset hunk' })
+  --       -- normal mode
+  --       map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
+  --       map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
+  --       map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
+  --       map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git [u]ndo stage hunk' })
+  --       map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
+  --       map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
+  --       map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
+  --       map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
+  --       map('n', '<leader>hD', function()
+  --         gitsigns.diffthis '@'
+  --       end, { desc = 'git [D]iff against last commit' })
+  --       -- Toggles
+  --       map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
+  --       map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
+  --     end,
+  --   },
+  -- },
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
@@ -825,7 +941,7 @@ require('lazy').setup({
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>F',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
