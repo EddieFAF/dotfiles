@@ -528,16 +528,16 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>gC', miniextra.pickers.git_commits, { desc = 'Commits (all)' })
       vim.keymap.set('n', '<leader>gc', [[<Cmd>Pick git_commits path = '%'<CR>]], { desc = 'Commits (current)' })
       -- LSP related
-      vim.keymap.set('n', '<leader>lD', [[<Cmd>Pick diagnostic scope = 'all'<CR>]], { desc = 'Diagnostic workspace' })
-      vim.keymap.set('n', '<leader>ld', [[<Cmd>Pick diagnostic scope = 'current'<CR>]], { desc = 'Diagnostic buffer' })
-      vim.keymap.set('n', '<leader>le', [[<Cmd>Pick lsp scope = 'declaration'<CR>]], { desc = 'Declaration (LSP)' })
-      vim.keymap.set('n', '<leader>lR', [[<Cmd>Pick lsp scope = 'references'<CR>]], { desc = 'References (LSP)' })
-      vim.keymap.set('n', '<leader>lS', [[<Cmd>Pick lsp scope = 'workspace_symbol'<CR>]], { desc = 'Symbols workspace (LSP)' })
-      vim.keymap.set('n', '<leader>ls', [[<Cmd>Pick lsp scope = 'document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
-      vim.keymap.set('n', '<leader>lt', [[<Cmd>Pick lsp scope = 'type_definition'<CR>]], { desc = 'Type definition (LSP)' })
-      vim.keymap.set('n', '<leader>li', [[<Cmd>Pick lsp scope = 'implementation'<CR>]], { desc = 'Implementation (LSP)' })
-      vim.keymap.set('n', '<leader>lr', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { desc = 'Rename (LSP)' })
-      vim.keymap.set('n', '<leader>la', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { desc = 'Code [A]ction (LSP)' })
+      -- vim.keymap.set('n', '<leader>lD', [[<Cmd>Pick diagnostic scope = 'all'<CR>]], { desc = 'Diagnostic workspace' })
+      -- vim.keymap.set('n', '<leader>ld', [[<Cmd>Pick diagnostic scope = 'current'<CR>]], { desc = 'Diagnostic buffer' })
+      -- vim.keymap.set('n', '<leader>le', [[<Cmd>Pick lsp scope = 'declaration'<CR>]], { desc = 'Declaration (LSP)' })
+      -- vim.keymap.set('n', '<leader>lR', [[<Cmd>Pick lsp scope = 'references'<CR>]], { desc = 'References (LSP)' })
+
+      -- vim.keymap.set('n', '<leader>ls', [[<Cmd>Pick lsp scope = 'document_symbol'<CR>]], { desc = 'Symbols buffer (LSP)' })
+      -- vim.keymap.set('n', '<leader>lt', [[<Cmd>Pick lsp scope = 'type_definition'<CR>]], { desc = 'Type definition (LSP)' })
+      -- vim.keymap.set('n', '<leader>li', [[<Cmd>Pick lsp scope = 'implementation'<CR>]], { desc = 'Implementation (LSP)' })
+      -- vim.keymap.set('n', '<leader>lr', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { desc = 'Rename (LSP)' })
+      -- vim.keymap.set('n', '<leader>la', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { desc = 'Code [A]ction (LSP)' })
       -- Search related
       vim.keymap.set('n', '<leader>fw', function()
         MiniPick.builtin.grep { pattern = vim.fn.expand '<cword>' }
@@ -629,83 +629,6 @@ require('lazy').setup({
     end,
   },
 
-  -- { -- Fuzzy Finder (files, lsp, etc)
-  --   'nvim-telescope/telescope.nvim',
-  --   event = 'VimEnter',
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim',
-  --     { -- If encountering errors, see telescope-fzf-native README for installation instructions
-  --       'nvim-telescope/telescope-fzf-native.nvim',
-  --
-  --       -- `build` is used to run some command when the plugin is installed/updated.
-  --       -- This is only run then, not every time Neovim starts up.
-  --       build = 'make',
-  --
-  --       -- `cond` is a condition used to determine whether this plugin should be
-  --       -- installed and loaded.
-  --       cond = function()
-  --         return vim.fn.executable 'make' == 1
-  --       end,
-  --     },
-  --     { 'nvim-telescope/telescope-ui-select.nvim' },
-  --
-  --     -- Useful for getting pretty icons, but requires a Nerd Font.
-  --     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-  --   },
-  --   config = function()
-  --     -- [[ Configure Telescope ]]
-  --     require('telescope').setup {
-  --       -- You can put your default mappings / updates / etc. in here
-  --       --  All the info you're looking for is in `:help telescope.setup()`
-  --       --
-  --       -- defaults = {
-  --       --   mappings = {
-  --       --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-  --       --   },
-  --       -- },
-  --       -- pickers = {}
-  --       extensions = {
-  --         ['ui-select'] = {
-  --           require('telescope.themes').get_dropdown(),
-  --         },
-  --       },
-  --     }
-  --
-  --     pcall(require('telescope').load_extension, 'fzf')
-  --     pcall(require('telescope').load_extension, 'ui-select')
-  --
-  --     local builtin = require 'telescope.builtin'
-  --     -- vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-  --     -- vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-  --     -- vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-  --     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-  --     -- vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-  --     -- vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-  --     -- vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-  --     -- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-  --     -- vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-  --     -- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-  --
-  --     vim.keymap.set('n', '<leader>/', function()
-  --       builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-  --         winblend = 10,
-  --         previewer = false,
-  --       })
-  --     end, { desc = '[/] Fuzzily search in current buffer' })
-  --
-  --     vim.keymap.set('n', '<leader>s/', function()
-  --       builtin.live_grep {
-  --         grep_open_files = true,
-  --         prompt_title = 'Live Grep in Open Files',
-  --       }
-  --     end, { desc = '[S]earch [/] in Open Files' })
-  --
-  --     vim.keymap.set('n', '<leader>sn', function()
-  --       builtin.find_files { cwd = vim.fn.stdpath 'config' }
-  --     end, { desc = '[S]earch [N]eovim files' })
-  --   end,
-  -- },
-  --
   -- LSP Plugins
   {
     'folke/lazydev.nvim',
@@ -732,11 +655,23 @@ require('lazy').setup({
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
+          local miniextra = require 'mini.extra'
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
+          map('<leader>lD', [[<Cmd>Pick diagnostic scope='all'<CR>]], 'Diagnostic workspace')
+          map('<leader>ld', [[<Cmd>Pick diagnostic scope='current'<CR>]], 'Diagnostic buffer')
+          map('<leader>lr', vim.lsp.buf.rename, 'Rename')
+          map('<leader>la', vim.lsp.buf.code_action, 'Code [A]ction')
+          map('<leader>lR', [[<Cmd>Pick lsp scope='references'<CR>]], 'References')
+          map('<leader>li', [[<Cmd>Pick lsp scope='implementation'<CR>]], 'Implementation (LSP)')
+          map('<leader>lf', [[<Cmd>Pick lsp scope='definition'<CR>]], 'Definition (LSP)')
+          map('<leader>lc', [[<Cmd>Pick lsp scope='declaration'<CR>]], 'Declaration (LSP)')
+          map('<leader>ls', [[<Cmd>Pick lsp scope='document_symbol'<CR>]], 'Symbols buffer (LSP)')
+          map('<leader>lS', [[<Cmd>Pick lsp scope='workspace_symbol'<CR>]], 'Symbols workspace (LSP)')
+          map('<leader>lt', [[<Cmd>Pick lsp scope='type_definition'<CR>]], 'Type definition (LSP)')
           -- map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
           -- map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
           -- map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -982,23 +917,14 @@ require('lazy').setup({
       { 'nvim-lua/plenary.nvim', lazy = true },
     },
     keys = {
-      {
-        '<leader>.',
-        mode = { 'n', 'v' },
-        '<cmd>Yazi<cr>',
-        desc = 'Open yazi at the current file',
-      },
+      { '<leader>.', mode = { 'n', 'v' }, '<cmd>Yazi<cr>', desc = 'Open yazi at the current file' },
       {
         -- Open in the current working directory
         '<leader>ew',
         '<cmd>Yazi cwd<cr>',
         desc = "Open the file manager in nvim's working directory",
       },
-      {
-        '<c-up>',
-        '<cmd>Yazi toggle<cr>',
-        desc = 'Resume the last yazi session',
-      },
+      { '<c-up>', '<cmd>Yazi toggle<cr>', desc = 'Resume the last yazi session' },
     },
     ---@type YaziConfig | {}
     opts = {
