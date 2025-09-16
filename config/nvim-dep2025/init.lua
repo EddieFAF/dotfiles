@@ -173,7 +173,7 @@ require('lazy').setup({
   --
 
   { -- Collection of various small independent plugins/modules
-    'echasnovski/mini.nvim',
+    'nvim-mini/mini.nvim',
     config = function()
       -- [[ AI ]] ------------------------------------------------------------
       require('mini.ai').setup { n_lines = 500 }
