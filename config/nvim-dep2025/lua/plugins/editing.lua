@@ -76,10 +76,62 @@ now(function() add({ source = "rafamadriz/friendly-snippets" }) end)
 -- ╘═════════════════════════════════════╛
 later(function() require("mini.align").setup() end)
 later(function() require("mini.bracketed").setup() end)
+later(function()
+    -- [[ Bufremove ]] ----------------------------------------------------------
+    require("mini.bufremove").setup()
+    local mappings = {
+
+        {
+            mode = "n",
+            binding = "<leader>bd",
+            action = "<Cmd>lua MiniBufremove.delete()<CR>",
+            options = { desc = "Delete buffer" },
+        },
+        {
+            mode = "n",
+            binding = "<leader>bD",
+            action = "<Cmd>lua MiniBufremove.delete(0,  true)<CR>",
+            options = { desc = "Delete! buffer" },
+        },
+
+        {
+            mode = "n",
+            binding = "<leader>bw",
+            action = "<Cmd>lua MiniBufremove.wipeout()<CR>",
+            options = { desc = "Wipeout buffer" },
+        },
+        {
+            mode = "n",
+            binding = "<leader>bW",
+            action = "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>",
+            options = { desc = "Wipeout! buffer" },
+        },
+    }
+    keymaps = utils.merge_arrays(keymaps, mappings)
+end)
 later(function() require("mini.completion").setup() end)
-later(function() require("mini.diff").setup() end)
+later(function()
+    require("mini.diff").setup()
+    vim.keymap.set("n", "<Leader>go", "<Cmd>lua MiniDiff.toggle_overlay()<CR>", { desc = "toggle overlay" })
+end)
 later(function() require("mini.extra").setup() end)
-later(function() require("mini.git").setup() end)
+later(function()
+    require("mini.git").setup()
+    local rhs = "<Cmd>lua MiniGit.show_at_cursor()<CR>"
+    vim.keymap.set({ "n", "x" }, "<Leader>gs", rhs, { desc = "Show at cursor" })
+end)
+
+later(
+    function()
+        require("mini.jump2d").setup({
+            labels = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            view = {
+                dim = false,
+                n_steps_ahead = 2,
+            },
+        })
+    end
+)
 later(function() require("mini.pairs").setup() end)
 later(function()
     local gen_loader = require("mini.snippets").gen_loader
@@ -112,7 +164,92 @@ now(function()
 
     keymaps = utils.merge_arrays(keymaps, mappings)
 end)
-later(function() require("mini.files").setup() end)
+later(function()
+    require("mini.files").setup({
+        mappings = {
+            close = "q",
+            go_in = "L",
+            go_in_plus = "l",
+            go_out = "H",
+            go_out_plus = "h",
+            reset = ",",
+            show_help = "?",
+            synchronize = "w",
+        },
+
+        windows = {
+            preview = true,
+            width_focus = 40,
+            width_preview = 75,
+            height_focus = 20,
+            max_number = math.huge,
+        },
+    })
+    local show_dotfiles = true
+
+    local filter_show = function(fs_entry) return true end
+
+    local filter_hide = function(fs_entry) return not vim.startswith(fs_entry.name, ".") end
+
+    local gio_open = function()
+        local fs_entry = require("mini.files").get_fs_entry()
+        vim.notify(vim.inspect(fs_entry))
+        vim.fn.system(string.format("gio open '%s'", fs_entry.path))
+    end
+
+    local toggle_dotfiles = function()
+        show_dotfiles = not show_dotfiles
+        local new_filter = show_dotfiles and filter_show or filter_hide
+        require("mini.files").refresh({ content = { filter = new_filter } })
+    end
+
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniFilesBufferCreate",
+        callback = function(args)
+            local buf_id = args.data.buf_id
+            -- Tweak left-hand side of mapping to your liking
+            vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id })
+            vim.keymap.set("n", "-", require("mini.files").close, { buffer = buf_id })
+            vim.keymap.set("n", "o", gio_open, { buffer = buf_id })
+        end,
+    })
+
+    -- Preview toggle
+    local show_preview = false
+
+    local toggle_preview = function()
+        show_preview = not show_preview
+        require("mini.files").refresh({ windows = { preview = show_preview } })
+    end
+
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniFilesBufferCreate",
+        callback = function(args)
+            local buf_id = args.data.buf_id
+            vim.keymap.set("n", "<M-p>", toggle_preview, { buffer = buf_id })
+        end,
+    })
+
+    local minifiles_augroup = vim.api.nvim_create_augroup("ec-mini-files", {})
+    vim.api.nvim_create_autocmd("User", {
+        group = minifiles_augroup,
+        pattern = "MiniFilesWindowOpen",
+        callback = function(args) vim.api.nvim_win_set_config(args.data.win_id, { border = "single" }) end,
+    })
+
+    vim.keymap.set(
+        "n",
+        "<leader>ff",
+        [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]],
+        { desc = "File directory" }
+    )
+    vim.keymap.set(
+        "n",
+        "<leader>fm",
+        [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]],
+        { desc = "Mini.nvim directory" }
+    )
+end)
 
 -- `mini.pick` Setup
 now(function()
