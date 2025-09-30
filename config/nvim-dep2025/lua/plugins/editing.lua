@@ -93,7 +93,6 @@ later(function()
             action = "<Cmd>lua MiniBufremove.delete(0,  true)<CR>",
             options = { desc = "Delete! buffer" },
         },
-
         {
             mode = "n",
             binding = "<leader>bw",
@@ -121,17 +120,17 @@ later(function()
     vim.keymap.set({ "n", "x" }, "<Leader>gs", rhs, { desc = "Show at cursor" })
 end)
 
-later(
-    function()
-        require("mini.jump2d").setup({
-            labels = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
-            view = {
-                dim = false,
-                n_steps_ahead = 2,
-            },
-        })
-    end
-)
+later(function()
+    require("mini.jump2d").setup({
+        labels = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        view = {
+            dim = true,
+            n_steps_ahead = 2,
+        },
+    })
+    vim.api.nvim_set_hl(0, "MiniJump2dSpot", { reverse = true })
+end)
+
 later(function() require("mini.pairs").setup() end)
 later(function()
     local gen_loader = require("mini.snippets").gen_loader

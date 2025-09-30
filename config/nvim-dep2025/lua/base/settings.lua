@@ -32,8 +32,8 @@ require("mini.deps").now(function()
     vim.opt.scrolloff = 4 -- Keep 4 lines visible when scrolling
     vim.opt.timeoutlen = 300 -- Shorter timeout for key sequences
     vim.opt.updatetime = 100 -- Faster updates for better responsiveness
-    vim.opt.completeopt = "menuone,noselect" -- Configure completion menu behavior
-    vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+    vim.opt.completeopt = "menuone,noselect,fuzzy" -- Configure completion menu behavior
+    -- vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
     vim.opt.history = 50 -- Keep a history of 50 commands
 
     -- ╒════════════════╕
@@ -65,4 +65,46 @@ require("mini.deps").now(function()
     vim.opt.foldcolumn = "auto" -- Dynamic fold column width
     vim.opt.foldlevel = 20 -- Open folds up to level 20 by default
     vim.opt.foldmethod = "expr" -- Use expression-based folding
+
+    -- Autocommands
+    local function augroup(name) return vim.api.nvim_create_augroup("kick_" .. name, { clear = true }) end
+
+    local autocmd = vim.api.nvim_create_autocmd
+
+    _G.event = {
+        augroup = augroup,
+        autocmd = autocmd,
+    }
+    -- [[ Basic Autocommands ]]
+    vim.api.nvim_create_autocmd("BufReadPost", {
+        group = vim.api.nvim_create_augroup("last_loc", { clear = true }),
+        callback = function()
+            local mark = vim.api.nvim_buf_get_mark(0, '"')
+            local lcount = vim.api.nvim_buf_line_count(0)
+            if mark[1] > 0 and mark[1] <= lcount then
+                pcall(vim.api.nvim_win_set_cursor, 0, mark)
+            end
+        end,
+    })
+
+    -- close some filetypes with <q>
+    vim.api.nvim_create_autocmd("FileType", {
+        group = augroup("close_with_q"),
+        pattern = {
+            "PlenaryTestPopup",
+            "help",
+            "lspinfo",
+            "man",
+            "notify",
+            "qf",
+            "spectre_panel",
+            "startuptime",
+            "tsplayground",
+            "checkhealth",
+        },
+        callback = function(event)
+            vim.bo[event.buf].buflisted = false
+            vim.keymap.set("n", "q", "<cmd>close<cr>", { desc = "close", buffer = event.buf, silent = true })
+        end,
+    })
 end)
