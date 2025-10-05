@@ -27,6 +27,9 @@ MiniDeps.now(function()
     nmapd("<S-l>", ":bnext<CR>", "Next Buffer")
     nmapd("<S-h>", ":bprevious<CR>", "Previous Buffer")
 
+    vim.keymap.set("n", "<C-s>", "<Cmd>write<Enter>", { desc = "Save" })
+    vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<Enter>")
+
     -- increment/decrement
     nmapd("-", "<C-x>", "decrement")
     nmapd("+", "<C-a>", "increment")

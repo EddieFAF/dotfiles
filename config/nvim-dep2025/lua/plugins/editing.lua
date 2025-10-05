@@ -75,7 +75,9 @@ now(function() add({ source = "rafamadriz/friendly-snippets" }) end)
 -- │ Setup `mini.nvim` Plugins + Keymaps │
 -- ╘═════════════════════════════════════╛
 later(function() require("mini.align").setup() end)
+
 later(function() require("mini.bracketed").setup() end)
+
 later(function()
     -- [[ Bufremove ]] ----------------------------------------------------------
     require("mini.bufremove").setup()
@@ -108,12 +110,24 @@ later(function()
     }
     keymaps = utils.merge_arrays(keymaps, mappings)
 end)
+
 later(function() require("mini.completion").setup() end)
+
 later(function()
     require("mini.diff").setup()
     vim.keymap.set("n", "<Leader>go", "<Cmd>lua MiniDiff.toggle_overlay()<CR>", { desc = "toggle overlay" })
 end)
-later(function() require("mini.extra").setup() end)
+
+later(function()
+    require("mini.extra").setup()
+    vim.keymap.set(
+        "n",
+        "<Leader>sc",
+        function() MiniExtra.pickers.colorschemes() end,
+        { desc = "[S]earch [C]olorscheme" }
+    )
+end)
+
 later(function()
     require("mini.git").setup()
     local rhs = "<Cmd>lua MiniGit.show_at_cursor()<CR>"
@@ -132,6 +146,7 @@ later(function()
 end)
 
 later(function() require("mini.pairs").setup() end)
+
 later(function()
     local gen_loader = require("mini.snippets").gen_loader
     require("mini.snippets").setup({
@@ -145,7 +160,9 @@ later(function()
         },
     })
 end)
+
 later(function() require("mini.surround").setup() end)
+
 later(function() require("mini.visits").setup() end)
 
 --`mini.files` setup + keymaps
