@@ -14,4 +14,5 @@ require("mini.deps").setup({ path = { package = path_package } })
 require("options")
 require("bindings")
 
+require("plugins.mini")
 require("plugins.lsp")

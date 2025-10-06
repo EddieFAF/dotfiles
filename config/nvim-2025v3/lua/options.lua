@@ -66,8 +66,8 @@ vim.opt.swapfile = true -- Enable swap files
 -- ╒════════════════╕
 -- │ Spell Checking │
 -- ╘════════════════╛
--- vim.opt.spell = true -- Enable spell checking
--- vim.opt.spelllang = "en_us" -- Set spell-checking language
+vim.opt.spell = true -- Enable spell checking
+vim.opt.spelllang = "en_us,de_de" -- Set spell-checking language
 
 -- ╒═══════╕
 -- │ Folds │
