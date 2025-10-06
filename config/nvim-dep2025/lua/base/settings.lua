@@ -36,6 +36,17 @@ require("mini.deps").now(function()
     vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
     vim.opt.history = 50 -- Keep a history of 50 commands
 
+    vim.o.list = true
+    vim.opt.listchars = {
+        tab = "» ",
+        trail = "·",
+        nbsp = "␣",
+        --space = '⋅',
+        extends = "›",
+        precedes = "‹",
+        eol = "↲",
+    }
+
     -- ╒════════════════╕
     -- │Search Behavior │
     -- ╘════════════════╛

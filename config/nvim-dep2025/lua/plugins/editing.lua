@@ -77,6 +77,33 @@ now(function() add({ source = "rafamadriz/friendly-snippets" }) end)
 later(function() require("mini.align").setup() end)
 later(function() require("mini.bracketed").setup() end)
 later(function()
+    require("mini.basics").setup({
+        options = {
+            basic = true,
+            extra_ui = true,
+            win_borders = "rounded",
+        },
+        mappings = {
+            basic = true,
+            -- Prefix for mappings that toggle common options ('wrap', 'spell', ...).
+            -- Supply empty string to not create these mappings.
+            --option_toggle_prefix = [[\]],
+            option_toggle_prefix = "",
+            -- Window navigation with <C-hjkl>, resize with <C-arrow>
+            windows = true,
+            -- Move cursor in Insert, Command, and Terminal mode with <M-hjkl>
+            move_with_alt = false,
+        },
+        autocommands = {
+            basic = true,
+            -- Set 'relativenumber' only in linewise and blockwise Visual mode
+            relnum_in_visual_mode = true,
+        },
+        silent = false,
+    })
+end)
+
+later(function()
     -- [[ Bufremove ]] ----------------------------------------------------------
     require("mini.bufremove").setup()
     local mappings = {
