@@ -19,9 +19,9 @@ vim.opt.winborder = "rounded"
 vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.smarttab = true -- Insert appropriate number of spaces for a tab
 vim.opt.smartindent = true -- Enable C-style indentation
-vim.opt.shiftwidth = 4 -- Number of spaces for indentation
+vim.opt.shiftwidth = 2 -- Number of spaces for indentation
 vim.opt.softtabstop = 4 -- Spaces for a tab while editing
-vim.opt.formatoptions = "jcroqnt" -- Adjust format options for better text formatting
+vim.opt.formatoptions = "jcrql1nt" -- Adjust format options for better text formatting
 
 -- ╒═════════════╕
 -- │Key Behavior │
@@ -31,7 +31,7 @@ vim.opt.mouse = "a" -- Enable mouse in all modes
 vim.opt.scrolloff = 4 -- Keep 4 lines visible when scrolling
 vim.opt.timeoutlen = 300 -- Shorter timeout for key sequences
 vim.opt.updatetime = 100 -- Faster updates for better responsiveness
-vim.opt.completeopt = "menuone,noselect" -- Configure completion menu behavior
+vim.opt.completeopt = "menuone,noselect,fuzzy" -- Configure completion menu behavior
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.history = 50 -- Keep a history of 50 commands
 
@@ -66,7 +66,7 @@ vim.opt.swapfile = true -- Enable swap files
 -- ╒════════════════╕
 -- │ Spell Checking │
 -- ╘════════════════╛
-vim.opt.spell = true -- Enable spell checking
+vim.opt.spell = false -- Enable spell checking
 vim.opt.spelllang = "en_us,de_de" -- Set spell-checking language
 
 -- ╒═══════╕
@@ -76,3 +76,6 @@ vim.opt.foldcolumn = "auto" -- Dynamic fold column width
 vim.opt.foldlevel = 20 -- Open folds up to level 20 by default
 vim.opt.foldmethod = "expr" -- Use expression-based folding
 
+vim.g.have_nerd_font = true
+
+vim.cmd.colorscheme("termcolors")

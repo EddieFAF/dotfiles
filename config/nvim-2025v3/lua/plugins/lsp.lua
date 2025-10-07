@@ -1,89 +1,121 @@
-local add = MiniDeps.add
+local add, now = MiniDeps.add, MiniDeps.now
+local utils = require 'utils'
+
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = 'rounded',
+})
+-- Diagnostic Config
+vim.diagnostic.config {
+  severity_sort = true,
+  float = { border = 'rounded', source = 'if_many' },
+  underline = { severity = vim.diagnostic.severity.ERROR },
+  signs = vim.g.have_nerd_font and {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '󰅚 ',
+      [vim.diagnostic.severity.WARN] = '󰀪 ',
+      [vim.diagnostic.severity.INFO] = '󰋽 ',
+      [vim.diagnostic.severity.HINT] = '󰌶 ',
+    },
+  } or {},
+  virtual_text = {
+    source = 'if_many',
+    spacing = 2,
+    format = function(diagnostic)
+      local diagnostic_message = {
+        [vim.diagnostic.severity.ERROR] = diagnostic.message,
+        [vim.diagnostic.severity.WARN] = diagnostic.message,
+        [vim.diagnostic.severity.INFO] = diagnostic.message,
+        [vim.diagnostic.severity.HINT] = diagnostic.message,
+      }
+      return diagnostic_message[diagnostic.severity]
+    end,
+    severity = {
+      max = vim.diagnostic.severity.WARN,
+    },
+  },
+  virtual_lines = {
+    severity = {
+      min = vim.diagnostic.severity.ERROR,
+    },
+  },
+}
+
+add { source = 'neovim/nvim-lspconfig' }
+add { source = 'williamboman/mason.nvim' }
+--
+-- Add documentation for nvim-lua api and plugins
+--
+add 'folke/neodev.nvim'
+require('neodev').setup {
+  library = {
+    { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+  },
+}
 
 --
--- NOTE: To register new textobjects, take a look at textobjects.lua
+-- Mason
 --
+require('mason').setup()
 
---
--- nvim-treesitter
---
-add({
-    source = "nvim-treesitter/nvim-treesitter",
-    checkout = "master",
-    monitor = "main",
-    hooks = { post_checkout = vim.cmd.TSUpdate },
+now(function()
+  -- ╒═════════════════════════════╕
+  -- │ Configuring / Enabling LSPs │
+  -- ╘═════════════════════════════╛
+
+  -- Define a default configuration
+  vim.lsp.config('*', {
+    capabilities = require('mini.completion').get_lsp_capabilities(),
+  })
+
+  local ignore_servers = { 'basedpyright', 'omnisharp_mono' }
+
+  local servers = {}
+  for _, name in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
+    local server_name = vim.fn.fnamemodify(name, ':t:r')
+    if not utils.array_contains(ignore_servers, server_name) then
+      table.insert(servers, server_name)
+      vim.lsp.enable(server_name)
+    end
+  end
+end)
+
+local function lsp(scope)
+  return function()
+    MiniExtra.pickers.lsp { scope = scope }
+  end
+end
+
+local function diagnostic(scope)
+  return function()
+    MiniExtra.pickers.diagnostic { scope = scope }
+  end
+end
+
+event.autocmd('LspAttach', {
+  group = event.augroup 'LspConfig',
+  callback = function(args)
+    local buffer = args.buf
+
+    -- vim.lsp.completion.enable(true, 0, buffer, { autotrigger = true })
+
+    keys.maplocal('n', '<Leader>lf', lsp 'definition', 'Go to definitions', buffer)
+    keys.maplocal('n', '<Leader>lR', lsp 'references', 'Go to references', buffer)
+    keys.maplocal('n', '<Leader>lt', lsp 'type_definition', 'Go to type definitions', buffer)
+
+    keys.maplocal('n', '<Leader>lD', diagnostic 'all', 'Find diagnostic (all)', buffer)
+    keys.maplocal('n', '<Leader>ld', diagnostic 'current', 'Find diagnostic (current)', buffer)
+
+    keys.maplocal('n', '<Leader>ls', lsp 'document_symbol', 'Find document symbol', buffer)
+
+    keys.maplocal('n', '<Leader>le', vim.cmd.LspRestart, 'Restart Lsp client', buffer)
+
+    keys.maplocal('n', '<Leader>la', vim.lsp.buf.code_action, 'Code actions', buffer)
+    keys.maplocal('n', '<Leader>lr', vim.lsp.buf.rename, 'Rename', buffer)
+
+    keys.maplocal('n', 'H', function()
+      vim.diagnostic.open_float(nil, { focus = false })
+    end, 'Open diagnostics popup', buffer)
+  end,
 })
 
-add("nvim-treesitter/nvim-treesitter-textobjects")
-
-require("nvim-treesitter.configs").setup({
-    auto_install = true,
-    sync_install = false,
-
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-
-    indent = {
-        enable = true,
-        disable = { "python", "ts" },
-    },
-
-    textobjects = {
-        swap = {
-            enable = true,
-
-            swap_next = {
-                ["<Leader>a"] = { query = "@parameter.inner", desc = "Swap next parameter" },
-            },
-            swap_previous = {
-                ["<Leader>A"] = { query = "@parameter.inner", desc = "Swap previous parameter" },
-            },
-        },
-
-        move = {
-            enable = true,
-            set_jumps = true,
-
-            goto_next_start = {
-                ["]f"] = { query = "@function.outer", desc = "Next function start" },
-                ["]p"] = { query = "@parameter.inner", desc = "Next parameter start" },
-                ["]c"] = { query = "@comment.inner", desc = "Next comment start" },
-                ["]s"] = { query = "@class.inner", desc = "Next class start" },
-            },
-
-            goto_previous_start = {
-                ["[f"] = { query = "@function.inner", desc = "Previous function start" },
-                ["[p"] = { query = "@parameter.inner", desc = "Previous parameter start" },
-                ["[c"] = { query = "@comment.inner", desc = "Previous comment start" },
-                ["[s"] = { query = "@class.inner", desc = "Previous class start" },
-            },
-
-            goto_next_end = {
-                ["]F"] = { query = "@function.outer", desc = "Previous function end" },
-                ["]P"] = { query = "@parameter.outer", desc = "Next parameter end" },
-                ["]C"] = { query = "@comment.outer", desc = "Next comment end" },
-                ["]S"] = { query = "@class.outer", desc = "Next class end" },
-            },
-
-            goto_previous_end = {
-                ["[F"] = { query = "@function.outer", desc = "Previous function end" },
-                ["[P"] = { query = "@parameter.outer", desc = "Previous parameter end" },
-                ["[C"] = { query = "@comment.outer", desc = "Previous comment end" },
-                ["[S"] = { query = "@lass.outer", desc = "Previous class end" },
-            },
-        },
-    },
-})
-
---
--- Treesitter context
---
-add("nvim-treesitter/nvim-treesitter-context")
-
-require("treesitter-context").setup({
-    separator = "─",
-    multiline_threshold = 1,
-    max_lines = 5,
-})
+keys.map('n', '<Leader>li', '<cmd>LspInfo<cr>', 'Show LSP info')
