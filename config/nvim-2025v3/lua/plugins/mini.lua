@@ -286,7 +286,7 @@ now(function()
   end
   mininotify.setup {
     content = { sort = filterout_lua_diagnosing },
-    window = { config = { row = 2, border = 'rounded' } },
+    window = { config = { row = 1, border = 'rounded' } },
   }
 
   vim.notify = require('mini.notify').make_notify()
@@ -383,37 +383,6 @@ later(function()
   end, { desc = 'Grep Current Word' })
   vim.keymap.set('n', '<leader>vv', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
   vim.keymap.set('n', '<leader>vV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
-
-  -- Picker pre- and post-hooks ===============================================
-
-  -- Keys should be a picker source.name. Value is a callback function that
-  -- accepts same arguments as User autocommand callback.
-  local hooks = {
-    pre_hooks = {},
-    post_hooks = {},
-  }
-
-  vim.api.nvim_create_autocmd({ 'User' }, {
-    pattern = 'MiniPickStart',
-    group = vim.api.nvim_create_augroup('minipick-pre-hooks', { clear = true }),
-    desc = 'Invoke pre_hook for specific picker based on source.name.',
-    callback = function(...)
-      local opts = minipick.get_picker_opts() or {}
-      local pre_hook = hooks.pre_hooks[opts.source.name] or function(...) end
-      pre_hook(...)
-    end,
-  })
-
-  vim.api.nvim_create_autocmd({ 'User' }, {
-    pattern = 'MiniPickStop',
-    group = vim.api.nvim_create_augroup('minipick-post-hooks', { clear = true }),
-    desc = 'Invoke post_hook for specific picker based on source.name.',
-    callback = function(...)
-      local opts = minipick.get_picker_opts() or {}
-      local post_hook = hooks.post_hooks[opts.source.name] or function(...) end
-      post_hook(...)
-    end,
-  })
 end)
 
 now(function()
