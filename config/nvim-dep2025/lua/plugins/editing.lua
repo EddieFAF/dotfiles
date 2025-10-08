@@ -10,7 +10,7 @@ local keymaps = {}
 now(function()
     add({
         source = "nvim-treesitter/nvim-treesitter",
-        checkout = "main",
+        checkout = "master",
         monitor = "main",
         -- Perform action after every checkout
         hooks = {

@@ -16,13 +16,13 @@ MiniDeps.now(function()
     nmapd("<C-Left>", "<cmd>vertical resize -2<cr>", "Decrease window width")
     nmapd("<C-Right>", "<cmd>vertical resize +2<cr>", "Increase window width")
 
-    -- Move Lines
-    nmapd("<A-j>", "<cmd>m .+1<cr>==", "Move down")
-    nmapd("<A-k>", "<cmd>m .-2<cr>==", "Move up")
-    mapd("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", "Move down")
-    mapd("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", "Move up")
-    mapd("v", "<A-j>", ":m '>+1<cr>gv=gv", "Move down")
-    mapd("v", "<A-k>", ":m '<-2<cr>gv=gv", "Move up")
+    -- -- Move Lines
+    -- nmapd("<A-j>", "<cmd>m .+1<cr>==", "Move down")
+    -- nmapd("<A-k>", "<cmd>m .-2<cr>==", "Move up")
+    -- mapd("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", "Move down")
+    -- mapd("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", "Move up")
+    -- mapd("v", "<A-j>", ":m '>+1<cr>gv=gv", "Move down")
+    -- mapd("v", "<A-k>", ":m '<-2<cr>gv=gv", "Move up")
 
     nmapd("<S-l>", ":bnext<CR>", "Next Buffer")
     nmapd("<S-h>", ":bprevious<CR>", "Previous Buffer")
@@ -33,4 +33,12 @@ MiniDeps.now(function()
     -- increment/decrement
     nmapd("-", "<C-x>", "decrement")
     nmapd("+", "<C-a>", "increment")
+
+    nmapd("<leader>ma", "<Cmd>Mason<CR>", "Mason")
+    nmapd("<leader>mh", "<Cmd>lua MiniNotify.show_history()<CR>", "Show notifications")
+    nmapd("<leader>mdc", "<Cmd>DepsClean<CR>", "Clean deps")
+    nmapd("<leader>mdh", "<Cmd>DepsShowLog<CR>", "Show log")
+    nmapd("<leader>mdl", "<Cmd>DepsSnapLoad<CR>", "Load snapshot")
+    nmapd("<leader>mds", "<Cmd>DepsSnapSave<CR>", "Save snapshot")
+    nmapd("<leader>mdu", "<Cmd>DepsUpdate<CR>", "Update deps")
 end)

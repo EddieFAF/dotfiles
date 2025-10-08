@@ -66,6 +66,10 @@ now(function()
                 submode_navigate = true,
                 submode_resize = true,
             }),
+            { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
+            { mode = "n", keys = "<Leader>s", desc = "+Search" },
+            { mode = "n", keys = "<Leader>f", desc = "+Files" },
+            { mode = "n", keys = "<Leader>g", desc = "+Git" },
         },
         window = {
             config = {
