@@ -115,6 +115,11 @@ event.autocmd('LspAttach', {
     keys.maplocal('n', 'H', function()
       vim.diagnostic.open_float(nil, { focus = false })
     end, 'Open diagnostics popup', buffer)
+    vim.keymap.set('n', 'gK', function()
+      vim.diagnostic.config {
+        virtual_text = not vim.diagnostic.config().virtual_text,
+      }
+    end, { desc = 'Toggle diagnostic' })
   end,
 })
 
