@@ -2,6 +2,9 @@ Hi = function(name, opts)
   vim.api.nvim_set_hl(0, name, opts)
 end
 
+local transparency = true
+local fold_open = '▾'
+local fold_close = '▸'
 local palette = {
   base00_dim = '#232A2E',
   base00 = '#2D353B',
@@ -21,6 +24,19 @@ local palette = {
   base0E = '#D699B6',
   base0F = '#9DA9A0',
 }
+local apply_transparency = function(transparent)
+  if transparent then
+    Hi('Normal', { bg = 'NONE' })
+    Hi('NormalNC', { bg = 'NONE' })
+  else
+    Hi('Normal', { bg = palette.base00 })
+    Hi('NormalNC', { bg = palette.base00_dim })
+  end
+end
+local toggle_transparency = function()
+  transparency = not transparency
+  apply_transparency(transparency)
+end
 
 MiniDeps.now(function()
   require('mini.base16').setup {
@@ -50,6 +66,7 @@ MiniDeps.now(function()
   Hi('DiffChange', { link = 'MiniStatuslineModeInsert' })
   Hi('DiffDelete', { link = 'MiniStatuslineModeCommand' })
   Hi('DiffText', { link = 'MiniStatuslineModeReplace' })
+  Hi('FloatBorder', { link = 'Delimiter' })
   Hi('FloatFooter', { link = 'MiniStatuslineModeVisual' })
   Hi('FloatTitle', { link = 'MiniStatuslineModeVisual' })
   Hi('FoldColumn', { link = 'Comment' })
@@ -57,6 +74,7 @@ MiniDeps.now(function()
   Hi('LineNr', { link = 'Comment' })
   Hi('LineNrAbove', { link = 'Comment' })
   Hi('LineNrBelow', { link = 'Comment' })
+  Hi('MiniClueBorder', { link = 'FloatBorder' })
   Hi('MiniClueDescGroup', { link = 'Keyword' })
   Hi('MiniClueNextKey', { link = 'Function' })
   Hi('MiniClueNextKeyWithPostkeys', { link = 'Identifier' })
@@ -73,10 +91,12 @@ MiniDeps.now(function()
   Hi('MiniDiffSignAdd', { link = 'DiagnosticOk' })
   Hi('MiniDiffSignChange', { link = 'DiagnosticHint' })
   Hi('MiniDiffSignDelete', { link = 'DiagnosticError' })
-  Hi('MiniFilesBorder', { link = 'Delimiter' })
+  Hi("MiniFilesBorder", { link = "Delimiter" })
   Hi('MiniFilesTitle', { link = 'FloatTitle' })
   Hi('MiniFilesTitleFocused', { link = 'MiniStatuslineModeCommand' })
   Hi('MiniIndentscopeSymbol', { link = 'SpecialKey' })
+  Hi('MiniNotifyBorder', { link = 'FloatBorder' })
+  Hi('MiniPickBorder', { link = 'Delimiter' })
   Hi('MiniPickBorderBusy', { link = 'Conditional' })
   Hi('MiniPickBorderText', { link = 'FloatTitle' })
   Hi('MiniPickPrompt', { link = 'MiniStatuslineModeCommand' })
@@ -84,11 +104,11 @@ MiniDeps.now(function()
   Hi('MiniPickPromptPrefix', { link = 'MiniStatuslineModeCommand' })
   Hi('MiniTablineTabpagesection', { link = 'MiniStatuslineModeVisual' })
   Hi('NormalFloat', { link = 'Normal' })
-  Hi('NormalNC', { bg = palette.base00_dim })
   Hi('Operator', { link = 'Delimiter' })
   Hi('QuickFixLineNr', { link = 'SpecialKey' })
   Hi('SignColumn', { link = 'Comment' })
   Hi('TreesitterContext', { link = 'Pmenu' })
   Hi('TreesitterContextLineNumber', { link = 'MiniStatuslineFilename' })
   Hi('WinSeparator', { link = 'Delimiter' })
+  apply_transparency(transparency)
 end)
