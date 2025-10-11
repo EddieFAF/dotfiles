@@ -21,6 +21,20 @@ local palette = {
   base0E = '#D699B6',
   base0F = '#9DA9A0',
 }
+local apply_transparency = function(transparent)
+  if transparent then
+    Hi('Normal', { bg = 'NONE' })
+    Hi('NormalNC', { bg = 'NONE' })
+  else
+    Hi('Normal', { bg = palette.base00 })
+    Hi('NormalNC', { bg = palette.base00_dim })
+  end
+end
+
+toggle_transparency = function()
+  transparency = not transparency
+  apply_transparency(transparency)
+end
 
 MiniDeps.now(function()
   require('mini.base16').setup {
@@ -62,8 +76,8 @@ MiniDeps.now(function()
   Hi('MiniClueNextKeyWithPostkeys', { link = 'Identifier' })
   Hi('MiniClueSeparator', { link = 'FloatBorder' })
   Hi('MiniClueTitle', { link = 'FloatTitle' })
-  Hi('MiniCursorword', { bg = palette.base02, fg = palette.base05 })
-  Hi('MiniCursorwordCurrent', { bg = palette.base04, fg = palette.base05 })
+  -- Hi('MiniCursorword', { bg = palette.base02, fg = palette.base05 })
+  -- Hi('MiniCursorwordCurrent', { bg = palette.base04, fg = palette.base05 })
   Hi('MiniCompletionInfoBorderOutdated', { link = 'Conditional' })
   Hi('MiniDiffOverAdd', { link = 'MiniStatuslineModeVisual' })
   Hi('MiniDiffOverChange', { link = 'MiniStatuslineModeCommand' })
@@ -91,4 +105,5 @@ MiniDeps.now(function()
   Hi('TreesitterContext', { link = 'Pmenu' })
   Hi('TreesitterContextLineNumber', { link = 'MiniStatuslineFilename' })
   Hi('WinSeparator', { link = 'Delimiter' })
+  apply_transparency(transparency)
 end)
