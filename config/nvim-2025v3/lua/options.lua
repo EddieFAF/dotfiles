@@ -1,79 +1,65 @@
 -- ╒══════════╕
 -- │Appearance│
 -- ╘══════════╛
-vim.opt.number = true
-vim.opt.signcolumn = "yes"
-vim.opt.cursorline = true
-vim.opt.termguicolors = vim.fn.has("termguicolors") == 1 -- Conditional termguicolors support
-vim.opt.wrap = true
+vim.opt.autowrite = true -- Automatically save before certain actions
+vim.opt.backup = false -- Disable backups
 vim.opt.breakindent = true
-vim.opt.pumblend = 10 -- Popup menu transparency
-vim.opt.pumheight = 10 -- Limit popup menu height
+vim.opt.clipboard = 'unnamedplus' -- Use system clipboard
+vim.opt.cmdheight = 0
+vim.opt.completeopt = 'menuone,noselect,fuzzy' -- Configure completion menu behavior
 vim.opt.conceallevel = 2 -- Hide special characters like bold/italic markup
-vim.opt.splitkeep = "screen" -- Preserve layout during splits
-vim.opt.winborder = "rounded"
-
--- ╒══════════════════════════╕
--- │Indentations / Formatting │
--- ╘══════════════════════════╛
+vim.opt.confirm = true -- Ask for confirmation when quitting unsaved
+vim.opt.cursorline = true
 vim.opt.expandtab = true -- Use spaces instead of tabs
-vim.opt.smarttab = true -- Insert appropriate number of spaces for a tab
-vim.opt.smartindent = true -- Enable C-style indentation
-vim.opt.shiftwidth = 2 -- Number of spaces for indentation
-vim.opt.softtabstop = 4 -- Spaces for a tab while editing
-vim.opt.formatoptions = "jcrql1nt" -- Adjust format options for better text formatting
-
--- ╒═════════════╕
--- │Key Behavior │
--- ╘═════════════╛
-vim.opt.clipboard = "unnamedplus" -- Use system clipboard
-vim.opt.mouse = "a" -- Enable mouse in all modes
-vim.opt.scrolloff = 4 -- Keep 4 lines visible when scrolling
-vim.opt.timeoutlen = 300 -- Shorter timeout for key sequences
-vim.opt.updatetime = 100 -- Faster updates for better responsiveness
-vim.opt.completeopt = "menuone,noselect,fuzzy" -- Configure completion menu behavior
-vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+vim.o.fillchars = "eob: ,foldopen:▾,foldsep: ,foldclose:▸"
+vim.opt.foldcolumn = '1' -- Dynamic fold column width
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99 -- Open folds up to level 99 by default
+vim.o.foldlevelstart = 99
+vim.opt.foldmethod = 'expr' -- Use expression-based folding
+vim.opt.formatoptions = 'jcrql1nt' -- Adjust format options for better text formatting
 vim.opt.history = 50 -- Keep a history of 50 commands
-
+vim.opt.hlsearch = true -- Highlight search matches
+vim.opt.ignorecase = true -- Case-insensitive search
+vim.o.incsearch = true
+vim.opt.laststatus = 3
 vim.o.list = true
 vim.opt.listchars = {
-    tab = "» ",
-    trail = "·",
-    nbsp = "␣",
-    --space = '⋅',
-    extends = "›",
-    precedes = "‹",
-    eol = "↲",
+  tab = '» ',
+  trail = '·',
+  nbsp = '␣',
+  --space = '⋅',
+  extends = '›',
+  precedes = '‹',
+  eol = '↲',
 }
-
--- ╒════════════════╕
--- │Search Behavior │
--- ╘════════════════╛
-vim.opt.ignorecase = true -- Case-insensitive search
+vim.opt.mouse = 'a' -- Enable mouse in all modes
+vim.opt.number = true
+vim.opt.pumblend = 0 -- Popup menu transparency
+vim.opt.pumheight = 10 -- Limit popup menu height
+vim.opt.scrolloff = 4 -- Keep 4 lines visible when scrolling
+vim.opt.shiftwidth = 2 -- Number of spaces for indentation
+vim.opt.signcolumn = 'yes'
+vim.o.showcmd = true
+vim.o.showmatch = true
+vim.o.showmode = false
+vim.o.signcolumn = "yes:1"
 vim.opt.smartcase = true -- Override case-insensitivity when uppercase present
-vim.opt.hlsearch = true -- Highlight search matches
-
--- ╒══════════════════════════════════╕
--- │ Backup, Swap, Undo, and Autosave │
--- ╘══════════════════════════════════╛
-vim.opt.autowrite = true -- Automatically save before certain actions
-vim.opt.confirm = true -- Ask for confirmation when quitting unsaved
-vim.opt.backup = false -- Disable backups
-vim.opt.writebackup = true -- Enable write-backups
-vim.opt.undofile = true -- Enable persistent undo
-vim.opt.swapfile = true -- Enable swap files
-
--- ╒════════════════╕
--- │ Spell Checking │
--- ╘════════════════╛
+vim.opt.smartindent = true -- Enable C-style indentation
+vim.opt.smarttab = true -- Insert appropriate number of spaces for a tab
+vim.opt.softtabstop = 4 -- Spaces for a tab while editing
 vim.opt.spell = false -- Enable spell checking
-vim.opt.spelllang = "en_us,de_de" -- Set spell-checking language
-
--- ╒═══════╕
--- │ Folds │
--- ╘═══════╛
-vim.opt.foldcolumn = "auto" -- Dynamic fold column width
-vim.opt.foldlevel = 20 -- Open folds up to level 20 by default
-vim.opt.foldmethod = "expr" -- Use expression-based folding
-
+vim.opt.spelllang = 'en_us,de_de' -- Set spell-checking language
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.opt.splitkeep = 'screen' -- Preserve layout during splits
+vim.opt.swapfile = true -- Enable swap files
+vim.opt.termguicolors = vim.fn.has 'termguicolors' == 1 -- Conditional termguicolors support
+vim.opt.timeoutlen = 300 -- Shorter timeout for key sequences
+vim.opt.undofile = false -- Enable persistent undo
+vim.opt.updatetime = 100 -- Faster updates for better responsiveness
+vim.opt.wildmode = 'longest:full,full' -- Command-line completion mode
+vim.opt.winborder = 'rounded'
+vim.opt.wrap = true
+vim.opt.writebackup = true -- Enable write-backups
 vim.g.have_nerd_font = true

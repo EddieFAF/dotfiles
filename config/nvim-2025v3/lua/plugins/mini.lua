@@ -6,7 +6,7 @@ end
 
 now(function()
   require('mini.basics').setup {
-    options = { extra_ui = false, win_borders = 'bold' },
+    options = { extra_ui = true, win_borders = 'bold' },
     mappings = { windows = true, move_with_alt = true },
     autocommands = { relnum_in_visual_mode = true },
   }
@@ -259,9 +259,7 @@ end)
 later(function()
   require('mini.indentscope').setup {
     draw = {
-      animation = function()
-        return 1
-      end,
+      animation = require('mini.indentscope').gen_animation.none(),
     },
     symbol = '│',
     --symbol = "▏",
@@ -269,6 +267,19 @@ later(function()
       try_as_border = true,
       border = 'both',
       indent_at_cursor = true,
+    },
+  }
+end)
+
+later(function()
+  require('mini.jump2d').setup {
+    labels = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    view = {
+      dim = true,
+      n_steps_ahead = 2,
+    },
+    mappings = {
+      start_jumping = '',
     },
   }
 end)
@@ -299,8 +310,8 @@ later(function()
   local minipick = require 'mini.pick'
   local miniextra = require 'mini.extra'
   local win_config = function()
-    height = math.floor(0.618 * vim.o.lines)
-    width = math.floor(0.618 * vim.o.columns)
+    height = math.floor(0.6 * vim.o.lines)
+    width = math.floor(0.6 * vim.o.columns)
     return {
       anchor = 'NW',
       height = height,
@@ -403,12 +414,12 @@ now(function()
     autoopen = true,
     evaluate_single = true,
     header = logo,
-    footer = 'config powered by kickstart.nvim and mini.nvim',
+    footer = 'config powered by mini.nvim',
     items = {
-      require('mini.starter').sections.recent_files(5, false),
-      require('mini.starter').sections.pick(),
       require('mini.starter').sections.builtin_actions(),
-      -- require('mini.starter').sections.sessions(5, true),
+      require('mini.starter').sections.recent_files(3, false),
+      require('mini.starter').sections.pick(),
+      -- require('mini.starter').sections.sessions(3, true),
       { action = 'Mason', name = 'Mason', section = 'Plugin Actions' },
       { action = 'DepsUpdate', name = 'Update deps', section = 'Plugin Actions' },
     },
