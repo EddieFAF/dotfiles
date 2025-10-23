@@ -324,14 +324,14 @@ later(function()
 
   vim.ui.select = minipick.ui_select
 
-  MiniPick.registry.buffers = function(local_opts)
+  minipick.registry.buffers = function(local_opts)
     local wipeout_buffer = function()
       MiniBufremove.delete(MiniPick.get_picker_matches().current.bufnr, false)
     end
-    MiniPick.builtin.buffers(local_opts, { mappings = { wipeout = { char = '<C-d>', func = wipeout_buffer } } })
+    minipick.builtin.buffers(local_opts, { mappings = { wipeout = { char = '<C-d>', func = wipeout_buffer } } })
   end
   vim.keymap.set('n', '<leader>fb', function()
-    MiniPick.registry.buffers { include_current = false }
+    minipick.registry.buffers { include_current = false }
   end, { desc = 'Find Buffers' })
   vim.keymap.set('n', '<leader><space>', minipick.builtin.buffers, { desc = 'Find existing buffers' })
 
@@ -346,7 +346,7 @@ later(function()
   vim.keymap.set('n', '<leader>sh', minipick.builtin.help, { desc = 'Find Help' })
   vim.keymap.set('n', '<leader>sk', miniextra.pickers.keymaps, { desc = 'Keymaps' })
   vim.keymap.set('n', '<leader>sH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
-  vim.keymap.set('n', '<leader>sr', MiniPick.builtin.resume, { desc = 'Resume' })
+  vim.keymap.set('n', '<leader>sr', minipick.builtin.resume, { desc = 'Resume' })
   vim.keymap.set('n', '<leader>sb', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
   vim.keymap.set('n', '<leader>sB', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
   map('n', '<leader>s"', '<Cmd>Pick registers<CR>', 'Search registers')
@@ -381,7 +381,7 @@ later(function()
   -- vim.keymap.set('n', '<leader>lr', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { desc = 'Rename (LSP)' })
   -- vim.keymap.set('n', '<leader>la', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { desc = 'Code [A]ction (LSP)' })
   vim.keymap.set('n', '<leader>fw', function()
-    MiniPick.builtin.grep { pattern = vim.fn.expand '<cword>' }
+    minipick.builtin.grep { pattern = vim.fn.expand '<cword>' }
   end, { desc = 'Grep Current Word' })
   vim.keymap.set('n', '<leader>vv', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
   vim.keymap.set('n', '<leader>vV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
