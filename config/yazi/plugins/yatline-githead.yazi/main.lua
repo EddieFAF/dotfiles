@@ -227,22 +227,28 @@ return {
 		local callback = function()
 			local cwd = cx.active.current.cwd
 
-			if this.cwd ~= cwd then
-				this.cwd = cwd
-				ya.manager_emit("plugin", {
-					this._id,
-					ya.quote(tostring(cwd), true),
-				})
-			end
+			ya.emit("plugin", {
+				this._id,
+				ya.quote(tostring(cwd), true),
+			})
 		end
 
 		ps.sub("cd", callback)
+		ps.sub("rename", callback)
+		ps.sub("bulk", callback)
+		ps.sub("move", callback)
+		ps.sub("trash", callback)
+		ps.sub("delete", callback)
 		ps.sub("tab", callback)
 
 		if Yatline ~= nil then
 			function Yatline.coloreds.get:githead()
 				local status = this.output
 				local githead = {}
+
+				if not status then
+					return githead
+				end
 
 				local branch = config.show_branch and get_branch(status) or ""
 				if branch ~= nil and branch ~= "" then

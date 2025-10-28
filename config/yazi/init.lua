@@ -17,15 +17,19 @@ function Linemode:file_info()
   return string.format("%s   %s", self:size(), self:mtime())
 end
 
---require("full-border"):setup()
+require("fg"):setup({
+      default_action = "menu", -- nvim, jump
+})
+
+require("full-border"):setup()
 
 require("yatline"):setup({
-  theme = require("yatline-catppuccin"):setup("macchiato"),
+  -- theme = require("yatline-catppuccin"):setup("macchiato"),
   --theme = my_theme,
 
   section_separator = { open = "", close = "" },
-part_separator = { open = "", close = "" },
-inverse_separator = { open = "", close = "" },
+  part_separator = { open = "", close = "" },
+  inverse_separator = { open = "", close = "" },
 
 style_a = {
   fg = "black",
@@ -115,7 +119,7 @@ style_a = {
   },
 })
 require("yatline-githead"):setup({
-    theme = require("yatline-catppuccin"):setup("macchiato"),
+    -- theme = require("yatline-catppuccin"):setup("macchiato"),
 
     branch_prefix = "",
     branch_borders = "[]",
