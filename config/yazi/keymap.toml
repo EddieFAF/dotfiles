@@ -23,5 +23,6 @@ prepend_keymap = [
   { on   = [ "e","G" ],  run  = "plugin fg -- rg",   desc = "find file by content (ripgrep match)" },
   { on   = [ "e","f" ],  run  = "plugin fg -- fzf",  desc = "find file by filename" },
 
+  { on   = "t",          run  = "plugin smart-tab",  desc = "Create a tab and enter the hovered directory"},
 ]
 

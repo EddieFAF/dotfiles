@@ -33,5 +33,15 @@ use = "imsi32/yatline-githead"
 rev = "f8f969e"
 hash = "4d441b38138ce6492a4e10fa349fd65"
 
+[[plugin.deps]]
+use = "boydaihungst/mediainfo"
+rev = "2093ab7"
+hash = "16a10359fc2a3cd8cc8bcfbe00f744d3"
+
+[[plugin.deps]]
+use = "Sonico98/exifaudio"
+rev = "4506f9d"
+hash = "4761fffb60a12d37096c34a356380cdf"
+
 [flavor]
 deps = []

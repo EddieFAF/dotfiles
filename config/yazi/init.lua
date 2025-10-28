@@ -100,6 +100,7 @@ style_a = {
       },
       section_c = {
         {type = "string", custom = false, name = "hovered_path"},
+        {type = "coloreds", custom = false, name = "githead"},
         {type = "coloreds", custom = false, name = "count"},
       }
     },
@@ -120,8 +121,8 @@ style_a = {
 })
 require("yatline-githead"):setup({
     -- theme = require("yatline-catppuccin"):setup("macchiato"),
-
-    branch_prefix = "",
-    branch_borders = "[]",
+      show_branch = true,
+      branch_prefix = "on",
+      branch_borders = "()",
 })
 
