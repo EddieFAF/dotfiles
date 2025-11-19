@@ -4,7 +4,24 @@ local function map(modes, keys, action, description)
   return vim.keymap.set(modes, keys, action, opts)
 end
 
+-- An example helper to create a Normal mode mapping
+local nmap = function(lhs, rhs, desc)
+  -- See `:h vim.keymap.set()`
+  vim.keymap.set('n', lhs, rhs, { desc = desc })
+end
+
+local nmap_leader = function(suffix, rhs, desc)
+  vim.keymap.set('n', '<Leader>' .. suffix, rhs, { desc = desc })
+end
+
+local xmap_leader = function(suffix, rhs, desc)
+  vim.keymap.set('x', '<Leader>' .. suffix, rhs, { desc = desc })
+end
+------------------------------------------------------------------------------
 -- starting with STEP01: now()
+------------------------------------------------------------------------------
+
+-- [[ Basics ]] --------------------------------------------------------------
 now(function()
   require('mini.basics').setup {
     options = { extra_ui = true, win_borders = 'bold' },
@@ -13,6 +30,7 @@ now(function()
   }
 end)
 
+-- [[ Clues ]] ---------------------------------------------------------------
 now(function()
   local clue = require 'mini.clue'
 
@@ -72,8 +90,8 @@ now(function()
   }
 end)
 
+-- [[ Files ]] ---------------------------------------------------------------
 now(function()
-  -- [[ Files ]] ---------------------------------------------------------------
   require('mini.files').setup {
     mappings = {
       close = 'q',
@@ -152,11 +170,12 @@ now(function()
     end,
   })
 
-  vim.keymap.set('n', '<leader>ed', '<cmd>lua MiniFiles.open()<cr>', { desc = 'Directory' })
-  vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], { desc = 'File directory' })
-  vim.keymap.set('n', '<leader>em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = 'Mini.nvim directory' })
+  nmap_leader('ed', '<cmd>lua MiniFiles.open()<cr>', 'Directory')
+  nmap_leader('ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], 'File directory')
+  nmap_leader('em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], 'Mini.nvim directory')
 end)
 
+-- [[ Icons ]] ---------------------------------------------------------------
 -- Icon provider. Usually no need to use manually. It is used by plugins like
 -- 'mini.pick', 'mini.files', 'mini.statusline', and others.
 now(function()
@@ -177,6 +196,7 @@ now(function()
   later(MiniIcons.tweak_lsp_kind)
 end)
 
+-- [[ Notify ]] --------------------------------------------------------------
 now(function()
   local mininotify = require 'mini.notify'
   local filterout_lua_diagnosing = function(notif_arr)
@@ -194,6 +214,7 @@ now(function()
   vim.notify = require('mini.notify').make_notify()
 end)
 
+-- [[ Session ]] -------------------------------------------------------------
 -- Session management. A thin wrapper around `:h mksession` that consistently
 -- manages session files. Example usage:
 -- - `<Leader>sn` - start new session
@@ -203,14 +224,14 @@ now(function()
   require('mini.sessions').setup()
   local session_new = 'MiniSessions.write(vim.fn.input("Session name: "))'
 
-  map('n', '<leader>sd', '<Cmd>lua MiniSessions.select("delete")<CR>', 'Delete')
-  map('n', '<leader>sn', '<Cmd>lua ' .. session_new .. '<CR>', 'New')
-  map('n', '<leader>sr', '<Cmd>lua MiniSessions.select("read")<CR>', 'Read')
-  map('n', '<leader>sw', '<Cmd>lua MiniSessions.write()<CR>', 'Write current')
+  nmap_leader('sd', '<Cmd>lua MiniSessions.select("delete")<CR>', 'Delete')
+  nmap_leader('sn', '<Cmd>lua ' .. session_new .. '<CR>', 'New')
+  nmap_leader('sr', '<Cmd>lua MiniSessions.select("read")<CR>', 'Read')
+  nmap_leader('sw', '<Cmd>lua MiniSessions.write()<CR>', 'Write current')
 end)
 
+-- [[ Starter ]] -------------------------------------------------------------
 now(function()
-  -- [[ Starter ]] -------------------------------------------------------------
   local logo = table.concat({
     '     _____  .__       .______   ____.__             ',
     '    /     \\ |__| ____ |__\\   \\ /   /|__| _____   ',
@@ -237,6 +258,7 @@ now(function()
   }
 end)
 
+-- [[ Statusline ]] ----------------------------------------------------------
 now(function()
   local statusline = require 'mini.statusline'
   statusline.setup { use_icons = vim.g.have_nerd_font }
@@ -247,33 +269,38 @@ now(function()
   end
 end)
 
+-- [[ Tabline ]] -------------------------------------------------------------
 now(function()
   require('mini.tabline').setup()
 end)
 
-----------------------------
+------------------------------------------------------------------------------
 -- going to STEP02: later()
+-------------------------------------------------------------------------------
 later(function()
   require('mini.bracketed').setup()
 end)
 
+-- [[ bufremove ]] -----------------------------------------------------------
 later(function()
   require('mini.bufremove').setup()
   local new_scratch_buffer = function()
     vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
   end
-  map('n', '<leader>ba', '<Cmd>b#<CR>', 'Alternate')
-  vim.keymap.set('n', '<leader>bd', '<Cmd>lua MiniBufremove.delete()<CR>', { desc = 'Delete buffer' })
-  vim.keymap.set('n', '<leader>bD', '<Cmd>lua MiniBufremove.delete(0,  true)<CR>', { desc = 'Delete! buffer' })
-  map('n', '<leader>bs', new_scratch_buffer, 'Scratch')
-  vim.keymap.set('n', '<leader>bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', { desc = 'Wipeout buffer' })
-  vim.keymap.set('n', '<leader>bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', { desc = 'Wipeout! buffer' })
+  nmap_leader('ba', '<Cmd>b#<CR>', 'Alternate')
+  nmap_leader('bd', '<Cmd>lua MiniBufremove.delete()<CR>', 'Delete buffer')
+  nmap_leader('bD', '<Cmd>lua MiniBufremove.delete(0,  true)<CR>', 'Delete! buffer')
+  nmap_leader('bs', new_scratch_buffer, 'Scratch')
+  nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', 'Wipeout buffer')
+  nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout! buffer')
 end)
 
+-- [[ Comment ]] -------------------------------------------------------------
 later(function()
   require('mini.comment').setup()
 end)
 
+-- [[ Completion ]] ----------------------------------------------------------
 later(function()
   require('mini.completion').setup {
     lsp_completion = { source_func = 'omnifunc', auto_setup = false },
@@ -285,30 +312,34 @@ later(function()
   vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
 end)
 
+-- [[ Cursorword ]] ----------------------------------------------------------
 later(function()
   require('mini.cursorword').setup()
 end)
 
+-- [[ Diff ]] ----------------------------------------------------------------
 later(function()
   require('mini.diff').setup()
 end)
 
+-- [[ Extras ]] --------------------------------------------------------------
 later(function()
   require('mini.extra').setup()
 end)
 
+-- [[ Fuzzy ]] ---------------------------------------------------------------
 later(function()
-  -- [[ Fuzzy ]] ---------------------------------------------------------------
   require('mini.fuzzy').setup()
 end)
 
+-- [[ Git ]] -----------------------------------------------------------------
 later(function()
-  -- [[ Git ]] -----------------------------------------------------------------
   require('mini.git').setup()
   local rhs = '<Cmd>lua MiniGit.show_at_cursor()<CR>'
   vim.keymap.set({ 'n', 'x' }, '<Leader>gs', rhs, { desc = 'Show at cursor' })
 end)
 
+-- [[ HiPatterns ]] ----------------------------------------------------------
 later(function()
   local hipatterns = require 'mini.hipatterns'
 
@@ -354,6 +385,7 @@ later(function()
   }
 end)
 
+-- [[ Indentscope ]] ---------------------------------------------------------
 later(function()
   require('mini.indentscope').setup {
     draw = {
@@ -369,6 +401,7 @@ later(function()
   }
 end)
 
+-- [[ Jump2d ]] --------------------------------------------------------------
 later(function()
   require('mini.jump2d').setup {
     labels = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -382,6 +415,7 @@ later(function()
   }
 end)
 
+-- [[ Keymap ]] --------------------------------------------------------------
 -- Special key mappings. Provides helpers to map:
 -- - Multi-step actions. Apply action 1 if condition is met; else apply
 --   action 2 if condition is met; etc.
@@ -405,6 +439,7 @@ later(function()
   MiniKeymap.map_multistep('i', '<BS>', { 'minipairs_bs' })
 end)
 
+-- [[ MiniMap ]] -------------------------------------------------------------
 -- Window with text overview. It is displayed on the right hand side. Can be used
 -- for quick overview and navigation. Hidden by default. Example usage:
 -- - `<Leader>mt` - toggle map window
@@ -440,16 +475,18 @@ later(function()
   -- - `<Leader>mt` - toggle map from 'mini.map' (closed by default)
   -- - `<Leader>mf` - focus on the map for fast navigation
   -- - `<Leader>ms` - change map's side (if it covers something underneath)
-  vim.keymap.set('n', '<leader>mf', '<Cmd>lua MiniMap.toggle_focus()<CR>', { desc = 'Focus (toggle)' })
-  vim.keymap.set('n', '<leader>mr', '<Cmd>lua MiniMap.refresh()<CR>', { desc = 'Refresh' })
-  vim.keymap.set('n', '<leader>ms', '<Cmd>lua MiniMap.toggle_side()<CR>', { desc = 'Side (toggle)' })
-  vim.keymap.set('n', '<leader>mt', '<Cmd>lua MiniMap.toggle()<CR>', { desc = 'Toggle' })
+  nmap_leader('mf', '<Cmd>lua MiniMap.toggle_focus()<CR>', 'Focus (toggle)')
+  nmap_leader('mr', '<Cmd>lua MiniMap.refresh()<CR>', 'Refresh')
+  nmap_leader('ms', '<Cmd>lua MiniMap.toggle_side()<CR>', 'Side (toggle)')
+  nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>', 'Toggle')
 end)
 
+-- [[ Move ]] ----------------------------------------------------------------
 later(function()
   require('mini.move').setup()
 end)
 
+-- [[ Pairs ]] ---------------------------------------------------------------
 -- Autopairs functionality. Insert pair when typing opening character and go over
 -- right character if it is already to cursor's right. Also provides mappings for
 -- `<CR>` and `<BS>` to perform extra actions when inside pair.
@@ -463,8 +500,8 @@ later(function()
   require('mini.pairs').setup { modes = { command = true } }
 end)
 
+-- [[ Picker ]] ----------------------------------------------------------
 later(function()
-  -- [[ Picker ]] ----------------------------------------------------------
   local minipick = require 'mini.pick'
   local miniextra = require 'mini.extra'
   local win_config = function()
@@ -502,37 +539,37 @@ later(function()
   vim.keymap.set('n', '<leader>fb', function()
     minipick.registry.buffers { include_current = false }
   end, { desc = 'Find Buffers' })
-  vim.keymap.set('n', '<leader><space>', minipick.builtin.buffers, { desc = 'Find existing buffers' })
+  nmap_leader('<space>', minipick.builtin.buffers, 'Find existing buffers')
   local pick_added_hunks_buf = '<Cmd>Pick git_hunks path="%" scope="staged"<CR>'
 
-  map('n', '<leader>fa', '<Cmd>Pick git_hunks scope="staged"<CR>', 'Added hunks (all)')
-  map('n', '<leader>fA', pick_added_hunks_buf, 'Added hunks (buf)')
-  map('n', '<leader>fb', '<Cmd>Pick buffers<CR>', 'Buffers')
-  map('n', '<leader>fc', '<Cmd>Pick git_commits<CR>', 'Commits (all)')
-  map('n', '<leader>fC', '<Cmd>Pick git_commits path="%"<CR>', 'Commits (buf)')
-  map('n', '<leader>fd', '<Cmd>Pick diagnostic scope="all"<CR>', 'Diagnostic workspace')
-  map('n', '<leader>fD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer')
-  vim.keymap.set('n', '<leader>ff', minipick.builtin.files, { desc = 'Files' })
-  vim.keymap.set('n', '<leader>fg', minipick.builtin.grep_live, { desc = 'Find by Grep' })
-  map('n', '<leader>fG', '<Cmd>Pick grep pattern="<cword>"<CR>', 'Grep current word')
-  vim.keymap.set('n', '<leader>fe', miniextra.pickers.explorer, { desc = 'Explorer' })
-  vim.keymap.set('n', '<leader>fo', miniextra.pickers.oldfiles, { desc = 'Find Recent Files' })
-  vim.keymap.set('n', '<leader>fp', [[<Cmd>Pick hipatterns<CR>]], { desc = 'Highlight Patterns' })
-  vim.keymap.set('n', '<leader>f/', [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
-  vim.keymap.set('n', '<leader>f:', [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
+  nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>', 'Added hunks (all)')
+  nmap_leader('fA', pick_added_hunks_buf, 'Added hunks (buf)')
+  nmap_leader('fb', '<Cmd>Pick buffers<CR>', 'Buffers')
+  nmap_leader('fc', '<Cmd>Pick git_commits<CR>', 'Commits (all)')
+  nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>', 'Commits (buf)')
+  nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>', 'Diagnostic workspace')
+  nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer')
+  nmap_leader('ff', minipick.builtin.files, 'Files')
+  nmap_leader('fg', minipick.builtin.grep_live, 'Find by Grep')
+  nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>', 'Grep current word')
+  nmap_leader('fe', miniextra.pickers.explorer, 'Explorer')
+  nmap_leader('fo', miniextra.pickers.oldfiles, 'Find Recent Files')
+  nmap_leader('fp', [[<Cmd>Pick hipatterns<CR>]], 'Highlight Patterns')
+  nmap_leader('f/', [[<Cmd>Pick history scope='/'<CR>]], '"/" history')
+  nmap_leader('f:', [[<Cmd>Pick history scope=':'<CR>]], '":" history')
   -- Search related
-  map('n', '<leader>fh', '<Cmd>Pick help<CR>', 'Help tags')
-  map('n', '<leader>fH', '<Cmd>Pick hl_groups<CR>', 'Highlight groups')
-  vim.keymap.set('n', '<leader>fk', miniextra.pickers.keymaps, { desc = 'Keymaps' })
-  map('n', '<leader>fr', '<Cmd>Pick resume<CR>', 'Resume')
-  map('n', '<leader>fl', '<Cmd>Pick buf_lines scope="all"<CR>', 'Lines (all)')
-  map('n', '<leader>fL', '<Cmd>Pick buf_lines scope="current"<CR>', 'Lines (buf)')
+  nmap_leader('fh', '<Cmd>Pick help<CR>', 'Help tags')
+  nmap_leader('fH', '<Cmd>Pick hl_groups<CR>', 'Highlight groups')
+  nmap_leader('fk', miniextra.pickers.keymaps, 'Keymaps')
+  nmap_leader('fr', '<Cmd>Pick resume<CR>', 'Resume')
+  nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>', 'Lines (all)')
+  nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>', 'Lines (buf)')
   -- map('n', '<leader>s"', '<Cmd>Pick registers<CR>', 'Search registers')
   -- map('n', '<leader>sc', '<Cmd>Pick history<CR>', 'Search history')
   -- map('n', '<leader>sC', '<Cmd>Pick commands<CR>', 'Search commands')
   -- map('n', '<leader>sd', '<Cmd>Pick diagnostic scope="all"<CR>', 'Diagnostic workspace')
   -- map('n', '<leader>sD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer')
-  map('n', '<leader>fo', '<Cmd>Pick options<CR>', 'Search options')
+  nmap_leader('fo', '<Cmd>Pick options<CR>', 'Search options')
   -- map('n', '<leader>ss', '<Cmd>Pick colorschemes<CR>', 'Search colorschemes')
   -- map('n', '<leader>sT', '<Cmd>Pick treesitter<CR>', 'Treesitter objects')
 
@@ -543,17 +580,17 @@ later(function()
   vim.keymap.set('n', '<leader>gf', function()
     MiniExtra.pickers.git_files()
   end, { desc = 'Search Git files' })
-  map('n', '<leader>ga', '<Cmd>Git diff --cached<CR>', 'Added diff')
-  map('n', '<leader>gA', '<Cmd>Git diff --cached -- %<CR>', 'Added diff buffer')
-  map('n', '<leader>gc', '<Cmd>Git commit<CR>', 'Commit')
-  map('n', '<leader>gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
-  map('n', '<leader>gd', '<Cmd>Git diff<CR>', 'Diff')
-  map('n', '<leader>gD', '<Cmd>Git diff -- %<CR>', 'Diff buffer')
-  vim.keymap.set('n', '<leader>gb', miniextra.pickers.git_branches, { desc = 'Git branches' })
-  map('n', '<leader>gl', '<Cmd>' .. git_log_cmd .. '<CR>', 'Log')
-  map('n', '<leader>gL', '<Cmd>' .. git_log_buf_cmd .. '<CR>', 'Log buffer')
-  map('n', '<leader>go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
-  map('n', '<leader>gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
+  nmap_leader('ga', '<Cmd>Git diff --cached<CR>', 'Added diff')
+  nmap_leader('gA', '<Cmd>Git diff --cached -- %<CR>', 'Added diff buffer')
+  nmap_leader('gc', '<Cmd>Git commit<CR>', 'Commit')
+  nmap_leader('gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
+  nmap_leader('gd', '<Cmd>Git diff<CR>', 'Diff')
+  nmap_leader('gD', '<Cmd>Git diff -- %<CR>', 'Diff buffer')
+  nmap_leader('gb', miniextra.pickers.git_branches, 'Git branches')
+  nmap_leader('gl', '<Cmd>' .. git_log_cmd .. '<CR>', 'Log')
+  nmap_leader('gL', '<Cmd>' .. git_log_buf_cmd .. '<CR>', 'Log buffer')
+  nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
+  nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
 
   -- LSP related
   -- vim.keymap.set('n', '<leader>lD', [[<Cmd>Pick diagnostic scope = 'all'<CR>]], { desc = 'Diagnostic workspace' })
@@ -571,6 +608,7 @@ later(function()
   end, { desc = 'Grep Current Word' })
 end)
 
+-- [[ Surround ]] ------------------------------------------------------------
 -- Surround actions: add/delete/replace/find/highlight. Working with surroundings
 -- is surprisingly common: surround word with quotes, replace `)` with `]`, etc.
 -- This module comes with many built-in surroundings, each identified by a single
@@ -598,13 +636,15 @@ later(function()
   require('mini.surround').setup()
 end)
 
+-- [[ Trailspace ]] ----------------------------------------------------------
 later(function()
   local minitrailspace = require 'mini.trailspace'
   minitrailspace.setup()
-  vim.keymap.set('n', '<leader>ot', minitrailspace.trim, { desc = 'trim space' })
-  vim.keymap.set('n', '<leader>oe', minitrailspace.trim_last_lines, { desc = 'trim end-line' })
+  nmap_leader('ot', minitrailspace.trim, 'trim space')
+  nmap_leader('oe', minitrailspace.trim_last_lines, 'trim end-line')
 end)
 
+-- [[ Visits ]] --------------------------------------------------------------
 later(function()
   require('mini.visits').setup()
   local make_pick_core = function(cwd, desc)
@@ -615,10 +655,10 @@ later(function()
     end
   end
 
-  map('n', '<leader>vc', make_pick_core('', 'Core visits (all)'), 'Core visits (all)')
-  map('n', '<leader>vC', make_pick_core(nil, 'Core visits (cwd)'), 'Core visits (cwd)')
-  map('n', '<leader>vv', '<Cmd>lua MiniVisits.add_label("core")<CR>', 'Add "core" label')
-  map('n', '<leader>vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core" label')
-  map('n', '<leader>vl', '<Cmd>lua MiniVisits.add_label()<CR>', 'Add label')
-  map('n', '<leader>vL', '<Cmd>lua MiniVisits.remove_label()<CR>', 'Remove label')
+  nmap_leader('vc', make_pick_core('', 'Core visits (all)'), 'Core visits (all)')
+  nmap_leader('vC', make_pick_core(nil, 'Core visits (cwd)'), 'Core visits (cwd)')
+  nmap_leader('vv', '<Cmd>lua MiniVisits.add_label("core")<CR>', 'Add "core" label')
+  nmap_leader('vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core" label')
+  nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>', 'Add label')
+  nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>', 'Remove label')
 end)
