@@ -251,7 +251,7 @@ now(function()
       require('mini.starter').sections.builtin_actions(),
       require('mini.starter').sections.recent_files(3, false),
       require('mini.starter').sections.pick(),
-      -- require('mini.starter').sections.sessions(3, true),
+      require('mini.starter').sections.sessions(3, true),
       { action = 'Mason', name = 'Mason', section = 'Plugin Actions' },
       { action = 'DepsUpdate', name = 'Update deps', section = 'Plugin Actions' },
     },
