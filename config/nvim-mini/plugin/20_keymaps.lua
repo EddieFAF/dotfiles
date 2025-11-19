@@ -29,6 +29,7 @@ nmap("<S-h>", ":bprevious<CR>", "Previous Buffer")
 nmap("-", "<C-x>", "decrement")
 nmap("+", "<C-a>", "increment")
 
+
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
 -- stylua: ignore start

@@ -4,24 +4,13 @@ local function map(modes, keys, action, description)
   return vim.keymap.set(modes, keys, action, opts)
 end
 
+-- starting with STEP01: now()
 now(function()
   require('mini.basics').setup {
     options = { extra_ui = true, win_borders = 'bold' },
     mappings = { windows = true, move_with_alt = true },
     autocommands = { relnum_in_visual_mode = true },
   }
-end)
-
-later(function()
-  require('mini.bracketed').setup()
-end)
-
-later(function()
-  require('mini.bufremove').setup()
-  vim.keymap.set('n', '<leader>bd', '<Cmd>lua MiniBufremove.delete()<CR>', { desc = 'Delete buffer' })
-  vim.keymap.set('n', '<leader>bD', '<Cmd>lua MiniBufremove.delete(0,  true)<CR>', { desc = 'Delete! buffer' })
-  vim.keymap.set('n', '<leader>bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', { desc = 'Wipeout buffer' })
-  vim.keymap.set('n', '<leader>bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', { desc = 'Wipeout! buffer' })
 end)
 
 now(function()
@@ -80,29 +69,6 @@ now(function()
       delay = 0,
     },
   }
-end)
-
-later(function()
-  require('mini.comment').setup()
-end)
-
-later(function()
-  require('mini.completion').setup {
-    lsp_completion = { source_func = 'omnifunc', auto_setup = false },
-  }
-  local on_attach = function(args)
-    vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-  end
-  vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
-  vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
-end)
-
-later(function()
-  require('mini.cursorword').setup()
-end)
-
-later(function()
-  require('mini.extra').setup()
 end)
 
 now(function()
@@ -190,6 +156,146 @@ now(function()
   vim.keymap.set('n', '<leader>em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = 'Mini.nvim directory' })
 end)
 
+-- Icon provider. Usually no need to use manually. It is used by plugins like
+-- 'mini.pick', 'mini.files', 'mini.statusline', and others.
+now(function()
+  -- Set up to not prefer extension-based icon for some extensions
+  local ext3_blocklist = { scm = true, txt = true, yml = true }
+  local ext4_blocklist = { json = true, yaml = true }
+  require('mini.icons').setup {
+    use_file_extension = function(ext, _)
+      return not (ext3_blocklist[ext:sub(-3)] or ext4_blocklist[ext:sub(-4)])
+    end,
+  }
+
+  -- Mock 'nvim-tree/nvim-web-devicons' for plugins without 'mini.icons' support.
+  -- Not needed for 'mini.nvim' or MiniMax, but might be useful for others.
+  later(MiniIcons.mock_nvim_web_devicons)
+
+  -- Add LSP kind icons. Useful for 'mini.completion'.
+  later(MiniIcons.tweak_lsp_kind)
+end)
+
+now(function()
+  local mininotify = require 'mini.notify'
+  local filterout_lua_diagnosing = function(notif_arr)
+    local not_diagnosing = function(notif)
+      return not vim.startswith(notif.msg, 'lua_ls: Diagnosing')
+    end
+    notif_arr = vim.tbl_filter(not_diagnosing, notif_arr)
+    return mininotify.default_sort(notif_arr)
+  end
+  mininotify.setup {
+    content = { sort = filterout_lua_diagnosing },
+    window = { config = { row = 1, border = 'rounded' } },
+  }
+
+  vim.notify = require('mini.notify').make_notify()
+end)
+
+-- Session management. A thin wrapper around `:h mksession` that consistently
+-- manages session files. Example usage:
+-- - `<Leader>sn` - start new session
+-- - `<Leader>sr` - read previously started session
+-- - `<Leader>sd` - delete previously started session
+now(function()
+  require('mini.sessions').setup()
+  local session_new = 'MiniSessions.write(vim.fn.input("Session name: "))'
+
+  map('n', '<leader>sd', '<Cmd>lua MiniSessions.select("delete")<CR>', 'Delete')
+  map('n', '<leader>sn', '<Cmd>lua ' .. session_new .. '<CR>', 'New')
+  map('n', '<leader>sr', '<Cmd>lua MiniSessions.select("read")<CR>', 'Read')
+  map('n', '<leader>sw', '<Cmd>lua MiniSessions.write()<CR>', 'Write current')
+end)
+
+now(function()
+  -- [[ Starter ]] -------------------------------------------------------------
+  local logo = table.concat({
+    '     _____  .__       .______   ____.__             ',
+    '    /     \\ |__| ____ |__\\   \\ /   /|__| _____   ',
+    '   /  \\ /  \\|  |/    \\|  |\\   Y   / |  |/     \\  ',
+    '  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ',
+    '  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ',
+    '          \\/        \\/                       \\/  ',
+    '',
+    'Pwd: ' .. vim.fn.getcwd(),
+  }, '\n')
+  require('mini.starter').setup {
+    autoopen = true,
+    evaluate_single = true,
+    header = logo,
+    footer = 'config powered by mini.nvim',
+    items = {
+      require('mini.starter').sections.builtin_actions(),
+      require('mini.starter').sections.recent_files(3, false),
+      require('mini.starter').sections.pick(),
+      -- require('mini.starter').sections.sessions(3, true),
+      { action = 'Mason', name = 'Mason', section = 'Plugin Actions' },
+      { action = 'DepsUpdate', name = 'Update deps', section = 'Plugin Actions' },
+    },
+  }
+end)
+
+now(function()
+  local statusline = require 'mini.statusline'
+  statusline.setup { use_icons = vim.g.have_nerd_font }
+
+  ---@diagnostic disable-next-line: duplicate-set-field
+  statusline.section_location = function()
+    return '%7(%l/%3L%):%2c %P'
+  end
+end)
+
+now(function()
+  require('mini.tabline').setup()
+end)
+
+----------------------------
+-- going to STEP02: later()
+later(function()
+  require('mini.bracketed').setup()
+end)
+
+later(function()
+  require('mini.bufremove').setup()
+  local new_scratch_buffer = function()
+    vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
+  end
+  map('<leader>ba', '<Cmd>b#<CR>', 'Alternate')
+  vim.keymap.set('n', '<leader>bd', '<Cmd>lua MiniBufremove.delete()<CR>', { desc = 'Delete buffer' })
+  vim.keymap.set('n', '<leader>bD', '<Cmd>lua MiniBufremove.delete(0,  true)<CR>', { desc = 'Delete! buffer' })
+  map('<leader>bs', new_scratch_buffer, 'Scratch')
+  vim.keymap.set('n', '<leader>bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', { desc = 'Wipeout buffer' })
+  vim.keymap.set('n', '<leader>bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', { desc = 'Wipeout! buffer' })
+end)
+
+later(function()
+  require('mini.comment').setup()
+end)
+
+later(function()
+  require('mini.completion').setup {
+    lsp_completion = { source_func = 'omnifunc', auto_setup = false },
+  }
+  local on_attach = function(args)
+    vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+  end
+  vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
+  vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
+end)
+
+later(function()
+  require('mini.cursorword').setup()
+end)
+
+later(function()
+  require('mini.diff').setup()
+end)
+
+later(function()
+  require('mini.extra').setup()
+end)
+
 later(function()
   -- [[ Fuzzy ]] ---------------------------------------------------------------
   require('mini.fuzzy').setup()
@@ -200,15 +306,6 @@ later(function()
   require('mini.git').setup()
   local rhs = '<Cmd>lua MiniGit.show_at_cursor()<CR>'
   vim.keymap.set({ 'n', 'x' }, '<Leader>gs', rhs, { desc = 'Show at cursor' })
-end)
-
-now(function()
-  local miniicons = require 'mini.icons'
-  miniicons.setup {
-    style = 'glyph',
-  }
-  miniicons.mock_nvim_web_devicons()
-  miniicons.tweak_lsp_kind()
 end)
 
 later(function()
@@ -284,25 +381,85 @@ later(function()
   }
 end)
 
+-- Special key mappings. Provides helpers to map:
+-- - Multi-step actions. Apply action 1 if condition is met; else apply
+--   action 2 if condition is met; etc.
+-- - Combos. Sequence of keys where each acts immediately plus execute extra
+--   action if all are typed fast enough. Useful for Insert mode mappings to not
+--   introduce delay when typing mapping keys without intention to execute action.
+--
+-- See also:
+-- - `:h MiniKeymap-examples` - examples of common setups
+-- - `:h MiniKeymap.map_multistep()` - map multi-step action
+-- - `:h MiniKeymap.map_combo()` - map combo
+later(function()
+  require('mini.keymap').setup()
+  -- Navigate 'mini.completion' menu with `<Tab>` /  `<S-Tab>`
+  MiniKeymap.map_multistep('i', '<Tab>', { 'pmenu_next' })
+  MiniKeymap.map_multistep('i', '<S-Tab>', { 'pmenu_prev' })
+  -- On `<CR>` try to accept current completion item, fall back to accounting
+  -- for pairs from 'mini.pairs'
+  MiniKeymap.map_multistep('i', '<CR>', { 'pmenu_accept', 'minipairs_cr' })
+  -- On `<BS>` just try to account for pairs from 'mini.pairs'
+  MiniKeymap.map_multistep('i', '<BS>', { 'minipairs_bs' })
+end)
+
+-- Window with text overview. It is displayed on the right hand side. Can be used
+-- for quick overview and navigation. Hidden by default. Example usage:
+-- - `<Leader>mt` - toggle map window
+-- - `<Leader>mf` - focus on the map for fast navigation
+-- - `<Leader>ms` - change map's side (if it covers something underneath)
+--
+-- See also:
+-- - `:h MiniMap.gen_encode_symbols` - list of symbols to use for text encoding
+-- - `:h MiniMap.gen_integration` - list of integrations to show in the map
+--
+-- NOTE: Might introduce lag on very big buffers (10000+ lines)
+later(function()
+  local map = require 'mini.map'
+  map.setup {
+    -- Use Braille dots to encode text
+    symbols = { encode = map.gen_encode_symbols.dot '4x2' },
+    -- Show built-in search matches, 'mini.diff' hunks, and diagnostic entries
+    integrations = {
+      map.gen_integration.builtin_search(),
+      map.gen_integration.diff(),
+      map.gen_integration.diagnostic(),
+    },
+  }
+
+  -- Map built-in navigation characters to force map refresh
+  for _, key in ipairs { 'n', 'N', '*', '#' } do
+    local rhs = key
+      -- Also open enough folds when jumping to the next match
+      .. 'zv'
+      .. '<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>'
+    vim.keymap.set('n', key, rhs)
+  end
+  -- - `<Leader>mt` - toggle map from 'mini.map' (closed by default)
+  -- - `<Leader>mf` - focus on the map for fast navigation
+  -- - `<Leader>ms` - change map's side (if it covers something underneath)
+  map('n', '<leader>mf', '<Cmd>lua MiniMap.toggle_focus()<CR>', 'Focus (toggle)')
+  map('n', '<leader>mr', '<Cmd>lua MiniMap.refresh()<CR>', 'Refresh')
+  map('n', '<leader>ms', '<Cmd>lua MiniMap.toggle_side()<CR>', 'Side (toggle)')
+  map('n', '<leader>mt', '<Cmd>lua MiniMap.toggle()<CR>', 'Toggle')
+end)
+
 later(function()
   require('mini.move').setup()
 end)
 
-now(function()
-  local mininotify = require 'mini.notify'
-  local filterout_lua_diagnosing = function(notif_arr)
-    local not_diagnosing = function(notif)
-      return not vim.startswith(notif.msg, 'lua_ls: Diagnosing')
-    end
-    notif_arr = vim.tbl_filter(not_diagnosing, notif_arr)
-    return mininotify.default_sort(notif_arr)
-  end
-  mininotify.setup {
-    content = { sort = filterout_lua_diagnosing },
-    window = { config = { row = 1, border = 'rounded' } },
-  }
-
-  vim.notify = require('mini.notify').make_notify()
+-- Autopairs functionality. Insert pair when typing opening character and go over
+-- right character if it is already to cursor's right. Also provides mappings for
+-- `<CR>` and `<BS>` to perform extra actions when inside pair.
+-- Example usage in Insert mode:
+-- - `(` - insert "()" and put cursor between them
+-- - `)` when there is ")" to the right - jump over ")" without inserting new one
+-- - `<C-v>(` - always insert a single "(" literally. This is useful since
+--   'mini.pairs' doesn't provide particularly smart behavior, like auto balancing
+later(function()
+  -- Create pairs not only in Insert, but also in Command line mode
+  require('mini.pairs').setup { modes = { command = true } }
 end)
 
 later(function()
@@ -370,16 +527,26 @@ later(function()
   map('n', '<leader>sT', '<Cmd>Pick treesitter<CR>', 'Treesitter objects')
 
   -- Git related
+  local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ │\ \%s --topo-order]]
+  local git_log_buf_cmd = git_log_cmd .. ' --follow -- %'
+
   vim.keymap.set('n', '<leader>gf', function()
     MiniExtra.pickers.git_files()
   end, { desc = 'Search Git files' })
   vim.keymap.set('n', '<leader>ga', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
   vim.keymap.set('n', '<leader>gA', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = 'Added hunks (current)' })
+  map('n', '<leader>gd', '<Cmd>Git diff<CR>', 'Diff')
+  map('n', '<leader>gD', '<Cmd>Git diff -- %<CR>', 'Diff buffer')
   vim.keymap.set('n', '<leader>gM', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
   vim.keymap.set('n', '<leader>gm', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
   vim.keymap.set('n', '<leader>gb', miniextra.pickers.git_branches, { desc = 'Git branches' })
   vim.keymap.set('n', '<leader>gC', miniextra.pickers.git_commits, { desc = 'Commits (all)' })
   vim.keymap.set('n', '<leader>gc', [[<Cmd>Pick git_commits path = '%'<CR>]], { desc = 'Commits (current)' })
+  map('n', '<leader>gl', '<Cmd>' .. git_log_cmd .. '<CR>', 'Log')
+  map('n', '<leader>gL', '<Cmd>' .. git_log_buf_cmd .. '<CR>', 'Log buffer')
+  map('n', '<leader>go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
+  map('n', '<leader>gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at cursor')
+
   -- LSP related
   -- vim.keymap.set('n', '<leader>lD', [[<Cmd>Pick diagnostic scope = 'all'<CR>]], { desc = 'Diagnostic workspace' })
   -- vim.keymap.set('n', '<leader>ld', [[<Cmd>Pick diagnostic scope = 'current'<CR>]], { desc = 'Diagnostic buffer' })
@@ -398,46 +565,31 @@ later(function()
   vim.keymap.set('n', '<leader>vV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
 end)
 
-now(function()
-  -- [[ Starter ]] -------------------------------------------------------------
-  local logo = table.concat({
-    '     _____  .__       .______   ____.__             ',
-    '    /     \\ |__| ____ |__\\   \\ /   /|__| _____   ',
-    '   /  \\ /  \\|  |/    \\|  |\\   Y   / |  |/     \\  ',
-    '  /    Y    \\  |   |  \\  | \\     /  |  |  Y Y  \\ ',
-    '  \\____|__  /__|___|  /__|  \\___/   |__|__|_|  / ',
-    '          \\/        \\/                       \\/  ',
-    '',
-    'Pwd: ' .. vim.fn.getcwd(),
-  }, '\n')
-  require('mini.starter').setup {
-    autoopen = true,
-    evaluate_single = true,
-    header = logo,
-    footer = 'config powered by mini.nvim',
-    items = {
-      require('mini.starter').sections.builtin_actions(),
-      require('mini.starter').sections.recent_files(3, false),
-      require('mini.starter').sections.pick(),
-      -- require('mini.starter').sections.sessions(3, true),
-      { action = 'Mason', name = 'Mason', section = 'Plugin Actions' },
-      { action = 'DepsUpdate', name = 'Update deps', section = 'Plugin Actions' },
-    },
-  }
-end)
-
-now(function()
-  local statusline = require 'mini.statusline'
-  statusline.setup { use_icons = vim.g.have_nerd_font }
-
-  ---@diagnostic disable-next-line: duplicate-set-field
-  statusline.section_location = function()
-    return '%7(%l/%3L%):%2c %P'
-  end
-end)
-
+-- Surround actions: add/delete/replace/find/highlight. Working with surroundings
+-- is surprisingly common: surround word with quotes, replace `)` with `]`, etc.
+-- This module comes with many built-in surroundings, each identified by a single
+-- character. It searches only for surrounding that covers cursor and comes with
+-- a special "next" / "last" versions of actions to search forward or backward
+-- (just like 'mini.ai'). All text editing actions are dot-repeatable (see `:h .`).
+--
+-- Example usage (this may feel intimidating at first, but after practice it
+-- becomes second nature during text editing):
+-- - `saiw)` - *s*urround *a*dd for *i*nside *w*ord parenthesis (`)`)
+-- - `sdf`   - *s*urround *d*elete *f*unction call (like `f(var)` -> `var`)
+-- - `srb[`  - *s*urround *r*eplace *b*racket (any of [], (), {}) with padded `[`
+-- - `sf*`   - *s*urround *f*ind right part of `*` pair (like bold in markdown)
+-- - `shf`   - *s*urround *h*ighlight current *f*unction call
+-- - `srn{{` - *s*urround *r*eplace *n*ext curly bracket `{` with padded `{`
+-- - `sdl'`  - *s*urround *d*elete *l*ast quote pair (`'`)
+-- - `vaWsa<Space>` - *v*isually select *a*round *W*ORD and *s*urround *a*dd
+--                    spaces (`<Space>`)
+--
+-- See also:
+-- - `:h MiniSurround-builtin-surroundings` - list of all supported surroundings
+-- - `:h MiniSurround-surrounding-specification` - examples of custom surroundings
+-- - `:h MiniSurround-vim-surround-config` - alternative set of action mappings
 later(function()
-  require('mini.tabline').setup()
+  require('mini.surround').setup()
 end)
 
 later(function()
