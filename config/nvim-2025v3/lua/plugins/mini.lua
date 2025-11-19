@@ -25,13 +25,14 @@ now(function()
       clue.gen_clues.windows { submode_resize = true },
       clue.gen_clues.z(),
       { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
-      { mode = 'n', keys = '<Leader>s', desc = '+Search' },
-      { mode = 'n', keys = '<Leader>f', desc = '+Files' },
-      { mode = 'n', keys = '<Leader>e', desc = '+Explorer' },
-      { mode = 'n', keys = '<Leader>t', desc = '+Trail Space' },
+      { mode = 'n', keys = '<Leader>s', desc = '+Session' },
+      { mode = 'n', keys = '<Leader>e', desc = '+Explore/Edit' },
+      { mode = 'n', keys = '<Leader>f', desc = '+Find' },
       { mode = 'n', keys = '<Leader>g', desc = '+Git' },
+      { mode = 'n', keys = '<Leader>l', desc = '+Language' },
+      { mode = 'n', keys = '<Leader>m', desc = '+Map' },
+      { mode = 'n', keys = '<Leader>o', desc = '+Other' },
       { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
-      { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
       { mode = 'n', keys = 'gr', desc = '+LSP' },
     },
     triggers = {
@@ -151,7 +152,7 @@ now(function()
     end,
   })
 
-  vim.keymap.set('n', '<leader>ed', '<cmd>lua MiniFiles.open()<cr>', { desc = 'Find Manual' })
+  vim.keymap.set('n', '<leader>ed', '<cmd>lua MiniFiles.open()<cr>', { desc = 'Directory' })
   vim.keymap.set('n', '<leader>ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], { desc = 'File directory' })
   vim.keymap.set('n', '<leader>em', [[<Cmd>lua MiniFiles.open('~/.config/nvim')<CR>]], { desc = 'Mini.nvim directory' })
 end)
@@ -261,10 +262,10 @@ later(function()
   local new_scratch_buffer = function()
     vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
   end
-  map('<leader>ba', '<Cmd>b#<CR>', 'Alternate')
+  map('n', '<leader>ba', '<Cmd>b#<CR>', 'Alternate')
   vim.keymap.set('n', '<leader>bd', '<Cmd>lua MiniBufremove.delete()<CR>', { desc = 'Delete buffer' })
   vim.keymap.set('n', '<leader>bD', '<Cmd>lua MiniBufremove.delete(0,  true)<CR>', { desc = 'Delete! buffer' })
-  map('<leader>bs', new_scratch_buffer, 'Scratch')
+  map('n', '<leader>bs', new_scratch_buffer, 'Scratch')
   vim.keymap.set('n', '<leader>bw', '<Cmd>lua MiniBufremove.wipeout()<CR>', { desc = 'Wipeout buffer' })
   vim.keymap.set('n', '<leader>bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', { desc = 'Wipeout! buffer' })
 end)
@@ -416,15 +417,15 @@ end)
 --
 -- NOTE: Might introduce lag on very big buffers (10000+ lines)
 later(function()
-  local map = require 'mini.map'
-  map.setup {
+  local minimap = require 'mini.map'
+  minimap.setup {
     -- Use Braille dots to encode text
-    symbols = { encode = map.gen_encode_symbols.dot '4x2' },
+    symbols = { encode = minimap.gen_encode_symbols.dot '4x2' },
     -- Show built-in search matches, 'mini.diff' hunks, and diagnostic entries
     integrations = {
-      map.gen_integration.builtin_search(),
-      map.gen_integration.diff(),
-      map.gen_integration.diagnostic(),
+      minimap.gen_integration.builtin_search(),
+      minimap.gen_integration.diff(),
+      minimap.gen_integration.diagnostic(),
     },
   }
 
@@ -439,10 +440,10 @@ later(function()
   -- - `<Leader>mt` - toggle map from 'mini.map' (closed by default)
   -- - `<Leader>mf` - focus on the map for fast navigation
   -- - `<Leader>ms` - change map's side (if it covers something underneath)
-  map('n', '<leader>mf', '<Cmd>lua MiniMap.toggle_focus()<CR>', 'Focus (toggle)')
-  map('n', '<leader>mr', '<Cmd>lua MiniMap.refresh()<CR>', 'Refresh')
-  map('n', '<leader>ms', '<Cmd>lua MiniMap.toggle_side()<CR>', 'Side (toggle)')
-  map('n', '<leader>mt', '<Cmd>lua MiniMap.toggle()<CR>', 'Toggle')
+  vim.keymap.set('n', '<leader>mf', '<Cmd>lua MiniMap.toggle_focus()<CR>', { desc = 'Focus (toggle)' })
+  vim.keymap.set('n', '<leader>mr', '<Cmd>lua MiniMap.refresh()<CR>', { desc = 'Refresh' })
+  vim.keymap.set('n', '<leader>ms', '<Cmd>lua MiniMap.toggle_side()<CR>', { desc = 'Side (toggle)' })
+  vim.keymap.set('n', '<leader>mt', '<Cmd>lua MiniMap.toggle()<CR>', { desc = 'Toggle' })
 end)
 
 later(function()
@@ -502,29 +503,38 @@ later(function()
     minipick.registry.buffers { include_current = false }
   end, { desc = 'Find Buffers' })
   vim.keymap.set('n', '<leader><space>', minipick.builtin.buffers, { desc = 'Find existing buffers' })
+  local pick_added_hunks_buf = '<Cmd>Pick git_hunks path="%" scope="staged"<CR>'
 
-  vim.keymap.set('n', '<leader>ff', minipick.builtin.files, { desc = 'Find Files' })
+  map('n', '<leader>fa', '<Cmd>Pick git_hunks scope="staged"<CR>', 'Added hunks (all)')
+  map('n', '<leader>fA', pick_added_hunks_buf, 'Added hunks (buf)')
+  map('n', '<leader>fb', '<Cmd>Pick buffers<CR>', 'Buffers')
+  map('n', '<leader>fc', '<Cmd>Pick git_commits<CR>', 'Commits (all)')
+  map('n', '<leader>fC', '<Cmd>Pick git_commits path="%"<CR>', 'Commits (buf)')
+  map('n', '<leader>fd', '<Cmd>Pick diagnostic scope="all"<CR>', 'Diagnostic workspace')
+  map('n', '<leader>fD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer')
+  vim.keymap.set('n', '<leader>ff', minipick.builtin.files, { desc = 'Files' })
   vim.keymap.set('n', '<leader>fg', minipick.builtin.grep_live, { desc = 'Find by Grep' })
+  map('n', '<leader>fG', '<Cmd>Pick grep pattern="<cword>"<CR>', 'Grep current word')
   vim.keymap.set('n', '<leader>fe', miniextra.pickers.explorer, { desc = 'Explorer' })
   vim.keymap.set('n', '<leader>fo', miniextra.pickers.oldfiles, { desc = 'Find Recent Files' })
   vim.keymap.set('n', '<leader>fp', [[<Cmd>Pick hipatterns<CR>]], { desc = 'Highlight Patterns' })
   vim.keymap.set('n', '<leader>f/', [[<Cmd>Pick history scope='/'<CR>]], { desc = '"/" history' })
   vim.keymap.set('n', '<leader>f:', [[<Cmd>Pick history scope=':'<CR>]], { desc = '":" history' })
   -- Search related
-  vim.keymap.set('n', '<leader>sh', minipick.builtin.help, { desc = 'Find Help' })
-  vim.keymap.set('n', '<leader>sk', miniextra.pickers.keymaps, { desc = 'Keymaps' })
-  vim.keymap.set('n', '<leader>sH', [[<Cmd>Pick hl_groups<CR>]], { desc = 'Highlight groups' })
-  vim.keymap.set('n', '<leader>sr', minipick.builtin.resume, { desc = 'Resume' })
-  vim.keymap.set('n', '<leader>sb', [[<Cmd>Pick buf_lines scope='all'<CR>]], { desc = 'Lines (all)' })
-  vim.keymap.set('n', '<leader>sB', [[<Cmd>Pick buf_lines scope='current'<CR>]], { desc = 'Lines (current)' })
-  map('n', '<leader>s"', '<Cmd>Pick registers<CR>', 'Search registers')
-  map('n', '<leader>sc', '<Cmd>Pick history<CR>', 'Search history')
-  map('n', '<leader>sC', '<Cmd>Pick commands<CR>', 'Search commands')
-  map('n', '<leader>sd', '<Cmd>Pick diagnostic scope="all"<CR>', 'Diagnostic workspace')
-  map('n', '<leader>sD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer')
-  map('n', '<leader>so', '<Cmd>Pick options<CR>', 'Search options')
-  map('n', '<leader>ss', '<Cmd>Pick colorschemes<CR>', 'Search colorschemes')
-  map('n', '<leader>sT', '<Cmd>Pick treesitter<CR>', 'Treesitter objects')
+  map('n', '<leader>fh', '<Cmd>Pick help<CR>', 'Help tags')
+  map('n', '<leader>fH', '<Cmd>Pick hl_groups<CR>', 'Highlight groups')
+  vim.keymap.set('n', '<leader>fk', miniextra.pickers.keymaps, { desc = 'Keymaps' })
+  map('n', '<leader>fr', '<Cmd>Pick resume<CR>', 'Resume')
+  map('n', '<leader>fl', '<Cmd>Pick buf_lines scope="all"<CR>', 'Lines (all)')
+  map('n', '<leader>fL', '<Cmd>Pick buf_lines scope="current"<CR>', 'Lines (buf)')
+  -- map('n', '<leader>s"', '<Cmd>Pick registers<CR>', 'Search registers')
+  -- map('n', '<leader>sc', '<Cmd>Pick history<CR>', 'Search history')
+  -- map('n', '<leader>sC', '<Cmd>Pick commands<CR>', 'Search commands')
+  -- map('n', '<leader>sd', '<Cmd>Pick diagnostic scope="all"<CR>', 'Diagnostic workspace')
+  -- map('n', '<leader>sD', '<Cmd>Pick diagnostic scope="current"<CR>', 'Diagnostic buffer')
+  map('n', '<leader>fo', '<Cmd>Pick options<CR>', 'Search options')
+  -- map('n', '<leader>ss', '<Cmd>Pick colorschemes<CR>', 'Search colorschemes')
+  -- map('n', '<leader>sT', '<Cmd>Pick treesitter<CR>', 'Treesitter objects')
 
   -- Git related
   local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ │\ \%s --topo-order]]
@@ -533,15 +543,13 @@ later(function()
   vim.keymap.set('n', '<leader>gf', function()
     MiniExtra.pickers.git_files()
   end, { desc = 'Search Git files' })
-  vim.keymap.set('n', '<leader>ga', [[<Cmd>Pick git_hunks scope='staged'<CR>]], { desc = 'Added hunks (all)' })
-  vim.keymap.set('n', '<leader>gA', [[<Cmd>Pick git_hunks path='%' scope='staged'<CR>]], { desc = 'Added hunks (current)' })
+  map('n', '<leader>ga', '<Cmd>Git diff --cached<CR>', 'Added diff')
+  map('n', '<leader>gA', '<Cmd>Git diff --cached -- %<CR>', 'Added diff buffer')
+  map('n', '<leader>gc', '<Cmd>Git commit<CR>', 'Commit')
+  map('n', '<leader>gC', '<Cmd>Git commit --amend<CR>', 'Commit amend')
   map('n', '<leader>gd', '<Cmd>Git diff<CR>', 'Diff')
   map('n', '<leader>gD', '<Cmd>Git diff -- %<CR>', 'Diff buffer')
-  vim.keymap.set('n', '<leader>gM', [[<Cmd>Pick git_hunks<CR>]], { desc = 'Modified hunks (all)' })
-  vim.keymap.set('n', '<leader>gm', [[<Cmd>Pick git_hunks path='%'<CR>]], { desc = 'Modified hunks (current)' })
   vim.keymap.set('n', '<leader>gb', miniextra.pickers.git_branches, { desc = 'Git branches' })
-  vim.keymap.set('n', '<leader>gC', miniextra.pickers.git_commits, { desc = 'Commits (all)' })
-  vim.keymap.set('n', '<leader>gc', [[<Cmd>Pick git_commits path = '%'<CR>]], { desc = 'Commits (current)' })
   map('n', '<leader>gl', '<Cmd>' .. git_log_cmd .. '<CR>', 'Log')
   map('n', '<leader>gL', '<Cmd>' .. git_log_buf_cmd .. '<CR>', 'Log buffer')
   map('n', '<leader>go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
@@ -561,8 +569,6 @@ later(function()
   vim.keymap.set('n', '<leader>fw', function()
     minipick.builtin.grep { pattern = vim.fn.expand '<cword>' }
   end, { desc = 'Grep Current Word' })
-  vim.keymap.set('n', '<leader>vv', [[<Cmd>Pick visit_paths cwd=''<CR>]], { desc = 'Visit paths (all)' })
-  vim.keymap.set('n', '<leader>vV', [[<Cmd>Pick visit_paths<CR>]], { desc = 'Visit paths (cwd)' })
 end)
 
 -- Surround actions: add/delete/replace/find/highlight. Working with surroundings
@@ -595,10 +601,24 @@ end)
 later(function()
   local minitrailspace = require 'mini.trailspace'
   minitrailspace.setup()
-  vim.keymap.set('n', '<leader>ts', minitrailspace.trim, { desc = 'trim space' })
-  vim.keymap.set('n', '<leader>te', minitrailspace.trim_last_lines, { desc = 'trim end-line' })
+  vim.keymap.set('n', '<leader>ot', minitrailspace.trim, { desc = 'trim space' })
+  vim.keymap.set('n', '<leader>oe', minitrailspace.trim_last_lines, { desc = 'trim end-line' })
 end)
 
 later(function()
   require('mini.visits').setup()
+  local make_pick_core = function(cwd, desc)
+    return function()
+      local sort_latest = MiniVisits.gen_sort.default { recency_weight = 1 }
+      local local_opts = { cwd = cwd, filter = 'core', sort = sort_latest }
+      MiniExtra.pickers.visit_paths(local_opts, { source = { name = desc } })
+    end
+  end
+
+  map('n', '<leader>vc', make_pick_core('', 'Core visits (all)'), 'Core visits (all)')
+  map('n', '<leader>vC', make_pick_core(nil, 'Core visits (cwd)'), 'Core visits (cwd)')
+  map('n', '<leader>vv', '<Cmd>lua MiniVisits.add_label("core")<CR>', 'Add "core" label')
+  map('n', '<leader>vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core" label')
+  map('n', '<leader>vl', '<Cmd>lua MiniVisits.add_label()<CR>', 'Add label')
+  map('n', '<leader>vL', '<Cmd>lua MiniVisits.remove_label()<CR>', 'Remove label')
 end)
