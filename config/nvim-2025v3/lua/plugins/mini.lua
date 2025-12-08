@@ -295,6 +295,11 @@ later(function()
   nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout! buffer')
 end)
 
+-- [[ Commandline ]] ---------------------------------------------------------
+later(function()
+  require('mini.cmdline').setup()
+end)
+
 -- [[ Comment ]] -------------------------------------------------------------
 later(function()
   require('mini.comment').setup()
