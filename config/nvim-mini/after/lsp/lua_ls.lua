@@ -22,6 +22,16 @@ return {
   -- LuaLS Structure of these settings comes from LuaLS, not Neovim
   settings = {
     Lua = {
+      -- Using stylua for formatting.
+      format = { enable = true },
+      hint = {
+        enable = true,
+        setType = false,
+        paramType = true,
+        paramName = 'Disable',
+        semicolon = 'Disable',
+        arrayIndex = 'Disable',
+      },
       -- Define runtime properties. Use 'LuaJIT', as it is built into Neovim.
       runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
       workspace = {

@@ -10,9 +10,11 @@
 
 -- An example helper to create a Normal mode mapping
 local nmap = function(lhs, rhs, desc)
-	-- See `:h vim.keymap.set()`
-	vim.keymap.set("n", lhs, rhs, { desc = desc })
+    -- See `:h vim.keymap.set()`
+    vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
+
+nmap("<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Paste linewise before/after current line
 -- Usage: `yiw` to yank a word and `]p` to put it on the next line.
@@ -24,8 +26,8 @@ nmap("<S-l>", ":bnext<CR>", "Next Buffer")
 nmap("<S-h>", ":bprevious<CR>", "Previous Buffer")
 
 -- increment/decrement
-nmap("-", "<C-x>", "decrement" )
-nmap("+", "<C-a>", "increment" )
+nmap("-", "<C-x>", "decrement")
+nmap("+", "<C-a>", "increment")
 
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
