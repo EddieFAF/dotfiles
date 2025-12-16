@@ -23,6 +23,8 @@ require("fg"):setup({
 
 require("full-border"):setup()
 
+require("sshfs"):setup()
+
 require("yatline"):setup({
   -- theme = require("yatline-catppuccin"):setup("macchiato"),
   --theme = my_theme,
