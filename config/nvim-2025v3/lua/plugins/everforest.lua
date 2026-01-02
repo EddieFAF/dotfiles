@@ -62,5 +62,5 @@ MiniDeps.now(function()
       --stylua: ignore end
     end,
   })
-  vim.cmd.colorscheme 'everforest'
+  -- vim.cmd.colorscheme 'everforest'
 end)
