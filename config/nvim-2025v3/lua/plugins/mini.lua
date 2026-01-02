@@ -20,6 +20,9 @@ end
 ------------------------------------------------------------------------------
 -- starting with STEP01: now()
 ------------------------------------------------------------------------------
+now(function()
+  vim.cmd 'colorscheme miniwinter'
+end)
 
 -- [[ Basics ]] --------------------------------------------------------------
 now(function()
@@ -214,7 +217,7 @@ now(function()
     vim.api.nvim_win_set_config(ev.data.win_id, win_config)
   end
 
-  vim.api.nvim_create_autocmd('User', { pattern = 'MiniFilesWindowUpdate', callback = ensure_center_layout })
+  -- vim.api.nvim_create_autocmd('User', { pattern = 'MiniFilesWindowUpdate', callback = ensure_center_layout })
 
   nmap_leader('ed', '<cmd>lua MiniFiles.open()<cr>', 'Directory')
   nmap_leader('ef', [[<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>]], 'File directory')

@@ -39,8 +39,13 @@ vim.diagnostic.config {
     },
   },
 }
-
-add { source = 'neovim/nvim-lspconfig' }
+now(function()
+  add { source = 'neovim/nvim-lspconfig' }
+  vim.lsp.enable {
+    -- For example, if `lua-language-server` is installed, use `'lua_ls'` entry
+    'lua_ls',
+  }
+end)
 add { source = 'williamboman/mason.nvim' }
 --
 -- Add documentation for nvim-lua api and plugins
@@ -56,28 +61,6 @@ require('neodev').setup {
 -- Mason
 --
 require('mason').setup()
-
-now(function()
-  -- ╒═════════════════════════════╕
-  -- │ Configuring / Enabling LSPs │
-  -- ╘═════════════════════════════╛
-
-  -- Define a default configuration
-  vim.lsp.config('*', {
-    capabilities = require('mini.completion').get_lsp_capabilities(),
-  })
-
-  local ignore_servers = { 'basedpyright', 'omnisharp_mono' }
-
-  local servers = {}
-  for _, name in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
-    local server_name = vim.fn.fnamemodify(name, ':t:r')
-    if not utils.array_contains(ignore_servers, server_name) then
-      table.insert(servers, server_name)
-      vim.lsp.enable(server_name)
-    end
-  end
-end)
 
 local function lsp(scope)
   return function()
@@ -123,4 +106,4 @@ event.autocmd('LspAttach', {
   end,
 })
 
-keys.map('n', '<Leader>li', '<cmd>LspInfo<cr>', 'Show LSP info')
+vim.keymap.set('n', '<Leader>li', '<cmd>LspInfo<cr>', { desc = 'Show LSP info' })
