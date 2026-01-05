@@ -18,6 +18,14 @@ local function toggle(option)
   end
 end
 
+local nmap_leader = function(suffix, rhs, desc)
+  vim.keymap.set('n', '<Leader>' .. suffix, rhs, { desc = desc })
+end
+
+local xmap_leader = function(suffix, rhs, desc)
+  vim.keymap.set('x', '<Leader>' .. suffix, rhs, { desc = desc })
+end
+
 _G.keys = {
   map = map,
   maplocal = maplocal,
@@ -43,8 +51,8 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-map('n', '<leader>F', function()
+vim.keymap.set('n', '<leader>F', function()
   require('conform').format { async = true, lsp_format = 'fallback' }
-end, '[F]ormat buffer')
+end, { desc = '[F]ormat buffer' })
 
 map('n', '<F8>', ':lua toggle_transparency()<CR>', 'Toggle transparency')
