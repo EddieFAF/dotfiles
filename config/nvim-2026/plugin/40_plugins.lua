@@ -184,6 +184,7 @@ later(function()
   vim.keymap.set('n', '<leader>ew', '<cmd>Yazi cwd<cr>', { desc = "Open the file manager in nvim's working directory" })
   vim.keymap.set('n', '<c-up>', '<cmd>Yazi toggle<cr>', { desc = 'Resume the last yazi session' })
 end)
+
 -- Honorable mentions =========================================================
 
 -- 'mason-org/mason.nvim' (a.k.a. "Mason") is a great tool (package manager) for

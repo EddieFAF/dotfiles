@@ -14,6 +14,10 @@ local nmap = function(lhs, rhs, desc)
   vim.keymap.set('n', lhs, rhs, { desc = desc })
 end
 
+-- Shift-l and Shift-h to switch buffer left and right
+nmap('<S-l>', ':bnext<CR>', 'Next Buffer')
+nmap('<S-h>', ':bprevious<CR>', 'Previous Buffer')
+
 -- increment/decrement
 nmap('-', '<C-x>', 'decrement')
 nmap('+', '<C-a>', 'increment')
