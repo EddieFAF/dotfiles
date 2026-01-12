@@ -207,11 +207,12 @@ end)
 -- - `:h MiniAi-textobject-specification` - examples of custom textobjects
 later(function()
   local ai = require 'mini.ai'
+  local miniextra = require 'mini.extra'
   ai.setup {
     -- 'mini.ai' can be extended with custom textobjects
     custom_textobjects = {
       -- Make `aB` / `iB` act on around/inside whole *b*uffer
-      B = MiniExtra.gen_ai_spec.buffer(),
+      B = miniextra.gen_ai_spec.buffer(),
       -- For more complicated textobjects that require structural awareness,
       -- use tree-sitter. This example makes `aF`/`iF` mean around/inside function
       -- definition (not call). See `:h MiniAi.gen_spec.treesitter()` for details.
