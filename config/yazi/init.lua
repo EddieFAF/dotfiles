@@ -21,9 +21,10 @@ require("fg"):setup({
       default_action = "menu", -- nvim, jump
 })
 
-require("full-border"):setup()
+-- require("full-border"):setup()
 
 require("sshfs"):setup()
+
 
 require("yatline"):setup({
   -- theme = require("yatline-catppuccin"):setup("macchiato"),

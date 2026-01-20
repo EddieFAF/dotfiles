@@ -48,5 +48,10 @@ use = "uhs-robert/sshfs"
 rev = "5edff3b"
 hash = "e92138f6eb884bef96d92b2d114ac927"
 
+[[plugin.deps]]
+use = "llanosrocas/yaziline"
+rev = "6266926"
+hash = "9917ab5cb9bdbab7ca7f2501f84f0f11"
+
 [flavor]
 deps = []
