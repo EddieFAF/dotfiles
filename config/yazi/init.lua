@@ -154,10 +154,10 @@ style_a = {
     }
   },
 })
--- require("yatline-githead"):setup({
---     -- theme = require("yatline-catppuccin"):setup("macchiato"),
---       show_branch = true,
---       branch_prefix = "on",
---       branch_borders = "()",
--- })
+require("yatline-githead"):setup({
+    -- theme = require("yatline-catppuccin"):setup("macchiato"),
+      show_branch = true,
+      branch_prefix = "on",
+      branch_borders = "()",
+})
 
