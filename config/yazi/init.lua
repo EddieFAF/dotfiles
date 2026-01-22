@@ -17,9 +17,6 @@ function Linemode:file_info()
   return string.format("%s   %s", self:size(), self:mtime())
 end
 
-require("fg"):setup({
-      default_action = "menu", -- nvim, jump
-})
 
 require("full-border"):setup()
 
