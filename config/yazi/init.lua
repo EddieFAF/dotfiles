@@ -66,14 +66,14 @@ require("yatline"):setup({
   part_separator = { open = "", close = "" },
   inverse_separator = { open = "", close = "" },
 
-style_a = {
-  fg = "black",
-  bg_mode = {
-    normal = "white",
-    select = "brightyellow",
-    un_set = "brightred"
-  }
-},
+  style_a = {
+    fg = "black",
+    bg_mode = {
+      normal = "white",
+      select = "brightyellow",
+      un_set = "brightred"
+    }
+  },
   style_b = { bg = "brightblack", fg = "brightwhite" },
   style_c = { bg = "black", fg = "brightwhite" },
 
@@ -155,9 +155,9 @@ style_a = {
   },
 })
 require("yatline-githead"):setup({
-    -- theme = require("yatline-catppuccin"):setup("macchiato"),
-      show_branch = true,
-      branch_prefix = "on",
-      branch_borders = "()",
+  theme = require("yatline-catppuccin"):setup("macchiato"),
+  show_branch = true,
+  branch_prefix = "on",
+  branch_borders = "()",
 })
 
