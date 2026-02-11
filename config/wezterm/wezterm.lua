@@ -87,7 +87,7 @@ config.pane_focus_follows_mouse = true
   ]]
 --
 
-config.font = wezterm.font_with_fallback { 'FiraCode Nerd Font Mono', 'JetBrains Mono NL' }
+config.font = wezterm.font_with_fallback { 'Liberation Mono', 'FiraCode Nerd Font Mono', 'JetBrains Mono NL' }
 config.font_size = 11
 
 config.window_decorations = 'TITLE|RESIZE'
