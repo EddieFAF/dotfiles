@@ -44,7 +44,7 @@ error_symbol = "[❯](red)"
 vimcmd_symbol = "[❮](purple)"
 
 [git_branch]
-format = "[$symbol$branch]($style)"
+format = "[$symbol$branch]($style) "
 style = "bold purple"
 symbol = ""
 
@@ -67,7 +67,7 @@ style = "bright-black"
 
 [cmd_duration]
 min_time = 500
-format = "[$duration]($style) "
+format = "[$duration]($style)"
 style = "yellow"
 
 [docker_context]
