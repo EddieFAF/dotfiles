@@ -1,0 +1,84 @@
+[hostname]
+ssh_only = true
+disabled = false
+style = "bold italic #87A752"
+format = "[@](white)[$ssh_symbol$hostname]($style) "
+trim_at = "-"
+
+[username]
+show_always = false
+style_user = "bold dimmed blue"
+style_root = "bold red"
+format = "[$user]($style)"
+
+[character]
+success_symbol = "[>](bold green)"
+error_symbol = "[x](bold red)"
+vimcmd_symbol = "[<](bold green)"
+
+[git_branch]
+#symbol = "git "
+symbol = " "
+format = "[$symbol$branch]($style) "
+style = "bright-black"
+
+[git_commit]
+tag_symbol = " tag "
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+stashed = "[${count}*](green)"
+modified = "[${count}+](yellow)"
+deleted =  "[${count}-](red)"
+conflicted =  "[${count}~](red)"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+untracked = "[${count}?](blue)"
+staged = "[${count}+](green)"
+
+[git_state]
+style =	"bold red"
+format = "[$state( $progress_current/$progress_total) ]($style)"
+rebase = "rebase"
+merge = "merge"
+revert = "revert"
+cherry_pick = "cherry"
+bisect = "bisect"
+am = "am"
+am_or_rebase = "am/rebase"
+
+[cmd_duration]
+min_time = 500
+format = "took [$duration]($style)"
+
+[directory]
+#read_only = " ro"
+read_only = " "
+truncation_length = 2
+truncation_symbol = "…/"
+#style = "blue"
+fish_style_pwd_dir_length = 2
+#style = "bold cyan"
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[docker_context]
+symbol = " "
+format = "via [$symbol$context]($style) "
+style = "blue bold"
+only_with_files = true
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+detect_folders = []
+disabled = false
+
+[haskell]
+symbol = " "
+format = '(via [$symbol($version )]($style))'
+
+[lua]
+symbol = " "
+#symbol = "lua "
+format = '(via [$symbol($version )]($style))'
+
+[sudo]
+symbol = "sudo "
+

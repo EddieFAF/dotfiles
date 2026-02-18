@@ -1,65 +1,74 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$sudo\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$docker_context\
+$cmd_duration\
+$line_break\
+$character"""
+
+right_format="""
+$time"""
+
 [hostname]
 ssh_only = true
 disabled = false
-style = "bold italic #87A752"
-format = "[@](white)[$ssh_symbol$hostname]($style) "
+format = "[ in ](white)[$ssh_symbol$hostname]($style) "
 trim_at = "-"
 
 [username]
 show_always = false
-style_user = "bold dimmed blue"
 style_root = "bold red"
 format = "[$user]($style)"
 
+[directory]
+style = 'blue'
+format = "[$path](bold $style)[$read_only]($read_only_style) "
+truncation_length = 2
+truncation_symbol = '…/'
+truncate_to_repo = true
+read_only_style = "fg:red"
+before_repo_root_style = "fg:blue"
+read_only ="  "
+fish_style_pwd_dir_length = 2
+
 [character]
-success_symbol = "[>](bold green)"
-error_symbol = "[x](bold red)"
-vimcmd_symbol = "[<](bold green)"
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](purple)"
 
 [git_branch]
-#symbol = "git "
-symbol = " "
-format = "[$symbol$branch]($style) "
-style = "bright-black"
-
-[git_commit]
-tag_symbol = " tag "
+format = "[$symbol$branch]($style)"
+style = "bold purple"
+symbol = ""
 
 [git_status]
+style = "cyan"
+renamed = "​"
 format = '([\[$all_status$ahead_behind\]]($style) )'
-stashed = "[${count}*](green)" 
-modified = "[${count}+](yellow)" 
-deleted =  "[${count}-](red)" 
-conflicted =  "[${count}~](red)" 
+stashed = "[${count}*](green)"
+modified = "[${count}+](yellow)"
+deleted =  "[${count}-](red)"
+conflicted =  "[${count}~](red)"
 ahead = "⇡${count}"
 behind = "⇣${count}"
-untracked = "[${count}?](blue)" 
-staged = "[${count}+](green)" 
+untracked = "[${count}?](blue)"
+staged = "[${count}+](green)"
 
 [git_state]
-style =	"bold red"
-format = "[$state( $progress_current/$progress_total) ]($style)"
-rebase = "rebase"
-merge = "merge"	
-revert = "revert"	
-cherry_pick = "cherry"
-bisect = "bisect"	
-am = "am"	
-am_or_rebase = "am/rebase"
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
 
 [cmd_duration]
 min_time = 500
-format = "took [$duration]($style)"
-
-[directory]
-#read_only = " ro"
-read_only = " "
-truncation_length = 2
-truncation_symbol = "…/"
-#style = "blue"
-fish_style_pwd_dir_length = 2
-#style = "bold cyan"
-format = "[$path]($style)[$read_only]($read_only_style) "
+format = "[$duration]($style) "
+style = "yellow"
 
 [docker_context]
 symbol = " "
@@ -70,15 +79,22 @@ detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
 detect_folders = []
 disabled = false
 
-[haskell]
-symbol = " "
-format = '(via [$symbol($version )]($style))'
+[python]
+format = "[$virtualenv]($style) "
+detect_extensions = []
+style = "bright-black"
+detect_files = []
 
 [lua]
-symbol = " "
-#symbol = "lua "
-format = '(via [$symbol($version )]($style))'
+format = 'via [lua $version](bold blue) '
 
 [sudo]
-symbol = "sudo "
+style = 'bold green'
+symbol = '👩‍💻 '
+disabled = false
+
+[time]
+disabled = true
+format = '[ $time ]($style) '
+time_format = '%H:%M'
 
