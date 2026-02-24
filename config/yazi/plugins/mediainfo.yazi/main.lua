@@ -197,12 +197,12 @@ function M:peek(job)
 	end
 	force_render()
 	-- NOTE: Hacky way to prevent image overlap with old metadata area
-	if hide_metadata and get_state(STATE_KEY.prev_metadata_area) then
+	if get_state(STATE_KEY.prev_metadata_area) then
 		ya.preview_widget(job, {
 			ui.Clear(ui.Rect(get_state(STATE_KEY.prev_metadata_area))),
 		})
-		ya.sleep(0.1)
 	end
+
 	local rendered_img_rect = cache_img_url
 			and fs.cha(cache_img_url)
 			and ya.image_show(
@@ -283,7 +283,7 @@ function M:preload(job)
 				err_msg = err_msg
 					.. string.format("Failed to start `%s`, Do you have `%s` installed?\n", "ffmpeg", "ffmpeg")
 			end
-		-- audo and image mimetype
+		-- audio and image mimetype
 		elseif cache_img_url and (not cache_img_url_cha or cache_img_url_cha.len <= 0) then
 			-- audio
 			if string.find(job.mime, "^audio/") then
