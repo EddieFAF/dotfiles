@@ -1,9 +1,11 @@
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":/home/eddie/.config/zsh/completions:"* ]]; then export FPATH="/home/eddie/.config/zsh/completions:$FPATH"; fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
 
 # Set the directory we want to store zinit and plugins
 
@@ -23,13 +25,14 @@ zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::archlinux
 zinit snippet OMZP::command-not-found
+zinit snippet OMZP::tmux
 
 zinit light junegunn/fzf
 # Load completions
 autoload -Uz compinit && compinit
 
 zinit cdreplay -q
-zi ice depth=1; zi light romkatv/powerlevel10k
+#zi ice depth=1; zi light romkatv/powerlevel10k
 
 # Keybindings
 bindkey -e
@@ -168,17 +171,26 @@ export FZF_CTRL_R_OPTS="
 
 export FZF_TMUX_HEIGHT="80%"
 export FZF_DEFAULT_OPTS="
- --prompt='~ ❯ '
- --height='80%'
- --marker='✗'
- --pointer='▶'
- --border
- --inline-info
+ --height '30%'
+ --style minimal
+ --color 16
  --layout=reverse
  --preview                                                                 \
      '([[ -f {} ]] &&                                                      \
      (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && \
      (exa --tree --icons --color=always {} | less)) || echo {} 2> /dev/null | head -200'"
+# export FZF_DEFAULT_OPTS="
+#  --prompt='~ ❯ '
+#  --height='80%'
+#  --marker='✗'
+#  --pointer='▶'
+#  --border
+#  --inline-info
+#  --layout=reverse
+#  --preview                                                                 \
+#      '([[ -f {} ]] &&                                                      \
+#      (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && \
+#      (exa --tree --icons --color=always {} | less)) || echo {} 2> /dev/null | head -200'"
 #export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER="**"
 
@@ -188,12 +200,62 @@ export FZF_COMPLETION_TRIGGER="**"
 source $ZDOTDIR/aliases
 alias c='clear'
 
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp" >/dev/null 2>&1
+}
+
+### ARCHIVE EXTRACTION
+# usage: x <file>
+function x {
+ if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: x <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+ else
+    for n in "$@"
+    do
+      if [ -f "$n" ] ; then
+          case "${n%,}" in
+            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                         tar xvf "$n"       ;;
+            *.lzma)      unlzma ./"$n"      ;;
+            *.bz2)       bunzip2 ./"$n"     ;;
+            *.cbr|*.rar)       unrar x -ad ./"$n" ;;
+            *.gz)        gunzip ./"$n"      ;;
+            *.cbz|*.epub|*.zip)       unzip ./"$n"       ;;
+            *.z)         uncompress ./"$n"  ;;
+            *.7z|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
+                         7z x ./"$n"        ;;
+            *.xz)        unxz ./"$n"        ;;
+            *.exe)       cabextract ./"$n"  ;;
+            *.cpio)      cpio -id < ./"$n"  ;;
+            *.cba|*.ace)      unace x ./"$n"      ;;
+            *)
+                         echo "x: '$n' - unknown archive method"
+                         return 1
+                         ;;
+          esac
+      else
+          echo "'$n' - file does not exist"
+          return 1
+      fi
+    done
+fi
+}
+
+
 # Shell integrations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(zoxide init zsh)"
+source <(fzf --zsh)
+
+# eval "$(zoxide init zsh)"
 
 function nvims() {
-  items=("default" "mvim" "nvim-pkazmier" "nvim-231trOn")
+  items=("default" "nvim-2026" "nvim-minimax" "nvim-mini" "nvim-mini2025" "nvim-alexis" "mvim" "nvim-dep2025" "nvim-pkazmier" "nvim-231trOn")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
   if [[ -z $config ]]; then
     echo "Nothing selected"
@@ -204,5 +266,11 @@ function nvims() {
   NVIM_APPNAME=$config nvim $@
 }
 
+# pywal
+#cat ~/.local/cache/wal/sequences
+
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+#. "/home/eddie/.deno/env"
+eval "$(starship init zsh)"
+
