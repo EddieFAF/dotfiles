@@ -36,7 +36,7 @@ truncate_to_repo = true
 read_only_style = "fg:red"
 before_repo_root_style = "fg:blue"
 read_only ="  "
-fish_style_pwd_dir_length = 2
+fish_style_pwd_dir_length = 3
 
 [character]
 success_symbol = "[❯](green)"
