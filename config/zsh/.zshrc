@@ -1,5 +1,3 @@
-# Add deno completions to search path
-if [[ ":$FPATH:" != *":/home/eddie/.config/zsh/completions:"* ]]; then export FPATH="/home/eddie/.config/zsh/completions:$FPATH"; fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -19,20 +17,45 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
+#zinit load agkozak/zsh-z
+
+# zsh-fzf-history-search
+zinit ice lucid wait'0'
+zinit light joshskidmore/zsh-fzf-history-search
 
 # Add in snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::archlinux
-zinit snippet OMZP::command-not-found
+zinit snippet OMZP::debian
 zinit snippet OMZP::tmux
+#zinit snippet OMZP::command-not-found
 
 zinit light junegunn/fzf
-# Load completions
-autoload -Uz compinit && compinit
+
+#zi ice depth=1; zi light romkatv/powerlevel10k
+autoload -Uz compinit
+
+
+# Location of the completion dump file
+COMPDUMP="${ZDOTDIR}/cache/zcompdump"
+
+# Initialize the completions system and check for cache once a day
+if [[ -n "${COMPDUMP}"(#qN.mh+24) ]]; then
+    # If .zcompdump is older than 24 hours, check for changes (-i)
+    compinit -i -d "${COMPDUMP}"
+    touch "${COMPDUMP}"
+else
+    # Otherwisem juste read the file (-d) without checking (-C)
+    compinit -C -d "${COMPDUMP}"
+fi
 
 zinit cdreplay -q
-#zi ice depth=1; zi light romkatv/powerlevel10k
+
+[[ -f "$ZDOTDIR/conf.d/functions.zsh" ]] && source "$ZDOTDIR/conf.d/functions.zsh"
+[[ -f "$ZDOTDIR/conf.d/hooks.zsh" ]] && source "$ZDOTDIR/conf.d/hooks.zsh"
+[[ -f "$ZDOTDIR/conf.d/keybinds.zsh" ]] && source "$ZDOTDIR/conf.d/keybinds.zsh"
+#[[ -f "$ZDOTDIR/conf.d/env.zsh" ]] && source "$ZDOTDIR/conf.d/env.zsh"
+#[[ -f "$ZDOTDIR/conf.d/aliases.zsh" ]] && source "$ZDOTDIR/conf.d/aliases.zsh"
 
 # Keybindings
 bindkey -e
@@ -40,28 +63,97 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 
-# History
-export HISTSIZE=5000
-export HISTFILE=~/.zsh_history
-export SAVEHIST=$HISTSIZE
-export HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
-setopt autocd extendedglob nomatch menucomplete
 
-export EDITOR='nvim'
+# Navigation Options
+# ───────────────────────────────────────────────────────────────────────
+setopt AUTO_CD              # Typing 'dir' becomes 'cd dir'
+setopt AUTO_LIST            # Automatically list choices on ambiguous completion
+setopt AUTO_PARAM_SLASH     # Tab completing a directory appends a slash
+setopt LIST_PACKED          # Minimize space in completion lists
+setopt AUTO_PUSHD           # Push every visited directory to the stack
+setopt PUSHD_IGNORE_DUPS    # Do not record the same directory twice
+setopt PUSHD_SILENT         # Do not print the stack every time you cd
+
+# Completion Behavior
+# ───────────────────────────────────────────────────────────────────────
+setopt COMPLETE_IN_WORD     # Allow completion from within a word/cursor position
+setopt GLOB_COMPLETE        # Show autocompletion menu for globs
+setopt HASH_LIST_ALL        # Hash entire path for faster completion
+setopt EXTENDED_GLOB        # Use '#', '~', and '^' for advanced matching
+setopt GLOB_DOTS            # Allow globbing to match hidden files (dotfiles)
+setopt ALWAYS_TO_END        # Move cursor to end of word after completion
+
+# Disable standard menu completion behavior in favor of fzf-tab
+unsetopt MENU_COMPLETE
+
+# Corrections & Safety
+unsetopt FLOWCONTROL        # Disable Ctrl+S/Ctrl+Q output freezing
+unsetopt NOMATCH            # Don't error if a glob has no matches (pass to command)
+unsetopt CORRECT            # Disable "Did you mean..?" spelling correction
+
+
+# History Configuration
+# ───────────────────────────────────────────────────────────────────────
+setopt SHARE_HISTORY             # Share history between open terminals immediately
+setopt INC_APPEND_HISTORY_TIME   # Append to history file as soon as command finishes
+setopt EXTENDED_HISTORY          # Save timestamp and duration of commands
+setopt HIST_IGNORE_ALL_DUPS      # Don't save duplicates
+setopt HIST_IGNORE_SPACE         # Don't save commands starting with a space
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks
+setopt HIST_VERIFY               # Show command with substitutions before executing
+
+# Paths & Limits
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh-cache/zhistory"
+HISTSIZE=50000
+SAVEHIST=50000
+export HISTORY_IGNORE="(zsh|clear|ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
+HISTDUP=erase
+
+
+# Job Control & Feedback
+# ───────────────────────────────────────────────────────────────────────
+setopt NOTIFY                  # Report status of background jobs immediately
+setopt NOHUP                   # Don't kill background jobs on exit
+setopt MAILWARN                # Print mail warning message
+setopt INTERACTIVE_COMMENTS    # Allow comments (#) in interactive shell
+setopt NOBEEP                  # No beep on error
 
 set termguicolors
 
-# Completion styling
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+# Autosuggestions Config
+# ───────────────────────────────────────────────────────────────────────
+# Async Mode: Prevents lagging while typing large commands
+ZSH_AUTOSUGGEST_USE_ASYNC=1
 
-zstyle ':completion:*:*:*:*:default'  list-colors         ${(s.:.)LS_COLORS}
+# Strategy: Try history first, then completion engine
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+# Styling: Grey text (240 is standard dark grey)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
+
+# Increase the minimum length before a suggestion is fetched
+ZSH_AUTOSUGGEST_MIN_BUFFER_SIZE=4
+
+# Disable suggestions for long buffers (prevents lag on large pastes)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+
+# Ignore internal/unrelated widgets to drastically speed up startup binding
+ZSH_AUTOSUGGEST_IGNORE_WIDGETS=(
+    orig-\*
+    beep
+    run-help
+    set-local-history
+    which-command
+    yank
+    yank-pop
+)
+
+# Completion styling
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+
+#zstyle ':completion:*:*:*:*:default'  list-colors         ${(s.:.)LS_COLORS}
+# Effectively passing the ls color rules
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # Define completers
 zstyle ':completion:*' completer _extensions _complete _approximate
@@ -73,18 +165,29 @@ zstyle ':completion:*'                 cache-path          $XDG_CACHE_HOME/zsh/.
 zstyle ':completion:*'                 list-dirs-first     true
 zstyle ':completion:*'                 verbose             true
 zstyle ':completion:*'                 matcher-list        'm:{[:lower:]}={[:upper:]}'
-zstyle ':completion:*:descriptions'    format              '[%d]'
+
+#zstyle ':completion:*:descriptions'    format              '[%d]'
+# Group Descriptions (Magenta Arrow -> Bold Text)
+zstyle ':completion:*:*:*:*:descriptions' format \
+    "${COLOR[MAGENTA]} ${COLOR[BOLD]}${COLOR[DIM]}%d${COLOR[RESET]}"
+
+# Corrections ("Did you mean...")
+zstyle ':completion:*:*:*:*:corrections' format \
+    "${COLOR[YELLOW]} %d${COLOR[RESET]}"
+
+# System Messages
+zstyle ':completion:*:*:*:*:messages' format \
+    "${COLOR[BLUE]} %d${COLOR[RESET]}"
+
+# Warnings ("No matches")
+zstyle ':completion:*:*:*:*:warnings' format \
+    "${COLOR[RED]} No Matches Found${COLOR[RESET]}"
+
 zstyle ':completion:*:manuals'         separate-sections   true
 zstyle ':completion:*:git-checkout:*'  sort                false # disable sort when completing `git checkout`
 
 # disable sort when completing options of any command
 zstyle ':completion:complete:*:options' sort false
-
-# Complete the alias when _expand_alias is used as a function
-zstyle ':completion:*'                 complete            true
-zle -C alias-expension complete-word _generic
-bindkey '^Xa' alias-expension
-zstyle ':completion:alias-expension:*' completer           _expand_alias
 
 # Allow you to select in a menu
 zstyle ':completion:*'                 menu                select
@@ -101,6 +204,7 @@ zstyle ':completion:*'                 group-name ''
 zstyle ':completion:*:*:-command-:*:*' group-order aliases builtins functions commands
 
 zstyle ':completion:*'                 keep-prefix         true
+
 
 #############
 ## FZF-TAB ##
@@ -121,7 +225,8 @@ zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=do
 # Preview directory's content with exa
 #zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
 #zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa --long --header --icons --group-directories-first --group --git --all --links --color=always $realpath'
-#zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
+
+zstyle ':fzf-tab:complete:nvim:*' fzf-preview 'bat --color=always --style=numbers --line-range=:500 $realpath || eza -Tl --group-directories-first --icons --git -L 2 --no-user $realpath'
 
 # df
 zstyle ':fzf-tab:complete:(\\|*/|)df:argument-rest' fzf-preview '[[ $group != "device label" ]] && grc --colour=on df -Th $word'
@@ -171,106 +276,41 @@ export FZF_CTRL_R_OPTS="
 
 export FZF_TMUX_HEIGHT="80%"
 export FZF_DEFAULT_OPTS="
- --height '30%'
- --style minimal
- --color 16
+ --prompt='~ ❯ '
+ --height='80%'
+ --marker='✗'
+ --pointer='▶'
+ --border
+ --inline-info
  --layout=reverse
  --preview                                                                 \
      '([[ -f {} ]] &&                                                      \
      (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && \
      (exa --tree --icons --color=always {} | less)) || echo {} 2> /dev/null | head -200'"
-# export FZF_DEFAULT_OPTS="
-#  --prompt='~ ❯ '
-#  --height='80%'
-#  --marker='✗'
-#  --pointer='▶'
-#  --border
-#  --inline-info
-#  --layout=reverse
-#  --preview                                                                 \
-#      '([[ -f {} ]] &&                                                      \
-#      (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && \
-#      (exa --tree --icons --color=always {} | less)) || echo {} 2> /dev/null | head -200'"
 #export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER="**"
 
-#source ~/.cache/zsh-shortcuts
-
 # Aliases
 source $ZDOTDIR/aliases
-alias c='clear'
-
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd < "$tmp"
-  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-    rm -f -- "$tmp" >/dev/null 2>&1
-}
-
-### ARCHIVE EXTRACTION
-# usage: x <file>
-function x {
- if [ -z "$1" ]; then
-    # display usage if no parameters given
-    echo "Usage: x <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
- else
-    for n in "$@"
-    do
-      if [ -f "$n" ] ; then
-          case "${n%,}" in
-            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
-                         tar xvf "$n"       ;;
-            *.lzma)      unlzma ./"$n"      ;;
-            *.bz2)       bunzip2 ./"$n"     ;;
-            *.cbr|*.rar)       unrar x -ad ./"$n" ;;
-            *.gz)        gunzip ./"$n"      ;;
-            *.cbz|*.epub|*.zip)       unzip ./"$n"       ;;
-            *.z)         uncompress ./"$n"  ;;
-            *.7z|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
-                         7z x ./"$n"        ;;
-            *.xz)        unxz ./"$n"        ;;
-            *.exe)       cabextract ./"$n"  ;;
-            *.cpio)      cpio -id < ./"$n"  ;;
-            *.cba|*.ace)      unace x ./"$n"      ;;
-            *)
-                         echo "x: '$n' - unknown archive method"
-                         return 1
-                         ;;
-          esac
-      else
-          echo "'$n' - file does not exist"
-          return 1
-      fi
-    done
-fi
-}
-
 
 # Shell integrations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source <(fzf --zsh)
+eval "$(zoxide init zsh)"
 
-# eval "$(zoxide init zsh)"
-
-function nvims() {
-  items=("default" "nvim-2026" "nvim-minimax" "nvim-mini" "nvim-mini2025" "nvim-alexis" "mvim" "nvim-dep2025" "nvim-pkazmier" "nvim-231trOn")
-  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
-  if [[ -z $config ]]; then
-    echo "Nothing selected"
-    return 0
-  elif [[ $config == "default" ]]; then
-    config=""
-  fi
-  NVIM_APPNAME=$config nvim $@
-}
-
-# pywal
-#cat ~/.local/cache/wal/sequences
+# docker() {
+#   case $1 in
+#     ps)
+#       shift
+#       command dops "$@"
+#       ;;
+#     *)
+#       command docker "$@";;
+#   esac
+# }
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 #[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-#. "/home/eddie/.deno/env"
+
 eval "$(starship init zsh)"
 
+# vim: ft=zsh
