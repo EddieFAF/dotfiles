@@ -45,7 +45,7 @@ zinit cdreplay -q
 
 [[ -f "$ZDOTDIR/conf.d/functions.zsh" ]] && source "$ZDOTDIR/conf.d/functions.zsh"
 [[ -f "$ZDOTDIR/conf.d/hooks.zsh" ]] && source "$ZDOTDIR/conf.d/hooks.zsh"
-[[ -f "$ZDOTDIR/conf.d/keybinds.zsh" ]] && source "$ZDOTDIR/conf.d/keybinds.zsh"
+#[[ -f "$ZDOTDIR/conf.d/keybinds.zsh" ]] && source "$ZDOTDIR/conf.d/keybinds.zsh"
 
 # HISTORY SUBSTRING SEARCHING
 bindkey '^[[A' history-substring-search-up
