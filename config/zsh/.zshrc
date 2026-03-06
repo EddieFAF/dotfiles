@@ -16,6 +16,9 @@ zinit wait lucid light-mode depth"1" for \
     zsh-users/zsh-history-substring-search \
     agkozak/zsh-z
 
+# SSH Plugin
+zinit light sunlei/zsh-ssh
+
 # Add in snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
