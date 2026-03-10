@@ -252,7 +252,7 @@ export FZF_DEFAULT_OPTS=" \
      (eza --tree --icons --color=always {} | less)) || echo {} 2> /dev/null | head -200'
   --color 'border:#aaaaaa,label:#cccccc' \
   --color 'preview-border:#9999cc,preview-label:#ccccff' \
-  $FZF_THEME"
+  "
 
 #export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_COMPLETION_TRIGGER="**"
