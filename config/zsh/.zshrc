@@ -32,7 +32,7 @@ autoload -Uz compinit
 
 
 # Location of the completion dump file
-COMPDUMP="${ZDOTDIR}/cache/zcompdump"
+COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 
 # Initialize the completions system and check for cache once a day
 if [[ -n "${COMPDUMP}"(#qN.mh+24) ]]; then
@@ -46,9 +46,8 @@ fi
 
 zinit cdreplay -q
 
-[[ -f "$ZDOTDIR/conf.d/functions.zsh" ]] && source "$ZDOTDIR/conf.d/functions.zsh"
-[[ -f "$ZDOTDIR/conf.d/hooks.zsh" ]] && source "$ZDOTDIR/conf.d/hooks.zsh"
-#[[ -f "$ZDOTDIR/conf.d/keybinds.zsh" ]] && source "$ZDOTDIR/conf.d/keybinds.zsh"
+# load functions as separate file
+[[ -f "$ZDOTDIR/functions.zsh" ]] && source "$ZDOTDIR/functions.zsh"
 
 # HISTORY SUBSTRING SEARCHING
 bindkey '^[[A' history-substring-search-up
@@ -61,12 +60,15 @@ bindkey '^[[1~' beginning-of-line
 bindkey '^[[4~' end-of-line
 bindkey '^[[3~' delete-char
 
-zinit lucid wait for zsh-users/zsh-history-substring-search
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='underline'
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
-zle -N history-substring-search-up
-zle -N history-substring-search-down
+# History search
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+autoload -Uz add-zsh-hook edit-command-line
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+zle -N edit-command-line
 
+#
 # Navigation Options
 # ───────────────────────────────────────────────────────────────────────
 setopt AUTO_CD              # Typing 'dir' becomes 'cd dir'

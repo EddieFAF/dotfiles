@@ -1,0 +1,326 @@
+
+# Set the directory we want to store zinit and plugins
+
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Add in zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+#zinit load agkozak/zsh-z
+
+# zsh-fzf-history-search
+zinit ice lucid wait'0'
+zinit light joshskidmore/zsh-fzf-history-search
+
+zinit wait lucid for \
+ atload"!export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=white,bold'" \
+    zsh-users/zsh-history-substring-search \
+
+# Add in snippets
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::debian
+zinit snippet OMZP::tmux
+#zinit snippet OMZP::command-not-found
+
+
+zinit light junegunn/fzf
+
+#zi ice depth=1; zi light romkatv/powerlevel10k
+autoload -Uz compinit
+
+
+# Location of the completion dump file
+COMPDUMP="${ZDOTDIR}/cache/zcompdump"
+
+# Initialize the completions system and check for cache once a day
+if [[ -n "${COMPDUMP}"(#qN.mh+24) ]]; then
+    # If .zcompdump is older than 24 hours, check for changes (-i)
+    compinit -i -d "${COMPDUMP}"
+    touch "${COMPDUMP}"
+else
+    # Otherwisem juste read the file (-d) without checking (-C)
+    compinit -C -d "${COMPDUMP}"
+fi
+
+zinit cdreplay -q
+
+# [[ -f "$ZDOTDIR/conf.d/functions.zsh" ]] && source "$ZDOTDIR/conf.d/functions.zsh"
+# [[ -f "$ZDOTDIR/conf.d/hooks.zsh" ]] && source "$ZDOTDIR/conf.d/hooks.zsh"
+# [[ -f "$ZDOTDIR/conf.d/keybinds.zsh" ]] && source "$ZDOTDIR/conf.d/keybinds.zsh"
+#[[ -f "$ZDOTDIR/conf.d/env.zsh" ]] && source "$ZDOTDIR/conf.d/env.zsh"
+#[[ -f "$ZDOTDIR/conf.d/aliases.zsh" ]] && source "$ZDOTDIR/conf.d/aliases.zsh"
+
+# HISTORY SUBSTRING SEARCHING
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[4~' end-of-line
+bindkey '^[[3~' delete-char
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+# Navigation Options
+# ───────────────────────────────────────────────────────────────────────
+# setopt AUTO_CD              # Typing 'dir' becomes 'cd dir'
+# setopt AUTO_LIST            # Automatically list choices on ambiguous completion
+# setopt AUTO_PARAM_SLASH     # Tab completing a directory appends a slash
+# setopt LIST_PACKED          # Minimize space in completion lists
+# setopt AUTO_PUSHD           # Push every visited directory to the stack
+# setopt PUSHD_IGNORE_DUPS    # Do not record the same directory twice
+# setopt PUSHD_SILENT         # Do not print the stack every time you cd
+
+# Completion Behavior
+# ───────────────────────────────────────────────────────────────────────
+# setopt COMPLETE_IN_WORD     # Allow completion from within a word/cursor position
+# setopt GLOB_COMPLETE        # Show autocompletion menu for globs
+# setopt HASH_LIST_ALL        # Hash entire path for faster completion
+# setopt EXTENDED_GLOB        # Use '#', '~', and '^' for advanced matching
+# setopt GLOB_DOTS            # Allow globbing to match hidden files (dotfiles)
+# setopt ALWAYS_TO_END        # Move cursor to end of word after completion
+
+# Disable standard menu completion behavior in favor of fzf-tab
+# unsetopt MENU_COMPLETE
+
+# Corrections & Safety
+# unsetopt FLOWCONTROL        # Disable Ctrl+S/Ctrl+Q output freezing
+# unsetopt NOMATCH            # Don't error if a glob has no matches (pass to command)
+# unsetopt CORRECT            # Disable "Did you mean..?" spelling correction
+
+
+# History Configuration
+# ───────────────────────────────────────────────────────────────────────
+setopt SHARE_HISTORY             # Share history between open terminals immediately
+setopt INC_APPEND_HISTORY_TIME   # Append to history file as soon as command finishes
+setopt EXTENDED_HISTORY          # Save timestamp and duration of commands
+setopt HIST_IGNORE_ALL_DUPS      # Don't save duplicates
+setopt HIST_IGNORE_SPACE         # Don't save commands starting with a space
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks
+setopt HIST_VERIFY               # Show command with substitutions before executing
+
+# Paths & Limits
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh-cache/zhistory"
+HISTSIZE=50000
+SAVEHIST=50000
+export HISTORY_IGNORE="(zsh|clear|ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
+HISTDUP=erase
+
+
+# Job Control & Feedback
+# ───────────────────────────────────────────────────────────────────────
+setopt NOTIFY                  # Report status of background jobs immediately
+setopt NOHUP                   # Don't kill background jobs on exit
+setopt MAILWARN                # Print mail warning message
+setopt INTERACTIVE_COMMENTS    # Allow comments (#) in interactive shell
+setopt NOBEEP                  # No beep on error
+
+set termguicolors
+
+# Autosuggestions Config
+# ───────────────────────────────────────────────────────────────────────
+# Async Mode: Prevents lagging while typing large commands
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+
+# Strategy: Try history first, then completion engine
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+# Styling: Grey text (240 is standard dark grey)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
+
+# Increase the minimum length before a suggestion is fetched
+ZSH_AUTOSUGGEST_MIN_BUFFER_SIZE=4
+
+# Disable suggestions for long buffers (prevents lag on large pastes)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+
+# Ignore internal/unrelated widgets to drastically speed up startup binding
+ZSH_AUTOSUGGEST_IGNORE_WIDGETS=(
+    orig-\*
+    beep
+    run-help
+    set-local-history
+    which-command
+    yank
+    yank-pop
+)
+
+# Completion styling
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+
+#zstyle ':completion:*:*:*:*:default'  list-colors         ${(s.:.)LS_COLORS}
+# Effectively passing the ls color rules
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Define completers
+zstyle ':completion:*' completer _extensions _complete _approximate
+
+# Use cache for commands using cache
+zstyle ':completion:*'                 use-cache           true
+zstyle ':completion:*'                 cache-path          $XDG_CACHE_HOME/zsh/.zcompcache
+
+# zstyle ':completion:*'                 list-dirs-first     true
+# zstyle ':completion:*'                 verbose             true
+# zstyle ':completion:*'                 matcher-list        'm:{[:lower:]}={[:upper:]}'
+
+#zstyle ':completion:*:descriptions'    format              '[%d]'
+# Group Descriptions (Magenta Arrow -> Bold Text)
+zstyle ':completion:*:*:*:*:descriptions' format \
+    "${COLOR[MAGENTA]} ${COLOR[BOLD]}${COLOR[DIM]}%d${COLOR[RESET]}"
+
+# Corrections ("Did you mean...")
+zstyle ':completion:*:*:*:*:corrections' format \
+    "${COLOR[YELLOW]} %d${COLOR[RESET]}"
+
+# System Messages
+zstyle ':completion:*:*:*:*:messages' format \
+    "${COLOR[BLUE]} %d${COLOR[RESET]}"
+
+# Warnings ("No matches")
+zstyle ':completion:*:*:*:*:warnings' format \
+    "${COLOR[RED]} No Matches Found${COLOR[RESET]}"
+
+# zstyle ':completion:*:manuals'         separate-sections   true
+# zstyle ':completion:*:git-checkout:*'  sort                false # disable sort when completing `git checkout`
+
+# disable sort when completing options of any command
+# zstyle ':completion:complete:*:options' sort false
+
+# Allow you to select in a menu
+# zstyle ':completion:*'                 menu                select
+
+# Autocomplete options for cd instead of directory stack
+# zstyle ':completion:*'                 complete-options    true
+
+# Only display some tags for the command cd
+# zstyle ':completion:*:*:cd:*'          tag-order local-directories directory-stack path-directories
+
+# Required for completion to be in good groups (named after the tags)
+# zstyle ':completion:*'                 group-name ''
+
+# zstyle ':completion:*:*:-command-:*:*' group-order aliases builtins functions commands
+
+# zstyle ':completion:*'                 keep-prefix         true
+
+
+#############
+## FZF-TAB ##
+#############
+zstyle ':fzf-tab:*' prefix ''
+
+zstyle ':fzf-tab:complete:*' popup-pad 200 50
+
+#zstyle ':fzf-tab:complete:*:*' fzf-flags --preview=$extract";$PREVIEW \$in"
+
+zstyle ':fzf-tab:complete:_zlua:*' query-string input
+
+#zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+  '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+# Preview directory's content with exa
+#zstyle ':fzf-tab:complete:cd:*' extra-opts --preview=$extract'exa -1 --color=always ${~ctxt[hpre]}$in'
+#zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa --long --header --icons --group-directories-first --group --git --all --links --color=always $realpath'
+
+zstyle ':fzf-tab:complete:nvim:*' fzf-preview 'bat --color=always --style=numbers --line-range=:500 $realpath || eza -Tl --group-directories-first --icons --git -L 2 --no-user $realpath'
+
+# df
+zstyle ':fzf-tab:complete:(\\|*/|)df:argument-rest' fzf-preview '[[ $group != "device label" ]] && grc --colour=on df -Th $word'
+
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
+
+# Parameter
+zstyle ':fzf-tab:complete:((-parameter-|unset):|(export|typeset|declare|local):argument-rest)' fzf-preview 'echo ${(P)word}'
+
+# Docker
+zstyle ':fzf-tab:complete:docker-container:argument-1' fzf-preview 'docker container $word --help | bat --color=always -plhelp'
+zstyle ':fzf-tab:complete:docker-image:argument-1' fzf-preview 'docker image $word --help | bat --color=always -plhelp'
+zstyle ':fzf-tab:complete:docker-inspect:' fzf-preview 'docker inspect $word | bat --color=always -pljson'
+zstyle ':fzf-tab:complete:docker-(run|images):argument-1' fzf-preview 'docker images $word'
+zstyle ':fzf-tab:complete:((\\|*/|)docker|docker-help):argument-1' fzf-preview 'docker help $word | bat --color=always -plhelp'
+
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# give a preview of commandline arguments when completing `kill`
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+  '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+
+
+# Load menu-style completion.
+zmodload -i zsh/complist
+bindkey -M menuselect '^M' accept
+
+#####################
+# FZF SETTINGS      #
+#####################
+export FZF_DEFAULT_OPTS="--ansi"
+export FZF_BASE=$(which fzf)
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+#export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'
+  --select-1 --exit-0
+"
+#export FZF_ALT_C_OPTS='--preview="ls {}" --preview-window=right:60%:wrap'
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+#'
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window=up:3:hidden:wrap
+  --bind '?:toggle-preview'
+  --height='80%'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+
+export FZF_TMUX_HEIGHT="80%"
+export FZF_DEFAULT_OPTS="
+ --prompt='~ ❯ '
+ --height='80%'
+ --marker='✗'
+ --pointer='▶'
+ --border
+ --inline-info
+ --layout=reverse
+ --preview                                                                 \
+     '([[ -f {} ]] &&                                                      \
+     (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && \
+     (exa --tree --icons --color=always {} | less)) || echo {} 2> /dev/null | head -200'"
+#export FZF_DEFAULT_COMMAND="fd --type f"
+export FZF_COMPLETION_TRIGGER="**"
+
+# Aliases
+source $ZDOTDIR/aliases
+
+# Shell integrations
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(zoxide init zsh)"
+
+# docker() {
+#   case $1 in
+#     ps)
+#       shift
+#       command dops "$@"
+#       ;;
+#     *)
+#       command docker "$@";;
+#   esac
+# }
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+eval "$(starship init zsh)"
+
+# vim: ft=zsh

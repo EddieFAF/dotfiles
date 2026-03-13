@@ -30,6 +30,7 @@ zinit snippet OMZP::debian
 zinit snippet OMZP::tmux
 #zinit snippet OMZP::command-not-found
 
+
 zinit light junegunn/fzf
 
 #zi ice depth=1; zi light romkatv/powerlevel10k
@@ -268,7 +269,7 @@ export FZF_CTRL_T_OPTS="
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 #'
 export FZF_CTRL_R_OPTS="
-  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --preview 'echo {}' --preview-window=up:3:hidden:wrap
   --bind '?:toggle-preview'
   --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --color header:italic
