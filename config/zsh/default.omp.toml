@@ -1,0 +1,88 @@
+# transient prompt is how are past prompts are displayed
+[transient_prompt]
+  template = '❯ '
+  foreground = 'magenta'
+  foreground_templates = [
+    '{{ if gt .Code 0 }}red{{ end }}',
+  ]
+  background = 'transparent'
+
+# main prompt, separated into 2 lines with the path and the git status on top
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+
+  [[blocks.segments]]
+    type = 'session'
+    template = '{{ if .SSHSession }}<lightYellow>{{ .UserName }}</><white> on </><green>{{ .HostName }}</> {{ end }}'
+    style = 'plain'
+    foreground = 'lightRed'
+
+    [blocks.segments.properties]
+      style = 'fish'
+      dir_length = 3
+      full_length_dirs = 2
+
+  [[blocks.segments]]
+    type = 'path'
+    template = '{{ .Path }} '
+    style = 'plain'
+    foreground = 'lightBlue'
+
+    [blocks.segments.properties]
+      style = 'fish'
+      dir_length = 3
+      full_length_dirs = 2
+
+  [[blocks.segments]]
+    type = 'git'
+#    template = '{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0}}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+    template = '{{ if or (.Working.Changed) (.Staging.Changed) (gt .StashCount 0) }}<lightMagenta>{{ .HEAD }}</>{{ else }}<lightGreen>{{ .HEAD }}{{ end }}{{ if and (eq .Ahead 0) (eq .Behind 0) }}*{{end}}{{ if gt .Ahead 0 }} ⇡{{.Ahead}}{{end}}{{ if gt .Behind 0 }} ⇣{{.Behind}}{{end}} {{ if .Working.Changed }}[<green>+{{ .Working.Added }}</>~{{ .Working.Modified }}<red>-{{ .Working.Deleted }}</>] {{ end }}'
+    style = 'plain'
+    foreground = 'lightMagenta'
+
+    [blocks.segments.properties]
+      branch_icon = ''
+      commit_icon = '@'
+      fetch_status = true
+      fetch_push_status = true
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    foreground = 'yellow'
+    template = 'took {{ .FormattedMs }}'
+
+    [blocks.segments.properties]
+      threshold = 2000
+      style = 'roundrock'
+
+# active commandprompt on a new line
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'text'
+    template = '❯ '
+    style = 'plain'
+    foreground = 'green'
+    foreground_templates = [
+      '{{ if gt .Code 0 }}red{{ end }}'
+    ]
+
+# right prompt with the execution time of the last command
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+    type = 'time'
+    style = 'plain'
+    foreground = 'yellow'
+    template = '{{ .CurrentDate | date .Format }}'
+
+    [blocks.segments.options]
+      time_format = "15:04"
+

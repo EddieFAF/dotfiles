@@ -45,7 +45,7 @@ vimcmd_symbol = "[❮](purple)"
 
 [git_branch]
 format = "[$symbol$branch]($style) "
-style = "bold purple"
+style = "bright-black"
 symbol = ""
 
 [git_status]
