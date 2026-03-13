@@ -19,7 +19,7 @@ $time"""
 [hostname]
 ssh_only = true
 disabled = false
-format = "[ in ](white)[$ssh_symbol$hostname]($style) "
+format = "[ on ](white)[$ssh_symbol$hostname]($style) "
 trim_at = "-"
 
 [username]
