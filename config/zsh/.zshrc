@@ -106,7 +106,7 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks
 setopt HIST_VERIFY               # Show command with substitutions before executing
 
 # Paths & Limits
-export HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh-cache/zhistory"
+export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/zhistory"
 export HISTSIZE=50000
 export SAVEHIST=50000
 export HIST_STAMPS="dd.mm.yyyy"
