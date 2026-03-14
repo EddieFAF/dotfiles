@@ -89,12 +89,12 @@ setopt GLOB_DOTS            # Allow globbing to match hidden files (dotfiles)
 setopt ALWAYS_TO_END        # Move cursor to end of word after completion
 
 # Disable standard menu completion behavior in favor of fzf-tab
-unsetopt MENU_COMPLETE
+# unsetopt MENU_COMPLETE
 
 # Corrections & Safety
 unsetopt FLOWCONTROL        # Disable Ctrl+S/Ctrl+Q output freezing
 unsetopt NOMATCH            # Don't error if a glob has no matches (pass to command)
-unsetopt CORRECT            # Disable "Did you mean..?" spelling correction
+# unsetopt CORRECT            # Disable "Did you mean..?" spelling correction
 
 
 # History Configuration
@@ -158,9 +158,12 @@ ZSH_AUTOSUGGEST_IGNORE_WIDGETS=(
 zmodload -i zsh/complist
 bindkey -M menuselect '^M' accept
 
+# enable fzf keybindings
+source <(fzf --zsh)
+
 # Completions
 # Menu-style completion
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu select=2
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -178,7 +181,7 @@ zstyle ':completion:*' menu no
 
 # custom fzf flags
 # NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
-#zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
 
 # To make fzf-tab follow FZF_DEFAULT_OPTS.
 # NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
