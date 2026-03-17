@@ -197,7 +197,7 @@ function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 function my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command ; }
 
 function nvims() {
-  items=("default" "nvim-2026" "nvim-mini" "nvim-minimax" "nvim-dep2025" "nvim-dep" "mvim" "nvim-mvim")
+  items=("default" "nvim-2025" "mvim")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
   if [[ -z $config ]]; then
     echo "Nothing selected"
