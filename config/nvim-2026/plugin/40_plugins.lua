@@ -9,7 +9,7 @@
 -- Use this file to install and configure other such plugins.
 
 -- Make concise helpers for installing/adding plugins in two stages
-local add, later = MiniDeps.add, MiniDeps.later
+local add, later, now = MiniDeps.add, MiniDeps.later, MiniDeps.now
 local now_if_args = _G.Config.now_if_args
 
 -- Tree-sitter ================================================================
@@ -33,6 +33,7 @@ local now_if_args = _G.Config.now_if_args
 now_if_args(function()
   add {
     source = 'nvim-treesitter/nvim-treesitter',
+    checkout = 'master', -- used to fix treesitter compatible to 0.11
     -- Update tree-sitter parser after plugin is updated
     hooks = {
       post_checkout = function()
@@ -143,7 +144,7 @@ later(function()
       lua        = { "stylua" },
       markdown   = { "prettierd" },
       -- python     = { "isort", "black" },  -- testing ruff instead now
-      sql        = { "sqruff" },
+      -- sql        = { "sqruff" },
     },
   }
 end)
@@ -183,6 +184,14 @@ later(function()
   vim.keymap.set({ 'n', 'v' }, '<leader>.', '<cmd>Yazi<cr>', { desc = 'Open yazi at the current file' })
   vim.keymap.set('n', '<leader>ew', '<cmd>Yazi cwd<cr>', { desc = "Open the file manager in nvim's working directory" })
   vim.keymap.set('n', '<c-up>', '<cmd>Yazi toggle<cr>', { desc = 'Resume the last yazi session' })
+end)
+
+-- Tokyonight theme ===========================================================
+now(function()
+  add {
+    source = 'folke/tokyonight.nvim',
+  }
+  vim.cmd [[colorscheme tokyonight-storm]]
 end)
 
 -- Honorable mentions =========================================================
