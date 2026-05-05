@@ -138,6 +138,7 @@ syn match kickAssDirective /\.\<wo\>/
 syn match kickAssDirective /\.\<dword\>/
 syn match kickAssDirective /\.\<dw\>/
 syn match kickAssDirective /\.\<text\>/
+syn match kickAssDirective /\.\<te\>/
 syn match kickAssDirective /\.\<fill\>/
 syn match kickAssDirective /\.\<pseudopc\>/
 syn match kickAssDirective /\.\<zp\>/
@@ -190,6 +191,9 @@ syn match kickAssDirective "\.\<filenamespace\>"
 syn match kickAssDirective "\.\<errorif\>"
 syn match kickAssDirective "\.\<while\>("he=e-1,hs=s+1
 
+syn match kickAssDirective "\.\<segment\>"
+syn match kickAssDirective "\.\<segmentdef\>"
+syn match kickAssDirective "\.\<segmentout\>"
 " special macros
 syn match kickAssMacroCall ":\<BasicUpstart2\?\>"
 
@@ -261,6 +265,7 @@ syn match kickAssFunction "\<tan\>("he=e-1
 syn match kickAssFunction "\<tanh\>("he=e-1
 syn match kickAssFunction "\<toDegrees\>("he=e-1
 syn match kickAssFunction "\<toRadians\>("he=e-1
+syn match kickAssFunction "\<setSeed\>("he=e-1
 
 " List already defined: size
 syn match kickAssFunction /\<List\>(/he=e-1
@@ -318,7 +323,7 @@ syn keyword kickAssColor BROWN LIGHT_RED DARK_GRAY GRAY LIGHT_GREEN LIGHT_BLUE
 syn keyword kickAssColor LIGHT_GRAY DARK_GREY GREY LIGHT_GREY
 
 syn keyword kickAssConstant C64FILE
-syn keyword kickAssConstant BD_C64FILE BF_BITMAP_SINGLECOLOR BF_KOALA BF_FLI
+syn keyword kickAssConstant BF_C64FILE BF_BITMAP_SINGLECOLOR BF_KOALA BF_FLI BF_DOODLE
 
 " Binary import
 syn match kickAssFunction "\<LoadBinary\>("he=e-1
