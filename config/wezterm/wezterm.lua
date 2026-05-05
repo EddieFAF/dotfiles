@@ -87,7 +87,7 @@ config.pane_focus_follows_mouse = true
   ]]
 --
 
-config.font = wezterm.font_with_fallback { 'Liberation Mono', 'FiraCode Nerd Font Mono', 'JetBrains Mono NL' }
+config.font = wezterm.font_with_fallback { 'Iosevka Custom Condensed', 'Liberation Mono', 'FiraCode Nerd Font Mono', 'JetBrains Mono NL' }
 config.font_size = 11
 
 config.window_decorations = 'TITLE|RESIZE'
@@ -99,7 +99,7 @@ config.window_decorations = 'TITLE|RESIZE'
   ]]
 --
 
-local color_scheme = 'Catppuccin Macchiato'
+local color_scheme = 'Tokyo Night Storm'
 config.color_scheme = color_scheme
 
 -- color_scheme not sufficient in providing available colors

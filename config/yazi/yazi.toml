@@ -181,6 +181,10 @@ previewers = [
   { url = "*", run = "file" },
 
 ]
+[[plugin.prepend_previewers]]
+  # d64
+  url = "*.d64"
+  run = 'piper -- d64-ls-manual "$1"'
 
 [input]
 cursor_blink = false
