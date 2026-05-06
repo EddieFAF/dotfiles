@@ -63,6 +63,11 @@ use = "yazi-rs/plugins:piper"
 rev = "ac82af3"
 hash = "384464b6df8cb807425c521f8cd790f3"
 
+[[plugin.deps]]
+use = "lpnh/fr"
+rev = "aa88cd4"
+hash = "8b0e87c3176e0d44f79a8656f79f0fa"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-macchiato"
 rev = "9511cb0"
