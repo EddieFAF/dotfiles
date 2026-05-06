@@ -20,3 +20,4 @@ config/ranger/colorschemes/__pycache__/__init__.cpython-312.pyc
 config/ranger/colorschemes/__pycache__/dracula.cpython-312.pyc
 config/ranger/plugins/__pycache__/__init__.cpython-312.pyc
 config/nvim-2025v2/lazy-lock.json
+config/zsh/.zcompdump
