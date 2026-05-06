@@ -17,50 +17,38 @@ function Linemode:file_info()
   return string.format("%s   %s", self:size(), self:mtime())
 end
 
+-- default config
+require('fchar'):setup {
+  -- if true: f -> file, File, FILE
+  insensitive = true,
+  -- if true: f -> file, .file, @file, #file, ...file
+  skip_symbols = true,
+  -- if {"yazi-"}: f -> file, yazi-file
+  skip_prefix = {},
+  -- default search location
+  -- start: f -> file
+  -- ext:   f -> name.fs
+  -- word:  f -> file, also-file
+  -- all:   f -> file, also-file, twofile, elf
+  search_location = 'start', ---@type "start"|"ext"|"word"|"all"
+  aliases = {
+    a = 'ä',
+    o = 'ö',
+    u = 'ü',
+    s = 'ß'
+  },
+}
 
 require("full-border"):setup()
 
 require("sshfs"):setup()
 
--- require("yaziline"):setup({
---   color = "#98c379",
---   secondary_color = "#5A6078",
---   default_files_color = "darkgray", -- color of the file counter when it's inactive
---   selected_files_color = "white",
---   yanked_files_color = "green",
---   cut_files_color = "red",
---
---   separator_style = "empty", -- "angly" | "curvy" | "liney" | "empty"
---   separator_open = "",
---   separator_close = "",
---   separator_open_thin = "",
---   separator_close_thin = "",
---   separator_head = "",
---   separator_tail = "",
---   -- separator_open = "",
---   -- separator_close = "",
---   -- separator_open_thin = "",
---   -- separator_close_thin = "",
---   -- separator_head = "",
---   -- separator_tail = "",
---
---   select_symbol = "",
---   yank_symbol = "��",
---
---   filename_max_length = 24, -- truncate when filename > 24
---   filename_truncate_length = 6, -- leave 6 chars on both sides
---   filename_truncate_separator = "..."
--- })
-
-require("yafg"):setup({
-  editor = "nvim",                   -- Editor command (default: "hx")
-  args = { "--noplugin" },           -- Additional editor arguments (default: {})
-  file_arg_format = "+{row} {file}", -- File argument format (default: "{file}:{row}:{col}")
-})
+local tokyo_night_theme = require("yatline-tokyo-night"):setup("storm") -- or moon/storm/day
 
 require("yatline"):setup({
   -- theme = require("yatline-catppuccin"):setup("macchiato"),
   --theme = my_theme,
+  theme = tokyo_night_theme,
 
   section_separator = { open = "", close = "" },
   part_separator = { open = "", close = "" },
@@ -155,7 +143,7 @@ require("yatline"):setup({
   },
 })
 require("yatline-githead"):setup({
-  theme = require("yatline-catppuccin"):setup("macchiato"),
+  theme = tokyo_night_theme,
   show_branch = true,
   branch_prefix = "on",
   branch_borders = "()",
