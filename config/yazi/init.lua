@@ -48,7 +48,7 @@ local tokyo_night_theme = require("yatline-tokyo-night"):setup("storm") -- or mo
 require("yatline"):setup({
   -- theme = require("yatline-catppuccin"):setup("macchiato"),
   --theme = my_theme,
-  theme = tokyo_night_theme,
+  -- theme = tokyo_night_theme,
 
   section_separator = { open = "", close = "" },
   part_separator = { open = "", close = "" },
@@ -143,7 +143,7 @@ require("yatline"):setup({
   },
 })
 require("yatline-githead"):setup({
-  theme = tokyo_night_theme,
+  -- theme = tokyo_night_theme,
   show_branch = true,
   branch_prefix = "on",
   branch_borders = "()",
