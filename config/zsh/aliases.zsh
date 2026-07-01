@@ -48,7 +48,7 @@ fi
 
 
 alias zshedit='$EDITOR ~/.config/zsh/.zshrc'
-alias aliasedit='$EDITOR ~/.config/zsh/aliases'
+alias aliasedit='$EDITOR ~/.config/zsh/aliases.zsh'
 
 ### Set alias
 #############

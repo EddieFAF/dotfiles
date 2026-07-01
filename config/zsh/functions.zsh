@@ -197,7 +197,7 @@ function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 function my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command ; }
 
 function nvims() {
-  items=("default" "nvim-2025" "mvim" "nvim-pack")
+  items=("default" "nvim-2025" "nvim-onlyati" "nvim-2026")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0 --preview-window=hidden)
   if [[ -z $config ]]; then
     echo "Nothing selected"
@@ -249,4 +249,10 @@ function weather() {
     local url_params="${(j:&:)args}"
 
     curl -s "wttr.in/${location}?${url_params}"
+}
+
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    last_dir="$(lf -print-last-dir)"
+    cd "$last_dir"
 }
