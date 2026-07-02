@@ -3,7 +3,7 @@
 # History
 # =========================================================
 
-HISTFILE="$XDG_STATE_HOME/zsh/history"
+HISTFILE="$XDG_STATE_HOME/zsh/zhistory"
 HISTSIZE=100000
 SAVEHIST=100000
 

@@ -59,12 +59,22 @@ local now_if_args = _G.Config.now_if_args
 now(function()
   require('mini.basics').setup {
     -- Manage options in 'plugin/10_options.lua' for didactic purposes
-    options = { basic = false },
+    options = {
+      basic = false,
+      extra_ui = true,
+    },
     mappings = {
       -- Create `<C-hjkl>` mappings for window navigation
       windows = true,
       -- Create `<M-hjkl>` mappings for navigation in Insert and Command modes
       move_with_alt = true,
+    },
+    autocommands = {
+      -- Basic autocommands (highlight on yank, start Insert in terminal, ...)
+      basic = true,
+
+      -- Set 'relativenumber' only in linewise and blockwise Visual mode
+      relnum_in_visual_mode = false,
     },
   }
 end)
