@@ -71,7 +71,7 @@ now(function()
     },
     autocommands = {
       -- Basic autocommands (highlight on yank, start Insert in terminal, ...)
-      basic = true,
+      basic = false,
 
       -- Set 'relativenumber' only in linewise and blockwise Visual mode
       relnum_in_visual_mode = false,
