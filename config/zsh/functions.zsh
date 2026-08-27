@@ -105,6 +105,7 @@ pj() {
             "$HOME/Projects"
             "$HOME/Work"
             "$HOME/workspace"
+            "$HOME/coding"
             "${DOTFILES_ROOT}"
         )
     fi
@@ -169,7 +170,7 @@ function sysinfo()   # Get current host related info.
     echo -e "\n${BRed}Memory stats :$NC " ; free
     echo -e "\n${BRed}Public IP Address :$NC " ; my_ip
     echo -e "\n${BRed}Open connections :$NC "; netstat -pan --inet;
-    echo -e "\n${BRed}CPU info :$NC "; cat /proc/cpuinfo ;
+    #echo -e "\n${BRed}CPU info :$NC "; cat /proc/cpuinfo ;
     echo -e "\n"
 }
 
