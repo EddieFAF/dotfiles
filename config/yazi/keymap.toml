@@ -26,6 +26,8 @@ prepend_keymap = [
   { on   = "t",          run  = "plugin smart-tab",  desc = "Create a tab and enter the hovered directory"},
 
   { on = [ "g", "n" ],   run = "cd /mnt/nasgard",    desc = "Go NAS" },
+  { on = [ "g", "c" ],   run = "cd /home/eddie/coding",    desc = "Go coding" },
+  { on = [ "g", "d" ],   run = "cd /opt/docker",    desc = "Go Docker" },
 
   { on = "Q",            run = "quit",               desc = "Quit the process" },
   { on = "q",            run = "quit --no-cwd-file", desc = "Quit without outputting cwd-file" },
