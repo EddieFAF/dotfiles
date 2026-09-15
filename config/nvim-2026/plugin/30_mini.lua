@@ -517,7 +517,14 @@ end)
 -- - `:h MiniFiles-examples` - examples of common setups
 later(function()
   -- Enable directory/file preview
-  require('mini.files').setup { windows = { preview = true } }
+  require('mini.files').setup({
+    windows = {
+      preview = true,
+      width_focus = 50,
+      width_nofocus = 30,
+      width_preview = 60,
+    }
+  })
 
   -- Add common bookmarks for every explorer. Example usage inside explorer:
   -- - `'c` to navigate into your config directory
