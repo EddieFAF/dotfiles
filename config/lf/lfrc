@@ -19,7 +19,9 @@ set dircounts
 set previewer ~/.config/lf/preview
 set cleaner ~/.config/lf/cleaner
 set timefmt " 02.01.2006  15:04:05.000000000-0700"
+set rulerfile '~/.config/lf/rulerfile'
 #set rulerfmt "acc:progress:selection:ind"
+#set rulerfmt "%p / %s / "
 
 # adjust coloumn width to terminal
 cmd recol ${{
@@ -254,6 +256,7 @@ map I push A<c-a> # at the very beginning
 map R push A<c-u> # rename completely
 map E extract
 map <a-e> extract_sub
+map o $$EDITOR "$f"  # mapping like yazi
 
 # give a name and then make a directory
 map <f-7> push :mkdir<space>
