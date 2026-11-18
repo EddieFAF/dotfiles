@@ -33,4 +33,10 @@ zvm_after_init() {
 
   # Ctrl+O -> use lf to change directory
   bindkey -s '^o' 'lfcd\n'
+
+  # Open the current command line in your $EDITOR
+  autoload -Uz edit-command-line
+  zle -N edit-command-line
+  bindkey '^X^E' edit-command-line
+
 }

@@ -69,6 +69,9 @@ alias lsl="ls -lhFA | less"
 alias free="free -mt"
 #alias du="du -ach | sort -h"
 
+alias pacclean='sudo paccache -rk3'
+alias pacorphans='sudo pacman -Rns $(pacman -Qdtq) 2>/dev/null || echo "No orphans to remove."'
+
 alias ps="ps auxf"
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias psmem='ps auxf | sort -nr -k 4'
@@ -77,7 +80,7 @@ alias pscpu='ps auxf | sort -nr -k 3'
 alias wget="wget -c"
 alias histg="history | grep"
 
-alias myip="curl http://ipecho.net/plain; echo"
+# alias myip="curl http://ipecho.net/plain; echo"
 alias logs="find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
 alias folders='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
 alias grep='grep --color=auto'
@@ -91,7 +94,7 @@ alias v='nvim'
 alias fv='(file=$(fzf); \[ -n "$file" \]; nvim $file)'
 
 alias kickass='java -jar ~/coding/c64/tools/KickAssembler/KickAss.jar'
-alias boozify='docker run -it --rm -v "$(pwd)":/src jackasser/boozify'
+#alias boozify='docker run -it --rm -v "$(pwd)":/src jackasser/boozify'
 
 source ~/.config/zsh/tmux_aliases
 
