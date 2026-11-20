@@ -39,7 +39,9 @@ require('fchar'):setup {
   },
 }
 
-require("full-border"):setup()
+require("full-border"):setup({
+  set = "rounded",
+})
 
 require("sshfs"):setup()
 
