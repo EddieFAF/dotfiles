@@ -1,0 +1,119 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "black": "#282c34",
+    "red": "#e06c75",
+    "green": "#98c379",
+    "yellow": "#e5c07b",
+    "blue": "#61afef",
+    "magenta": "#c678dd",
+    "cyan": "#56b6c2",
+    "white": "#dcdfe4",
+    "foreground": "#dcdfe4",
+    "background": "#282c34"
+  },
+  "console_title_template": "{{ .UserName }}@{{ .HostName }}",
+  "transient_prompt": {
+    "template": "❯ ",
+    "foreground": "magenta",
+    "foreground_templates": ["{{ if gt .Code 0 }}red{{ end }}"],
+    "background": "transparent"
+  },
+  "blocks": [
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "lightRed",
+          "style": "plain",
+          "template": "{{ if .SSHSession }}<lightYellow>{{ .UserName }}</><white> on </><green>{{ .HostName }}</> {{ end }}",
+          "type": "session"
+        },
+        {
+          "foreground": "lightBlue",
+          "style": "plain",
+          "options": {
+            "style": "fish",
+            "dir_length": 5,
+            "full_length_dirs": 2
+          },
+          "template": "{{ .Path }} ",
+          "type": "path"
+        },
+        {
+          "options": {
+            "branch_icon": "",
+            "commit_icon": "@",
+            "fetch_status": true,
+            "fetch_push_status": true
+          },
+          "style": "plain",
+          "template": "{{ if or (.Working.Changed) (.Staging.Changed) (gt .StashCount 0) }}<lightMagenta>{{ .HEAD }}</>{{ else }}<lightGreen>{{ .HEAD }}{{ end }}{{ if and (eq .Ahead 0) (eq .Behind 0) }}*{{end}}{{ if gt .Ahead 0 }} ⇡{{.Ahead}}{{end}}{{ if gt .Behind 0 }} ⇣{{.Behind}}{{end}} {{ if .Working.Changed }}[<green>+{{ .Working.Added }}</>~{{ .Working.Modified }}<red>-{{ .Working.Deleted }}</>] {{ end }}",
+          "type": "git",
+          "foreground": "lightMagenta"
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground": "yellow",
+          "template": "took {{ .FormattedMs }}",
+          "options": {
+            "threshold": 2000,
+            "style": "roundrock"
+          }
+        },
+        {
+          "type": "taskwarrior",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#193549",
+          "background": "#ffeb3b",
+          "command": "/usr/local/bin/task",
+          "template": "  Due: {{ .Commands.Due }}",
+          "options": {
+            "commands": {
+              "due": "+PENDING due.before:tomorrow count",
+              "scheduled": "+PENDING scheduled.before:tomorrow count",
+              "waiting": "+WAITING count",
+              "context": "_get rc.context"
+            }
+          }
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "green",
+          "options": {
+            "always_enabled": true
+          },
+          "style": "plain",
+          "template": "{{ if gt .Code 0 }}<red>({{ .Code }}) {{ end }}❯ ",
+          "type": "status"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "type": "rprompt",
+      "overflow": "hidden",
+      "segments": [
+        {
+          "type": "time",
+          "style": "plain",
+          "foreground": "yellow",
+          "template": "{{ .CurrentDate | date .Format }}",
+          "options": {
+            "time_format": "15:04"
+          }
+        }
+      ]
+    }
+  ],
+  "version": 4
+}
