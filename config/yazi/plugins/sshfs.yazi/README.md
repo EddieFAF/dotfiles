@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://github.com/uhs-robert/sshfs.yazi/stargazers"><img src="https://img.shields.io/github/stars/uhs-robert/sshfs.yazi?colorA=192330&colorB=khaki&style=for-the-badge&cacheSeconds=4300" alt="Stargazers"></a>
-  <a href="https://github.com/sxyazi/yazi" target="_blank" rel="noopener noreferrer"><img alt="Yazi 0.25+" src="https://img.shields.io/badge/Yazi-0.25%2B-blue?style=for-the-badge&cacheSeconds=4300&labelColor=192330" alt="Yazi"></a>
+  <a href="https://github.com/sxyazi/yazi" target="_blank" rel="noopener noreferrer"><img alt="Yazi 26.1.22+" src="https://img.shields.io/badge/Yazi-26.1.22%2B-blue?style=for-the-badge&cacheSeconds=4300&labelColor=192330" alt="Yazi"></a>
   <a href="https://github.com/uhs-robert/sshfs.yazi/issues"><img src="https://img.shields.io/github/issues/uhs-robert/sshfs.yazi?colorA=192330&colorB=skyblue&style=for-the-badge&cacheSeconds=4300" alt="Issues"></a>
   <a href="https://github.com/uhs-robert/sshfs.yazi/contributors"><img src="https://img.shields.io/github/contributors/uhs-robert/sshfs.yazi?colorA=192330&colorB=8FD1C7&style=for-the-badge&cacheSeconds=4300" alt="Contributors"></a>
   <a href="https://github.com/uhs-robert/sshfs.yazi/network/members"><img src="https://img.shields.io/github/forks/uhs-robert/sshfs.yazi?colorA=192330&colorB=CFA7FF&style=for-the-badge&cacheSeconds=4300" alt="Forks"></a>
@@ -67,12 +67,13 @@ sshfs user@host:/var/log ~/mnt/alias-var-log -o reconnect,compression=yes,Server
 
 ## 📋 Requirements
 
-| Software   | Minimum       | Notes                               |
-| ---------- | ------------- | ----------------------------------- |
-| Yazi       | `>=25.5.31`   | untested on 25.6+                   |
-| sshfs      | any           | `sudo dnf/apt/pacman install sshfs` |
-| fusermount | from FUSE     | Usually pre-installed on Linux      |
-| SSH config | working hosts | Hosts come from `~/.ssh/config`     |
+| Software   | Minimum       | Notes                                            |
+| ---------- | ------------- | ------------------------------------------------ |
+| Yazi       | `>=26.1.22`   | Older builds can't load the plugin's sub-modules |
+| ya         | `>=25.12.29`  | Older builds only install `main.lua`             |
+| sshfs      | any           | `sudo dnf/apt/pacman install sshfs`              |
+| fusermount | from FUSE     | Usually pre-installed on Linux                   |
+| SSH config | working hosts | Hosts come from `~/.ssh/config`                  |
 
 > [!NOTE]
 > For Mac users, see the macOS setup steps below.
@@ -324,3 +325,9 @@ require("sshfs"):setup({
   },
 })
 ```
+
+## 💖 Sponsor
+
+sshfs.yazi is free and stays free. I build it in my spare time. If it saves you time, [sponsor me on GitHub](https://github.com/sponsors/uhs-robert). Teams that edit remote servers every day can buy priority work through the company tier.
+
+<a href="https://github.com/sponsors/uhs-robert"><img alt="Sponsor on GitHub Sponsors" src="https://img.shields.io/badge/GitHub%20Sponsors-Sponsor-6DDFA0?style=for-the-badge&labelColor=192330&logo=githubsponsors&logoColor=white" /></a>

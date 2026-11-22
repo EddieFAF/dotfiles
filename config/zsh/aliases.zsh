@@ -96,6 +96,8 @@ alias fv='(file=$(fzf); \[ -n "$file" \]; nvim $file)'
 alias kickass='java -jar ~/coding/c64/tools/KickAssembler/KickAss.jar'
 #alias boozify='docker run -it --rm -v "$(pwd)":/src jackasser/boozify'
 
+alias t='todo.sh -d ~/.config/todo/todo.cfg'
+
 source ~/.config/zsh/tmux_aliases
 
 # Global Output Modifiers

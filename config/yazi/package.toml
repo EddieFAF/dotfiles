@@ -1,32 +1,32 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "58c4f4e"
-hash = "f281261ff04ad7ec867c3f802a50835f"
+rev = "1ef5fe0"
+hash = "17ebde15c4349f90aedbc45984b98db2"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "58c4f4e"
+rev = "1ef5fe0"
 hash = "7a4b4237223aaa94e589d1c01a23542a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "58c4f4e"
+rev = "1ef5fe0"
 hash = "87472b05a8c420100f6a2b9cde1e7746"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "58c4f4e"
+rev = "1ef5fe0"
 hash = "5b2fbef7d1513ce38ff72623a071a5e"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-enter"
-rev = "58c4f4e"
+rev = "1ef5fe0"
 hash = "187cc58ba7ac3befd49c342129e6f1b6"
 
 [[plugin.deps]]
 use = "imsi32/yatline"
-rev = "c5d4b48"
-hash = "e6e98d12b1648d1894c2b560d85eeaa7"
+rev = "dc44b73"
+hash = "fa488655544e367e5439a9748d28519e"
 
 [[plugin.deps]]
 use = "imsi32/yatline-githead"
@@ -45,8 +45,8 @@ hash = "4761fffb60a12d37096c34a356380cdf"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "58c4f4e"
-hash = "45a533508a9840cc5a10cf6129f63e6a"
+rev = "1ef5fe0"
+hash = "d1e0499cae5f3aeb628c267616d4b682"
 
 [[plugin.deps]]
 use = "lpnh/fr"
@@ -60,33 +60,33 @@ hash = "215729a555fe5286f1eb35520963d08"
 
 [[plugin.deps]]
 use = "AminurAlam/yazi-plugins:fchar"
-rev = "9997d5b"
-hash = "9f2598542a3263b5a03d7fb832b407c1"
+rev = "aebeaa7"
+hash = "dd29c8dbdfff0b6803fbc866bc445b08"
 
 [[plugin.deps]]
 use = "uhs-robert/sshfs"
-rev = "a8b8903"
-hash = "8c1b36103121a66b37308afaf7124575"
+rev = "24a3c46"
+hash = "3021508e0a3ad98d865fc3c3a6d1439f"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-macchiato"
-rev = "20b47bf"
-hash = "5b1bf96d1cba26376087c37de993c517"
+rev = "38c08d8"
+hash = "24f465f7b5df0a91b8e7190d926f2bc2"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "20b47bf"
-hash = "ce320f877fe709b189433941aba747c4"
+rev = "38c08d8"
+hash = "57d33c9c6107017bf8afc8df186356c5"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-latte"
-rev = "20b47bf"
-hash = "273ee53369ccfbf7feb9b0c65e387ed8"
+rev = "38c08d8"
+hash = "f4044a93fcd86ac34f170f9f69d40a2"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-frappe"
-rev = "20b47bf"
-hash = "ab7c71d442d3a9e16331ea0d95ab36a8"
+rev = "38c08d8"
+hash = "7d6e604c6f458f57e5c27d19163203c5"
 
 [[flavor.deps]]
 use = "kalidyasin/yazi-flavors:tokyonight-storm"
